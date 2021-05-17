@@ -195,18 +195,28 @@ class SettingsSaverTests: XCTestCase {
         XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
     }
 
-    func testSave_whenExpirationInterval_savesExpectedInterval() {
-        saver.save(.ExpirationInterval, selectedRow: 0)
-        saver.save(.ExpirationInterval, selectedRow: 1)
-        saver.save(.ExpirationInterval, selectedRow: 2)
-
+    func testSave_whenExpirationIntervalIsOne_savesExpectedInterval() {
+        saver.save(.ExpirationInterval, selectedRow: 0)  // Once a day is the first option
         let settings = sdk.settings as! MockSettings
         let callArgs = settings.setExpirationIntervalCallArgs
-
-        XCTAssertEqual(3, callArgs.count)
+        XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(SettingsOptions.OnceDaily, callArgs[0])
-        XCTAssertEqual(SettingsOptions.TwiceWeekly, callArgs[1])
-        XCTAssertEqual(SettingsOptions.OnceWeekly, callArgs[2])
+    }
+
+    func testSave_whenExpirationIntervalIsOnePointFive_savesExpectedInterval() {
+        saver.save(.ExpirationInterval, selectedRow: 1)  // Every 1.5 Days
+        let settings = sdk.settings as! MockSettings
+        let callArgs = settings.setExpirationIntervalCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("Every 1.5 Days", callArgs[0])
+    }
+
+    func testSave_whenExpirationIntervalIsThreePointFive_savesExpectedInterval() {
+        saver.save(.ExpirationInterval, selectedRow: 5)
+        let settings = sdk.settings as! MockSettings
+        let callArgs = settings.setExpirationIntervalCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(SettingsOptions.TwiceWeekly, callArgs[0])
     }
 
     func testSave_whenXDays_saves() {

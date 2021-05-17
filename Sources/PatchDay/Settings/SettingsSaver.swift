@@ -35,7 +35,6 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
             case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
             case .Quantity: saveQuantity(selectedRow)
             case .ExpirationInterval: saveExpirationInterval(selectedRow)
-            case .XDays: saveXDays(selectedRow)
             default: log.error("Error: No picker for key \(key)")
         }
         notifications?.requestAllExpiredHormoneNotifications()

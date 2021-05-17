@@ -113,13 +113,13 @@ class SettingsTests: XCTestCase {
 
         // Testing 3 calls
         settings.setExpirationInterval(to: SettingsOptions.OnceEveryTwoWeeks)
-        settings.setExpirationInterval(to: SettingsOptions.EveryXDays)
+        settings.setExpirationInterval(to: SettingsOptions.OnceDaily)
         settings.setExpirationInterval(to: SettingsOptions.OnceWeekly)
 
         let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
         XCTAssertEqual(3, callArgs.count)
         XCTAssertEqual(.EveryTwoWeeks, callArgs[0])
-        XCTAssertEqual(.EveryXDays, callArgs[1])
+        XCTAssertEqual(.OnceDaily, callArgs[1])
         XCTAssertEqual(.OnceWeekly, callArgs[2])
     }
 

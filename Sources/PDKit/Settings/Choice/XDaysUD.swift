@@ -22,7 +22,6 @@ public class XDaysUD: ComplexSetting<String, String>, KeyStorable {
 
     public required init(_ rawValue: String) {
         super.init(rawValue)
-        self.choices = SettingsOptions.xDaysValues
     }
 
     public var days: Double {

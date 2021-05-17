@@ -18,25 +18,24 @@ public class SettingsOptions {
     public static let OnceEveryTwoWeeks = NSLocalizedString(
         "Once Every Two Weeks", comment: comment
     )
-    public static let EveryXDays = NSLocalizedString("Every \"X\" Days", comment: comment)
+    public static let Patches = NSLocalizedString("Patches", comment: comment)
+    public static let Injections = NSLocalizedString("Injections", comment: comment)
+    public static let Gel = NSLocalizedString("Gel", comment: comment)
 
     public static var deliveryMethods: [String] {
-        [
-            NSLocalizedString("Patches", comment: comment),
-            NSLocalizedString("Injections", comment: comment),
-            NSLocalizedString("Gel", comment: comment)
-        ]
-    }
-
-    public static var xDaysValues: [String] {
-        let range = 1...ExpirationIntervalDaysLastInteger
-        return range.reduce([]) {
-            $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
-        }
+        [Patches, Injections, Gel]
     }
 
     public static var expirationIntervals: [String] {
-        [OnceDaily, TwiceWeekly, OnceWeekly, OnceEveryTwoWeeks, EveryXDays]
+        xDaysValues.map() {
+            switch $0 {
+                case "1.0": return OnceDaily
+                case "3.5": return TwiceWeekly
+                case "7.0": return OnceWeekly
+                case "14.0": return OnceEveryTwoWeeks
+                default: return makeCustomDaysString(value: $0)
+            }
+        }
     }
 
     public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
@@ -54,7 +53,7 @@ public class SettingsOptions {
 
     public static func getDeliveryMethod(for pickerString: String?) -> DeliveryMethod {
         switch pickerString {
-            case deliveryMethods[0]: return .Patches
+            case Patches: return .Patches
             case deliveryMethods[1]: return .Injections
             case deliveryMethods[2]: return .Gel
             default: return DefaultSettings.DeliveryMethodValue
@@ -79,24 +78,23 @@ public class SettingsOptions {
         }
     }
 
-    public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
-        switch interval {
-            case .OnceDaily: return expirationIntervals[0]
-            case .TwiceWeekly: return expirationIntervals[1]
-            case .OnceWeekly: return expirationIntervals[2]
-            case .EveryTwoWeeks: return expirationIntervals[3]
-            case .EveryXDays: return expirationIntervals[4]
+    public static func getExpirationInterval(for interval: ExpirationIntervalUD) -> String {
+        switch interval.value {
+            case .OnceDaily: return OnceDaily
+            case .TwiceWeekly: return TwiceWeekly
+            case .OnceWeekly: return OnceWeekly
+            case .EveryTwoWeeks: return OnceEveryTwoWeeks
+            case .EveryXDays: return makeCustomDaysString(value: interval.xDays.value)
         }
     }
 
     public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
         switch pickerString {
-            case expirationIntervals[0]: return .OnceDaily
-            case expirationIntervals[1]: return .TwiceWeekly
-            case expirationIntervals[2]: return .OnceWeekly
-            case expirationIntervals[3]: return .EveryTwoWeeks
-            case expirationIntervals[4]: return .EveryXDays
-            default: return DefaultSettings.ExpirationIntervalValue
+            case OnceDaily: return .OnceDaily
+            case TwiceWeekly: return .TwiceWeekly
+            case OnceWeekly: return .OnceWeekly
+            case OnceEveryTwoWeeks: return .EveryTwoWeeks
+            default: return .EveryXDays
         }
     }
 
@@ -106,7 +104,6 @@ public class SettingsOptions {
             case .DeliveryMethod: return deliveryMethods
             case .ExpirationInterval: return expirationIntervals
             case .Quantity: return quantities
-            case .XDays: return xDaysValues
             default: return []
         }
     }
@@ -120,4 +117,15 @@ public class SettingsOptions {
             NSLocalizedString("4", comment: comment)
         ]
     }()
+
+    public static var xDaysValues: [String] {
+        let range = 1...ExpirationIntervalDaysLastInteger
+        return range.reduce([]) {
+            $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
+        }
+    }
+
+    private static func makeCustomDaysString(value: String) -> String {
+        NSLocalizedString("Every \(value) Days", comment: "A schedule")
+    }
 }

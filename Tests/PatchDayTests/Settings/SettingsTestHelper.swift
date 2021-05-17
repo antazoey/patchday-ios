@@ -26,7 +26,6 @@ class SettingsTestHelper {
             quantityButton: quantityButton,
             quantityArrowButton: quantityArrowButton,
             expirationIntervalButton: expirationButton,
-            xDaysButton: xDaysButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsSlider,
             notificationsMinutesBeforeValueLabel: notificationsMinutesLabel

@@ -17,14 +17,14 @@ class SettingsPickerList {
 
     private let quantityPicker: SettingsPicking
     private let deliveryMethodPicker: SettingsPicking
-    private let expirationIntervalPicker: ExpirationIntervalSettingsPicking
+    private let expirationIntervalPicker: SettingsPicking
 
     // MARK: - Ctor
 
     init(
         quantityPicker: SettingsPicking,
         deliveryMethodPicker: SettingsPicking,
-        expirationIntervalPicker: ExpirationIntervalSettingsPicking
+        expirationIntervalPicker: SettingsPicking
     ) {
         self.quantityPicker = quantityPicker
         self.deliveryMethodPicker = deliveryMethodPicker
@@ -47,8 +47,7 @@ class SettingsPickerList {
         switch setting {
             case .Quantity: return quantityPicker
             case .DeliveryMethod: return deliveryMethodPicker
-            case .ExpirationInterval: return expirationIntervalPicker.forIntervals
-            case .XDays: return expirationIntervalPicker.forXDays
+            case .ExpirationInterval: return expirationIntervalPicker
             default:
                 log.error("No picker for given setting \(setting)")
                 return nil

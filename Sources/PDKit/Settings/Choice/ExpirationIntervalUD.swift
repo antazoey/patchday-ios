@@ -70,7 +70,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     }
 
     public override var displayableString: String {
-        SettingsOptions.getExpirationInterval(for: value)
+        SettingsOptions.getExpirationInterval(for: self)
     }
 
     public static func getRawValue(for value: ExpirationInterval) -> String {
@@ -81,5 +81,12 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .EveryTwoWeeks: return EveryTwoWeeksKey
             case .EveryXDays: return EveryXDaysKey
         }
+    }
+
+    public static func extractDays(from intervalString: String) -> String {
+        // TODO: Test
+        let stringList = intervalString.split(separator: " ")
+        guard stringList.count > 1 else { return "" }
+        return String(stringList[1])
     }
 }

@@ -27,7 +27,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // StackViews
     @IBOutlet private weak var deliveryMethodStack: UIStackView!
     @IBOutlet private weak var expirationIntervalStack: UIStackView!
-    @IBOutlet private weak var xDaysStack: UIStackView!
     @IBOutlet private weak var quantityStack: UIStackView!
     @IBOutlet private weak var notificationsStack: UIStackView!
     @IBOutlet private weak var notificationsMinutesBeforeStack: UIStackView!
@@ -36,7 +35,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodLabel: UILabel!
     @IBOutlet private weak var expirationIntervalLabel: UILabel!
 
-    @IBOutlet private weak var xDaysLabel: UILabel!
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var notificationsLabel: UILabel!
     @IBOutlet private weak var notificationsMinutesBeforeLabel: UILabel!
@@ -44,20 +42,18 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     // Pickers
     @IBOutlet private weak var deliveryMethodPicker: DeliveryMethodPicker!
-    @IBOutlet private weak var expirationIntervalPicker: ExpirationInteravlSettingsPicker!
+    @IBOutlet private weak var expirationIntervalPicker: ExpirationIntervalSettingsPicker!
     @IBOutlet private weak var quantityPicker: QuantityPicker!
 
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
     @IBOutlet private weak var expirationIntervalButton: UIButton!
-    @IBOutlet private weak var xDaysButton: UIButton!
     @IBOutlet private weak var quantityButton: UIButton!
     @IBOutlet private weak var quantityArrowButton: UIButton!
 
     // Icons
     @IBOutlet private weak var deliveryMethodIcon: UIImageView!
     @IBOutlet private weak var expirationIntervalIcon: UIImageView!
-    @IBOutlet private weak var xDaysIcon: UIImageView!
     @IBOutlet private weak var quantityIcon: UIImageView!
     @IBOutlet private weak var notificationsIcon: UIImageView!
     @IBOutlet private weak var notificationsMinutesBeforeIcon: UIImageView!
@@ -70,9 +66,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodSideView: UIView!
     @IBOutlet private weak var expirationIntervalSideView: UIView!
 
-    @IBOutlet private weak var xDaysSideView: UIView!
     @IBOutlet private weak var quantitySideView: UIView!
-    @IBOutlet private weak var lineBelowXDaysStack: UIView!
     @IBOutlet private weak var notificationsSideView: UIView!
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
 
@@ -111,7 +105,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             quantityButton: quantityButton,
             quantityArrowButton: quantityArrowButton,
             expirationIntervalButton: expirationIntervalButton,
-            xDaysButton: xDaysButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsMinutesBeforeSlider,
             notificationsMinutesBeforeValueLabel: notificationsMinutesBeforeValueLabel
@@ -217,7 +210,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         view.backgroundColor = UIColor.systemBackground
         deliveryMethodIcon.image = deliveryMethodIcon.image?.withTintColor(textColor)
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(textColor)
-        xDaysIcon.image = xDaysIcon.image?.withTintColor(textColor)
         quantityIcon.image = quantityIcon.image?.withTintColor(textColor)
         notificationsIcon.image = notificationsIcon.image?.withTintColor(textColor)
         let tintedImage = notificationsMinutesBeforeIcon.image?.withTintColor(textColor)
@@ -240,9 +232,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         deliveryMethodPicker.indexer = viewModel
         quantityPicker.activator = quantityButton
         quantityPicker.indexer = viewModel
+        expirationIntervalPicker.activator = expirationIntervalButton
         expirationIntervalPicker.indexer = viewModel
-        expirationIntervalPicker.expirationIntervalButton = expirationIntervalButton
-        expirationIntervalPicker.xDaysButton = xDaysButton
     }
 }
 

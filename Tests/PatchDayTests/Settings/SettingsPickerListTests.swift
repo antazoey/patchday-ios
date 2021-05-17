@@ -16,7 +16,7 @@ import PatchDay
 class SettingsPickerListTests: XCTestCase {
     private let quantityPicker = MockSettingsPicker()
     private let deliveryMethodPicker = MockSettingsPicker()
-    private let expirationIntervalPicker = MockExpirationIntervalPicker()
+    private let expirationIntervalPicker = MockSettingsPicker()
 
     public var list: SettingsPickerList {
         SettingsPickerList(
@@ -40,16 +40,8 @@ class SettingsPickerListTests: XCTestCase {
         XCTAssertEqual(deliveryMethodPicker, list[.DeliveryMethod] as! MockSettingsPicker)
     }
 
-    func testSubscript_whenGivenExpirationInterval_returnsExpirationIntervalPickerForIntervals() {
-        let actual = list[.ExpirationInterval] as! MockSettingsPicker
-        let expected = expirationIntervalPicker.forIntervals as! MockSettingsPicker
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testSubscript_whenGivenXDays_returnsExpirationIntervalPickerForXDays() {
-        let actual = list[.XDays] as! MockSettingsPicker
-        let expected = expirationIntervalPicker.forXDays as! MockSettingsPicker
-        XCTAssertEqual(expected, actual)
+    func testSubscript_whenGivenExpirationInterval_returnsExpirationIntervalPicker() {
+        XCTAssertEqual(expirationIntervalPicker, list[.ExpirationInterval] as! MockSettingsPicker)
     }
 
     func testSubscript_whenGivenSettingsWithNoPicker_returnsNil() {

@@ -62,10 +62,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         sdk?.settings.expirationInterval.choiceIndex ?? 0
     }
 
-    var xDaysStartIndex: Index {
-        sdk?.settings.expirationInterval.xDays.choiceIndex ?? 0
-    }
-
     func activatePicker(_ picker: SettingsPicking) {
         picker.isHidden ? picker.open() : close(picker)
     }

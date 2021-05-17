@@ -18,7 +18,4 @@ public protocol SettingsPickerIndexing {
 
     /// The index to open the expiration interval picker at.
     var expirationIntervalStartIndex: Index { get }
-
-    /// The index to open the X-Days picker at.
-    var xDaysStartIndex: Index { get }
 }

@@ -8,40 +8,17 @@
 import Foundation
 import PDKit
 
-class ExpirationInteravlSettingsPicker: SettingsPicker, ExpirationIntervalSettingsPicking {
+class ExpirationIntervalSettingsPicker: SettingsPicker{
 
-    private var _expirationIntervalButton: UIButton?
-    private var _xDaysButton: UIButton?
-
-    var expirationIntervalButton: UIButton {
-        get { _expirationIntervalButton ?? UIButton() }
-        set { _expirationIntervalButton = newValue }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setting = .ExpirationInterval
+        self.getStartRow = { self.indexer?.expirationIntervalStartIndex ?? 0 }
     }
 
-    var xDaysButton: UIButton {
-        get { _xDaysButton ?? UIButton() }
-        set { _xDaysButton = newValue }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.setting = .ExpirationInterval
+        self.getStartRow = { self.indexer?.expirationIntervalStartIndex ?? 0 }
     }
-
-    var forIntervals: SettingsPicking {
-        setSetting(.ExpirationInterval)
-        return self
-    }
-
-    var forXDays: SettingsPicking {
-        setSetting(.XDays)
-        return self
-    }
-
-    private func setSetting(_ setting: PDSetting) {
-        self.setting = setting
-        if setting == .ExpirationInterval {
-            self.activator = expirationIntervalButton
-            self.getStartRow = { self.indexer?.expirationIntervalStartIndex ?? 0 }
-        } else if setting == .XDays {
-            self.activator = xDaysButton
-            self.getStartRow = { self.indexer?.xDaysStartIndex ?? 0 }
-        }
-    }
-
 }
