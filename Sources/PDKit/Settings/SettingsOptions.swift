@@ -27,7 +27,7 @@ public class SettingsOptions {
     }
 
     public static var expirationIntervals: [String] {
-        xDaysValues.map() {
+        xDaysValues.map {
             switch $0 {
                 case "1.0": return OnceDaily
                 case "3.5": return TwiceWeekly

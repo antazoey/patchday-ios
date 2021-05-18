@@ -72,6 +72,16 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testExpirationIntervalStartIndex_whenIsCustomInterval_returnsIndexOfSetInterval() {
+        settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
+        settings.expirationInterval.xDays.rawValue = "6.5"
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.expirationIntervalStartIndex
+        let expectedOption = "Every 6.5 Days"
+        let expected = SettingsOptions.expirationIntervals.firstIndex(of: expectedOption)
+        XCTAssertEqual(expected, actual)
+    }
+
     func testExpirationIntervalStartIndex_whenSdkIsNil_returnsZero() {
         let deps = MockDependencies()
         deps.sdk = nil

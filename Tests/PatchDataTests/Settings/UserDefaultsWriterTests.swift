@@ -401,8 +401,6 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: true, setting: .PillsEnabled)
     }
 
-   // func testReplaceStoredPills
-
     func testReplaceStoredSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)

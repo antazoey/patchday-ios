@@ -8,7 +8,7 @@
 import Foundation
 import PDKit
 
-class ExpirationIntervalSettingsPicker: SettingsPicker{
+class ExpirationIntervalSettingsPicker: SettingsPicker {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
