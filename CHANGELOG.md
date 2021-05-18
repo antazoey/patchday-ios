@@ -4,8 +4,8 @@
 
 Added
 
-- Hormone expiration interval "Every X Days" with a settable X value. The days option is configurable and can be 
-    any number 1 - 25.
+- New custom hormone expiration intervals filling in the gaps, such as "Every 1.5 Days" or "Every 11.0 Days",
+    all the way up to "Every 25.5 Days".
 - The ability to undo taking a pill.
 
 Fixed
