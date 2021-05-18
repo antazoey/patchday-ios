@@ -27,6 +27,34 @@ class XDaysUDTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testMakeDisplayable_whenGiveSingleDigitWholeNumber_returnsExpectedString() {
+        let testString = "4.0"
+        let actual = XDaysUD.makeDisplayable(testString)
+        let expected = "Every 4 Days"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testMakeDisplayable_whenGivenDoubleDigitWholeNumber_returnsExpectedString() {
+        let testString = "12.0"
+        let actual = XDaysUD.makeDisplayable(testString)
+        let expected = "Every 12 Days"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testMakeDisplayable_whenGivenSingleDigitHalfNumber_returnsExpectedString() {
+        let testString = "4.5"
+        let actual = XDaysUD.makeDisplayable(testString)
+        let expected = "Every 4 And A Half Days"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testMakeDisplayable_whenGivenDoubleDigitHalfNumber_returnsExpectedString() {
+        let testString = "12.5"
+        let actual = XDaysUD.makeDisplayable(testString)
+        let expected = "Every 12 And A Half Days"
+        XCTAssertEqual(expected, actual)
+    }
+
     func testExtract_whenSingleDigitWholeNumber_extractsDays() {
         let testString = "Every 5 Days"
         let expected = "5.0"

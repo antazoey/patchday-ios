@@ -35,7 +35,6 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
 
     /// Converts an xDaysString such as `"4.5"` to a displayable version of `"Every 4 And A Half Days"`.
     public static func makeDisplayable(_ xDaysString: String) -> String {
-        // TODO: Test
         guard let xDaysDecimal = Double(xDaysString) else { return "" }
         let floor = floor(xDaysDecimal)
         let isWholeNumber = floor - xDaysDecimal == 0
