@@ -32,12 +32,6 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
         self.choices = SettingsOptions.expirationIntervals
     }
 
-    public static func create(_ rawValue: String, xDays: String) -> ExpirationIntervalUD {
-        let interval = ExpirationIntervalUD(rawValue)
-        interval.xDays.rawValue = xDays
-        return interval
-    }
-
     public override var value: ExpirationInterval {
         switch rawValue {
             case ExpirationIntervalUD.OnceDailyKey: return .OnceDaily

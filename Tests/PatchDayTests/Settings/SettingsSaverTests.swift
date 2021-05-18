@@ -218,12 +218,4 @@ class SettingsSaverTests: XCTestCase {
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(SettingsOptions.TwiceWeekly, callArgs[0])
     }
-
-    func testSave_whenXDays_saves() {
-        saver.save(.XDays, selectedRow: 4)
-        let settings = sdk.settings as! MockSettings
-        let callArgs = settings.setXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("3.0", callArgs[0])
-    }
 }
