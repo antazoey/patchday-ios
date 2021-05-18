@@ -76,12 +76,4 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .EveryXDays: return EveryXDaysKey
         }
     }
-
-    public static func extractDays(from intervalString: String) -> String {
-        let stringList = intervalString.split(separator: " ")
-        guard stringList.count == 3 else { return "" }
-        guard stringList[0] == "Every" else { return "" }
-        guard stringList[2] == "Days" else { return "" }
-        return String(stringList[1])
-    }
 }

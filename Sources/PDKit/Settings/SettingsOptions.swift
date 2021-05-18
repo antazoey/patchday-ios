@@ -33,7 +33,7 @@ public class SettingsOptions {
                 case "3.5": return TwiceWeekly
                 case "7.0": return OnceWeekly
                 case "14.0": return OnceEveryTwoWeeks
-                default: return makeCustomDaysString(value: $0)
+                default: return XDaysUD.makeDisplayable($0)
             }
         }
     }
@@ -84,7 +84,7 @@ public class SettingsOptions {
             case .TwiceWeekly: return TwiceWeekly
             case .OnceWeekly: return OnceWeekly
             case .EveryTwoWeeks: return OnceEveryTwoWeeks
-            case .EveryXDays: return makeCustomDaysString(value: interval.xDays.value)
+            case .EveryXDays: return XDaysUD.makeDisplayable(interval.xDays.value)
         }
     }
 
@@ -123,9 +123,5 @@ public class SettingsOptions {
         return range.reduce([]) {
             $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
         }
-    }
-
-    private static func makeCustomDaysString(value: String) -> String {
-        NSLocalizedString("Every \(value) Days", comment: "A schedule")
     }
 }

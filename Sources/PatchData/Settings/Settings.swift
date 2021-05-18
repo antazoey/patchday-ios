@@ -74,7 +74,7 @@ public class Settings: SettingsManaging {
     public func setExpirationInterval(to newInterval: String) {
         let interval = SettingsOptions.getExpirationInterval(for: newInterval)
         if interval == .EveryXDays {
-            let days = ExpirationIntervalUD.extractDays(from: newInterval)
+            let days = XDaysUD.extract(newInterval)
             writer.replaceStoredXDays(to: days)
         }
         writer.replaceStoredExpirationInterval(to: interval)
