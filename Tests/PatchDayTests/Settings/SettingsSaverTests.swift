@@ -208,7 +208,7 @@ class SettingsSaverTests: XCTestCase {
         let settings = sdk.settings as! MockSettings
         let callArgs = settings.setExpirationIntervalCallArgs
         XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("Every 1 And A Half Days", callArgs[0])
+        XCTAssertEqual("Every 1½ Days", callArgs[0])
     }
 
     func testSave_whenExpirationIntervalIsThreePointFive_savesExpectedInterval() {

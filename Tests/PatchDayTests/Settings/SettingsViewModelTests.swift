@@ -77,7 +77,7 @@ class SettingsViewModelTests: XCTestCase {
         settings.expirationInterval.xDays.rawValue = "6.5"
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.expirationIntervalStartIndex
-        let expectedOption = "Every 6 And A Half Days"
+        let expectedOption = "Every 6½ Days"
         let expected = SettingsOptions.expirationIntervals.firstIndex(of: expectedOption)
         XCTAssertEqual(expected, actual)
     }

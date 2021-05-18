@@ -118,9 +118,9 @@ class SettingsOptionsTests: XCTestCase {
     func testGetExpirationInterval_whenGivenCustom_returnsExpectedString() {
         let testInterval = ExpirationIntervalUD(.EveryXDays)
         testInterval.xDays.rawValue = "1.5"
-        XCTAssertEqual("Every 1 And A Half Days", SettingsOptions.getExpirationInterval(for: testInterval))
+        XCTAssertEqual("Every 1½ Days", SettingsOptions.getExpirationInterval(for: testInterval))
         testInterval.xDays.rawValue = "2.5"
-        XCTAssertEqual("Every 2 And A Half Days", SettingsOptions.getExpirationInterval(for: testInterval))
+        XCTAssertEqual("Every 2½ Days", SettingsOptions.getExpirationInterval(for: testInterval))
         testInterval.xDays.rawValue = "20.0"
         XCTAssertEqual("Every 20 Days", SettingsOptions.getExpirationInterval(for: testInterval))
     }

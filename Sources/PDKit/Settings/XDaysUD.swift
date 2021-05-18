@@ -39,29 +39,36 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
         let floor = floor(xDaysDecimal)
         let isWholeNumber = floor - xDaysDecimal == 0
         let floorInt = Int(floor)
-        let valueString = isWholeNumber ? "\(floorInt)" : "\(floorInt) And A Half"
-        return NSLocalizedString("Every \(valueString) Days", comment: "A schedule")
+        let numDays = isWholeNumber ? "\(floorInt)" : "\(floorInt)½"
+        return NSLocalizedString("Every \(numDays) Days", comment: "Pharmacy definition of Q.D.")
     }
 
     /// Returns the string decimal version of an interval string, such as `"4.5"` from `"Every 4 And A Half Days"`.
     public static func extract(_ intervalString: String) -> String {
         let stringList = intervalString.split(separator: " ")
         guard isXDaysString(intervalString) else { return "" }
-        guard let wholeNumber = Double(stringList[1]) else { return "" }
-
-        // We know for sure it matches an expected pattern by this point.
-        if stringList.count == 3 {
-            return "\(wholeNumber)"
-        } else {
-            return "\(wholeNumber + 0.5)"
-        }
+        let daysString = String(stringList[1])
+        guard let days = getDays(from: daysString) else { return "" }
+        return "\(days)"
     }
 
     private static func isXDaysString(_ string: String) -> Bool {
-        let wholeDayRegex = "(^(Every) [0-9][0-9]? (Days)+$)"
-        let halfDayRegex = "(^(Every) [0-9][0-9]? (And) (A) (Half) (Days)+$)"
-        let isWholeDay = string.range(of: wholeDayRegex, options: .regularExpression) != nil
-        let isHalfDay = string.range(of: halfDayRegex, options: .regularExpression) != nil
-        return isWholeDay || isHalfDay
+        string.range(of: "((Every) \\d\\d?(½)? (Days))", options: .regularExpression) != nil
+    }
+
+    private static func getDays(from daysString: String) -> Double? {
+        var daysString = daysString
+        guard let last = daysString.last else { return nil }
+        var addHalf = false
+        if last == "½" {
+            daysString.removeLast()
+            addHalf = true
+        }
+
+        guard var days = Double(daysString) else { return nil }
+        if addHalf {
+            days += 0.5
+        }
+        return days
     }
 }

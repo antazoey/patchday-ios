@@ -133,7 +133,7 @@ class SettingsTests: XCTestCase {
 
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedIntervalDays() {
         let settings = createSettings()
-        settings.setExpirationInterval(to: "Every 4 And A Half Days")
+        settings.setExpirationInterval(to: "Every 4½ Days")
         let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual("4.5", callArgs[0])
