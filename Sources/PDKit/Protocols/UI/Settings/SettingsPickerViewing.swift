@@ -39,7 +39,4 @@ public protocol SettingsPicking {
 
     /// The method for selecting a row in a UIPickerView.
     func selectedRow(inComponent component: Int) -> Int
-
-    /// Handle a user selecting a row.
-    func select(_ row: Index)
 }

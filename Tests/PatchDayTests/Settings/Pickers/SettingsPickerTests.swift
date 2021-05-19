@@ -88,4 +88,41 @@ class SettingsPickerTests: XCTestCase {
         picker.open()
         XCTAssertTrue(didCall)
     }
+
+    func testClose_hides() {
+        let picker = SettingsPicker()
+        picker.isHidden = false
+        picker.close(setSelectedRow: false)
+        XCTAssertTrue(picker.isHidden)
+    }
+
+    func testClose_deSelectsAndDeHighlightsButton() {
+        let activator = UIButton()
+        activator.isSelected = true
+        activator.isHighlighted = true
+        let picker = SettingsPicker()
+        picker.activator = activator
+        picker.close(setSelectedRow: false)
+        XCTAssertFalse(activator.isSelected)
+        XCTAssertFalse(activator.isHighlighted)
+    }
+
+    func testClose_whenToldToSelectRow_setsTitleOfButtonToSelectedOption() {
+        let activator = UIButton()
+        let picker = SettingsPicker()
+        picker.activator = activator
+        picker.setting = .DeliveryMethod
+        picker.close(setSelectedRow: true)
+        XCTAssertEqual(SettingsOptions.Patches, activator.title(for: .normal))
+    }
+
+    func testClose_whenToldNotToSelectRow_doesNotSetTitleOfButtonToSelectedOption() {
+        let activator = UIButton()
+        let picker = SettingsPicker()
+        picker.activator = activator
+        picker.setting = .DeliveryMethod
+        picker.close(setSelectedRow: false)
+        XCTAssertNotEqual(SettingsOptions.Patches, activator.title(for: .normal))
+    }
+
 }

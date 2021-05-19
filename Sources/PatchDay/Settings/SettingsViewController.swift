@@ -161,10 +161,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         (pickerView as? SettingsPicker)?[row]
     }
 
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        (pickerView as? SettingsPicking)?.select(row)
-    }
-
     private func initViewModel() -> SettingsViewModel {
         let viewModel = SettingsViewModel(controls: controlsStruct)
         self.viewModel = viewModel

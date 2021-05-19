@@ -49,17 +49,12 @@ class SettingsPicker: UIPickerView, SettingsPicking {
 
     func close(setSelectedRow: Bool) {
         isHidden = true
-        guard let button = _activator else { return }
-        button.isSelected = false
-        button.isHighlighted = false
+        activator.isSelected = false
+        activator.isHighlighted = false
         if setSelectedRow, let selected = selected {
-            button.setTitle(selected)
-            button.setNeedsDisplay()
+            activator.setTitle(selected)
+            activator.setNeedsDisplay()
         }
-    }
-
-    func select(_ row: Index) {
-        activator.setTitle(self[row].string)
     }
 
     private var selected: String? {
