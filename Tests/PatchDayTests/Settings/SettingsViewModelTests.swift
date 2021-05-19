@@ -119,20 +119,20 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_whenNotificationsIsOff_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         settings.notifications = NotificationsUD(false)
-        viewModel.handleNewNotificationsMinutesValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
     func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        viewModel.handleNewNotificationsMinutesValue(-23)
+        viewModel.handleNewNotificationsMinutesValue(-23.0)
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
     func testHandleNewNotificationsMinutesValue_cancelsAndResendsAllNotifications() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         settings.notifications = NotificationsUD(true)
-        viewModel.handleNewNotificationsMinutesValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         let nots = dependencies.notifications as! MockNotifications
         XCTAssertEqual(1, nots.cancelAllExpiredHormoneNotificationsCallCount)
         XCTAssertEqual(1, nots.requestAllExpiredHormoneNotificationCallCount)
@@ -142,7 +142,7 @@ class SettingsViewModelTests: XCTestCase {
         let deps = MockDependencies()
         deps.sdk = nil
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
-        viewModel.handleNewNotificationsMinutesValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         let nots = deps.notifications as! MockNotifications
         XCTAssertEqual(0, nots.cancelAllExpiredHormoneNotificationsCallCount)
         XCTAssertEqual(0, nots.requestAllExpiredHormoneNotificationCallCount)
@@ -150,8 +150,9 @@ class SettingsViewModelTests: XCTestCase {
 
     func testHandleNewNotificationsMinutesValue_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        viewModel.handleNewNotificationsMinutesValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
+        XCTAssertEqual(23, settings.setNotificationsMinutesBeforeCallArgs[0])
     }
 
     func testHandleNewNotificationsMinutesValue_returnsExpectedTitleString() {
@@ -159,7 +160,17 @@ class SettingsViewModelTests: XCTestCase {
         let saver = SettingsSaver(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let actual = viewModel.handleNewNotificationsMinutesValue(23)
+        let actual = viewModel.handleNewNotificationsMinutesValue(23.0)
+        let expected = "23.0"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testHandleNewNotificationsMinutesValue_rounds() {
+        let reflector = SettingsReflector(controls, dependencies)
+        let saver = SettingsSaver(controls, dependencies)
+        let alertFactory = MockAlertFactory()
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.handleNewNotificationsMinutesValue(23.232352552)
         let expected = "23.0"
         XCTAssertEqual(expected, actual)
     }
