@@ -212,7 +212,7 @@
 		9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7888D72558781100DC0F6D /* MockHormoneCell.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
-		9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ComplexSetting.swift */; };
+		9D7F1444240C4486001577A1 /* ChoiceSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ChoiceSetting.swift */; };
 		9D7F1445240C961F001577A1 /* QuantityMutating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98C912D77BEE430431A /* QuantityMutating.swift */; };
 		9D8A97F823AFCCE5004E20FE /* EntityAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9489AA2464C530A78F2 /* EntityAdapter.swift */; };
 		9D8A97FA23B28EAA004E20FE /* EntityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A97F923B28EAA004E20FE /* EntityStore.swift */; };
@@ -698,7 +698,7 @@
 		9D7888D72558781100DC0F6D /* MockHormoneCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneCell.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
-		9D7F1443240C4486001577A1 /* ComplexSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexSetting.swift; sourceTree = "<group>"; };
+		9D7F1443240C4486001577A1 /* ChoiceSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceSetting.swift; sourceTree = "<group>"; };
 		9D8A97F923B28EAA004E20FE /* EntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityStore.swift; sourceTree = "<group>"; };
 		9D8A97FC23B28F6E004E20FE /* HormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStore.swift; sourceTree = "<group>"; };
 		9D8A97FE23B290BC004E20FE /* PillStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStore.swift; sourceTree = "<group>"; };
@@ -1421,7 +1421,7 @@
 				9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */,
 				9D618797263EF39800B284CF /* XDaysUD.swift */,
 				9D6DB7D12405FED600C00711 /* PDUserDefault.swift */,
-				9D7F1443240C4486001577A1 /* ComplexSetting.swift */,
+				9D7F1443240C4486001577A1 /* ChoiceSetting.swift */,
 				9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */,
 			);
 			path = Settings;
@@ -2778,7 +2778,7 @@
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				9D7887F52558569C00DC0F6D /* PillCellProtocol.swift in Sources */,
 				9D788815255857B200DC0F6D /* PillCellViewModelProtocol.swift in Sources */,
-				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
+				9D7F1444240C4486001577A1 /* ChoiceSetting.swift in Sources */,
 				9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */,
 				9DE1196825FFC90000D08F97 /* TextFieldHelper.swift in Sources */,
 				9DB1E3962651A64500EA1F0D /* SettingsPickerIndexing.swift in Sources */,

@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorable {
+public class DeliveryMethodUD: ChoiceSetting<DeliveryMethod, String>, KeyStorable {
 
     public static let PatchesKey = { "Patches" }()
     public static let InjectionsKey = { "Injections" }()

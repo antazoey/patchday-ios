@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
+public class ExpirationIntervalUD: ChoiceSetting<ExpirationInterval, String>, KeyStorable {
 
     public static let OnceDailyKey = "Once daily"
     public static let TwiceWeeklyKey = "One half-week"

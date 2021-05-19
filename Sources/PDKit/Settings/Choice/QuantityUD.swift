@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
+public class QuantityUD: ChoiceSetting<Quantity, Int>, KeyStorable {
 
     public typealias Value = Quantity
     public typealias RawValue = Int
