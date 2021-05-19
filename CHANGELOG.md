@@ -4,7 +4,7 @@
 
 Added
 
-- New custom hormone expiration intervals filling in the gaps, such as "Every 1½ Days" or "Every 11 Days",
+- New custom hormone expiration intervals, such as "Every 1½ Days" or "Every 11 Days",
     all the way up to "Every 25½ Days".
 - The ability to undo taking a pill.
 - Pill Cells now display the times taken today out of the total times per day.
