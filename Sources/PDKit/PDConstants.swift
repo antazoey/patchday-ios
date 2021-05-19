@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// The 1/2 symbol.
+public let Half: Character = "½"
+
 /// The maximum number of supported hormones in a schedule.
 public let SupportedHormoneUpperQuantityLimit = 4
 

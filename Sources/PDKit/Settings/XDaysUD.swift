@@ -39,7 +39,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
         let floor = floor(xDaysDecimal)
         let isWholeNumber = floor - xDaysDecimal == 0
         let floorInt = Int(floor)
-        let numDays = isWholeNumber ? "\(floorInt)" : "\(floorInt)½"
+        let numDays = isWholeNumber ? "\(floorInt)" : "\(floorInt)\(Half)"
         return NSLocalizedString("Every \(numDays) Days", comment: "Pharmacy definition of Q.D.")
     }
 
@@ -53,14 +53,14 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
     }
 
     private static func isXDaysString(_ string: String) -> Bool {
-        string.range(of: "((Every) \\d\\d?(½)? (Days))", options: .regularExpression) != nil
+        string.range(of: "((Every) \\d\\d?\(Half)? (Days))", options: .regularExpression) != nil
     }
 
     private static func getDays(from daysString: String) -> Double? {
         var daysString = daysString
         guard let last = daysString.last else { return nil }
         var addHalf = false
-        if last == "½" {
+        if last == Half {
             daysString.removeLast()
             addHalf = true
         }
