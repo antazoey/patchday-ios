@@ -61,7 +61,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
         guard let last = daysString.last else { return nil }
         var addHalf = false
 
-        // Strip of the 1/2 sign if to get whole number
+        // Strip of the 1/2 sign if needed to get whole number
         if last == Half {
             daysString.removeLast()
             addHalf = true  // For remembering to add back 0.5 in decimal form
