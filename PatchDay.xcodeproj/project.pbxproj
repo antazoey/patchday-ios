@@ -1754,7 +1754,7 @@
 		9D8F45E82496717900F2C39A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9DE1194025FFA9AA00D08F97 /* Complex */,
+				9DE1194025FFA9AA00D08F97 /* Choice */,
 				9D8F45E92496718600F2C39A /* SettingsOptionsTests.swift */,
 				9D6187A1263F444800B284CF /* XDaysUDTests.swift */,
 			);
@@ -1939,12 +1939,12 @@
 			path = Alerts;
 			sourceTree = "<group>";
 		};
-		9DE1194025FFA9AA00D08F97 /* Complex */ = {
+		9DE1194025FFA9AA00D08F97 /* Choice */ = {
 			isa = PBXGroup;
 			children = (
 				3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */,
 			);
-			path = Complex;
+			path = Choice;
 			sourceTree = "<group>";
 		};
 		9DE748372539041500282144 /* Cell */ = {
