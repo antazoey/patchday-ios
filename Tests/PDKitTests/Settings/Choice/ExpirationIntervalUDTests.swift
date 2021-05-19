@@ -130,4 +130,42 @@ class ExpirationIntervalUDTests: XCTestCase {
         expiration.xDays.rawValue = "13.5"
         XCTAssertEqual(13.5, expiration.days)
     }
+
+    func testDisplayableString_whenIsOnceDaily_returnsExpectedString() {
+        let expiration = ExpirationIntervalUD(.OnceDaily)
+        let expected = SettingsOptions.OnceDaily
+        let actual = expiration.displayableString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDisplayableString_whenIsTwiceWeekly_returnsExpectedString() {
+        let expiration = ExpirationIntervalUD(.TwiceWeekly)
+        let expected = SettingsOptions.TwiceWeekly
+        let actual = expiration.displayableString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDisplayableString_whenIsOnceWeekly_returnsExpectedString() {
+        let expiration = ExpirationIntervalUD(.OnceWeekly)
+        let expected = SettingsOptions.OnceWeekly
+        let actual = expiration.displayableString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDisplayableString_whenIsEveryTwoWeeks_returnsExpectedString() {
+        let expiration = ExpirationIntervalUD(.EveryTwoWeeks)
+        let expected = SettingsOptions.OnceEveryTwoWeeks
+        let actual = expiration.displayableString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDisplayableString_whenIsCustom_returnsExpectedString() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "1.5"
+        XCTAssertEqual("Every 1½ Days", expiration.displayableString)
+        expiration.xDays.rawValue = "2.5"
+        XCTAssertEqual("Every 2½ Days", expiration.displayableString)
+        expiration.xDays.rawValue = "20.0"
+        XCTAssertEqual("Every 20 Days", expiration.displayableString)
+    }
 }
