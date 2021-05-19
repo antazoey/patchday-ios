@@ -37,20 +37,6 @@ public class Settings: SettingsManaging {
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
 
-    public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
-        switch setting {
-            case .DeliveryMethod: return deliveryMethod.displayableString
-            case .ExpirationInterval: return expirationInterval.displayableString
-            case .Quantity: return quantity.displayableString
-            case .Notifications: return notifications.displayableString
-            case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
-            case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
-            case .SiteIndex: return siteIndex.displayableString
-            case .PillsEnabled: return pillsEnabled.displayableString
-            case .XDays: return expirationInterval.xDays.displayableString
-        }
-    }
-
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceStoredDeliveryMethod(to: newMethod)
         sites.reset()
