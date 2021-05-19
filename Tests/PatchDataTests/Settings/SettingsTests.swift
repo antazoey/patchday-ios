@@ -139,6 +139,22 @@ class SettingsTests: XCTestCase {
         XCTAssertEqual("4.5", callArgs[0])
     }
 
+    func testSetExpirationInterval_whenSettingACustomIntervalWithAHalfMark_setsExpectedIntervalDays() {
+        let settings = createSettings()
+        settings.setExpirationInterval(to: "Every 4½ Days")
+        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("4.5", callArgs[0])
+    }
+
+    func testSetExpirationInterval_whenSettingACustomIntervalWithDoubleDigitDays_setsExpectedIntervalDays() {
+        let settings = createSettings()
+        settings.setExpirationInterval(to: "Every 14 Days")
+        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("14.0", callArgs[0])
+    }
+
     func testSetXDays_setsXDays() {
         let settings = createSettings()
         settings.setXDays(to: "3")
