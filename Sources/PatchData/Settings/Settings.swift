@@ -66,10 +66,6 @@ public class Settings: SettingsManaging {
         writer.replaceStoredExpirationInterval(to: interval)
     }
 
-    public func setXDays(to newDays: String) {
-        writer.replaceStoredXDays(to: newDays)
-    }
-
     @discardableResult
     public func setSiteIndex(to newIndex: Index) -> Index {
         writer.replaceStoredSiteIndex(to: newIndex)

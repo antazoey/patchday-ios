@@ -155,14 +155,6 @@ class SettingsTests: XCTestCase {
         XCTAssertEqual("14.0", callArgs[0])
     }
 
-    func testSetXDays_setsXDays() {
-        let settings = createSettings()
-        settings.setXDays(to: "3")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("3", callArgs[0])
-    }
-
     func testSetSiteIndex_setsSiteIndex() {
         let settings = createSettings()
         settings.setSiteIndex(to: 3)
