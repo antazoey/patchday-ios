@@ -40,9 +40,9 @@ class ExpirationIntervalUDTests: XCTestCase {
         XCTAssertEqual(24, expiration.hours)
     }
 
-    func testHours_whenIsEveryTwoWeeks_returnsExpectedHours() {
-        let expiration = ExpirationIntervalUD(.EveryTwoWeeks)
-        XCTAssertEqual(336, expiration.hours)
+    func testHours_whenIsTwiceWeekly_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.TwiceWeekly)
+        XCTAssertEqual(84, expiration.hours)
     }
 
     func testHours_whenIsOnceWeekly_returnsExpectedHours() {
@@ -50,8 +50,84 @@ class ExpirationIntervalUDTests: XCTestCase {
         XCTAssertEqual(168, expiration.hours)
     }
 
-    func testHours_whenIsTwiceWeekly_returnsExpectedHours() {
+    func testHours_whenIsEveryTwoWeeks_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.EveryTwoWeeks)
+        XCTAssertEqual(336, expiration.hours)
+    }
+
+    func testHours_whenIsCustomSingleDigitWholeNumber_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "3.0"
+        let expected = 3 * Hours.InDay
+        let actual = expiration.hours
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testHours_whenIsCustomSingleDigitHalfNumber_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "3.5"
+        let expected = Int(3.5 * Double(Hours.InDay))
+        let actual = expiration.hours
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testHours_whenIsCustomDoubleDigitWholeNumber_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "13.0"
+        let expected = 13 * Hours.InDay
+        let actual = expiration.hours
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testHours_whenIsCustomDoubleDigitHalfNumber_returnsExpectedHours() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "13.5"
+        let expected = Int(13.5 * Double(Hours.InDay))
+        let actual = expiration.hours
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDays_whenIsOnceDaily_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.OnceDaily)
+        XCTAssertEqual(1.0, expiration.days)
+    }
+
+    func testDays_whenIsTwiceWeekly_returnsExpectedHours() {
         let expiration = ExpirationIntervalUD(.TwiceWeekly)
-        XCTAssertEqual(84, expiration.hours)
+        XCTAssertEqual(3.5, expiration.days)
+    }
+
+    func testDays_whenIsOnceWeekly_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.OnceWeekly)
+        XCTAssertEqual(7.0, expiration.days)
+    }
+
+    func testDays_whenIsEveryTwoWeeks_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.EveryTwoWeeks)
+        XCTAssertEqual(14, expiration.days)
+    }
+
+    func testDays_whenIsCustomSingleDigitWholeNumber_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "3.0"
+        XCTAssertEqual(3.0, expiration.days)
+    }
+
+    func testDays_whenIsCustomSingleDigitHalfNumber_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "3.5"
+        XCTAssertEqual(3.5, expiration.days)
+    }
+
+    func testDays_whenIsCustomDoubleDigitWholeNumber_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "13.0"
+        XCTAssertEqual(13.0, expiration.days)
+    }
+
+    func testDays_whenIsCustomDoubleDigitHalfNumber_returnsExpectedDays() {
+        let expiration = ExpirationIntervalUD(.EveryXDays)
+        expiration.xDays.rawValue = "13.5"
+        XCTAssertEqual(13.5, expiration.days)
     }
 }
