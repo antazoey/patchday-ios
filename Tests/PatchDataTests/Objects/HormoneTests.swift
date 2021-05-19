@@ -258,6 +258,15 @@ class HormoneTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testExpiration_whenExpirationIntervalIsCustom_returnsExpectedDate() {
+        let hormone = createHormoneForExpirationTesting(.EveryXDays)
+        hormone.expirationInterval.xDays.rawValue = "11.5"
+        let hours = Int(11.5 * 24)
+        let expected = Calendar.current.date(byAdding: .hour, value: hours, to: testDateThatIsNow)
+        let actual = hormone.expiration
+        XCTAssertEqual(expected, actual)
+    }
+
     func testExpiration_whenDateIsDefault_returnsNil() {
         let hormone = createEmptyHormone(useDefaultDate: true)
         XCTAssertNil(hormone.expiration)
