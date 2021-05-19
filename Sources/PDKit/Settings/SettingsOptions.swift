@@ -118,7 +118,7 @@ public class SettingsOptions {
         ]
     }()
 
-    public static var xDaysValues: [String] {
+    private static var xDaysValues: [String] {
         (1...ExpirationIntervalDaysLastInteger).reduce([]) {
             $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
         }

@@ -139,9 +139,4 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         }
         sdk?.settings.setExpirationInterval(to: newInterval)
     }
-
-    private func saveXDays(_ selectedRow: Index) {
-        guard let newDays = SettingsOptions.xDaysValues.tryGet(at: selectedRow) else { return }
-        sdk?.settings.setXDays(to: newDays)
-    }
 }
