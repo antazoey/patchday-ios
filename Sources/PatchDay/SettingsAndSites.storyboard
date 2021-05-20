@@ -54,7 +54,7 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="deliveryMethodButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="deliveryMethodButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="141" y="0.0" width="188" height="50"/>
                                                         <state key="normal">
                                                             <color key="titleColor" name="Text"/>
@@ -64,7 +64,7 @@
                                                             <action selector="settingButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="oBy-3W-0e3"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="50"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -124,7 +124,7 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="expirationIntervalButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="expirationIntervalButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="101.5" y="0.0" width="227.5" height="50"/>
                                                         <state key="normal">
                                                             <color key="titleColor" name="Text"/>
@@ -134,7 +134,7 @@
                                                             <action selector="settingButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Pdl-yO-iTs"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="expirationIntervalArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="expirationIntervalArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="50"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -194,7 +194,7 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="quantityButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="quantityButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="97" y="0.0" width="232" height="50"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" name="Text"/>
@@ -203,7 +203,7 @@
                                                             <action selector="settingButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="quantityArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="quantityArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ" customClass="SettingsPickerActivator" customModule="PatchDay" customModuleProvider="target">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="50"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

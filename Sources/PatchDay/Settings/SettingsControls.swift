@@ -8,10 +8,10 @@ import UIKit
 import PDKit
 
 struct SettingsControls {
-    let deliveryMethodButton: UIButton
-    let quantityButton: UIButton
-    let quantityArrowButton: UIButton
-    let expirationIntervalButton: UIButton
+    let deliveryMethodButton: SettingsPickerActivator
+    let quantityButton: SettingsPickerActivator
+    let quantityArrowButton: SettingsPickerActivator
+    let expirationIntervalButton: SettingsPickerActivator
     let notificationsSwitch: UISwitch
     let notificationsMinutesBeforeSlider: UISlider
     let notificationsMinutesBeforeValueLabel: UILabel

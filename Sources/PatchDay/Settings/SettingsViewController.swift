@@ -46,10 +46,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var quantityPicker: QuantityPicker!
 
     // Buttons
-    @IBOutlet private weak var deliveryMethodButton: UIButton!
-    @IBOutlet private weak var expirationIntervalButton: UIButton!
-    @IBOutlet private weak var quantityButton: UIButton!
-    @IBOutlet private weak var quantityArrowButton: UIButton!
+    @IBOutlet private weak var deliveryMethodButton: SettingsPickerActivator!
+    @IBOutlet private weak var expirationIntervalButton: SettingsPickerActivator!
+    @IBOutlet private weak var quantityButton: SettingsPickerActivator!
+    @IBOutlet private weak var quantityArrowButton: SettingsPickerActivator!
 
     // Icons
     @IBOutlet private weak var deliveryMethodIcon: UIImageView!
@@ -133,8 +133,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     /// The settings buttons with pickers i.e. `deliveryMethodButton`, `quantityButton` all point here.
-    @IBAction func settingButtonTapped(_ sender: UIButton) {
-        guard let setting = sender.tryGetSettingFromButtonMetadata() else { return }
+    @IBAction func settingButtonTapped(_ sender: SettingsPickerActivator) {
+        guard let setting = sender.getSettingFromButtonRestorationId() else { return }
         handlePickerActivation(setting)
     }
 

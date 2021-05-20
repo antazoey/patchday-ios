@@ -121,6 +121,8 @@
 		9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BA25056E8B00C0324E /* NowProtocol.swift */; };
 		9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BC25056EC500C0324E /* PDNow.swift */; };
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
+		9D5EF4252655EAF300F562A8 /* SettingPickerActivator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF4242655EAF300F562A8 /* SettingPickerActivator.swift */; };
+		9D5EF4282655ED7E00F562A8 /* SettingsPickerActivatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF4262655ED7000F562A8 /* SettingsPickerActivatorTests.swift */; };
 		9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */; };
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
@@ -623,6 +625,8 @@
 		9D59F8BA25056E8B00C0324E /* NowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowProtocol.swift; sourceTree = "<group>"; };
 		9D59F8BC25056EC500C0324E /* PDNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNow.swift; sourceTree = "<group>"; };
 		9D59F8BE250570CC00C0324E /* MockNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNow.swift; sourceTree = "<group>"; };
+		9D5EF4242655EAF300F562A8 /* SettingPickerActivator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPickerActivator.swift; sourceTree = "<group>"; };
+		9D5EF4262655ED7000F562A8 /* SettingsPickerActivatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerActivatorTests.swift; sourceTree = "<group>"; };
 		9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertTests.swift; sourceTree = "<group>"; };
 		9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertHandlersTests.swift; sourceTree = "<group>"; };
 		9D618794263DA54000B284CF /* PlaceholderStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderStrings.swift; sourceTree = "<group>"; };
@@ -1034,6 +1038,7 @@
 				3397CB18E77D8048782F165F /* SettingsReflector.swift */,
 				3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */,
 				9D61879E263F3E0600B284CF /* SettingsPickerList.swift */,
+				9D5EF4242655EAF300F562A8 /* SettingPickerActivator.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1265,6 +1270,7 @@
 				9D1908F22468564100E95244 /* SettingsViewModelTests.swift */,
 				9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */,
 				9D6187B32642328300B284CF /* SettingsControlsTests.swift */,
+				9D5EF4262655ED7000F562A8 /* SettingsPickerActivatorTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2512,6 +2518,7 @@
 				3397C4B72A3807FC1B7437E3 /* NewSiteAlert.swift in Sources */,
 				9DDAB03C23FAF13400E6EEF6 /* DeliveryMethodMutationAlertActionHandler.swift in Sources */,
 				3397C0686E3133FEE6967ACB /* PDAlertController.swift in Sources */,
+				9D5EF4252655EAF300F562A8 /* SettingPickerActivator.swift in Sources */,
 				9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */,
 				9DE7483B2539072500282144 /* HormoneCellViewModel.swift in Sources */,
 				3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */,
@@ -2586,6 +2593,7 @@
 				9DE08C5725F2F7610098F593 /* DeliveryMethodMutationAlertTests.swift in Sources */,
 				9D8F45D4248BED7700F2C39A /* SiteImageRecorderTests.swift in Sources */,
 				9D8F45DA24956C6C00F2C39A /* HormonesViewModelTests.swift in Sources */,
+				9D5EF4282655ED7E00F562A8 /* SettingsPickerActivatorTests.swift in Sources */,
 				9D8F45D62495473500F2C39A /* HormoneValueTypeTests.swift in Sources */,
 				9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */,
 				9DE7483F2539187500282144 /* HormoneCellViewModelTests.swift in Sources */,
