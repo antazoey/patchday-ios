@@ -383,7 +383,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.hormoneId = hormone.id
         let actual = viewModel.createHormoneViewStrings()!
         XCTAssertEqual("Date and time applied: ", actual.dateAndTimePlacedText)
-        XCTAssertEqual("Expires: ", actual.expirationText)
+        XCTAssertEqual("Exp:", actual.expirationText)
         XCTAssertEqual("Site: ", actual.siteLabelText)
     }
 
