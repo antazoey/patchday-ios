@@ -10,7 +10,7 @@ public class MentionedDisclaimerUD: PDUserDefault<Bool, Bool>, BooleanKeyStorabl
     public var setting: PDSetting = .MentionedDisclaimer
 
     public convenience init() {
-        self.init(DefaultSettings.MentionedDisclaimerRawValue)
+        self.init(DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
     }
 }
 
@@ -18,7 +18,7 @@ public class NotificationsMinutesBeforeUD: PDUserDefault<Int, Int>, IntKeyStorab
     public var setting: PDSetting = .NotificationsMinutesBefore
 
     public convenience init() {
-        self.init(DefaultSettings.NotificationsMinutesBeforeRawValue)
+        self.init(DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE)
     }
 }
 
@@ -26,7 +26,7 @@ public class NotificationsUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
     public var setting: PDSetting = .Notifications
 
     public convenience init() {
-        self.init(DefaultSettings.NotificationsRawValue)
+        self.init(DefaultSettings.NOTIFICATIONS_RAW_VALUE)
     }
 }
 
@@ -34,7 +34,7 @@ public class SiteIndexUD: PDUserDefault<Int, Int>, IntKeyStorable {
     public var setting: PDSetting = .SiteIndex
 
     public convenience init() {
-        self.init(DefaultSettings.SiteIndexRawValue)
+        self.init(DefaultSettings.SITE_INDEX_RAW_VALUE)
     }
 }
 
@@ -42,6 +42,6 @@ public class PillsEnabledUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
     public var setting: PDSetting = .PillsEnabled
 
     public convenience init() {
-        self.init(DefaultSettings.PillsEnabledRawValue)
+        self.init(DefaultSettings.PILLS_ENABLED_RAW_VALUE)
     }
 }

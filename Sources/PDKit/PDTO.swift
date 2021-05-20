@@ -31,7 +31,7 @@ public class SiteImageDeterminationParameters {
     public init(hormone: Hormonal?) {
         guard let hormone = hormone else {
             self.imageId = nil
-            self.deliveryMethod = DefaultSettings.DeliveryMethodValue
+            self.deliveryMethod = DefaultSettings.DELIVERY_METHOD_VALUE
             return
         }
         self.imageId = hormone.hasSite ? hormone.siteImageId : nil

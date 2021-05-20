@@ -67,7 +67,7 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
     private func loadNotificationsMinutesBefore() {
         guard let minutesBefore = sdk?.settings.notificationsMinutesBefore.value else { return }
         controls.notificationsMinutesBeforeSlider.maximumValue = Float(
-            DefaultSettings.MaxSupportedNotificationsMinutesBefore
+            DefaultSettings.MAX_SUPPORTED_NOTIFICATIONS_MINUTES_BEFORE
         )
         if controls.notificationsSwitch.isOn {
             controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)

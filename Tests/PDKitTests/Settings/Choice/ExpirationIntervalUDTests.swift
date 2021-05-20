@@ -58,7 +58,7 @@ class ExpirationIntervalUDTests: XCTestCase {
     func testHours_whenIsCustomSingleDigitWholeNumber_returnsExpectedHours() {
         let expiration = ExpirationIntervalUD(.EveryXDays)
         expiration.xDays.rawValue = "3.0"
-        let expected = 3 * Hours.InDay
+        let expected = 3 * Hours.IN_DAY
         let actual = expiration.hours
         XCTAssertEqual(expected, actual)
     }
@@ -66,7 +66,7 @@ class ExpirationIntervalUDTests: XCTestCase {
     func testHours_whenIsCustomSingleDigitHalfNumber_returnsExpectedHours() {
         let expiration = ExpirationIntervalUD(.EveryXDays)
         expiration.xDays.rawValue = "3.5"
-        let expected = Int(3.5 * Double(Hours.InDay))
+        let expected = Int(3.5 * Double(Hours.IN_DAY))
         let actual = expiration.hours
         XCTAssertEqual(expected, actual)
     }
@@ -74,7 +74,7 @@ class ExpirationIntervalUDTests: XCTestCase {
     func testHours_whenIsCustomDoubleDigitWholeNumber_returnsExpectedHours() {
         let expiration = ExpirationIntervalUD(.EveryXDays)
         expiration.xDays.rawValue = "13.0"
-        let expected = 13 * Hours.InDay
+        let expected = 13 * Hours.IN_DAY
         let actual = expiration.hours
         XCTAssertEqual(expected, actual)
     }
@@ -82,7 +82,7 @@ class ExpirationIntervalUDTests: XCTestCase {
     func testHours_whenIsCustomDoubleDigitHalfNumber_returnsExpectedHours() {
         let expiration = ExpirationIntervalUD(.EveryXDays)
         expiration.xDays.rawValue = "13.5"
-        let expected = Int(13.5 * Double(Hours.InDay))
+        let expected = Int(13.5 * Double(Hours.IN_DAY))
         let actual = expiration.hours
         XCTAssertEqual(expected, actual)
     }

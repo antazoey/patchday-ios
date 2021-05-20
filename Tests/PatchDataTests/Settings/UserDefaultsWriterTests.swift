@@ -86,7 +86,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.rawValue
-        let expected = DefaultSettings.ExpirationIntervalRawValue
+        let expected = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -110,7 +110,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
-        let expected = DefaultSettings.XDaysRawValue
+        let expected = DefaultSettings.XDAYS_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -190,7 +190,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.quantity.rawValue
-        let expected = DefaultSettings.QuantityRawValue
+        let expected = DefaultSettings.QUANTITY_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -210,7 +210,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.notifications.rawValue
-        let expected = DefaultSettings.NotificationsRawValue
+        let expected = DefaultSettings.NOTIFICATIONS_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -230,7 +230,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.notificationsMinutesBefore.rawValue
-        let expected = DefaultSettings.NotificationsMinutesBeforeRawValue
+        let expected = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -250,7 +250,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.mentionedDisclaimer.rawValue
-        let expected = DefaultSettings.MentionedDisclaimerRawValue
+        let expected = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -270,7 +270,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.siteIndex.rawValue
-        let expected = DefaultSettings.SiteIndexRawValue
+        let expected = DefaultSettings.SITE_INDEX_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -290,7 +290,7 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.pillsEnabled.rawValue
-        let expected = DefaultSettings.PillsEnabledRawValue
+        let expected = DefaultSettings.PILLS_ENABLED_RAW_VALUE
         XCTAssertEqual(expected, actual)
     }
 
@@ -301,28 +301,28 @@ class UserDefaultsWriterTests: XCTestCase {
         writer.reset()
 
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.DeliveryMethodRawValue, setting: .DeliveryMethod
+            expected: DefaultSettings.DELIVERY_METHOD_RAW_VALUE, setting: .DeliveryMethod
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.QuantityRawValue, setting: .Quantity
+            expected: DefaultSettings.QUANTITY_RAW_VALUE, setting: .Quantity
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.ExpirationIntervalRawValue,
+            expected: DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE,
             setting: .ExpirationInterval
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.MentionedDisclaimerRawValue,
+            expected: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE,
             setting: .MentionedDisclaimer
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.NotificationsMinutesBeforeRawValue,
+            expected: DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE,
             setting: .NotificationsMinutesBefore
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.NotificationsRawValue, setting: .Notifications
+            expected: DefaultSettings.NOTIFICATIONS_RAW_VALUE, setting: .Notifications
         )
         defaults.assertSettingWasSet(
-            expected: DefaultSettings.SiteIndexRawValue, setting: .SiteIndex
+            expected: DefaultSettings.SITE_INDEX_RAW_VALUE, setting: .SiteIndex
         )
     }
 
@@ -527,7 +527,7 @@ class UserDefaultsWriterTests: XCTestCase {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 3)
         )
-        defaults.mockObjectMap[PDSetting.Quantity.rawValue] = SupportedHormoneUpperQuantityLimit
+        defaults.mockObjectMap[PDSetting.Quantity.rawValue] = SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT
         defaults.mockObjectMap[PDSetting.SiteIndex.rawValue] = 0
         let expected = 1
         let actual = writer.incrementStoredSiteIndex()

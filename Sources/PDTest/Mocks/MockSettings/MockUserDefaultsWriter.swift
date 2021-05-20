@@ -8,20 +8,20 @@ import PDKit
 
 public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
-    public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DeliveryMethodRawValue)
+    public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DELIVERY_METHOD_RAW_VALUE)
     public var expirationInterval = ExpirationIntervalUD(
-        DefaultSettings.ExpirationIntervalRawValue
+        DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
     )
-    public var quantity = QuantityUD(DefaultSettings.QuantityRawValue)
-    public var notifications = NotificationsUD(DefaultSettings.NotificationsRawValue)
+    public var quantity = QuantityUD(DefaultSettings.QUANTITY_RAW_VALUE)
+    public var notifications = NotificationsUD(DefaultSettings.NOTIFICATIONS_RAW_VALUE)
     public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(
-        DefaultSettings.NotificationsMinutesBeforeRawValue
+        DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
     )
     public var mentionedDisclaimer = MentionedDisclaimerUD(
-        DefaultSettings.MentionedDisclaimerRawValue
+        DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
     )
-    public var siteIndex = SiteIndexUD(DefaultSettings.SiteIndexRawValue)
-    public var pillsEnabled = PillsEnabledUD(DefaultSettings.PillsEnabledRawValue)
+    public var siteIndex = SiteIndexUD(DefaultSettings.SITE_INDEX_RAW_VALUE)
+    public var pillsEnabled = PillsEnabledUD(DefaultSettings.PILLS_ENABLED_RAW_VALUE)
 
     public init() { }
 

@@ -13,7 +13,7 @@ public class QuantityUD: ChoiceSetting<Quantity, Int>, KeyStorable {
     public let setting: PDSetting = .Quantity
 
     public convenience init() {
-        self.init(DefaultSettings.QuantityValue)
+        self.init(DefaultSettings.QUANTITY_VALUE)
     }
 
     public convenience init(_ value: Quantity) {
@@ -26,6 +26,6 @@ public class QuantityUD: ChoiceSetting<Quantity, Int>, KeyStorable {
     }
 
     public override var value: Quantity {
-        return Quantity(rawValue: rawValue) ?? DefaultSettings.QuantityValue
+        return Quantity(rawValue: rawValue) ?? DefaultSettings.QUANTITY_VALUE
     }
 }

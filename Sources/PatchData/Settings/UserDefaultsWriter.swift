@@ -18,13 +18,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var deliveryMethod: DeliveryMethodUD {
-        let def = DefaultSettings.DeliveryMethodRawValue
+        let def = DefaultSettings.DELIVERY_METHOD_RAW_VALUE
         let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
         return DeliveryMethodUD(deliveryMethod)
     }
 
     public var expirationInterval: ExpirationIntervalUD {
-        let defaultInterval = DefaultSettings.ExpirationIntervalRawValue
+        let defaultInterval = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
         let expirationInterval = handler.load(
             setting: .ExpirationInterval, defaultValue: defaultInterval
         )
@@ -34,19 +34,19 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var quantity: QuantityUD {
-        let def = DefaultSettings.QuantityRawValue
+        let def = DefaultSettings.QUANTITY_RAW_VALUE
         let quantity = handler.load(setting: .Quantity, defaultValue: def)
         return QuantityUD(quantity)
     }
 
     public var notifications: NotificationsUD {
-        let def = DefaultSettings.NotificationsRawValue
+        let def = DefaultSettings.NOTIFICATIONS_RAW_VALUE
         let notifications = handler.load(setting: .Notifications, defaultValue: def)
         return NotificationsUD(notifications)
     }
 
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
-        let def = DefaultSettings.NotificationsMinutesBeforeRawValue
+        let def = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
         let notificationsMinutesBefore = handler.load(
             setting: .NotificationsMinutesBefore, defaultValue: def
         )
@@ -54,33 +54,33 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var mentionedDisclaimer: MentionedDisclaimerUD {
-        let def = DefaultSettings.MentionedDisclaimerRawValue
+        let def = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
         let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
         return MentionedDisclaimerUD(mentionedDisclaimer)
     }
 
     public var siteIndex: SiteIndexUD {
-        let def = DefaultSettings.SiteIndexRawValue
+        let def = DefaultSettings.SITE_INDEX_RAW_VALUE
         let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
         return SiteIndexUD(siteIndex)
     }
 
     public var pillsEnabled: PillsEnabledUD {
-        let def = DefaultSettings.PillsEnabledRawValue
+        let def = DefaultSettings.PILLS_ENABLED_RAW_VALUE
         let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
         return PillsEnabledUD(pillsEnabled)
     }
 
     public func reset(defaultSiteCount: Int = 4) {
-        replaceStoredDeliveryMethod(to: DefaultSettings.DeliveryMethodValue)
-        replaceStoredExpirationInterval(to: DefaultSettings.ExpirationIntervalValue)
-        replaceStoredQuantity(to: DefaultSettings.QuantityRawValue)
-        replaceStoredNotifications(to: DefaultSettings.NotificationsRawValue)
+        replaceStoredDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
+        replaceStoredExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)
+        replaceStoredQuantity(to: DefaultSettings.QUANTITY_RAW_VALUE)
+        replaceStoredNotifications(to: DefaultSettings.NOTIFICATIONS_RAW_VALUE)
         replaceStoredNotificationsMinutesBefore(
-            to: DefaultSettings.NotificationsMinutesBeforeRawValue
+            to: DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
         )
-        replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
-        replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
+        replaceStoredMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
+        replaceStoredSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
     }
 
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
@@ -126,7 +126,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         }
         var newIndex = newValue
         let site = storedSites[newIndex]
-        if quantity.rawValue != SupportedHormoneUpperQuantityLimit && site.hormoneCount > 0 {
+        if quantity.rawValue != SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT && site.hormoneCount > 0 {
             for site in storedSites where site.hormoneCount == 0 {
                 newIndex = site.order
                 break

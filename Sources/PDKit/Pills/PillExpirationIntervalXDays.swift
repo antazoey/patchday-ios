@@ -114,7 +114,7 @@ public class PillExpirationIntervalXDays {
 
     /// The supported range for any days value, 1-25.
     public static var daysRange: ClosedRange<Int> {
-        1...ExpirationIntervalDaysLastInteger
+        1...EXPIRATION_INTERVAL_DAYS_LAST_INTEGER
     }
 
     public func startPositioning() {
