@@ -53,22 +53,22 @@ public class Days {
 
 /// Default hormone settings.
 public class DefaultSettings {
+    public static let DeliveryMethodValue = DeliveryMethod.Patches
+    public static let DeliveryMethodRawValue = DeliveryMethodUD.PatchesKey
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
     public static let ExpirationIntervalRawValue = ExpirationIntervalUD.TwiceWeeklyKey
     public static let ExpirationIntervalHours = 84
-    public static let QuantityValue = Quantity.Three
-    public static let QuantityRawValue = 3
-    public static let DeliveryMethodValue = DeliveryMethod.Patches
-    public static let DeliveryMethodRawValue = DeliveryMethodUD.PatchesKey
+    public static let MaxSupportedNotificationsMinutesBefore = 120
+    public static let MentionedDisclaimerRawValue = false
     public static let NotificationsRawValue = true
     public static let NotificationsMinutesBeforeRawValue = 0
-    public static let MentionedDisclaimerRawValue = false
-    public static let SiteIndexRawValue = 0
-    public static let MaxSupportedNotificationsMinutesBefore = 120
     public static let PillsEnabledRawValue = true
-    public static let XDaysRawValue = "10.0"
-    public static let XDaysRawValueDouble = 10.0
-    public static let XDaysRawValueInt = 10
+    public static let QuantityValue = Quantity.Three
+    public static let QuantityRawValue = 3
+    public static let SiteIndexRawValue = 0
+    public static let XDaysRawValue = "3.5"
+    public static let XDaysRawValueDouble = 3.0
+    public static let XDaysRawValueInt = 3
 }
 
 /// Default properties to assign to pills when they are not given any.
