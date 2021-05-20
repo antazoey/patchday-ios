@@ -20,6 +20,12 @@ public let EXPIRATION_INTERVAL_DAYS_LAST_INTEGER = 25
 /// The maximum number of supported pill times for a single pill.
 public let MAX_PILL_TIMES_PER_DAY = 4
 
+/// Constants that are minutes.
+public class Minutes {
+    /// The number of minutes that are in one earth week.
+    public static let IN_WEEK = 10080
+}
+
 /// Constants that are hours.
 public class Hours {
     /// The number of hours that are in a single day (on Earth).
