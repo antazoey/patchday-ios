@@ -28,7 +28,8 @@ class SettingsPickerActivator: UIButton {
         return IdToSettingMap[settingId.lowercased()]
     }
 
-    /// Restoration IDs are defined in the storyboard. These only apply the settings that have options chosen via pickers.
+    /// Restoration IDs are defined in the storyboard.
+    /// These only apply the settings that have options chosen via pickers.
     private var IdToSettingMap: [String: PDSetting] {
         [
             "deliverymethod": .DeliveryMethod,
