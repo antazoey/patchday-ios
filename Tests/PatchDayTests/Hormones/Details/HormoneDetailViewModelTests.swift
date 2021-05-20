@@ -200,6 +200,25 @@ class HormoneDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testExpirationDateText_whenDateMoreThanSevenDaysAway_returnsExpectedDateString() {
+        let testDate = DateFactory.createDate(byAddingMonths: 3, to: Date())!
+        let hormone = setupHormone()
+        let expInt = ExpirationIntervalUD(.TwiceWeekly)
+        hormone.date = DateFactory.createDefaultDate()
+        hormone.expirationInterval = expInt
+        let alertFactory = MockAlertFactory()
+        let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
+        viewModel.selections.date = testDate
+
+        let expectedDate = DateFactory.createExpirationDate(
+            expirationInterval: expInt, to: testDate
+        )
+        let expected = PDDateFormatter.formatDate(expectedDate!)
+        let actual = viewModel.expirationDateText
+        XCTAssertEqual(expected, actual)
+    }
+
     func testSiteStartRow_whenSiteIndexSelected_returnsSelectedSiteIndex() {
         let hormone = setupHormone()
         let site = MockSite()

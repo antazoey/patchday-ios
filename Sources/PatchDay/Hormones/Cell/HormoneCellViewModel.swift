@@ -71,11 +71,7 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         guard let expiration = hormone.expiration else { return nil }
         guard !hormone.date.isDefault() else { return nil }
         let prefix = HormoneStrings.create(hormone).expirationText
-
-        let dateString = expiration.isWithin(minutes: Minutes.IN_WEEK, of: now.now)
-            ? PDDateFormatter.formatDay(expiration)
-            : PDDateFormatter.formatDate(expiration)
-
+        let dateString = HormoneStrings.getExpirationDateText(expiration: expiration, now: now)
         return "\(prefix) \(dateString)"
     }
 

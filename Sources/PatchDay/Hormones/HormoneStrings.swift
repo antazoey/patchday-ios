@@ -20,6 +20,12 @@ public class HormoneStrings {
         }
     }
 
+    public static func getExpirationDateText(expiration: Date, now: PDNow?=nil) -> String {
+        expiration.isWithin(minutes: Minutes.IN_WEEK, of: now?.now ?? Date())
+            ? PDDateFormatter.formatDay(expiration)
+            : PDDateFormatter.formatDate(expiration)
+    }
+
     private static func createPatchViewStrings(_ patch: Hormonal) -> HormoneViewStrings {
         HormoneViewStrings(Exp, DateAndTimeApplied, _Site)
     }

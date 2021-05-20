@@ -69,4 +69,25 @@ class HormoneStringsTests: XCTestCase {
         let actual = HormoneStrings.create(injection)
         XCTAssertEqual("Next:", actual.expirationText)
     }
+
+    func testGetExpirationDateText_whenDateWithinSevenDays_returnsFormattedDay() {
+        let date = Date()
+        let expected = PDDateFormatter.formatDay(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testGetExpirationDateText_whenDateMoreThanSevenDaysAgo_returnsFormattedDate() {
+        let date = DateFactory.createDate(byAddingMonths: -1, to: Date())!
+        let expected = PDDateFormatter.formatDate(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testGetExpirationDateText_whenDateThanSevenDaysAway_returnsFormattedDate() {
+        let date = DateFactory.createDate(byAddingHours: Hours.IN_TWO_WEEKS, to: Date())!
+        let expected = PDDateFormatter.formatDate(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
+    }
 }

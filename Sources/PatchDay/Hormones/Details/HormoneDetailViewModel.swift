@@ -84,10 +84,12 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
 
     var expirationDateText: String {
         guard let hormone = hormone else { return PlaceholderStrings.DotDotDot }
-        let expInt = hormone.expirationInterval
-        guard let date = dateSelected else { return PlaceholderStrings.DotDotDot }
-        if let expDate = DateFactory.createExpirationDate(expirationInterval: expInt, to: date) {
-            return PDDateFormatter.formatDay(expDate)
+        let expirationInterval = hormone.expirationInterval
+        guard let dateSelected = dateSelected else { return PlaceholderStrings.DotDotDot }
+        if let expiration = DateFactory.createExpirationDate(
+            expirationInterval: expirationInterval, to: dateSelected
+        ) {
+            return HormoneStrings.getExpirationDateText(expiration: expiration)
         }
         return PlaceholderStrings.DotDotDot
     }
