@@ -19,7 +19,7 @@ Fixed
 
 Changed
 
-- Hormone Cells now display a more verbose expiration dates for dates that are farther away from now.
+- Hormone Cells now display more verbose expiration dates for dates that are farther away from now.
 - Hormone Cell expiration dates now are prefixed with either "Exp:" or "Next:" rather than what they before
     ("Expired:", "Expires", etc.) to save screen room for potentially longer dates.
 - Pill Cells now don't display a Last Taken date when the pill was not yet taken that day.
