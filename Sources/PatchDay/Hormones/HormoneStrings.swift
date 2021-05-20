@@ -21,25 +21,19 @@ public class HormoneStrings {
     }
 
     private static func createPatchViewStrings(_ patch: Hormonal) -> HormoneViewStrings {
-        HormoneViewStrings(getPatchExpiredText(patch), DateAndTimeApplied, _Site)
-    }
-
-    private static func getPatchExpiredText(_ patch: Hormonal) -> String {
-        if patch.isPastNotificationTime && !patch.isExpired {
-            return ExpiresSoon
-        } else if patch.isExpired {
-            return Expired
-        } else {
-            return Expires
-        }
+        HormoneViewStrings(Exp, DateAndTimeApplied, _Site)
     }
 
     private static func createInjectionViewStrings(_ injection: Hormonal) -> HormoneViewStrings {
-        HormoneViewStrings(NextDue, DateAndTimeInjected, LastSiteInjected)
+        HormoneViewStrings(Next, DateAndTimeInjected, LastSiteInjected)
     }
 
     private static func createGelViewStrings(_ gel: Hormonal) -> HormoneViewStrings {
-        HormoneViewStrings(NextDue, DateAndTimeApplied, _Site)
+        HormoneViewStrings(Next, DateAndTimeApplied, _Site)
+    }
+
+    private static var Exp: String {
+        NSLocalizedString("Exp:", comment: c1)
     }
 
     private static var Count: String {
@@ -50,20 +44,8 @@ public class HormoneStrings {
         NSLocalizedString("Time:", comment: c1)
     }
 
-    private static var Expires: String {
-        NSLocalizedString("Expires: ", comment: c2)
-    }
-
-    private static var Expired: String {
-        NSLocalizedString("Expired: ", comment: c2)
-    }
-
-    private static var ExpiresSoon: String {
-        NSLocalizedString("Expires soon: ", comment: "There is room.")
-    }
-
-    private static var NextDue: String {
-        NSLocalizedString("Next due: ", comment: c2)
+    private static var Next: String {
+        NSLocalizedString("Next:", comment: c2)
     }
 
     private static var DateAndTimeApplied: String {

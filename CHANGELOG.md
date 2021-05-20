@@ -18,6 +18,8 @@ Changed
 
 - Hormone Cells now display the full expiration date when the hormone is a week or more away from being
     expired or if it has been a week or more since the hormone expired.
+- Hormone Cell expiration dates now are prefixed with either "Exp:" or "Next:" rather than what they before
+    ("Expired:", "Expires", etc.) to save screen room for potentially longer dates.
 - Pill Cells now don't display a Last Taken date when the pill was not yet taken that day.
 - You can now save typed Pill name changes without having to close the text field.
 - You can now save typed Site name changes without having to close the text field.
