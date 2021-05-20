@@ -11,6 +11,9 @@ Added
 Fixed
 
 - Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
+- Bug where the expiration date text would not update when selecting a date using the Date Picker in the 
+    Hormone Detail View.
+- Bug where the expiration date text would not update when pressing the Autofill button.
 - Clipping issue with time number labels in the Pill Details view.
 - Issue where the save button in the Pill Details View was the wrong color for Dark mode.
 
