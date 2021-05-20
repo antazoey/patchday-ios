@@ -29,7 +29,8 @@ class EntityAdapter {
             hormone.siteName,
             hormone.siteImageId,
             hormone.date,
-            hormone.siteNameBackUp
+            hormone.siteNameBackUp,
+            hormone.xDays.rawValue
         )
     }
 
@@ -75,7 +76,7 @@ class EntityAdapter {
             pill.times = times
         }
         if let timesTaken = pillData.attributes.timesTakenToday,
-           timesTaken != pill.timesTakenTodayList {
+            timesTaken != pill.timesTakenTodayList {
             pill.timesTakenTodayList = timesTaken
         }
         if let expirationInterval = pillData.attributes.expirationInterval.value {
@@ -125,7 +126,8 @@ class EntityAdapter {
             hormone.siteRelationship?.name,
             hormone.siteRelationship?.imageIdentifier,
             hormone.date as Date?,
-            hormone.siteNameBackUp
+            hormone.siteNameBackUp,
+            hormone.xDays
         )
     }
 

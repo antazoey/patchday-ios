@@ -5,7 +5,7 @@
 //  Created by Juliya Smith on 12/21/18.
 
 import XCTest
-import PDMock
+import PDTest
 
 @testable
 import PDKit
@@ -33,13 +33,13 @@ class DateFactoryTests: XCTestCase {
     func testCreateDate_byAddingHoursToDate_returnsExpectedDate() {
         let expected = Date(timeIntervalSinceNow: 10800)
         let actual = DateFactory.createDate(byAddingHours: 3, to: Date())!
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testCreateDate_byAddingMinutesToDate_returnsExpectedDate() {
         let expected = Date(timeIntervalSinceNow: 10800)
         let actual = DateFactory.createDate(byAddingMinutes: 180, to: Date())!
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testCreateTimesFromCommaSeparatedString_handlesSingleDate() {
@@ -55,13 +55,13 @@ class DateFactoryTests: XCTestCase {
     func testCreateTimeInterval_returnsExpectedTimeInterval() {
         let expected = 18000.0
         let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date())!
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testCreateTimeInterval_whenGivenNegativeHours_returnsExpectedTimeInterval() {
         let expected = -18000.0
         let actual = DateFactory.createTimeInterval(fromAddingHours: -5, to: Date())!
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testCreateTimeInterval_whenGivenDefaultDate_returnsNil() {
@@ -79,15 +79,15 @@ class DateFactoryTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Tests a PDMock test method
+    /// Tests a PDTest test method
     public func testSameTime() {
         let time = Date()
         let d1 = DateFactory.createDate(at: time, daysFromToday: 5)!
         let d2 = DateFactory.createDate(at: time, daysFromToday: -9)!
-        XCTAssert(PDTest.sameTime(d1, d2))
+        XCTAssert(PDAssert.sameTime(d1, d2))
 
         let d3 = DateFactory.createDate(byAddingMinutes: 12, to: time)!
         let d4 = DateFactory.createDate(byAddingMinutes: -19, to: time)!
-        XCTAssertFalse(PDTest.sameTime(d3, d4))
+        XCTAssertFalse(PDAssert.sameTime(d3, d4))
     }
 }

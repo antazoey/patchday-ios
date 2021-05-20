@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable
 import PDKit
-import PDMock
+import PDTest
 
 class SiteImageDeterminationParametersTests: XCTestCase {
 

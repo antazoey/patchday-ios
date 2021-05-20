@@ -6,7 +6,7 @@
 
 import XCTest
 import PDKit
-import PDMock
+import PDTest
 
 @testable
 import PatchDay
@@ -15,16 +15,83 @@ class SettingsViewModelTests: XCTestCase {
 
     private let dependencies = MockDependencies()
     private let helper = SettingsTestHelper()
-    private var controls: SettingsControls! = nil
+    private let alertFactory = MockAlertFactory()
+
+    private var controls: SettingsControls {
+        helper.createControls()
+    }
+
+    private var reflector: SettingsReflector {
+        SettingsReflector(controls, dependencies)
+    }
+
+    private var saver: SettingsSaver {
+        SettingsSaver(controls, dependencies)
+    }
+
+    private var settings: MockSettings {
+        dependencies.sdk?.settings as! MockSettings
+    }
+
+    func testDeliveryMethodStartIndex_returnsIndexOfSetMethod() {
+        settings.deliveryMethod = DeliveryMethodUD(.Gel)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.deliveryMethodStartIndex
+        let expected = 2
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDeliveryMethodStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.deliveryMethodStartIndex)
+    }
+
+    func testQuantityStartIndex_returnsIndexOfSetQuantity() {
+        settings.quantity = QuantityUD(2)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.quantityStartIndex
+        let expected = 1
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testQuantityStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.quantityStartIndex)
+    }
+
+    func testExpirationIntervalStartIndex_returnsIndexOfSetInterval() {
+        settings.expirationInterval = ExpirationIntervalUD(.EveryTwoWeeks)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.expirationIntervalStartIndex
+        let expectedOption = SettingsOptions.OnceEveryTwoWeeks
+        let expected = SettingsOptions.expirationIntervals.firstIndex(of: expectedOption)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationIntervalStartIndex_whenIsCustomInterval_returnsIndexOfSetInterval() {
+        settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
+        settings.expirationInterval.xDays.rawValue = "6.5"
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.expirationIntervalStartIndex
+        let expectedOption = "Every 6½ Days"
+        let expected = SettingsOptions.expirationIntervals.firstIndex(of: expectedOption)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationIntervalStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.expirationIntervalStartIndex)
+    }
 
     func testActivatePicker_whenPickerIsHidden_selectsActivator() {
-        let controls = helper.createControls()
-        let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSaver(controls, dependencies)
-        let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-
-        let picker = SettingsPickerView()
+        let picker = SettingsPicker()
         picker.isHidden = true
         let activator = UIButton()
         activator.isSelected = false
@@ -34,74 +101,133 @@ class SettingsViewModelTests: XCTestCase {
     }
 
     func testActivatePicker_whenPickerIsVisible_saves() {
-        let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
-        let picker = SettingsPickerView()
+        let picker = SettingsPicker()
         picker.setting = .ExpirationInterval
         picker.isHidden = false
         viewModel.activatePicker(picker)
-        let sdk = dependencies.sdk as! MockSDK
-        let settings = sdk.settings as! MockSettings
-        XCTAssertEqual(SettingsOptions.expirationIntervals[0], settings.setExpirationIntervalCallArgs[0])
+
+        let expected = SettingsOptions.expirationIntervals[0]
+        let actual = settings.setExpirationIntervalCallArgs[0]
+        XCTAssertEqual(expected, actual)
     }
 
-    func testHandleNewNotificationsValue_whenNotificationsIsOff_doesNotMutate() {
-        let controls = helper.createControls()
-        let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSaver(controls, dependencies)
-        let alertFactory = MockAlertFactory()
+    func testHandleNewNotificationsMinutesValue_whenNotificationsIsOff_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(false)
-
-        viewModel.handleNewNotificationsValue(23)
-
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
-    func testHandleNewNotificationsValue_whenNewValueLessThanZero_doesNotMutate() {
-        let controls = helper.createControls()
-        let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSaver(controls, dependencies)
-        let alertFactory = MockAlertFactory()
+    func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-
-        viewModel.handleNewNotificationsValue(-23)
-
-        let settings = dependencies.sdk?.settings as! MockSettings
+        viewModel.handleNewNotificationsMinutesValue(-23.0)
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
-    func testHandleNewNotificationsValue_cancelsAdnResendsAllNotifications() {
-        let controls = helper.createControls()
-        let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSaver(controls, dependencies)
-        let alertFactory = MockAlertFactory()
+    func testHandleNewNotificationsMinutesValue_cancelsAndResendsAllNotifications() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(true)
-
-        viewModel.handleNewNotificationsValue(23)
-
+        viewModel.handleNewNotificationsMinutesValue(23.0)
         let nots = dependencies.notifications as! MockNotifications
         XCTAssertEqual(1, nots.cancelAllExpiredHormoneNotificationsCallCount)
         XCTAssertEqual(1, nots.requestAllExpiredHormoneNotificationCallCount)
     }
 
-    func testHandleNewNotificationsValue_sets() {
-        let controls = helper.createControls()
+    func testHandleNewNotificationsMinutesBeforeValue_whenNilSdk_doesNotCancelOrRequestNotifications() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
+        let nots = deps.notifications as! MockNotifications
+        XCTAssertEqual(0, nots.cancelAllExpiredHormoneNotificationsCallCount)
+        XCTAssertEqual(0, nots.requestAllExpiredHormoneNotificationCallCount)
+    }
+
+    func testHandleNewNotificationsMinutesValue_sets() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.handleNewNotificationsMinutesValue(23.0)
+        XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
+        XCTAssertEqual(23, settings.setNotificationsMinutesBeforeCallArgs[0])
+    }
+
+    func testHandleNewNotificationsMinutesValue_returnsExpectedTitleString() {
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.handleNewNotificationsMinutesValue(23.0)
+        let expected = "23.0"
+        XCTAssertEqual(expected, actual)
+    }
 
-        viewModel.handleNewNotificationsValue(23)
+    func testHandleNewNotificationsMinutesValue_rounds() {
+        let reflector = SettingsReflector(controls, dependencies)
+        let saver = SettingsSaver(controls, dependencies)
+        let alertFactory = MockAlertFactory()
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        let actual = viewModel.handleNewNotificationsMinutesValue(23.232352552)
+        let expected = "23.0"
+        XCTAssertEqual(expected, actual)
+    }
 
-        let settings = dependencies.sdk?.settings as! MockSettings
-        XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
+    func testReflect_callsReflectorReflect() {
+        let mockReflector = MockSettingsReflector()
+        let viewModel = SettingsViewModel(mockReflector, saver, alertFactory, dependencies)
+        viewModel.reflect()
+        XCTAssertEqual(1, mockReflector.reflectCallCount)
+    }
+
+    func testSetNotifications_sets() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(true)
+        viewModel.setNotifications(false)
+        let callArgs = settings.setNotificationsCallArgs
+        XCTAssertEqual(2, callArgs.count)
+        XCTAssertTrue(callArgs[0])
+        XCTAssertFalse(callArgs[1])
+    }
+
+    func testSetNotifications_whenSettingToTrue_requestsAllNotifications() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(true)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(1, requestCallCount)
+        XCTAssertEqual(0, cancelCallCount)
+    }
+
+    func testSetNotifications_whenSettingsToFalse_cancelsAllNotifications() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(false)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(0, requestCallCount)
+        XCTAssertEqual(1, cancelCallCount)
+    }
+
+    func testSetNotifications_whenNotifcationsIsNil_doesNothingWithNotifications() {
+        let deps = MockDependencies()
+        deps.notifications = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        viewModel.setNotifications(false)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(0, requestCallCount)
+        XCTAssertEqual(0, cancelCallCount)
+    }
+
+    func testSetNotifications_whenSettingsToFalse_clearsNotificationsMinutesBefore() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(false)
+        let callArgs = settings.setNotificationsMinutesBeforeCallArgs
+        XCTAssertEqual([0], callArgs)
     }
 }

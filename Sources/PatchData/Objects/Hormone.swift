@@ -36,6 +36,10 @@ public class Hormone: Hormonal {
         set { hormoneData.id = newValue }
     }
 
+    public var xDays: XDaysUD {
+        expirationInterval.xDays
+    }
+
     public var siteId: UUID? {
         get { hormoneData.siteRelationshipId ?? nil }
         set {

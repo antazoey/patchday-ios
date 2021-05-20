@@ -58,37 +58,6 @@ extension UIButton {
     func setTitleColor(_ color: UIColor?) {
         setTitleColor(color, for: .normal)
     }
-
-    func restoreSuffix() -> Int? {
-        if let restoreId = restorationIdentifier {
-            return Int("\(restoreId.suffix(1))")
-        }
-        return -1
-    }
-
-    /// Tries to convert the restoration ID to a PDSetting.
-    /// It must end with either "Button" or "ArrowButton" and it must be a the name of a PDSetting.
-    func tryGetSettingFromButtonMetadata() -> PDSetting? {
-        guard let id = restorationIdentifier else { return nil }
-        guard id.substring(from: id.count - 6) == "Button" else { return nil }
-        var setting = id.substring(to: id.count - 6)
-        if setting.substring(from: setting.count - 5) == "Arrow" {
-            setting = setting.substring(to: setting.count - 5)
-        }
-        return NameToSettingMap[setting.lowercased()]
-    }
-
-    private var NameToSettingMap: [String: PDSetting] {
-        [
-            "deliverymethod": .DeliveryMethod,
-            "expirationinterval": .ExpirationInterval,
-            "quantity": .Quantity,
-            "notifications": .Notifications,
-            "notificationsminutesbefore": .NotificationsMinutesBefore,
-            "mentioneddisclaimer": .MentionedDisclaimer,
-            "siteindex": .SiteIndex
-        ]
-    }
 }
 
 extension CAShapeLayer {

@@ -13,8 +13,8 @@ public class Settings: SettingsManaging {
     private let hormones: HormoneScheduling
     private let sites: SiteScheduling
 
-    /// For Settings logic that requires the use of dependencies, such as the Schedules.
-    /// For all other Settings logic that does not require using dependencies, use the Writer class.
+    /// For settings logic that requires the use of dependencies, such as side effects in schedules.
+    /// For all other settings logic that does not require using dependencies, use `UserDefaultsWriter`.
 
     init(
         writer: UserDefaultsWriting,
@@ -37,19 +37,6 @@ public class Settings: SettingsManaging {
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
 
-    public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
-        switch setting {
-            case .DeliveryMethod: return deliveryMethod.displayableString
-            case .ExpirationInterval: return expirationInterval.displayableString
-            case .Quantity: return quantity.displayableString
-            case .Notifications: return notifications.displayableString
-            case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
-            case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
-            case .SiteIndex: return siteIndex.displayableString
-            case .PillsEnabled: return pillsEnabled.displayableString
-        }
-    }
-
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceStoredDeliveryMethod(to: newMethod)
         sites.reset()
@@ -71,8 +58,12 @@ public class Settings: SettingsManaging {
     }
 
     public func setExpirationInterval(to newInterval: String) {
-        let exp = SettingsOptions.getExpirationInterval(for: newInterval)
-        writer.replaceStoredExpirationInterval(to: exp)
+        let interval = SettingsOptions.getExpirationInterval(for: newInterval)
+        if interval == .EveryXDays {
+            let days = XDaysUD.extract(newInterval)
+            writer.replaceStoredXDays(to: days)
+        }
+        writer.replaceStoredExpirationInterval(to: interval)
     }
 
     @discardableResult

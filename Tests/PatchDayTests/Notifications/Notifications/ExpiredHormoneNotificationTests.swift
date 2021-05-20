@@ -6,7 +6,7 @@
 
 import XCTest
 import PDKit
-import PDMock
+import PDTest
 
 @testable
 import PatchDay
@@ -89,7 +89,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         ExpiredHormoneNotificationTests.testHandlerCallArgs = []
         not.request()
         let actual = ExpiredHormoneNotificationTests.testHandlerCallArgs[0].0
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
         XCTAssertEqual(hormone.id.uuidString, ExpiredHormoneNotificationTests.testHandlerCallArgs[0].1)
     }
 

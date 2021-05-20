@@ -10,8 +10,10 @@ import PDKit
 public class PDUserDefaults: UserDefaultsProtocol {
 
     private let defaults = UserDefaults.standard
+    private let log = PDLog<PDUserDefaults>()
 
     public func set(_ newValue: Any?, for key: String) {
+        log.info("Setting \(key)")
         defaults.set(newValue, forKey: key)
     }
 

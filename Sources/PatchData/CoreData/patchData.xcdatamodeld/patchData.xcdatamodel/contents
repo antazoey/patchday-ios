@@ -4,6 +4,7 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="siteNameBackUp" optional="YES" attributeType="String"/>
+        <attribute name="xDays" optional="YES" attributeType="String"/>
         <relationship name="siteRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="hormoneRelationship" inverseEntity="Site"/>
     </entity>
     <entity name="Pill" representedClassName="MOPill" syncable="YES">
@@ -28,7 +29,7 @@
         <relationship name="hormoneRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Estrogen" inverseName="siteRelationship" inverseEntity="Estrogen"/>
     </entity>
     <elements>
-        <element name="Estrogen" positionX="-36" positionY="54" width="128" height="103"/>
+        <element name="Estrogen" positionX="-36" positionY="54" width="128" height="104"/>
         <element name="Pill" positionX="-27" positionY="63" width="128" height="209"/>
         <element name="Site" positionX="-27" positionY="63" width="128" height="118"/>
     </elements>

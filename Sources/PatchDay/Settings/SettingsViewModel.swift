@@ -7,20 +7,20 @@
 import Foundation
 import PDKit
 
-class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
+class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsViewModelProtocol {
 
-    var reflector: SettingsReflector
+    var reflector: SettingsReflecting
     var saver: SettingsSaver
     var alertFactory: AlertProducing?
 
     convenience init(controls: SettingsControls) {
         let reflector = SettingsReflector(controls)
-        let saver = SettingsSaver(controls)
+        let saver = SettingsSaver(controls: controls)
         self.init(reflector, saver, nil)
     }
 
     init(
-        _ reflector: SettingsReflector,
+        _ reflector: SettingsReflecting,
         _ saver: SettingsSaver,
         _ alertFactory: AlertProducing? = nil
     ) {
@@ -28,13 +28,10 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         self.saver = saver
         self.alertFactory = alertFactory
         super.init()
-        if self.alertFactory == nil, let sdk = sdk {
-            self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
-        }
     }
 
     init(
-        _ reflector: SettingsReflector,
+        _ reflector: SettingsReflecting,
         _ saver: SettingsSaver,
         _ alertFactory: AlertProducing,
         _ dependencies: DependenciesProtocol
@@ -54,37 +51,62 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     }
 
     var deliveryMethodStartIndex: Index {
-        sdk?.settings.deliveryMethod.currentIndex ?? 0
+        sdk?.settings.deliveryMethod.choiceIndex ?? 0
     }
 
     var quantityStartIndex: Index {
-        sdk?.settings.quantity.currentIndex ?? 0
+        sdk?.settings.quantity.choiceIndex ?? 0
     }
 
     var expirationIntervalStartIndex: Index {
-        sdk?.settings.expirationInterval.currentIndex ?? 0
+        sdk?.settings.expirationInterval.choiceIndex ?? 0
     }
 
-    func activatePicker(_ picker: SettingsPickerView) {
+    func activatePicker(_ picker: SettingsPicking) {
         picker.isHidden ? picker.open() : close(picker)
     }
 
-    func handleNewNotificationsValue(_ newValue: Float) {
-        guard let sdk = sdk else { return }
-        guard sdk.settings.notifications.value else { return }
-        guard newValue >= 0 else { return }
+    @discardableResult
+    func handleNewNotificationsMinutesValue(_ newValue: Float) -> String {
+        let newValue = newValue.rounded()
+        let titleString = "\(newValue)"
+        guard let sdk = sdk else { return titleString }
+        guard sdk.settings.notifications.value else { return titleString }
+        guard newValue >= 0 else { return titleString }
         notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(newValue)
-        sdk.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        setNotificationsMinutes(newMinutesBeforeValue)
+        return titleString
+    }
+
+    func reflect() {
+        reflector.reflect()
+    }
+
+    func setNotifications(_ newValue: Bool) {
+        guard let sdk = sdk else { return }
+        sdk.settings.setNotifications(to: newValue)
+        if newValue {
+            notifications?.requestAllExpiredHormoneNotifications()
+        } else {
+            // disabling
+            notifications?.cancelAllExpiredHormoneNotifications()
+            sdk.settings.setNotificationsMinutesBefore(to: 0)
+        }
+    }
+
+    private func setNotificationsMinutes(_ newValue: Int) {
+        guard let sdk = sdk else { return }
+        sdk.settings.setNotificationsMinutesBefore(to: newValue)
         notifications?.requestAllExpiredHormoneNotifications()
     }
 
-    private func close(_ picker: SettingsPickerView) {
-        picker.close()
+    private func close(_ picker: SettingsPicking) {
+        picker.close(setSelectedRow: true)
         guard let setting = picker.setting else { return }
         let row = picker.selectedRow(inComponent: 0)
-        if let factory = alertFactory {
-            saver.save(setting, selectedRow: row, alertFactory: factory)
-        }
+
+        // Replacing value for Setting.
+        saver.save(setting, selectedRow: row)
     }
 }

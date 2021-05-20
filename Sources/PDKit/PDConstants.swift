@@ -8,11 +8,14 @@
 
 import Foundation
 
+/// The 1/2 symbol.
+public let Half: Character = "½"
+
 /// The maximum number of supported hormones in a schedule.
 public let SupportedHormoneUpperQuantityLimit = 4
 
-/// The maximum number of days in a pill expiration interval that supports days.
-public let SupportedPillExpirationIntervalDaysLimit = 25
+/// The maximum number of days in an expiration interval that supports days, including pill expiration intervals.
+public let ExpirationIntervalDaysLastInteger = 25
 
 /// The maximum number of supported pill times for a single pill.
 public let MaxPillTimesaday = 4
@@ -36,6 +39,18 @@ public class Hours {
     }
 }
 
+/// Constants that are days.
+public class Days {
+    /// The number of days in 1/2 of a week.
+    public static let InHalfWeek = 3.5
+
+    /// The number of days that are in a week.
+    public static let InWeek = 7.0
+
+    /// The number of days that are in two weeks.
+    public static let InTwoWeeks = 14.0
+}
+
 /// Default hormone settings.
 public class DefaultSettings {
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
@@ -51,6 +66,9 @@ public class DefaultSettings {
     public static let SiteIndexRawValue = 0
     public static let MaxSupportedNotificationsMinutesBefore = 120
     public static let PillsEnabledRawValue = true
+    public static let XDaysRawValue = "10.0"
+    public static let XDaysRawValueDouble = 10.0
+    public static let XDaysRawValueInt = 10
 }
 
 /// Default properties to assign to pills when they are not given any.

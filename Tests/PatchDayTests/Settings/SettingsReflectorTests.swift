@@ -6,7 +6,7 @@
 
 import XCTest
 import PDKit
-import PDMock
+import PDTest
 
 @testable
 import PatchDay
@@ -31,7 +31,7 @@ class SettingsReflectorTests: XCTestCase {
         SettingsReflector(controls, dependencies).reflect()
 
         XCTAssertEqual(controls.deliveryMethodButton.titleLabel?.text, "Patches")
-        XCTAssertEqual(controls.expirationIntervalButton.titleLabel?.text, "Once weekly")
+        XCTAssertEqual(controls.expirationIntervalButton.titleLabel?.text, "Once Weekly")
         XCTAssertEqual(controls.quantityButton.titleLabel?.text, "3")
         XCTAssertTrue(controls.notificationsSwitch.isOn)
     }
@@ -131,5 +131,15 @@ class SettingsReflectorTests: XCTestCase {
 
         XCTAssertFalse(controls.quantityButton.isEnabled)
         XCTAssertFalse(controls.quantityArrowButton.isEnabled)
+    }
+
+    func testReflect_reflectsExpirationIntervalProperties() {
+        let sdk = dependencies.sdk as! MockSDK
+        let settings = sdk.settings as! MockSettings
+        settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
+        settings.expirationInterval.xDays.rawValue = "5.0"
+        controls = helper.createControls()
+        SettingsReflector(controls, dependencies).reflect()
+        XCTAssertEqual("Every 5 Days", controls.expirationIntervalButton.titleLabel?.text)
     }
 }

@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
+class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsReflecting {
 
     private let controls: SettingsControls
 
@@ -43,8 +43,8 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
     }
 
     private func loadExpirationInterval() {
-        guard let interval = sdk?.settings.expirationInterval.displayableString else { return }
-        controls.expirationIntervalButton.setTitle(interval)
+        guard let interval = sdk?.settings.expirationInterval else { return }
+        controls.expirationIntervalButton.setTitle(interval.displayableString)
     }
 
     private func loadQuantity() {

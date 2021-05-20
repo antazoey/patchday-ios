@@ -90,6 +90,7 @@ public struct HormoneStruct {
     public var siteImageId: SiteName?
     public var date: Date?
     public var siteNameBackUp: String?
+    public var xDays: String?
 
     public init(_ id: UUID) {
         self.siteRelationshipId = nil
@@ -98,6 +99,7 @@ public struct HormoneStruct {
         self.siteImageId = nil
         self.date = nil
         self.siteNameBackUp = nil
+        self.xDays = nil
     }
 
     public init(
@@ -106,7 +108,8 @@ public struct HormoneStruct {
         _ siteName: SiteName?,
         _ siteImageId: SiteName?,
         _ date: Date?,
-        _ siteNameBackUp: String?
+        _ siteNameBackUp: String?,
+        _ xDays: String?
     ) {
         self.id = id
         self.siteRelationshipId = siteRelationshipId
@@ -114,6 +117,7 @@ public struct HormoneStruct {
         self.siteImageId = siteImageId
         self.date = date
         self.siteNameBackUp = siteNameBackUp
+        self.xDays = xDays
     }
 }
 
