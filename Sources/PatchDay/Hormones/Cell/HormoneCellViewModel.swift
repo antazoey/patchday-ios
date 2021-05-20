@@ -29,7 +29,7 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         return nil
     }
 
-    var showHormone: Bool {
+    var shouldShowHormone: Bool {
         hormone != nil
     }
 

@@ -9,7 +9,7 @@ import Foundation
 public protocol HormoneCellViewModelProtocol {
     var cellIndex: Index { get }
     var hormone: Hormonal? { get }
-    var showHormone: Bool { get }
+    var shouldShowHormone: Bool { get }
     var moonIcon: UIIcon? { get }
     var badgeId: String { get }
     var backgroundColor: UIColor { get }

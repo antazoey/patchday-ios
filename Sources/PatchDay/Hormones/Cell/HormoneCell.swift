@@ -47,7 +47,7 @@ class HormoneCell: TableCell, HormoneCellProtocol {
 
     private func reflectHormone(at row: Index) -> HormoneCell {
         guard let viewModel = viewModel else { return self }
-        if viewModel.showHormone {
+        if viewModel.shouldShowHormone {
             attachToModel()
             overnightImageView.image = viewModel.moonIcon
         } else {

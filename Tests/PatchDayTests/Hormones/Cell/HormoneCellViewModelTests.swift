@@ -46,18 +46,18 @@ class HormoneCellViewModelTests: XCTestCase {
         XCTAssertEqual(hormone.id, viewModel.hormone!.id)
     }
 
-    func testShowHormone_whenNoHormoneAtIndex_returnsFalse() {
+    func testShouldShowHormone_whenNoHormoneAtIndex_returnsFalse() {
         let hormones: [Hormonal] = []
         let sdk = getMockSDK(hormones)
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        XCTAssertFalse(viewModel.showHormone)
+        XCTAssertFalse(viewModel.shouldShowHormone)
     }
 
-    func testShowHormone_whenHormoneAtIndex_returnsTrue() {
+    func testShouldShowHormone_whenHormoneAtIndex_returnsTrue() {
         let hormones: [Hormonal] = [MockHormone()]
         let sdk = getMockSDK(hormones)
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        XCTAssert(viewModel.showHormone)
+        XCTAssert(viewModel.shouldShowHormone)
     }
 
     func testMoonIcon_whenNoHormoneIndex_returnsNil() {
