@@ -25,7 +25,7 @@ class HormonesTable: TableViewWrapper<HormoneCell>, HormonesTableProtocol {
     func reflectModel() {
         _cells = []
         guard let sdk = sdk else { return }
-        for row in 0..<SupportedHormoneUpperQuantityLimit {
+        for row in 0..<SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT {
             if let cell = dequeueCell() {
                 let isPad = AppDelegate.isPad
                 let viewModel = HormoneCellViewModel(cellIndex: row, sdk: sdk, isPad: isPad)

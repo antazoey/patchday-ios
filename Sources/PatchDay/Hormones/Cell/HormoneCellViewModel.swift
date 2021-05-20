@@ -16,6 +16,8 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
     private let sdk: PatchDataSDK
     private let isPad: Bool
 
+    var now: PDNow = PDNow()
+
     required init(cellIndex: Index, sdk: PatchDataSDK, isPad: Bool) {
         self.cellIndex = cellIndex
         self.sdk = sdk
@@ -29,7 +31,7 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         return nil
     }
 
-    var showHormone: Bool {
+    var shouldShowHormone: Bool {
         hormone != nil
     }
 
@@ -69,7 +71,7 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         guard let expiration = hormone.expiration else { return nil }
         guard !hormone.date.isDefault() else { return nil }
         let prefix = HormoneStrings.create(hormone).expirationText
-        let dateString = PDDateFormatter.formatDay(expiration)
+        let dateString = HormoneStrings.getExpirationDateText(expiration: expiration, now: now)
         return "\(prefix) \(dateString)"
     }
 

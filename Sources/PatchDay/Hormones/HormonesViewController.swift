@@ -55,7 +55,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        SupportedHormoneUpperQuantityLimit
+        SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

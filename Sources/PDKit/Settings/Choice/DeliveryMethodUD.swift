@@ -17,7 +17,7 @@ public class DeliveryMethodUD: ChoiceSetting<DeliveryMethod, String>, KeyStorabl
     public let setting: PDSetting = .DeliveryMethod
 
     public convenience init() {
-        self.init(DefaultSettings.DeliveryMethodValue)
+        self.init(DefaultSettings.DELIVERY_METHOD_VALUE)
     }
 
     public convenience init(_ value: DeliveryMethod) {

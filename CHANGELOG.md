@@ -11,11 +11,17 @@ Added
 Fixed
 
 - Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
+- Bug where the expiration date text would not update when selecting a date using the Date Picker in the 
+    Hormone Detail View.
+- Bug where the expiration date text would not update when pressing the Autofill button.
 - Clipping issue with time number labels in the Pill Details view.
 - Issue where the save button in the Pill Details View was the wrong color for Dark mode.
 
 Changed
 
+- Hormone Cells now display more verbose expiration dates for dates that are farther away from now.
+- Hormone Cell expiration dates now are prefixed with either "Exp:" or "Next:" rather than what they before
+    ("Expired:", "Expires", etc.) to save screen room for potentially longer dates.
 - Pill Cells now don't display a Last Taken date when the pill was not yet taken that day.
 - You can now save typed Pill name changes without having to close the text field.
 - You can now save typed Site name changes without having to close the text field.

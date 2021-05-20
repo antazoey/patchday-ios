@@ -42,31 +42,52 @@ class HormoneStringsTests: XCTestCase {
     func testCreate_whenGivenExpiredPatch_returnsExpectedStrings() {
         let patch = createPatch(isExpired: true)
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Expired: ", actual.expirationText)
+        XCTAssertEqual("Exp:", actual.expirationText)
     }
 
     func testCreate_whenGivenNonExpiredPatch_returnsExpectedStrings() {
         let patch = createPatch(isExpired: false)
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Expires: ", actual.expirationText)
+        XCTAssertEqual("Exp:", actual.expirationText)
     }
 
     func testCreate_whenGivenPatchThatIsNotExpiredButIsPastNotificationTime_returnsExpectedString() {
         let patch = createHormone(isExpired: false)
         patch.isPastNotificationTime = true
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Expires soon: ", actual.expirationText)
+        XCTAssertEqual("Exp:", actual.expirationText)
     }
 
     func testCreates_whenGivenExpiredInjection_returnsExpectedStrings() {
         let injection = createInjection(isExpired: true)
         let actual = HormoneStrings.create(injection)
-        XCTAssertEqual("Next due: ", actual.expirationText)
+        XCTAssertEqual("Next:", actual.expirationText)
     }
 
     func testCreate_whenGivenNonExpiredInjection_returnsExpectedStrings() {
         let injection = createInjection(isExpired: false)
         let actual = HormoneStrings.create(injection)
-        XCTAssertEqual("Next due: ", actual.expirationText)
+        XCTAssertEqual("Next:", actual.expirationText)
+    }
+
+    func testGetExpirationDateText_whenDateWithinSevenDays_returnsFormattedDay() {
+        let date = Date()
+        let expected = PDDateFormatter.formatDay(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testGetExpirationDateText_whenDateMoreThanSevenDaysAgo_returnsFormattedDate() {
+        let date = DateFactory.createDate(byAddingMonths: -1, to: Date())!
+        let expected = PDDateFormatter.formatDate(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testGetExpirationDateText_whenDateThanSevenDaysAway_returnsFormattedDate() {
+        let date = DateFactory.createDate(byAddingHours: Hours.IN_TWO_WEEKS, to: Date())!
+        let expected = PDDateFormatter.formatDate(date)
+        let actual = HormoneStrings.getExpirationDateText(expiration: date)
+        XCTAssertEqual(expected, actual)
     }
 }

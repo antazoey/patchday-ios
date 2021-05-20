@@ -46,18 +46,18 @@ class HormoneCellViewModelTests: XCTestCase {
         XCTAssertEqual(hormone.id, viewModel.hormone!.id)
     }
 
-    func testShowHormone_whenNoHormoneAtIndex_returnsFalse() {
+    func testShouldShowHormone_whenNoHormoneAtIndex_returnsFalse() {
         let hormones: [Hormonal] = []
         let sdk = getMockSDK(hormones)
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        XCTAssertFalse(viewModel.showHormone)
+        XCTAssertFalse(viewModel.shouldShowHormone)
     }
 
-    func testShowHormone_whenHormoneAtIndex_returnsTrue() {
+    func testShouldShowHormone_whenHormoneAtIndex_returnsTrue() {
         let hormones: [Hormonal] = [MockHormone()]
         let sdk = getMockSDK(hormones)
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        XCTAssert(viewModel.showHormone)
+        XCTAssert(viewModel.shouldShowHormone)
     }
 
     func testMoonIcon_whenNoHormoneIndex_returnsNil() {
@@ -205,7 +205,7 @@ class HormoneCellViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.dateString)
     }
 
-    func testDateString_whenNonExpiredPatchHasValidDates_returnsExpectedDateString() {
+    func testDateString_whenNonExpiredPatchHasValidDatesThatAreWithinAWeek_returnsNonExpiredDayString() {
         let hormone = MockHormone()
         let date = Date()
         let expirationDate = DateFactory.createDate(byAddingHours: 2, to: date)!
@@ -215,12 +215,12 @@ class HormoneCellViewModelTests: XCTestCase {
         hormone.isExpired = false
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Expires:  \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Exp: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
 
-    func testDateString_whenExpiredPatchHasValidDates_returnsExpectedDateString() {
+    func testDateString_whenExpiredPatchHasValidDatesThatAreWithinAWeek_returnsExpiredDayString() {
         let hormone = MockHormone()
         let date = Date()
         let expirationDate = DateFactory.createDate(byAddingHours: -2, to: date)!
@@ -230,12 +230,42 @@ class HormoneCellViewModelTests: XCTestCase {
         hormone.isExpired = true
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Expired:  \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Exp: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
 
-    func testDateString_whenInjectionHasValidDates_returnsExpectedDateString() {
+    func testDateString_whenNonExpiredPatchHasValidDatesThatAreNotWithinAWeek_returnsNonExpiredDateString() {
+        let hormone = MockHormone()
+        let date = Date()
+        let expirationDate = DateFactory.createDate(byAddingHours: -Hours.IN_TWO_WEEKS, to: date)!
+        hormone.expiration = expirationDate
+        hormone.date = date
+        hormone.deliveryMethod = .Patches
+        hormone.isExpired = false
+        let sdk = getMockSDK([hormone])
+        let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
+        let expected = "Exp: \(PDDateFormatter.formatDate(expirationDate))"
+        let actual = viewModel.dateString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDateString_whenExpiredPatchHasValidDatesThatAreNotWithinAWeek_returnsExpiredDateString() {
+        let hormone = MockHormone()
+        let date = Date()
+        let expirationDate = DateFactory.createDate(byAddingHours: Hours.IN_TWO_WEEKS, to: date)!
+        hormone.expiration = expirationDate
+        hormone.date = date
+        hormone.deliveryMethod = .Patches
+        hormone.isExpired = true
+        let sdk = getMockSDK([hormone])
+        let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
+        let expected = "Exp: \(PDDateFormatter.formatDate(expirationDate))"
+        let actual = viewModel.dateString
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDateString_whenInjectionHasValidDates_returnsExpectedDayString() {
         let hormone = MockHormone()
         let date = Date()
         let expirationDate = DateFactory.createDate(byAddingHours: 2, to: date)!
@@ -244,12 +274,12 @@ class HormoneCellViewModelTests: XCTestCase {
         hormone.deliveryMethod = .Injections
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Next due:  \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Next: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
 
-    func testDateString_whenGelHasValidDates_returnsExpectedDateString() {
+    func testDateString_whenGelHasValidDates_returnsExpectedDayString() {
         let hormone = MockHormone()
         let date = Date()
         let expirationDate = DateFactory.createDate(byAddingHours: 2, to: date)!
@@ -258,7 +288,7 @@ class HormoneCellViewModelTests: XCTestCase {
         hormone.deliveryMethod = .Gel
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Next due:  \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Next: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }

@@ -266,7 +266,7 @@ class PillDetailViewModelTests: XCTestCase {
     func testDaysOn_whenNothingSelectedAndPillHasNone_returnsDefault() {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let expected = DefaultPillAttributes.xDaysString
+        let expected = DefaultPillAttributes.XDAYS_STRING
         let actual = viewModel.daysOn
         XCTAssertEqual(expected, actual)
     }
@@ -283,7 +283,7 @@ class PillDetailViewModelTests: XCTestCase {
     func testDaysOff_whenNothingSelectedAndPillHasNone_returnsDefault() {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let expected = DefaultPillAttributes.xDaysString
+        let expected = DefaultPillAttributes.XDAYS_STRING
         let actual = viewModel.daysOff
         XCTAssertEqual(expected, actual)
     }
@@ -737,7 +737,7 @@ class PillDetailViewModelTests: XCTestCase {
         viewModel.setPickerTimes(pickers)
 
         let expected = DateFactory.createTimesFromCommaSeparatedString(
-            DefaultPillAttributes.time, now: now
+            DefaultPillAttributes.TIME, now: now
         )[0]
         XCTAssert(PDAssert.equiv(expected, pickers[0].date))
 
@@ -939,7 +939,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval = PillExpirationInterval(.EveryDay)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectExpirationInterval(4)
-        let defaultDays = DefaultPillAttributes.xDaysInt
+        let defaultDays = DefaultPillAttributes.XDAYS_INT
         XCTAssertEqual(.XDaysOnXDaysOff, viewModel.selections.expirationInterval.value)
         XCTAssertEqual(defaultDays, viewModel.selections.expirationInterval.daysOne)
         XCTAssertEqual(defaultDays, viewModel.selections.expirationInterval.daysOne)

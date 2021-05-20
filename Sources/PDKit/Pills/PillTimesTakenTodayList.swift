@@ -46,7 +46,7 @@ public class PillTimesTakenTodayList {
     /// Append a time to the list and get the resulting time string.
     @discardableResult
     public func combineWith(_ lastTakenTime: Time?) -> String? {
-        guard count < MaxPillTimesaday else { return nil }
+        guard count < MAX_PILL_TIMES_PER_DAY else { return nil }
         guard let lastTaken = lastTakenTime else { return nil }
         let newTimeString = combineTimes(lastTaken)
         setTimeString(newTimeString)

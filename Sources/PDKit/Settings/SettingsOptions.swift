@@ -56,7 +56,7 @@ public class SettingsOptions {
             case Patches: return .Patches
             case deliveryMethods[1]: return .Injections
             case deliveryMethods[2]: return .Gel
-            default: return DefaultSettings.DeliveryMethodValue
+            default: return DefaultSettings.DELIVERY_METHOD_VALUE
         }
     }
 
@@ -119,7 +119,7 @@ public class SettingsOptions {
     }()
 
     private static var xDaysValues: [String] {
-        (1...ExpirationIntervalDaysLastInteger).reduce([]) {
+        (1...EXPIRATION_INTERVAL_DAYS_LAST_INTEGER).reduce([]) {
             $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
         }
     }

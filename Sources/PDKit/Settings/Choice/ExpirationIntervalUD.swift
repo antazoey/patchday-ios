@@ -19,7 +19,7 @@ public class ExpirationIntervalUD: ChoiceSetting<ExpirationInterval, String>, Ke
     public let xDays = XDaysUD()
 
     public convenience init() {
-        self.init(DefaultSettings.ExpirationIntervalValue)
+        self.init(DefaultSettings.EXPIRATION_INTERVAL_VALUE)
     }
 
     public convenience init(_ value: ExpirationInterval) {
@@ -39,16 +39,16 @@ public class ExpirationIntervalUD: ChoiceSetting<ExpirationInterval, String>, Ke
             case ExpirationIntervalUD.OnceWeeklyKey: return .OnceWeekly
             case ExpirationIntervalUD.EveryTwoWeeksKey: return .EveryTwoWeeks
             case ExpirationIntervalUD.EveryXDaysKey: return .EveryXDays
-            default: return DefaultSettings.ExpirationIntervalValue
+            default: return DefaultSettings.EXPIRATION_INTERVAL_VALUE
         }
     }
 
     public var hours: Int {
         switch value {
-            case .OnceDaily: return Hours.InDay
-            case .TwiceWeekly: return Hours.InHalfWeek
-            case .OnceWeekly: return Hours.InWeek
-            case .EveryTwoWeeks: return Hours.InTwoWeeks
+            case .OnceDaily: return Hours.IN_DAY
+            case .TwiceWeekly: return Hours.IN_HALF_WEEK
+            case .OnceWeekly: return Hours.IN_WEEK
+            case .EveryTwoWeeks: return Hours.IN_TWO_WEEKS
             case .EveryXDays: return xDays.hours
         }
     }
@@ -56,9 +56,9 @@ public class ExpirationIntervalUD: ChoiceSetting<ExpirationInterval, String>, Ke
     public var days: Double {
         switch value {
             case .OnceDaily: return 1
-            case .TwiceWeekly: return Days.InHalfWeek
-            case .OnceWeekly: return Days.InWeek
-            case .EveryTwoWeeks: return Days.InTwoWeeks
+            case .TwiceWeekly: return Days.IN_HALF_WEEK
+            case .OnceWeekly: return Days.IN_WEEK
+            case .EveryTwoWeeks: return Days.IN_TWO_WEEKS
             case .EveryXDays: return xDays.days
         }
     }

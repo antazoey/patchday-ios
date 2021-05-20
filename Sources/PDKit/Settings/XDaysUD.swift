@@ -13,7 +13,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
     public var setting: PDSetting = .XDays
 
     public convenience init() {
-        self.init(DefaultSettings.XDaysRawValue)
+        self.init(DefaultSettings.XDAYS_RAW_VALUE)
     }
 
     public convenience init(_ intValue: Int) {
@@ -25,11 +25,11 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
     }
 
     public var days: Double {
-        Double(rawValue) ?? DefaultSettings.XDaysRawValueDouble
+        Double(rawValue) ?? DefaultSettings.XDAYS_DOUBLE
     }
 
     public var hours: Int {
-        let daysDouble = Double(Hours.InDay)
+        let daysDouble = Double(Hours.IN_DAY)
         return Int(daysDouble * days)  // Should always be a whole number.
     }
 
@@ -39,7 +39,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
         let floor = floor(xDaysDecimal)
         let isWholeNumber = floor - xDaysDecimal == 0
         let floorInt = Int(floor)
-        let numDays = isWholeNumber ? "\(floorInt)" : "\(floorInt)\(Half)"
+        let numDays = isWholeNumber ? "\(floorInt)" : "\(floorInt)\(HALF)"
         return NSLocalizedString("Every \(numDays) Days", comment: "Pharmacy definition of Q.D.")
     }
 
@@ -53,7 +53,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
     }
 
     private static func isXDaysString(_ string: String) -> Bool {
-        string.range(of: "((Every) \\d\\d?\(Half)? (Days))", options: .regularExpression) != nil
+        string.range(of: "((Every) \\d\\d?\(HALF)? (Days))", options: .regularExpression) != nil
     }
 
     private static func getDays(from daysString: String) -> Double? {
@@ -62,7 +62,7 @@ public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
         var addHalf = false
 
         // Strip of the 1/2 sign if needed to get whole number
-        if last == Half {
+        if last == HALF {
             daysString.removeLast()
             addHalf = true  // For remembering to add back 0.5 in decimal form
         }

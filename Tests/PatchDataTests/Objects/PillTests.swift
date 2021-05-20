@@ -82,7 +82,7 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval.value = nil
         let pill = createPill(attrs)
         let actual = pill.expirationIntervalSetting
-        let expected = DefaultPillAttributes.expirationInterval
+        let expected = DefaultPillAttributes.EXPIRATION_INTERVAL
         XCTAssertEqual(expected, actual)
     }
 
@@ -202,7 +202,7 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         attrs.notify = nil
         let pill = createPill(attrs)
-        XCTAssertEqual(DefaultPillAttributes.notify, pill.notify)
+        XCTAssertEqual(DefaultPillAttributes.NOTIFY, pill.notify)
     }
 
     func testTimesaday_returnsCountOfTimes() {
@@ -1369,7 +1369,7 @@ public class PillTests: XCTestCase {
         let pill = createPill(PillAttributes())
         XCTAssertEqual(0, pill.timesaday)  // Just to prove it inits to 0
         pill.set(attributes: attrs)
-        let expected = DateFactory.createTimesFromCommaSeparatedString(DefaultPillAttributes.time)
+        let expected = DateFactory.createTimesFromCommaSeparatedString(DefaultPillAttributes.TIME)
         XCTAssertEqual(expected, pill.times)
     }
 

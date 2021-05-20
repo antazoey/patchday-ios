@@ -28,7 +28,7 @@ public class Pill: Swallowable {
     }
 
     public var attributes: PillAttributes {
-        let defaultInterval = DefaultPillAttributes.expirationInterval
+        let defaultInterval = DefaultPillAttributes.EXPIRATION_INTERVAL
         let interval = pillData.attributes.expirationInterval.value ?? defaultInterval
         return PillAttributes(
             name: name,
@@ -50,7 +50,7 @@ public class Pill: Swallowable {
     }
 
     public var expirationIntervalSetting: PillExpirationIntervalSetting {
-        expirationInterval.value ?? DefaultPillAttributes.expirationInterval
+        expirationInterval.value ?? DefaultPillAttributes.EXPIRATION_INTERVAL
     }
 
     public var times: [Time] {
@@ -67,7 +67,7 @@ public class Pill: Swallowable {
     }
 
     public var notify: Bool {
-        get { pillData.attributes.notify ?? DefaultPillAttributes.notify }
+        get { pillData.attributes.notify ?? DefaultPillAttributes.NOTIFY }
         set { pillData.attributes.notify = newValue }
     }
 
@@ -126,7 +126,7 @@ public class Pill: Swallowable {
 
         // Prevent pills with 0 set times
         if timesaday == 0 {
-            let timeString = DefaultPillAttributes.time
+            let timeString = DefaultPillAttributes.TIME
             let defaultTime = DateFactory.createTimesFromCommaSeparatedString(timeString, now: _now)
             self.appendTime(defaultTime[0])
         }

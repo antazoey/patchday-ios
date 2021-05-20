@@ -38,7 +38,7 @@ struct NextHormoneLoader {
     private static var deliveryMethod: DeliveryMethod {
         let key = PDSetting.DeliveryMethod.rawValue
         guard let storedValue = defaults?.string(forKey: key) else {
-            return DefaultSettings.DeliveryMethodValue
+            return DefaultSettings.DELIVERY_METHOD_VALUE
         }
         return DeliveryMethodUD(storedValue).value
     }

@@ -54,6 +54,6 @@ class SiteImageDeterminationParametersTests: XCTestCase {
     func testInit_whenGivenNil_setsToExpectedProperties() {
         let params = SiteImageDeterminationParameters(hormone: nil)
         XCTAssertNil(params.imageId)
-        XCTAssertEqual(DefaultSettings.DeliveryMethodValue, params.deliveryMethod)
+        XCTAssertEqual(DefaultSettings.DELIVERY_METHOD_VALUE, params.deliveryMethod)
     }
 }

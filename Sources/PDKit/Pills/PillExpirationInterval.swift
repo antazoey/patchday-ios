@@ -148,7 +148,7 @@ public class PillExpirationInterval {
         if let xDays = _xDays {
             xDays.startPositioning()
         } else {
-            let def = DefaultPillAttributes.xDaysInt
+            let def = DefaultPillAttributes.XDAYS_INT
             let xDays = PillExpirationIntervalXDays("\(def)-\(def)")
             xDays.startPositioning()
             _xDays = xDays
@@ -163,7 +163,7 @@ public class PillExpirationInterval {
             }
             xDays.incrementDayPosition()
         } else {
-            let days = DefaultPillAttributes.xDaysInt
+            let days = DefaultPillAttributes.XDAYS_INT
 
             // Start at 2 because we are incrementing now.
             let defaultXDays = "\(days)-\(days)-on-2"

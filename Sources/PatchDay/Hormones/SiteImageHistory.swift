@@ -54,7 +54,7 @@ class SiteImageHistory: SiteImageHistorical {
 
     private var recorders: [SiteImageRecorder]
 
-    init(_ upperLimit: Int = SupportedHormoneUpperQuantityLimit) {
+    init(_ upperLimit: Int = SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT) {
         recorders = []
         for i in 0..<upperLimit {
             recorders.append(SiteImageRecorder(i))

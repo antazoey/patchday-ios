@@ -144,7 +144,7 @@ class EntityAdapter {
     }
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
-        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        let defaultInterval = DefaultPillAttributes.EXPIRATION_INTERVAL.rawValue
         let intervalString = pill.expirationInterval ?? defaultInterval
         let interval = PillExpirationIntervalSetting(rawValue: intervalString)
         return PillAttributes(

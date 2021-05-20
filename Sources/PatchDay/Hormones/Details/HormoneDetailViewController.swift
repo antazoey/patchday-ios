@@ -227,6 +227,7 @@ class HormoneDetailViewController: UIViewController,
 
     @objc func selectDateFromPicker() {
         viewModel.dateSelected = datePicker.date
+        expirationDateLabel.text = viewModel.expirationDateText
         saveButton.isEnabled = true
     }
 
@@ -287,6 +288,7 @@ class HormoneDetailViewController: UIViewController,
 
     private func autoSetDate() {
         datePicker.date = viewModel.autoPickedDate
+        expirationDateLabel.text = viewModel.expirationDateText
     }
 
     private func handleSenderType(

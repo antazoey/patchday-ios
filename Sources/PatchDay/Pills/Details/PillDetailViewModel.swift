@@ -90,14 +90,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard let pill = pill else { return "" }
         return selections.expirationInterval.daysOn
             ?? pill.expirationInterval.daysOn
-            ?? DefaultPillAttributes.xDaysString
+            ?? DefaultPillAttributes.XDAYS_STRING
     }
 
     var daysOff: String {
         guard let pill = pill else { return "" }
         return selections.expirationInterval.daysOff
             ?? pill.expirationInterval.daysOff
-            ?? DefaultPillAttributes.xDaysString
+            ?? DefaultPillAttributes.XDAYS_STRING
     }
 
     var daysOptions: [String] {
@@ -174,7 +174,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
         } else {
             return DateFactory.createTimesFromCommaSeparatedString(
-                DefaultPillAttributes.time, now: now
+                DefaultPillAttributes.TIME, now: now
             )
         }
     }
@@ -187,7 +187,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func setTimesaday(_ timesaday: Int) {
-        guard timesaday <= MaxPillTimesaday else { return }
+        guard timesaday <= MAX_PILL_TIMES_PER_DAY else { return }
         guard timesaday > 0 else { return }
         guard timesaday != self.timesaday else { return }
         var timesCopy = times
@@ -254,7 +254,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func selectExpirationInterval(_ row: Index) {
         guard pill != nil else { return }
         let rowString = expirationIntervalOptions.tryGet(at: row) ?? PillStrings.Intervals.all[0]
-        let defaultInterval = DefaultPillAttributes.expirationInterval
+        let defaultInterval = DefaultPillAttributes.EXPIRATION_INTERVAL
         let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
         selections.expirationInterval.value = interval
 
@@ -315,14 +315,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard let pill = pill else { return 0 }
         return selections.expirationInterval.daysOne
             ?? pill.expirationInterval.daysOne
-            ?? DefaultPillAttributes.xDaysInt
+            ?? DefaultPillAttributes.XDAYS_INT
     }
 
     private var daysTwo: Int {
         guard let pill = pill else { return 0 }
         return selections.expirationInterval.daysTwo
             ?? pill.expirationInterval.daysTwo
-            ?? DefaultPillAttributes.xDaysInt
+            ?? DefaultPillAttributes.XDAYS_INT
     }
 
     private var daysIsOn: Bool {
