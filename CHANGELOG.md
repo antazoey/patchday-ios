@@ -1,6 +1,12 @@
 # Changelog
 
-## 3.5.0 (Unreleased)
+# Unreleased
+
+Fixed
+
+- A bug where a portion of the notification minutes slider in the Settings View was not honoring dark mode.
+
+## 3.5.0
 
 Added
 
