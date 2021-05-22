@@ -33,13 +33,14 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
         loadDeliveryMethod()
         loadExpirationInterval()
         loadQuantity()
+        loadUseStaticExpirationTime()
         loadNotifications()
         loadNotificationsMinutesBefore()
     }
 
     private func loadDeliveryMethod() {
-        guard let method = sdk?.settings.deliveryMethod.rawValue else { return }
-        controls.deliveryMethodButton.setTitle(method)
+        guard let sdk = sdk else { return }
+        controls.deliveryMethodButton.setTitle(sdk.settings.deliveryMethod.rawValue)
     }
 
     private func loadExpirationInterval() {
@@ -59,13 +60,20 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
         controls.reflect(method: method)
     }
 
+    private func loadUseStaticExpirationTime() {
+        guard let sdk = sdk else { return }
+        let useStaticExpirationTime = sdk.settings.useStaticExpirationTime.value
+        controls.useStaticExpirationTimeSwitch.setOn(useStaticExpirationTime)
+    }
+
     private func loadNotifications() {
-        guard let notifications = sdk?.settings.notifications.value else { return }
-        controls.notificationsSwitch.setOn(notifications)
+        guard let sdk = sdk else { return }
+        controls.notificationsSwitch.setOn(sdk.settings.notifications.value)
     }
 
     private func loadNotificationsMinutesBefore() {
-        guard let minutesBefore = sdk?.settings.notificationsMinutesBefore.value else { return }
+        guard let sdk = sdk else { return }
+        let minutesBefore = sdk.settings.notificationsMinutesBefore.value
         controls.notificationsMinutesBeforeSlider.maximumValue = Float(
             DefaultSettings.MAX_SUPPORTED_NOTIFICATIONS_MINUTES_BEFORE
         )

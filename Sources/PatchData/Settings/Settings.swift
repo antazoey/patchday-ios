@@ -36,6 +36,7 @@ public class Settings: SettingsManaging {
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
+    public var useStaticExpirationTime: UseStaticExpirationTimeUD { writer.useStaticExpirationTime }
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceDeliveryMethod(to: newMethod)

@@ -28,6 +28,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodStack: UIStackView!
     @IBOutlet private weak var expirationIntervalStack: UIStackView!
     @IBOutlet private weak var quantityStack: UIStackView!
+    @IBOutlet weak var useStaticExpirationTimeStack: UIStackView!
     @IBOutlet private weak var notificationsStack: UIStackView!
     @IBOutlet private weak var notificationsMinutesBeforeStack: UIStackView!
 
@@ -59,6 +60,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeIcon: UIImageView!
 
     // Other Controls
+    @IBOutlet weak var useStaticExpirationTimeSwitch: UISwitch!
     @IBOutlet private weak var notificationsSwitch: UISwitch!
     @IBOutlet private weak var notificationsMinutesBeforeSlider: UISlider!
 
@@ -107,7 +109,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             expirationIntervalButton: expirationIntervalButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsMinutesBeforeSlider,
-            notificationsMinutesBeforeValueLabel: notificationsMinutesBeforeValueLabel
+            notificationsMinutesBeforeValueLabel: notificationsMinutesBeforeValueLabel,
+            useStaticExpirationTimeSwitch: useStaticExpirationTimeSwitch
         )
     }
 
@@ -136,6 +139,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBAction func settingButtonTapped(_ sender: SettingsPickerActivator) {
         guard let setting = sender.getSettingFromButtonRestorationId() else { return }
         handlePickerActivation(setting)
+    }
+
+    @IBAction func useStaticExpirationTimeSwitched(_ sender: Any) {
+        viewModel?.setUseStaticExpirationTime(useStaticExpirationTimeSwitch.isOn)
     }
 
     @IBAction func notificationsSwitched(_ sender: Any) {

@@ -31,4 +31,7 @@ public protocol UserDefaultsReading {
 
     /// Whether pills are enabled.
     var pillsEnabled: PillsEnabledUD { get }
+
+    /// Whether to use a consistent expiration time or to keep it dynamic.
+    var useStaticExpirationTime: UseStaticExpirationTimeUD { get }
 }

@@ -83,6 +83,11 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         reflector.reflect()
     }
 
+    func setUseStaticExpirationTime(_ newValue: Bool) {
+        guard let sdk = sdk else { return }
+        sdk.settings.setUseStaticExpirationTime(to: newValue)
+    }
+
     func setNotifications(_ newValue: Bool) {
         guard let sdk = sdk else { return }
         sdk.settings.setNotifications(to: newValue)
