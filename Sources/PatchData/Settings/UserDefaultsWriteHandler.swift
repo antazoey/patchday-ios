@@ -28,9 +28,9 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
         base.set(newValue, for: v.setting.rawValue)
     }
 
-    public func load<T>(setting: PDSetting, defaultValue: T) -> T {
+    public func load<T>(_ setting: PDSetting) -> T? {
         let s1 = dataSharer.object(for: setting.rawValue) as? T
         let s2 = base.object(for: setting.rawValue) as? T
-        return s1 ?? s2 ?? defaultValue
+        return s1 ?? s2
     }
 }

@@ -18,57 +18,53 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var deliveryMethod: DeliveryMethodUD {
-        let def = DefaultSettings.DELIVERY_METHOD_RAW_VALUE
-        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
-        return DeliveryMethodUD(deliveryMethod)
+        let defaultValue = DefaultSettings.DELIVERY_METHOD_RAW_VALUE
+        let deliveryMethod: String? = handler.load(.DeliveryMethod)
+        return DeliveryMethodUD(deliveryMethod ?? defaultValue)
     }
 
     public var expirationInterval: ExpirationIntervalUD {
-        let defaultInterval = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
-        let expirationInterval = handler.load(
-            setting: .ExpirationInterval, defaultValue: defaultInterval
-        )
-        let expirationIntervalUserDefault = ExpirationIntervalUD(expirationInterval)
-        expirationIntervalUserDefault.xDays.rawValue = getXDays(expirationIntervalUserDefault)
-        return expirationIntervalUserDefault
+        let defaultValue = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
+        let value: String? = handler.load(.ExpirationInterval)
+        let expirationInterval = ExpirationIntervalUD(value ?? defaultValue)
+        expirationInterval.xDays.rawValue = getXDays(expirationInterval)
+        return expirationInterval
     }
 
     public var quantity: QuantityUD {
-        let def = DefaultSettings.QUANTITY_RAW_VALUE
-        let quantity = handler.load(setting: .Quantity, defaultValue: def)
-        return QuantityUD(quantity)
+        let defaultQuantity = DefaultSettings.QUANTITY_RAW_VALUE
+        let quantity: Int? = handler.load(.Quantity)
+        return QuantityUD(quantity ?? defaultQuantity)
     }
 
     public var notifications: NotificationsUD {
-        let def = DefaultSettings.NOTIFICATIONS_RAW_VALUE
-        let notifications = handler.load(setting: .Notifications, defaultValue: def)
-        return NotificationsUD(notifications)
+        let defaultValue = DefaultSettings.NOTIFICATIONS_RAW_VALUE
+        let value: Bool? = handler.load(.Notifications)
+        return NotificationsUD(value ?? defaultValue)
     }
 
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
-        let def = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-        let notificationsMinutesBefore = handler.load(
-            setting: .NotificationsMinutesBefore, defaultValue: def
-        )
-        return NotificationsMinutesBeforeUD(notificationsMinutesBefore)
+        let defaultValue = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
+        let value: Int? = handler.load(.NotificationsMinutesBefore)
+        return NotificationsMinutesBeforeUD(value ?? defaultValue)
     }
 
     public var mentionedDisclaimer: MentionedDisclaimerUD {
-        let def = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
-        let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
-        return MentionedDisclaimerUD(mentionedDisclaimer)
+        let defaultValue = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
+        let value: Bool? = handler.load(.MentionedDisclaimer)
+        return MentionedDisclaimerUD(value ?? defaultValue)
     }
 
     public var siteIndex: SiteIndexUD {
-        let def = DefaultSettings.SITE_INDEX_RAW_VALUE
-        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
-        return SiteIndexUD(siteIndex)
+        let defaultValue = DefaultSettings.SITE_INDEX_RAW_VALUE
+        let value: Int? = handler.load(.SiteIndex)
+        return SiteIndexUD(value ?? defaultValue)
     }
 
     public var pillsEnabled: PillsEnabledUD {
-        let def = DefaultSettings.PILLS_ENABLED_RAW_VALUE
-        let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
-        return PillsEnabledUD(pillsEnabled)
+        let defaultValue = DefaultSettings.PILLS_ENABLED_RAW_VALUE
+        let value: Bool? = handler.load(.PillsEnabled)
+        return PillsEnabledUD(value ?? defaultValue)
     }
 
     public func reset(defaultSiteCount: Int = 4) {
@@ -154,8 +150,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 
     private func getXDays(_ expirationInterval: ExpirationIntervalUD) -> String {
         let defaultXDays = "\(expirationInterval.days)"
-        return expirationInterval.value == .EveryXDays
-            ? handler.load(setting: .XDays, defaultValue: defaultXDays)
-            : defaultXDays
+        let value = handler.load(.XDays) ?? defaultXDays
+        return expirationInterval.value == .EveryXDays ? value : defaultXDays
     }
 }
