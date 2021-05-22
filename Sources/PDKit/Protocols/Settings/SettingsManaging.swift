@@ -30,7 +30,10 @@ public protocol SettingsManaging: UserDefaultsReading {
     func setPillsEnabled(to newValue: Bool)
 
     /// Set the current site index.
-    @discardableResult func setSiteIndex(to newIndex: Index) -> Index
+    @discardableResult func setSiteIndex(to newValue: Index) -> Index
+
+    /// Set the current value for the `useStaticExpirationTime` setting.
+    func setUseStaticExpirationTime(to newValue: Bool)
 
     /// Reset all settings to their default values.
     func reset(defaultSiteCount: Int)

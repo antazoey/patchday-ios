@@ -119,6 +119,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         handler.replace(pillsEnabled, to: newValue)
     }
 
+    public func replaceUseStaticExpirationTime(to newValue: Bool) {
+        handler.replace(useStaticExpirationTime, to: newValue)
+    }
+
     @discardableResult
     public func replaceSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()

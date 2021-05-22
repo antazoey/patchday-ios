@@ -43,4 +43,7 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
 
     /// Replace the value that indicates whether pills are activated.
     func replacePillsEnabled(to newValue: Bool)
+
+    /// Replace the value that indicates to use static expiration times instead of dynamic.
+    func replaceUseStaticExpirationTime(to newValue: Bool)
 }

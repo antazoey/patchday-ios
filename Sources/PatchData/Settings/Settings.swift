@@ -87,6 +87,10 @@ public class Settings: SettingsManaging {
         writer.replacePillsEnabled(to: newValue)
     }
 
+    public func setUseStaticExpirationTime(to newValue: Bool) {
+        writer.replaceUseStaticExpirationTime(to: newValue)
+    }
+
     public func reset(defaultSiteCount: Int) {
         writer.reset(defaultSiteCount: defaultSiteCount)
     }
