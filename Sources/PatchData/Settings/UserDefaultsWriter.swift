@@ -67,6 +67,12 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         return PillsEnabledUD(value ?? defaultValue)
     }
 
+    public var useStaticExpirationTime: UseStaticExpirationTimeUD {
+        let defaultValue = DefaultSettings.USE_STATIC_EXPIRATION_TIME
+        let value: Bool? = handler.load(.UseStaticExpirationTime)
+        return UseStaticExpirationTimeUD(value ?? defaultValue)
+    }
+
     public func reset(defaultSiteCount: Int = 4) {
         replaceStoredDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
         replaceStoredExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)

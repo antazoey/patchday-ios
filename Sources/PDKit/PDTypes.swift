@@ -52,12 +52,13 @@ public enum PillExpirationIntervalSetting: String {
 public enum PDSetting: String {
     case DeliveryMethod = "delivMethod"
     case ExpirationInterval = "patchChangeInterval"
-    case Quantity = "numberOfPatches"
+    case MentionedDisclaimer = "mentioned"
     case Notifications = "notification"
     case NotificationsMinutesBefore = "remindMeUpon"
-    case MentionedDisclaimer = "mentioned"
-    case SiteIndex = "site_i"
     case PillsEnabled = "pillsEnabled"
+    case Quantity = "numberOfPatches"
+    case SiteIndex = "site_i"
+    case UseStaticExpirationTime = "doStaticExpTime"
     case XDays = "expIntXDays"
 }
 
