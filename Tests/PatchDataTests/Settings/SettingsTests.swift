@@ -23,7 +23,7 @@ class SettingsTests: XCTestCase {
     func testSetDeliveryMethod_replacesMethod() {
         let settings = createSettings() // Defaults to Patches
         settings.setDeliveryMethod(to: .Injections)
-        let actual = mockSettingsWriter.replaceStoredDeliveryMethodCallArgs[0]
+        let actual = mockSettingsWriter.replaceDeliveryMethodCallArgs[0]
         XCTAssertEqual(.Injections, actual)
     }
 
@@ -48,7 +48,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Patches)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -61,7 +61,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Injections)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -74,7 +74,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Gel)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -116,7 +116,7 @@ class SettingsTests: XCTestCase {
         settings.setExpirationInterval(to: SettingsOptions.OnceDaily)
         settings.setExpirationInterval(to: SettingsOptions.OnceWeekly)
 
-        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
+        let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
         XCTAssertEqual(3, callArgs.count)
         XCTAssertEqual(.EveryTwoWeeks, callArgs[0])
         XCTAssertEqual(.OnceDaily, callArgs[1])
@@ -126,7 +126,7 @@ class SettingsTests: XCTestCase {
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedInterval() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4.5 Days")
-        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
+        let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(.EveryXDays, callArgs[0])
     }
@@ -134,7 +134,7 @@ class SettingsTests: XCTestCase {
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual("4.5", callArgs[0])
     }
@@ -142,7 +142,7 @@ class SettingsTests: XCTestCase {
     func testSetExpirationInterval_whenSettingACustomIntervalWithAHalfMark_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual("4.5", callArgs[0])
     }
@@ -150,7 +150,7 @@ class SettingsTests: XCTestCase {
     func testSetExpirationInterval_whenSettingACustomIntervalWithDoubleDigitDays_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 14 Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual("14.0", callArgs[0])
     }
@@ -158,7 +158,7 @@ class SettingsTests: XCTestCase {
     func testSetSiteIndex_setsSiteIndex() {
         let settings = createSettings()
         settings.setSiteIndex(to: 3)
-        let callArgs = mockSettingsWriter.replaceStoredSiteIndexCallArgs
+        let callArgs = mockSettingsWriter.replaceSiteIndexCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(3, callArgs[0])
     }
@@ -166,7 +166,7 @@ class SettingsTests: XCTestCase {
     func testSetNotifications_setsNotifications() {
         let settings = createSettings()
         settings.setNotifications(to: false)
-        let callArgs = mockSettingsWriter.replaceStoredNotificationsCallArgs
+        let callArgs = mockSettingsWriter.replaceNotificationsCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(false, callArgs[0])
     }
@@ -174,7 +174,7 @@ class SettingsTests: XCTestCase {
     func testSetNotificationsMinutesBefore_setsNotificationsMinutesBefore() {
         let settings = createSettings()
         settings.setNotificationsMinutesBefore(to: 32)
-        let callArgs = mockSettingsWriter.replaceStoredNotificationsMinutesBeforeCallArgs
+        let callArgs = mockSettingsWriter.replaceNotificationsMinutesBeforeCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(32, callArgs[0])
     }
@@ -182,7 +182,7 @@ class SettingsTests: XCTestCase {
     func testSetMentionedDisclaimer_setsMentionedDisclaimer() {
         let settings = createSettings()
         settings.setMentionedDisclaimer(to: true)
-        let callArgs = mockSettingsWriter.replaceStoredMentionedDisclaimerCallArgs
+        let callArgs = mockSettingsWriter.replaceMentionedDisclaimerCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(true, callArgs[0])
     }
@@ -190,7 +190,7 @@ class SettingsTests: XCTestCase {
     func testSetPillsEnabled_setsPillsEnabled() {
         let settings = createSettings()
         settings.setPillsEnabled(to: false)
-        let callArgs = mockSettingsWriter.replaceStoredPillsEnabledCallArgs
+        let callArgs = mockSettingsWriter.replacePillsEnabledCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(false, callArgs[0])
     }

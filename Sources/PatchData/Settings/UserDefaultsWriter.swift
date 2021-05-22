@@ -74,53 +74,53 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public func reset(defaultSiteCount: Int = 4) {
-        replaceStoredDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
-        replaceStoredExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)
-        replaceStoredQuantity(to: DefaultSettings.QUANTITY_RAW_VALUE)
-        replaceStoredNotifications(to: DefaultSettings.NOTIFICATIONS_RAW_VALUE)
-        replaceStoredNotificationsMinutesBefore(
+        replaceDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
+        replaceExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)
+        replaceQuantity(to: DefaultSettings.QUANTITY_RAW_VALUE)
+        replaceNotifications(to: DefaultSettings.NOTIFICATIONS_RAW_VALUE)
+        replaceNotificationsMinutesBefore(
             to: DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
         )
-        replaceStoredMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
-        replaceStoredSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
+        replaceMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
+        replaceSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
     }
 
-    public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
+    public func replaceDeliveryMethod(to newValue: DeliveryMethod) {
         let rawValue = DeliveryMethodUD.getRawValue(for: newValue)
         handler.replace(deliveryMethod, to: rawValue)
     }
 
-    @objc public func replaceStoredQuantity(to newValue: Int) {
+    @objc public func replaceQuantity(to newValue: Int) {
         handler.replace(quantity, to: newValue)
     }
 
-    public func replaceStoredExpirationInterval(to newValue: ExpirationInterval) {
+    public func replaceExpirationInterval(to newValue: ExpirationInterval) {
         let rawValue = ExpirationIntervalUD.getRawValue(for: newValue)
         handler.replace(expirationInterval, to: rawValue)
     }
 
-    public func replaceStoredXDays(to newValue: String) {
+    public func replaceXDays(to newValue: String) {
         handler.replace(expirationInterval.xDays, to: newValue)
     }
 
-    public func replaceStoredNotifications(to newValue: Bool) {
+    public func replaceNotifications(to newValue: Bool) {
         handler.replace(notifications, to: newValue)
     }
 
-    public func replaceStoredNotificationsMinutesBefore(to newValue: Int) {
+    public func replaceNotificationsMinutesBefore(to newValue: Int) {
         handler.replace(notificationsMinutesBefore, to: newValue)
     }
 
-    public func replaceStoredMentionedDisclaimer(to newValue: Bool) {
+    public func replaceMentionedDisclaimer(to newValue: Bool) {
         handler.replace(mentionedDisclaimer, to: newValue)
     }
 
-    public func replaceStoredPillsEnabled(to newValue: Bool) {
+    public func replacePillsEnabled(to newValue: Bool) {
         handler.replace(pillsEnabled, to: newValue)
     }
 
     @discardableResult
-    public func replaceStoredSiteIndex(to newValue: Index) -> Index {
+    public func replaceSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()
         if storedSites.count == 0 || newValue >= storedSites.count || newValue < 0 {
             handler.replace(siteIndex, to: 0)
@@ -148,10 +148,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
             handler.replace(siteIndex, to: 0)
             return 0
         } else if !(0..<siteCount ~= currentIndex) {
-            return replaceStoredSiteIndex(to: 0)
+            return replaceSiteIndex(to: 0)
         }
         let incrementedIndex = currentIndex + 1
-        return replaceStoredSiteIndex(to: incrementedIndex)
+        return replaceSiteIndex(to: incrementedIndex)
     }
 
     private func getXDays(_ expirationInterval: ExpirationIntervalUD) -> String {

@@ -47,7 +47,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             // If the current siteIndex is not actually pointing to the correct 'suggested',
             // fix it here before giving the correct suggested site.
             if shouldBeSuggestedSite.id != suggestedSite?.id {
-                settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
+                settings.replaceSiteIndex(to: shouldBeSuggestedSite.order)
             }
             return shouldBeSuggestedSite
         }
