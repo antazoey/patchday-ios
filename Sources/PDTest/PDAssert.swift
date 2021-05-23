@@ -61,7 +61,7 @@ public func PDAssertSameTime(
     XCTAssertTrue(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
-/// Asserts that two dates do nit have the same hours, minutes, and seconds.
+/// Asserts that two dates do not have the same hours, minutes, and seconds.
 public func PDAssertDifferentTime(
     _ expected: Time, _ actual: Time, file: StaticString = #filePath, line: UInt = #line
 ) {
