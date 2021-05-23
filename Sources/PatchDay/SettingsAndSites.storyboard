@@ -231,7 +231,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Svj-qQ-vgv">
                                                 <rect key="frame" x="0.0" y="369" width="359" height="50"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notify Icon" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-9J-fMN">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lock" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-9J-fMN">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
                                                         <color key="tintColor" name="Text"/>
                                                         <constraints>
@@ -532,6 +532,7 @@
                         <outlet property="scrollView" destination="Q1X-on-Iny" id="tv8-iH-JfS"/>
                         <outlet property="settingsStack" destination="kgF-Vl-aPW" id="Lez-Zg-QGN"/>
                         <outlet property="settingsView" destination="fVr-dg-9JY" id="iOO-FV-94v"/>
+                        <outlet property="staticExpirationTimeIcon" destination="VKs-9J-fMN" id="Ker-SB-UtA"/>
                         <outlet property="topConstraint" destination="hNz-xM-aAM" id="tIs-ak-Vph"/>
                         <outlet property="useStaticExpirationTimeStack" destination="Svj-qQ-vgv" id="d6j-pR-Nb5"/>
                         <outlet property="useStaticExpirationTimeSwitch" destination="PMn-kW-7e9" id="anf-ml-IyX"/>
@@ -850,6 +851,7 @@
     <resources>
         <image name="Calendar Icon" width="50" height="50"/>
         <image name="Delivery Icon" width="50" height="50"/>
+        <image name="Lock" width="50" height="50"/>
         <image name="Notify Icon" width="50" height="50"/>
         <image name="Quantity Icon" width="50" height="50"/>
         <image name="Time Icon" width="50" height="50"/>

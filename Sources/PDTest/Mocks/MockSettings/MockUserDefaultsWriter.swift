@@ -8,20 +8,15 @@ import PDKit
 
 public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
-    public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DELIVERY_METHOD_RAW_VALUE)
-    public var expirationInterval = ExpirationIntervalUD(
-        DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
-    )
-    public var quantity = QuantityUD(DefaultSettings.QUANTITY_RAW_VALUE)
-    public var notifications = NotificationsUD(DefaultSettings.NOTIFICATIONS_RAW_VALUE)
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(
-        DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-    )
-    public var mentionedDisclaimer = MentionedDisclaimerUD(
-        DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
-    )
-    public var siteIndex = SiteIndexUD(DefaultSettings.SITE_INDEX_RAW_VALUE)
-    public var pillsEnabled = PillsEnabledUD(DefaultSettings.PILLS_ENABLED_RAW_VALUE)
+    public var deliveryMethod = DeliveryMethodUD()
+    public var expirationInterval = ExpirationIntervalUD()
+    public var quantity = QuantityUD()
+    public var notifications = NotificationsUD()
+    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD()
+    public var mentionedDisclaimer = MentionedDisclaimerUD()
+    public var siteIndex = SiteIndexUD()
+    public var pillsEnabled = PillsEnabledUD()
+    public var useStaticExpirationTime = UseStaticExpirationTimeUD()
 
     public init() { }
 
@@ -97,5 +92,10 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     public var replacePillsEnabledCallArgs: [Bool] = []
     public func replacePillsEnabled(to newValue: Bool) {
         replacePillsEnabledCallArgs.append(newValue)
+    }
+
+    public var replaceUseStaticExpirationTimeCallArgs: [Bool] = []
+    public func replaceUseStaticExpirationTime(to newValue: Bool) {
+        replaceUseStaticExpirationTimeCallArgs.append(newValue)
     }
 }

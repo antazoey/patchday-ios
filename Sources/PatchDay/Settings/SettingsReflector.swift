@@ -79,10 +79,11 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
         )
         if controls.notificationsSwitch.isOn {
             controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)
-            controls.notificationsMinutesBeforeValueLabel.text = String(minutesBefore)
+            controls.notificationsMinutesBeforeValueLabel.text = "\(minutesBefore)"
             controls.notificationsMinutesBeforeValueLabel.textColor = PDColors[.Text]
         } else {
             controls.notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
+            controls.notificationsMinutesBeforeValueLabel.text = "0"
         }
     }
 }

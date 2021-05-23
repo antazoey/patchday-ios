@@ -77,7 +77,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         hormone.date = Date()
         hormone.expirationInterval = ExpirationIntervalUD()
         let notifyMin = Double(30)
-        let not = ExpiredHormoneNotification(
+        let notification = ExpiredHormoneNotification(
             hormone: hormone,
             notifyMinutes: notifyMin,
             currentBadgeValue: 0,
@@ -87,10 +87,12 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         let date = hormone.date
         let expected = DateFactory.createTimeInterval(fromAddingHours: hours, to: date)! - 30 * 60
         ExpiredHormoneNotificationTests.testHandlerCallArgs = []
-        not.request()
+        notification.request()
         let actual = ExpiredHormoneNotificationTests.testHandlerCallArgs[0].0
-        XCTAssert(PDAssert.equiv(expected, actual))
-        XCTAssertEqual(hormone.id.uuidString, ExpiredHormoneNotificationTests.testHandlerCallArgs[0].1)
+        PDAssertEquiv(expected, actual)
+        XCTAssertEqual(
+            hormone.id.uuidString, ExpiredHormoneNotificationTests.testHandlerCallArgs[0].1
+        )
     }
 
     func testRequest_whenHormoneHasNoDate_doesNotRequest() {

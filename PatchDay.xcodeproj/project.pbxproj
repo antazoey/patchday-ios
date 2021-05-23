@@ -123,6 +123,8 @@
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
 		9D5EF4252655EAF300F562A8 /* SettingPickerActivator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF4242655EAF300F562A8 /* SettingPickerActivator.swift */; };
 		9D5EF4282655ED7E00F562A8 /* SettingsPickerActivatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF4262655ED7000F562A8 /* SettingsPickerActivatorTests.swift */; };
+		9D5EF42B265AD1FF00F562A8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; };
+		9D5EF42C265AD1FF00F562A8 /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */; };
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
@@ -463,6 +465,17 @@
 			files = (
 				B49A4A5420DB2D4C00F24FC0 /* PDKit.framework in Embed Frameworks */,
 				B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D5EF42D265AD1FF00F562A8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D5EF42C265AD1FF00F562A8 /* XCTest.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -867,6 +880,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D6E9B2B245DB2ED003BBCC9 /* PDKit.framework in Frameworks */,
+				9D5EF42B265AD1FF00F562A8 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2225,6 +2239,7 @@
 				9D8A980D23C573B3004E20FE /* Sources */,
 				9D8A980E23C573B3004E20FE /* Frameworks */,
 				9D8A980F23C573B3004E20FE /* Resources */,
+				9D5EF42D265AD1FF00F562A8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

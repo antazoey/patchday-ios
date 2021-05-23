@@ -739,8 +739,7 @@ class PillDetailViewModelTests: XCTestCase {
         let expected = DateFactory.createTimesFromCommaSeparatedString(
             DefaultPillAttributes.TIME, now: now
         )[0]
-        XCTAssert(PDAssert.equiv(expected, pickers[0].date))
-
+        PDAssertEquiv(expected, pickers[0].date)
     }
 
     func testSave_resetsPillAttributes() {

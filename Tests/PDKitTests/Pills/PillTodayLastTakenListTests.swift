@@ -44,8 +44,8 @@ class PillLastTakenListTests: XCTestCase {
             return
         }
 
-        XCTAssert(isTimeOne(actual[0]))
-        XCTAssert(isTimeTwo(actual[1]))
+        PDAssertEquiv(testTimeOne, actual[0])
+        PDAssertEquiv(testTimeTwo, actual[1])
     }
 
     func testAsList_returnsExpectedNumberOftimes() {
@@ -91,8 +91,7 @@ class PillLastTakenListTests: XCTestCase {
             return
         }
 
-        let failureMessage = "\(actualtime) is not equal to \(testTimeOne)"
-        XCTAssert(isTimeOne(actualtime), failureMessage)
+        PDAssertEquiv(testTimeOne, actualtime)
     }
 
     func testUndoLast_maintainsCorrectTimesAndTimeStringAfter() {
@@ -107,7 +106,7 @@ class PillLastTakenListTests: XCTestCase {
             return
         }
 
-        XCTAssert(isTimeOne(times[0]))
+        PDAssertEquiv(testTimeOne, times[0])
         XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 
@@ -133,8 +132,8 @@ class PillLastTakenListTests: XCTestCase {
             return
         }
 
-        XCTAssert(isTimeOne(lastTakens.asList[0]))
-        XCTAssert(isTimeTwo(lastTakens.asList[1]))
+        PDAssertEquiv(testTimeOne, lastTakens.asList[0])
+        PDAssertEquiv(testTimeTwo, lastTakens.asList[1])
     }
 
     func testCombineWith_whenInitWithNil_returnsExpectedString() {
@@ -159,14 +158,6 @@ class PillLastTakenListTests: XCTestCase {
         }
 
         XCTAssertEqual("\(testTimeOneString)", lastTakens.asString)
-        XCTAssert(isTimeOne(lastTakens.asList[0]))
-    }
-
-    private func isTimeOne(_ actual: Time) -> Bool {
-        PDAssert.equiv(testTimeOne, actual)
-    }
-
-    private func isTimeTwo(_ actual: Time) -> Bool {
-        PDAssert.equiv(testTimeTwo, actual)
+        PDAssertEquiv(testTimeOne, lastTakens.asList[0])
     }
 }

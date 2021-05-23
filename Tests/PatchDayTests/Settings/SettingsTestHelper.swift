@@ -18,6 +18,7 @@ class SettingsTestHelper {
     private let notificationsSwitch = UISwitch()
     private let notificationsSlider = UISlider()
     private let notificationsMinutesLabel = UILabel()
+    private let useStaticExpirationTimeSwitch = UISwitch()
 
     public func createControls() -> SettingsControls {
         SettingsControls(
@@ -27,7 +28,8 @@ class SettingsTestHelper {
             expirationIntervalButton: expirationButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsSlider,
-            notificationsMinutesBeforeValueLabel: notificationsMinutesLabel
+            notificationsMinutesBeforeValueLabel: notificationsMinutesLabel,
+            useStaticExpirationTimeSwitch: useStaticExpirationTimeSwitch
         )
     }
 }

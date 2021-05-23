@@ -22,9 +22,11 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
         pill.due = Date()
         pill.name = "Cannabis"
-        let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
-        XCTAssertEqual("Time to take pill: Cannabis", not.title)
-        XCTAssertNil(not.body)
+        let notification = DuePillNotification(
+            for: pill, currentBadgeValue: 0, requestHandler: _testHandler
+        )
+        XCTAssertEqual("Time to take pill: Cannabis", notification.title)
+        XCTAssertNil(notification.body)
     }
 
     func testRequest_requestsAtExpectedInterval() {
@@ -33,20 +35,24 @@ class DuePillNotificationTests: XCTestCase {
         pill.name = "Cannabis"
         pill.times = [dueDate]
         pill.due = dueDate
-        let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
-        not.request()
+        let notification = DuePillNotification(
+            for: pill, currentBadgeValue: 0, requestHandler: _testHandler
+        )
+        notification.request()
         let expected = dueDate.timeIntervalSince(Date())
         let actual = DuePillNotificationTests.testHandlerCallArgs[0].0
-        XCTAssert(PDAssert.equiv(expected, actual))
+        PDAssertEquiv(expected, actual)
     }
 
     func testRequest_whenDueDateIsNil_doesNotRequest() {
         let pill = MockPill()
         pill.due = nil
         pill.name = "Cannabis"
-        let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
+        let notifcation = DuePillNotification(
+            for: pill, currentBadgeValue: 0, requestHandler: _testHandler
+        )
         DuePillNotificationTests.testHandlerCallArgs = []
-        not.request()
+        notifcation.request()
         XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
     }
 
@@ -56,9 +62,11 @@ class DuePillNotificationTests: XCTestCase {
         pill.name = "Cannabis"
         pill.times = [dueDate]
         pill.due = dueDate
-        let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
+        let notification = DuePillNotification(
+            for: pill, currentBadgeValue: 0, requestHandler: _testHandler
+        )
         DuePillNotificationTests.testHandlerCallArgs = []
-        not.request()
+        notification.request()
         XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
     }
 }

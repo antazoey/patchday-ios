@@ -56,6 +56,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodIcon: UIImageView!
     @IBOutlet private weak var expirationIntervalIcon: UIImageView!
     @IBOutlet private weak var quantityIcon: UIImageView!
+    @IBOutlet weak var staticExpirationTimeIcon: UIImageView!
     @IBOutlet private weak var notificationsIcon: UIImageView!
     @IBOutlet private weak var notificationsMinutesBeforeIcon: UIImageView!
 
@@ -214,6 +215,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         deliveryMethodIcon.image = deliveryMethodIcon.image?.withTintColor(textColor)
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(textColor)
         quantityIcon.image = quantityIcon.image?.withTintColor(textColor)
+        staticExpirationTimeIcon.image = staticExpirationTimeIcon.image?.withTintColor(textColor)
         notificationsIcon.image = notificationsIcon.image?.withTintColor(textColor)
         let tintedImage = notificationsMinutesBeforeIcon.image?.withTintColor(textColor)
         notificationsMinutesBeforeIcon.image = tintedImage

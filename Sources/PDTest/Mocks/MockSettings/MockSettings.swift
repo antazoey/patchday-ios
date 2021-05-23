@@ -8,7 +8,6 @@ import Foundation
 import PDKit
 
 public class MockSettings: SettingsManaging {
-
     public var deliveryMethod = DeliveryMethodUD()
     public var expirationInterval = ExpirationIntervalUD()
     public var quantity = QuantityUD()
@@ -17,6 +16,7 @@ public class MockSettings: SettingsManaging {
     public var mentionedDisclaimer = MentionedDisclaimerUD()
     public var siteIndex = SiteIndexUD()
     public var pillsEnabled = PillsEnabledUD()
+    public var useStaticExpirationTime = UseStaticExpirationTimeUD()
 
     public init() {}
 
@@ -60,6 +60,11 @@ public class MockSettings: SettingsManaging {
     public var setPillsEnabledCallArgs: [Bool] = []
     public func setPillsEnabled(to newValue: Bool) {
         setPillsEnabledCallArgs.append(newValue)
+    }
+
+    public var setUseStaticExpirationTimeCallArgs: [Bool] = []
+    public func setUseStaticExpirationTime(to newValue: Bool) {
+        setUseStaticExpirationTimeCallArgs.append(newValue)
     }
 
     public var resetCallArgs: [Int] = []

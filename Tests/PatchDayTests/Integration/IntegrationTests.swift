@@ -224,8 +224,8 @@ class IntegrationTests: XCTestCase {
         changeAction()  // Simulates user selecting "Change" from the alert
 
         let actual = hormoneAfterTest.date
-        let failMessage = "\(testDate) is equivalent to \(actual)"
-        XCTAssertFalse(PDAssert.equiv(testDate, actual), failMessage)
+        PDAssertNotEquiv(testDate, actual)
+
     }
 
 #endif

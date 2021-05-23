@@ -20,6 +20,8 @@ public class MockHormoneSchedule: HormoneScheduling {
         all.count
     }
 
+    public var useStaticExpirationTime = false
+
     public init() { }
 
     public var insertNewReturnValue: Hormonal?

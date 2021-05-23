@@ -1,10 +1,11 @@
 # Changelog
 
-# Unreleased
+# 3.6.0 (Unreleased)
 
 Fixed
 
 - A bug where a portion of the notification minutes slider in the Settings View was not honoring dark mode.
+- Display fallacy where the "Notifications Minutes Before" label would read "30" when notifications disabled.
 
 Added
 

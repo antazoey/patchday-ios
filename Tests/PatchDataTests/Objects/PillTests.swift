@@ -260,8 +260,9 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         let actual = pill.timesTakenTodayList
         let expectedDates = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        XCTAssert(PDAssert.equiv(expectedDates[0], actual[0]))
-        XCTAssert(PDAssert.equiv(expectedDates[1], actual[1]))
+        XCTAssertEqual(2, actual.count)
+        PDAssertEquiv(expectedDates[0], actual[0])
+        PDAssertEquiv(expectedDates[1], actual[1])
     }
 
     func testXDays_whenHasSupportedExpirationInterval_returnsDaysOnDaysOffFromAtttributes() {
@@ -1608,8 +1609,7 @@ public class PillTests: XCTestCase {
         }
 
         let expected = DateFactory.createTimesFromCommaSeparatedString(timeString)[0]
-        let failMessage = "\(expected) != \(actual)"
-        XCTAssert(PDAssert.equiv(expected, actual), failMessage)
+        PDAssertEquiv(expected, actual)
     }
 
     func testUnswallow_whenLastLastTakenNotToday_resetsToDateInToday() {
