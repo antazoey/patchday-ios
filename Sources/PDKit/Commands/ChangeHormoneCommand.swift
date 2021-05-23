@@ -37,8 +37,9 @@ public class ChangeHormoneCommand: PDCommandProtocol {
     ) -> Date {
         let nowDate = now?.now ?? Date()
         if useStaticTime {
-            // Use the time of the hormone's date.
-            let time = hormone?.date ?? nowDate
+            guard let hormone = hormone else { return nowDate }
+            // Use the time of the hormone's expiration date.
+            let time = hormone.expiration ?? nowDate
             return DateFactory.createDate(on: nowDate, at: time) ?? nowDate
         }
         return nowDate

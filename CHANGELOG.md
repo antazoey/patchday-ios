@@ -10,8 +10,8 @@ Fixed
 
 Added
 
-- The ability to preserve hormone expiration times using new setting "Preserve Expiration Times". This makes it 
-    easier to maintain a consistent schedule.
+- New setting "Preserve Expiration Times" that maintains the same expiration time. This makes it easier to
+    maintain a consistent schedule.
 
 Changed
 
