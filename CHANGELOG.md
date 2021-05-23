@@ -6,6 +6,14 @@ Fixed
 
 - A bug where a portion of the notification minutes slider in the Settings View was not honoring dark mode.
 
+Added
+
+- The ability to preserve hormone expiration times to more easily maintain a consistent schedule.
+
+Changed
+
+- Some verbiage around hormone dates and sites on the Hormone Detail View is now more generic.
+
 ## 3.5.0
 
 Added

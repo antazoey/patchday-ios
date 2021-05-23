@@ -15,6 +15,7 @@ enum TextFieldButtonSenderType: String {
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, HormoneDetailViewModelProtocol {
 
     private var alertFactory: AlertProducing?
+    private let now: NowProtocol
     var hormoneId: UUID?  // Determined after PatchData SDK available
     lazy var selections = HormoneSelectionState()
     let handleInterfaceUpdatesFromNewSite: () -> Void
@@ -23,10 +24,12 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         _ hormoneIndex: Index,
         _ newSiteHandler: @escaping () -> Void,
         _ alertFactory: AlertProducing,
-        _ dependencies: DependenciesProtocol
+        _ dependencies: DependenciesProtocol,
+        _ now: NowProtocol?=nil
     ) {
         self.handleInterfaceUpdatesFromNewSite = newSiteHandler
         self.alertFactory = alertFactory
+        self.now = now ?? PDNow()
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
@@ -40,6 +43,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
 
     init(_ hormoneIndex: Index, _ newSiteHandler: @escaping () -> Void) {
         self.handleInterfaceUpdatesFromNewSite = newSiteHandler
+        self.now = PDNow()
         super.init()
         if let sdk = self.sdk, self.alertFactory == nil {
             self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
@@ -111,7 +115,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     }
 
     var autoPickedDate: Date {
-        let date = Date()
+        let date = ChangeHormoneCommand.createAutoDate(
+            hormone: hormone, useStaticTime: useStaticExpirationTime, now: now
+        )
         selections.date = date
         return date
     }
@@ -231,5 +237,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     private func getSite() -> Bodily? {
         guard let hormone = hormone, let id = hormone.siteId else { return nil }
         return sdk?.sites[id]
+    }
+
+    private var useStaticExpirationTime: Bool {
+        sdk?.hormones.useStaticExpirationTime ?? DefaultSettings.USE_STATIC_EXPIRATION_TIME
     }
 }

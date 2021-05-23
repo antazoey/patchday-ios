@@ -20,6 +20,9 @@ public protocol HormoneScheduling: Schedule, Resetting {
     /// The number of hormones that are past their expiration dates.
     var totalExpired: Int { get }
 
+    /// Whether to re-use the same expiration time(s) in order to more easily maintain a consistent schedule.
+    var useStaticExpirationTime: Bool { get }
+
     /// Force reload of from backend.
     func reloadContext()
 

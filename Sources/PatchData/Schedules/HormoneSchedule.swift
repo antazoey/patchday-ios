@@ -54,6 +54,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         all.reduce(0, { c, h in (h.isExpired ? 1 : 0) + c })
     }
 
+    public var useStaticExpirationTime: Bool {
+        settings.useStaticExpirationTime.rawValue
+    }
+
     public func reloadContext() {
         self.context = store.getStoredHormones(settings)
     }

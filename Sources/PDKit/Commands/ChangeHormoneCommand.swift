@@ -13,10 +13,6 @@ public class ChangeHormoneCommand: PDCommandProtocol {
     private let hormoneId: UUID
     private let now: NowProtocol?
 
-    private var nowDate: Date {
-        now?.now ?? Date()
-    }
-
     init(
         hormones: HormoneScheduling,
         sites: SiteScheduling,
@@ -30,9 +26,35 @@ public class ChangeHormoneCommand: PDCommandProtocol {
     }
 
     public func execute() {
-        hormones.setDate(by: hormoneId, with: nowDate)
+        hormones.setDate(by: hormoneId, with: dateToSet)
         if let site = sites.suggested {
             hormones.setSite(by: hormoneId, with: site)
         }
+    }
+
+    public static func createAutoDate(
+        hormone: Hormonal?, useStaticTime: Bool, now: NowProtocol?=nil
+    ) -> Date {
+        let nowDate = now?.now ?? Date()
+        if useStaticTime {
+            // Use the time of the hormone's date.
+            let time = hormone?.date ?? nowDate
+            return DateFactory.createDate(on: nowDate, at: time) ?? nowDate
+        }
+        return nowDate
+    }
+
+    private var dateToSet: Date {
+        ChangeHormoneCommand.createAutoDate(
+            hormone: hormone, useStaticTime: hormones.useStaticExpirationTime, now: now
+        )
+    }
+
+    private var nowDate: Date {
+        now?.now ?? Date()
+    }
+
+    private var hormone: Hormonal? {
+        hormones[hormoneId]
     }
 }
