@@ -15,7 +15,7 @@ Added
 
 Changed
 
-- Some verbiage around hormone dates and sites on the Hormone Detail View is now more generic.
+- Some verbiage around hormone dates and sites on the Hormone Details View.
 
 ## 3.5.0
 
