@@ -636,7 +636,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectTime(Time(), 1)
-        XCTAssertEqual(1, viewModel.times.count)
+        PDAssertSingle(viewModel.times)
         PDAssertSameTime(times[0], viewModel.times[0])
     }
 
@@ -646,7 +646,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setTimesaday(0)
-        XCTAssertEqual(1, viewModel.times.count)
+        PDAssertSingle(viewModel.times)
     }
 
     func testSetTimesday_whenNotChanging_doesNotSet() {
@@ -655,7 +655,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setTimesaday(1)
-        XCTAssertEqual(1, viewModel.times.count)
+        PDAssertSingle(viewModel.times)
         PDAssertSameTime(times[0], viewModel.times[0])
     }
 
@@ -687,7 +687,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setTimesaday(1)
-        XCTAssertEqual(1, viewModel.times.count)
+        PDAssertSingle(viewModel.times)
     }
 
     func testSetTimesaday_whenDecreasingAndTimesPreviouslySelected_addsNewTime() {
@@ -700,7 +700,7 @@ class PillDetailViewModelTests: XCTestCase {
             previousSelectedTimes
         )
         viewModel.setTimesaday(1)
-        XCTAssertEqual(1, viewModel.times.count)
+        PDAssertSingle(viewModel.times)
     }
 
     func testSetPickerTimes_setsExpectedTime() {

@@ -176,7 +176,7 @@ class PillsViewModelTests: XCTestCase {
         let viewModel = createViewModel()
         viewModel.takePill(at: 0)
         let pills = viewModel.sdk?.pills as! MockPillSchedule
-        XCTAssertEqual(1, pills.swallowIdCallArgs.count)
+        PDAssertSingle(pills.swallowIdCallArgs)
     }
 
     func testTakePill_reflectsPillsInTabs() {
@@ -207,7 +207,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.takePill(at: 0)
         (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
         let callArgs = cell.configureCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         let params = callArgs[0]
         XCTAssertEqual(testPill.id, params.pill.id)
         XCTAssertEqual(0, params.index)
@@ -236,7 +236,7 @@ class PillsViewModelTests: XCTestCase {
         let alerts = deps.alerts as! MockAlertFactory
         XCTAssertEqual(1, alerts.createPillActionsReturnValue.presentCallCount)
         let creationParams = alerts.createPillActionsCallArgs
-        XCTAssertEqual(1, creationParams.count)
+        PDAssertSingle(creationParams)
         XCTAssertEqual(testPill.id, creationParams[0].0.id)
     }
 
@@ -280,7 +280,7 @@ class PillsViewModelTests: XCTestCase {
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.takePill()
         let pills = viewModel.sdk?.pills as! MockPillSchedule
-        XCTAssertEqual(1, pills.swallowIdCallArgs.count)
+        PDAssertSingle(pills.swallowIdCallArgs)
     }
 
     func testPresentPillActions_whenChoosesTakeAction_requestNotification() {
@@ -327,7 +327,7 @@ class PillsViewModelTests: XCTestCase {
         handlers.takePill()
         (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
         let callArgs = cell.configureCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         let params = callArgs[0]
         XCTAssertEqual(testPill.id, params.pill.id)
         XCTAssertEqual(0, params.index)
@@ -373,7 +373,7 @@ class PillsViewModelTests: XCTestCase {
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.undoTakePill()
         let pills = viewModel.sdk?.pills as! MockPillSchedule
-        XCTAssertEqual(1, pills.unswallowCallArgs.count)
+        PDAssertSingle(pills.unswallowCallArgs)
         XCTAssertEqual(testPill.id, pills.unswallowCallArgs[0].0)
     }
 
@@ -421,7 +421,7 @@ class PillsViewModelTests: XCTestCase {
         handlers.undoTakePill()
         (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
         let callArgs = cell.configureCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         let params = callArgs[0]
         XCTAssertEqual(testPill.id, params.pill.id)
         XCTAssertEqual(0, params.index)
@@ -450,7 +450,7 @@ class PillsViewModelTests: XCTestCase {
         pills.all = [testPill, newPill]
         viewModel.goToNewPillDetails(pillsViewController: viewController)
         let callArgs = nav.goToPillDetailsCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(1, callArgs[0].0)
         XCTAssertEqual(viewController, callArgs[0].1)
     }

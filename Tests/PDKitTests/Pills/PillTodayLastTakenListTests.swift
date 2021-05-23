@@ -59,7 +59,7 @@ class PillLastTakenListTests: XCTestCase {
         let testtimeString = "12:00:10,12:00:20"
         let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
         lastTakens.undoLast()
-        XCTAssertEqual(1, lastTakens.count)
+        PDAssertSingle(lastTakens)
     }
 
     func testUndoLast_whenOnlyOne_decreasesCountToZero() {
@@ -99,7 +99,7 @@ class PillLastTakenListTests: XCTestCase {
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
         lastTakens.undoLast()
         let times = lastTakens.asList
-        XCTAssertEqual(1, times.count)
+        PDAssertSingle(times)
 
         if lastTakens.count < 1 {
             XCTFail("Does not have enough times")

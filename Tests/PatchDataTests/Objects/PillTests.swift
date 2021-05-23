@@ -152,7 +152,7 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         let actual = pill.times[0]
         let expected = PillTestsUtil.testTime
-        XCTAssertEqual(1, pill.times.count)
+        PDAssertSingle(pill.times)
         PDAssertSameTime(expected, actual)
     }
 
@@ -182,7 +182,7 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         pill.appendTime(DateFactory.createDefaultDate())
         // Only has original time
-        XCTAssertEqual(1, pill.times.count)
+        PDAssertSingle(pill.times)
         PDAssertSameTime(PillTestsUtil.testTime, pill.times[0])
     }
 

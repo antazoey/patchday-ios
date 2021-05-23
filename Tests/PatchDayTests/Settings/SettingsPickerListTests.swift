@@ -61,10 +61,10 @@ class SettingsPickerListTests: XCTestCase {
         let quantityCallArgs = quantityPicker.closeCallArgs
         let deliveryMethodCallArgs = deliveryMethodPicker.closeCallArgs
         let expirationIntervalCallArgs = expirationIntervalPicker.closeCallArgs
-        XCTAssertEqual(1, quantityCallArgs.count)
+        PDAssertSingle(quantityCallArgs)
         XCTAssertEqual(false, quantityCallArgs[0])
-        XCTAssertEqual(0, deliveryMethodCallArgs.count)
-        XCTAssertEqual(1, expirationIntervalCallArgs.count)
+        PDAssertSingle(deliveryMethodCallArgs)
+        PDAssertSingle(expirationIntervalCallArgs)
         XCTAssertEqual(false, expirationIntervalCallArgs[0])
     }
 

@@ -69,6 +69,14 @@ public func PDAssertDifferentTime(
     XCTAssertFalse(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
+/// Asserts that an array has a single item.
+public func PDAssertSingle<T>(
+    _ collection: Array<T>, file: StaticString = #filePath, line: UInt = #line
+) {
+    let failMessage = "The array does not have only 1 item in it"
+    XCTAssertEqual(1, collection.count, failMessage)
+}
+
 // MARK: Private Helpers
 
 private func equivFailMessage(_ expected: Any, _ actual: Any) -> String {

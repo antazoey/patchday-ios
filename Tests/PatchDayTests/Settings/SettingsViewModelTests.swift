@@ -151,7 +151,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(23.0)
-        XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
+        PDAssertSingle(settings.setNotificationsMinutesBeforeCallArgs)
         XCTAssertEqual(23, settings.setNotificationsMinutesBeforeCallArgs[0])
     }
 

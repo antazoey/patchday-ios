@@ -161,7 +161,7 @@ class NotificationsTests: XCTestCase {
         let factory = createFactory()
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 2, to: 3)
-        XCTAssertEqual(1, center.removeNotificationsCallArgs.count)
+        PDAssertSingle(center.removeNotificationsCallArgs)
     }
 
     func testRequestRangeOfExpiredHormoneNotifications_whenNotificationsIsOff_doesNotRequest() {

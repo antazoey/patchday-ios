@@ -54,7 +54,7 @@ during calls. The convention for the variable name is `<method-name>CallArgs`:
 
 ```swift
     foo(bar: 6)
-    XCTAssertEqual(1, mockObject.fooCallArgs.count)
+    PDAssertSingle(fooCallArgs)
     XCTAssertEqual(6, mockObject.fooCallArgs[0])
 ```
 

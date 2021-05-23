@@ -127,7 +127,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4.5 Days")
         let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(.EveryXDays, callArgs[0])
     }
 
@@ -135,7 +135,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual("4.5", callArgs[0])
     }
 
@@ -143,7 +143,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual("4.5", callArgs[0])
     }
 
@@ -151,7 +151,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 14 Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual("14.0", callArgs[0])
     }
 
@@ -159,7 +159,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setSiteIndex(to: 3)
         let callArgs = mockSettingsWriter.replaceSiteIndexCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(3, callArgs[0])
     }
 
@@ -167,7 +167,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setNotifications(to: false)
         let callArgs = mockSettingsWriter.replaceNotificationsCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(false, callArgs[0])
     }
 
@@ -175,7 +175,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setNotificationsMinutesBefore(to: 32)
         let callArgs = mockSettingsWriter.replaceNotificationsMinutesBeforeCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(32, callArgs[0])
     }
 
@@ -183,7 +183,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setMentionedDisclaimer(to: true)
         let callArgs = mockSettingsWriter.replaceMentionedDisclaimerCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(true, callArgs[0])
     }
 
@@ -191,7 +191,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setPillsEnabled(to: false)
         let callArgs = mockSettingsWriter.replacePillsEnabledCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(false, callArgs[0])
     }
 
@@ -199,7 +199,7 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.reset(defaultSiteCount: 2)
         let callArgs = mockSettingsWriter.resetCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(2, callArgs[0])
     }
 }
