@@ -100,15 +100,7 @@ public func PDAssertEmpty<T>(
     XCTAssertEqual(0, collection.count, failMessage, file: file, line: line)
 }
 
-// MARK: Private Helpers
-
-private func equivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) !~= \(actual)"
-}
-
-private func notEquivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) ~= \(actual)."
-}
+// MARK: Internal / Private Helpers
 
 /// Returns true if the dates are within a nanosecond of each other.
 func equiv(_ d1: Date, _ d2: Date) -> Bool {
@@ -131,4 +123,12 @@ func sameTime(_ t1: Date, _ t2: Date) -> Bool {
     let s1 = c1.second
     let s2 = c2.second
     return h1 == h2 && m1 == m2 && s1 == s2
+}
+
+private func equivFailMessage(_ expected: Any, _ actual: Any) -> String {
+    "\(expected) !~= \(actual)"
+}
+
+private func notEquivFailMessage(_ expected: Any, _ actual: Any) -> String {
+    "\(expected) ~= \(actual)."
 }
