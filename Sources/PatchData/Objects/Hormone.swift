@@ -14,7 +14,6 @@ public class Hormone: Hormonal {
     public var deliveryMethod: DeliveryMethod
     public var expirationInterval: ExpirationIntervalUD
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
-    public var useStaticExpirationTime: UseStaticExpirationTimeUD
     private var now: NowProtocol
 
     public init(hormoneData: HormoneStruct, settings: UserDefaultsReading, now: NowProtocol?=nil) {
@@ -22,7 +21,6 @@ public class Hormone: Hormonal {
         self.deliveryMethod = settings.deliveryMethod.value
         self.expirationInterval = settings.expirationInterval
         self.notificationsMinutesBefore = settings.notificationsMinutesBefore
-        self.useStaticExpirationTime = settings.useStaticExpirationTime
         self.now = now ?? PDNow()
     }
 
