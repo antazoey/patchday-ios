@@ -33,7 +33,7 @@ class PillNotificationActionHandlerTests: XCTestCase {
         let badge = MockBadge()
         let handler = PillNotificationActionHandler(pills, badge)
         handler.handlePill(pillId: "Fake ID")
-        XCTAssertEqual(0, pills.swallowIdCallArgs.count)
+        PDAssertEmpty(pills.swallowIdCallArgs)
     }
 
     func testHandlePill_whenPillNotInSchedule_doesNotHandle() {
@@ -42,7 +42,7 @@ class PillNotificationActionHandlerTests: XCTestCase {
         let handler = PillNotificationActionHandler(pills, badge)
         let pill = MockPill()
         handler.handlePill(pillId: pill.id.uuidString)
-        XCTAssertEqual(0, pills.swallowIdCallArgs.count)
+        PDAssertEmpty(pills.swallowIdCallArgs)
     }
 
     func testHandlePill_handles() {

@@ -31,7 +31,7 @@ class PillLastTakenListTests: XCTestCase {
     func testAsList_whenNotimeString_returnsZeroItems() {
         let lastTakensObject = PillTimesTakenTodayList(timeString: nil)
         let actual = lastTakensObject.asList
-        XCTAssertEqual(0, actual.count)
+        PDAssertEmpty(actual)
     }
 
     func testAsList_returnstimesCalculatedFromInitString() {
@@ -66,7 +66,7 @@ class PillLastTakenListTests: XCTestCase {
         let testtimeString = "12:00:10"
         let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
         lastTakens.undoLast()
-        XCTAssertEqual(0, lastTakens.count)
+        PDAssertEmpty(lastTakens)
     }
 
     func testUndoLast_whenInitWithEmptyString_returnsNil() {
@@ -99,14 +99,7 @@ class PillLastTakenListTests: XCTestCase {
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
         lastTakens.undoLast()
         let times = lastTakens.asList
-        PDAssertSingle(times)
-
-        if lastTakens.count < 1 {
-            XCTFail("Does not have enough times")
-            return
-        }
-
-        PDAssertEquiv(testTimeOne, times[0])
+        PDAssertSingle(testTimeOne, times)
         XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 

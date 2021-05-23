@@ -100,14 +100,14 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         hormone.expirationInterval = ExpirationIntervalUD()
         let notifyMin = Double(30)
 
-        let not = ExpiredHormoneNotification(
+        let notification = ExpiredHormoneNotification(
             hormone: hormone,
             notifyMinutes: notifyMin,
             currentBadgeValue: 0,
             requestHandler: _testHandler
         )
         ExpiredHormoneNotificationTests.testHandlerCallArgs = []
-        not.request()
-        XCTAssertEqual(0, ExpiredHormoneNotificationTests.testHandlerCallArgs.count)
+        notification.request()
+        PDAssertEmpty(ExpiredHormoneNotificationTests.testHandlerCallArgs)
     }
 }

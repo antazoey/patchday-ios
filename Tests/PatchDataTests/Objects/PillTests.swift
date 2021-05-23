@@ -143,7 +143,7 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         attrs.times = nil
         let pill = createPill(attrs)
-        XCTAssertEqual(0, pill.times.count)
+        PDAssertEmpty(pill.times)
     }
 
     func testTimes_returnsTimeFromAttributes() {
@@ -1654,7 +1654,7 @@ public class PillTests: XCTestCase {
         pill.awaken()
         XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
-        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+        PDAssertEmpty(pill.timesTakenTodayList)
     }
 
     func testAwaken_whenTimesTakenTodayIsZero_clears() {
@@ -1666,7 +1666,7 @@ public class PillTests: XCTestCase {
         pill.awaken()
         XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
-        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+        PDAssertEmpty(pill.timesTakenTodayList)
     }
 
     func testAwaken_whenLastTakenWasYesterday_clears() {
@@ -1677,6 +1677,6 @@ public class PillTests: XCTestCase {
         pill.awaken()
         XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
-        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+        PDAssertEmpty(pill.timesTakenTodayList)
     }
 }

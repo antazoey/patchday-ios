@@ -127,79 +127,69 @@ class SettingsTests: XCTestCase {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4.5 Days")
         let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(.EveryXDays, callArgs[0])
+        PDAssertSingle(.EveryXDays, callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual("4.5", callArgs[0])
+        PDAssertSingle("4.5", callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomIntervalWithAHalfMark_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual("4.5", callArgs[0])
+        PDAssertSingle("4.5", callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomIntervalWithDoubleDigitDays_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 14 Days")
         let callArgs = mockSettingsWriter.replaceXDaysCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual("14.0", callArgs[0])
+        PDAssertSingle("14.0", callArgs)
     }
 
     func testSetSiteIndex_setsSiteIndex() {
         let settings = createSettings()
         settings.setSiteIndex(to: 3)
         let callArgs = mockSettingsWriter.replaceSiteIndexCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(3, callArgs[0])
+        PDAssertSingle(3, callArgs)
     }
 
     func testSetNotifications_setsNotifications() {
         let settings = createSettings()
         settings.setNotifications(to: false)
         let callArgs = mockSettingsWriter.replaceNotificationsCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(false, callArgs[0])
+        PDAssertSingle(false, callArgs)
     }
 
     func testSetNotificationsMinutesBefore_setsNotificationsMinutesBefore() {
         let settings = createSettings()
         settings.setNotificationsMinutesBefore(to: 32)
         let callArgs = mockSettingsWriter.replaceNotificationsMinutesBeforeCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(32, callArgs[0])
+        PDAssertSingle(32, callArgs)
     }
 
     func testSetMentionedDisclaimer_setsMentionedDisclaimer() {
         let settings = createSettings()
         settings.setMentionedDisclaimer(to: true)
         let callArgs = mockSettingsWriter.replaceMentionedDisclaimerCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(true, callArgs[0])
+        PDAssertSingle(true, callArgs)
     }
 
     func testSetPillsEnabled_setsPillsEnabled() {
         let settings = createSettings()
         settings.setPillsEnabled(to: false)
         let callArgs = mockSettingsWriter.replacePillsEnabledCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(false, callArgs[0])
+        PDAssertSingle(false, callArgs)
     }
 
     func testReset_resets() {
         let settings = createSettings()
         settings.reset(defaultSiteCount: 2)
         let callArgs = mockSettingsWriter.resetCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(2, callArgs[0])
+        PDAssertSingle(2, callArgs)
     }
 }

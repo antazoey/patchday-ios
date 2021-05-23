@@ -374,7 +374,7 @@ class HormonesViewModelTests: XCTestCase {
         }
         let callArgs = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs
         XCTAssertFalse(reloadCalled)
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testPresentDisclaimerIfFirstLaunch_ifNilSdk_doesNothing() {

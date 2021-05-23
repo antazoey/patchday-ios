@@ -120,13 +120,13 @@ class SettingsViewModelTests: XCTestCase {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         settings.notifications = NotificationsUD(false)
         viewModel.handleNewNotificationsMinutesValue(23.0)
-        XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
+        PDAssertEmpty(settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(-23.0)
-        XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
+        PDAssertEmpty(settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_cancelsAndResendsAllNotifications() {
@@ -151,8 +151,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(23.0)
-        PDAssertSingle(settings.setNotificationsMinutesBeforeCallArgs)
-        XCTAssertEqual(23, settings.setNotificationsMinutesBeforeCallArgs[0])
+        PDAssertSingle(23, settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_returnsExpectedTitleString() {

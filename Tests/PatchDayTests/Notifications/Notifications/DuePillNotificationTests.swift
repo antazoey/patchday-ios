@@ -53,7 +53,7 @@ class DuePillNotificationTests: XCTestCase {
         )
         DuePillNotificationTests.testHandlerCallArgs = []
         notifcation.request()
-        XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
+        PDAssertEmpty(DuePillNotificationTests.testHandlerCallArgs)
     }
 
     func testRequest_whenDueDateIsInPast_doesNotRequest() {
@@ -67,6 +67,6 @@ class DuePillNotificationTests: XCTestCase {
         )
         DuePillNotificationTests.testHandlerCallArgs = []
         notification.request()
-        XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
+        PDAssertEmpty(DuePillNotificationTests.testHandlerCallArgs)
     }
 }

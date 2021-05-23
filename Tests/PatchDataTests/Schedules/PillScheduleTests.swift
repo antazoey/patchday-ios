@@ -501,7 +501,7 @@ class PillScheduleTests: XCTestCase {
         setUpThreePillsWithMiddleOneNextDue()
         mockStore.pushLocalChangesCallArgs = []
         pills.unswallow(UUID(), onSuccess: {})
-        XCTAssertEqual(0, mockStore.pushLocalChangesCallArgs.count)
+        PDAssertEmpty(mockStore.pushLocalChangesCallArgs)
     }
 
     public func testUnswallow_saves() {

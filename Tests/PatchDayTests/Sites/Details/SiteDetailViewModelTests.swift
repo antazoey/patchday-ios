@@ -104,7 +104,7 @@ class SiteDetailViewModelTests: XCTestCase {
         viewModel.selections.selectedSiteName = nil
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let callArgs = (viewModel.sdk?.sites as! MockSiteSchedule).setImageIdCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testHandleSave_whenImageExistsAndSelected_saves() {
@@ -130,8 +130,8 @@ class SiteDetailViewModelTests: XCTestCase {
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
         let renameCallArgs = sites.renameCallArgs
         let insertNewCallArgs = sites.insertNewCallArgs
-        XCTAssertEqual(0, renameCallArgs.count)
-        XCTAssertEqual(0, insertNewCallArgs.count)
+        PDAssertEmpty(renameCallArgs)
+        PDAssertEmpty(insertNewCallArgs)
     }
 
     func testHandleSave_whenIndexOutOfRange_doesNotSave() {
@@ -143,8 +143,8 @@ class SiteDetailViewModelTests: XCTestCase {
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let renameCallArgs = sites.renameCallArgs
         let insertNewCallArgs = sites.insertNewCallArgs
-        XCTAssertEqual(0, renameCallArgs.count)
-        XCTAssertEqual(0, insertNewCallArgs.count)
+        PDAssertEmpty(renameCallArgs)
+        PDAssertEmpty(insertNewCallArgs)
     }
 
     func testHandleSave_whenGivenNameAndSiteIndexExists_savesByRenaming() {
@@ -158,7 +158,7 @@ class SiteDetailViewModelTests: XCTestCase {
         let insertNewCallArgs = sites.insertNewCallArgs
         XCTAssertEqual(0, renameCallArgs[0].0)
         XCTAssertEqual("New Name", renameCallArgs[0].1)
-        XCTAssertEqual(0, insertNewCallArgs.count)
+        PDAssertEmpty(insertNewCallArgs)
     }
 
     func testHandleSave_whenGivenNameAndSiteIndexEqualsCount_savesByInsertingNew() {
@@ -170,7 +170,7 @@ class SiteDetailViewModelTests: XCTestCase {
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let renameCallArgs = sites.renameCallArgs
         let insertNewCallArgs = sites.insertNewCallArgs
-        XCTAssertEqual(0, renameCallArgs.count)
+        PDAssertEmpty(renameCallArgs)
         XCTAssertEqual("New Name", insertNewCallArgs[0].0)
         XCTAssertNil(insertNewCallArgs[0].1)
     }

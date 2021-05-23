@@ -111,7 +111,7 @@ class NotificationsTests: XCTestCase {
         let factory = MockNotificationFactory()
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 8, to: 6)
-        XCTAssertEqual(0, center.removeNotificationsCallArgs.count)
+        PDAssertEmpty(center.removeNotificationsCallArgs)
     }
 
     func testCancelRangeOfExpiredHormoneNotifications_whenNoHormoneInRange_doesNotCallCancel() {
@@ -120,7 +120,7 @@ class NotificationsTests: XCTestCase {
         let factory = MockNotificationFactory()
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 2, to: 4)
-        XCTAssertEqual(0, center.removeNotificationsCallArgs.count)
+        PDAssertEmpty(center.removeNotificationsCallArgs)
     }
 
     func testRequestExpiredHormoneNotification_whenTurnedOffInSettings_doesNotRequest() {
@@ -210,7 +210,7 @@ class NotificationsTests: XCTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let pill = createTestPill(isDue: true, notify: false)
         notifications.requestDuePillNotification(pill)
-        XCTAssertEqual(0, factory.createDuePillNotificationCallArgs.count)
+        PDAssertEmpty(factory.createDuePillNotificationCallArgs)
     }
 
     func testRequestDuePillNotification_whenPillIsDueAndNotified_requests() {
@@ -232,7 +232,7 @@ class NotificationsTests: XCTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let pill = createTestPill(isDue: true, notify: true)
         notifications.requestDuePillNotification(pill)
-        XCTAssertEqual(0, factory.createDuePillNotificationCallArgs.count)
+        PDAssertEmpty(factory.createDuePillNotificationCallArgs)
         XCTAssertEqual(0, mockNotification.requestCallCount)
     }
 
@@ -276,7 +276,7 @@ class NotificationsTests: XCTestCase {
         notifications.requestAllDuePillNotifications()
 
         let callArgs = factory.createDuePillNotificationCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
         XCTAssertEqual(0, mockNotification.requestCallCount)
     }
 

@@ -190,7 +190,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: UIViewController())
-        XCTAssertEqual(0, table.toggleEditCallArgs.count)
+        PDAssertEmpty(table.toggleEditCallArgs)
     }
 
     func testGoToSiteDetails_setsBarBackItem() {
@@ -244,7 +244,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.handleSiteInsert(sitesViewController: UIViewController())
 
         let callArgs = nav.goToSiteDetailsCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testHandleInsert_whenInsertSucceeds_navigates() {
@@ -287,8 +287,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.toggleEdit(true)
 
         let callArgs = table.toggleEditCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertTrue(callArgs[0])
+        PDAssertSingle(true, callArgs)
     }
 
     func testToggleEdit_whenNotEditing_callsToggleEditWithFalse() {
@@ -300,8 +299,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.toggleEdit(false)
 
         let callArgs = table.toggleEditCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertFalse(callArgs[0])
+        PDAssertSingle(false, callArgs)
     }
 
     func testDeleteSite_deletesSite() {
@@ -314,8 +312,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.deleteSite(at: IndexPath(row: 1, section: 0))
 
         let callArgs = sites.deleteCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(1, callArgs[0])
+        PDAssertSingle(1, callArgs)
     }
 
     func testDeleteSite_deletesCell() {
@@ -328,8 +325,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.deleteSite(at: index)
 
         let callArgs = table.deleteCellCallArgs
-        PDAssertSingle(callArgs)
-        XCTAssertEqual(index, callArgs[0])
+        PDAssertSingle(index, callArgs)
     }
 
     func testDeleteSite_reloadsTable() {

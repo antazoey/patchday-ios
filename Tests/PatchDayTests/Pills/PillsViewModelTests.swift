@@ -83,7 +83,7 @@ class PillsViewModelTests: XCTestCase {
         mockSettings.pillsEnabled = PillsEnabledUD(true)
         viewModel.togglePillsEnabled(true)
         let callArgs = mockSettings.setPillsEnabledCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testTogglePillsEnabled_whenSettingToFalseAndIsAlreadyFalse_doesNotSet() {
@@ -92,7 +92,7 @@ class PillsViewModelTests: XCTestCase {
         mockSettings.pillsEnabled = PillsEnabledUD(false)
         viewModel.togglePillsEnabled(false)
         let callArgs = mockSettings.setPillsEnabledCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testTogglePillsEnabled_whenSettingToTrue_setsToTrue() {
@@ -436,7 +436,7 @@ class PillsViewModelTests: XCTestCase {
         pills.indexOfReturnsValue = 1
         viewModel.goToNewPillDetails(pillsViewController: viewController)
         let callArgs = nav.goToPillDetailsCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testGoToNewPillDetails_navigates() {
@@ -469,7 +469,7 @@ class PillsViewModelTests: XCTestCase {
         let viewModel = createViewModel()
         let viewController = UIViewController()
         viewModel.goToPillDetails(pillIndex: -1, pillsViewController: viewController)
-        XCTAssertEqual(0, nav.goToPillDetailsCallArgs.count)
+        PDAssertEmpty(nav.goToPillDetailsCallArgs)
     }
 
     func testGoToPillDetails_whenPillIndexGreaterThanCount_doesNotNavigates() {
@@ -477,6 +477,6 @@ class PillsViewModelTests: XCTestCase {
         let viewModel = createViewModel()
         let viewController = UIViewController()
         viewModel.goToPillDetails(pillIndex: 5, pillsViewController: viewController)
-        XCTAssertEqual(0, nav.goToPillDetailsCallArgs.count)
+        PDAssertEmpty(nav.goToPillDetailsCallArgs)
     }
 }
