@@ -53,7 +53,7 @@ public func PDAssertNotNow(_ actual: Date, file: StaticString = #filePath, line:
     XCTAssertFalse(equiv(Date(), actual), failMessage, file: file, line: line)
 }
 
-/// Asserts that two dates have the same hours, minutes, and seconds.
+/// Assert that two dates have the same hours, minutes, and seconds.
 public func PDAssertSameTime(
     _ expected: Time, _ actual: Time, file: StaticString = #filePath, line: UInt = #line
 ) {
@@ -61,7 +61,7 @@ public func PDAssertSameTime(
     XCTAssertTrue(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
-/// Asserts that two dates do not have the same hours, minutes, and seconds.
+/// Assert that two dates do not have the same hours, minutes, and seconds.
 public func PDAssertDifferentTime(
     _ expected: Time, _ actual: Time, file: StaticString = #filePath, line: UInt = #line
 ) {
@@ -69,7 +69,7 @@ public func PDAssertDifferentTime(
     XCTAssertFalse(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
-/// Asserts that an array has a single item.
+/// Assert that an array has a single item.
 public func PDAssertSingle<T>(
     _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
@@ -77,7 +77,7 @@ public func PDAssertSingle<T>(
     XCTAssertEqual(1, collection.count, failMessage, file: file, line: line)
 }
 
-/// Asserts that an array has a single, specific item.
+/// Assert that an array has a single, specific item.
 public func PDAssertSingle<T: Equatable>(
     _ expected: T, _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
@@ -92,7 +92,7 @@ public func PDAssertSingle<T: Equatable>(
     XCTAssertEqual(expected, collection[0], file: file, line: line)
 }
 
-/// Asserts that an array is empty.
+/// Assert that an array is empty.
 public func PDAssertEmpty<T>(
     _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
