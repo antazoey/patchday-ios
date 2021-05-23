@@ -452,7 +452,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.trySelectSite(at: 3)
         guard let actual = viewModel.selections.date else {
             XCTFail("There is no date selected")
-            returns
+            return
         }
         PDAssertNow(actual)
     }

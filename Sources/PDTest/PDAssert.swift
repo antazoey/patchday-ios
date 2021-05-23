@@ -11,45 +11,62 @@ import XCTest
 // MARK: - Public Assert Methods
 
 /// Assert two dates are equivalent (.nanosecond granularity).
-public func PDAssertEquiv(_ expected: Date, _ actual: Date) {
-    XCTAssertTrue(equiv(expected, actual), equivFailMessage(expected, actual))
+public func PDAssertEquiv(
+    _ expected: Date, _ actual: Date, file: StaticString = #filePath, line: UInt = #line
+) {
+    let failMessage = equivFailMessage(expected, actual)
+    XCTAssertTrue(equiv(expected, actual), failMessage, file: file, line: line)
 }
 
 /// Assert two dates are not equivalent (.nanosecond granularity).
-public func PDAssertNotEquiv(_ expected: Date, _ actual: Date) {
-    XCTAssertFalse(equiv(expected, actual), notEquivFailMessage("$NOW", actual))
+public func PDAssertNotEquiv(
+    _ expected: Date, _ actual: Date, file: StaticString = #filePath, line: UInt = #line
+) {
+    let failMessage = notEquivFailMessage("$NOW", actual)
+    XCTAssertFalse(equiv(expected, actual), failMessage, file: file, line: line)
 }
 
 /// Assert two doubles are equivalent (0.01 granularity).
-public func PDAssertEquiv(_ expected: Double, _ actual: Double) {
-    XCTAssertTrue(equiv(expected, actual), equivFailMessage(expected, actual))
+public func PDAssertEquiv(
+    _ expected: Double, _ actual: Double, file: StaticString = #filePath, line: UInt = #line
+) {
+    let failMessage = equivFailMessage(expected, actual)
+    XCTAssertTrue(equiv(expected, actual), failMessage, file: file, line: line)
 }
 
 /// Assert two doubles are not equivalent (0.01 granularity).
-public func PDAssertNotEquiv(_ expected: Double, _ actual: Double) {
-    XCTAssertFalse(equiv(expected, actual), notEquivFailMessage(expected, actual))
+public func PDAssertNotEquiv(
+    _ expected: Double, _ actual: Double, file: StaticString = #filePath, line: UInt = #line
+) {
+    let failMessage = notEquivFailMessage(expected, actual)
+    XCTAssertFalse(equiv(expected, actual), failMessage, file: file, line: line)
 }
 
 /// Assert that the given date is equivalent to now (.nanosecond granularity).
-public func PDAssertNow(_ actual: Date) {
+public func PDAssertNow(_ actual: Date, file: StaticString = #filePath, line: UInt = #line) {
     XCTAssertTrue(equiv(Date(), actual), equivFailMessage("$NOW", actual))
 }
 
 /// Assert that the given date is not equivalent to now (.nanosecond granularity).
-public func PDAssertNotNow(_ actual: Date) {
-    XCTAssertFalse(equiv(Date(), actual), notEquivFailMessage("$NOW", actual))
+public func PDAssertNotNow(_ actual: Date, file: StaticString = #filePath, line: UInt = #line) {
+    let failMessage = notEquivFailMessage("$NOW", actual)
+    XCTAssertFalse(equiv(Date(), actual), failMessage, file: file, line: line)
 }
 
 /// Asserts that two dates have the same hours, minutes, and seconds.
-public func PDAssertSameTime(_ expected: Time, _ actual: Time) {
+public func PDAssertSameTime(
+    _ expected: Time, _ actual: Time, file: StaticString = #filePath, line: UInt = #line
+) {
     let failMessage = "\(expected) does not have same time as \(actual)"
-    XCTAssertTrue(sameTime(expected, actual), failMessage)
+    XCTAssertTrue(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
 /// Asserts that two dates do nit have the same hours, minutes, and seconds.
-public func PDAssertDifferentTime(_ expected: Time, _ actual: Time) {
+public func PDAssertDifferentTime(
+    _ expected: Time, _ actual: Time, file: StaticString = #filePath, line: UInt = #line
+) {
     let failMessage = "\(expected) has the same time as \(actual)"
-    XCTAssertFalse(sameTime(expected, actual), failMessage)
+    XCTAssertFalse(sameTime(expected, actual), failMessage, file: file, line: line)
 }
 
 // MARK: Private Helpers
