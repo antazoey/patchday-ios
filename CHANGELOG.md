@@ -5,11 +5,13 @@
 Fixed
 
 - A bug where a portion of the notification minutes slider in the Settings View was not honoring dark mode.
-- Display fallacy where the "Notifications Minutes Before" label would read "30" when notifications disabled.
+- A display fallacy where the "Notifications Minutes Before" label would say "30" even though notifications were 
+    off.
 
 Added
 
-- The ability to preserve hormone expiration times to more easily maintain a consistent schedule.
+- The ability to preserve hormone expiration times using new setting "Preserve Expiration Times". This makes it 
+    easier to maintain a consistent schedule.
 
 Changed
 

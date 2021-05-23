@@ -22,7 +22,7 @@ public func PDAssertEquiv(
 public func PDAssertNotEquiv(
     _ expected: Date, _ actual: Date, file: StaticString = #filePath, line: UInt = #line
 ) {
-    let failMessage = notEquivFailMessage("$NOW", actual)
+    let failMessage = notEquivFailMessage(expected, actual)
     XCTAssertFalse(equiv(expected, actual), failMessage, file: file, line: line)
 }
 

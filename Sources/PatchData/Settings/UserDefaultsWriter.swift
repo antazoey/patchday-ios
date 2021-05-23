@@ -83,6 +83,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         )
         replaceMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
         replaceSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
+        replaceUseStaticExpirationTime(to: DefaultSettings.USE_STATIC_EXPIRATION_TIME)
     }
 
     public func replaceDeliveryMethod(to newValue: DeliveryMethod) {

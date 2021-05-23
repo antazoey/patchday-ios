@@ -199,6 +199,7 @@ class IntegrationTests: XCTestCase {
         let table = HormonesTable(UITableView(), sdk, style)
         let imageHistory = SiteImageHistory()
         let dependencies = MockDependencies()
+        sdk.settings.setUseStaticExpirationTime(to: false)
         dependencies.sdk = sdk
         dependencies.notifications = notifications
         dependencies.alerts = alerts
