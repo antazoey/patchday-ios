@@ -32,7 +32,7 @@ public class Site: Bodily {
             guard let id = siteData.imageIdentifier else {
                 return name
             }
-            if id == "" || id == SiteStrings.NewSite {
+            if id.isEmpty || id == SiteStrings.NewSite {
                 return name
             }
             return id
@@ -45,7 +45,7 @@ public class Site: Bodily {
             guard let storedName = siteData.name else {
                 return SiteStrings.NewSite
             }
-            return storedName != "" ? storedName : SiteStrings.NewSite
+            return !storedName.isEmpty ? storedName : SiteStrings.NewSite
 
         }
         set { siteData.name = newValue }

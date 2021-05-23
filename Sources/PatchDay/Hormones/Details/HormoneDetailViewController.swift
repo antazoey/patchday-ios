@@ -143,7 +143,7 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-        if siteNameTyped == "" {
+        if siteNameTyped.isEmpty {
             selectSiteTextField.text = viewModel.selectSiteStartText
         } else {
             viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
