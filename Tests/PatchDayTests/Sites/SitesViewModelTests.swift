@@ -222,7 +222,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.goToSiteDetails(siteIndex: testIndex, sitesViewController: viewController)
 
         let callArgs = nav.goToSiteDetailsCallArgs
-        PDAssertSingle(nav.goToSettingsCallArgs)
+        PDAssertSingle(callArgs)
         let actualIndex = callArgs[0].0
         let actualVc = callArgs[0].1
         let params = callArgs[0].2

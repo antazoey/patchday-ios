@@ -59,14 +59,14 @@ class PillLastTakenListTests: XCTestCase {
         let testtimeString = "12:00:10,12:00:20"
         let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
         lastTakens.undoLast()
-        PDAssertSingle(lastTakens)
+        XCTAssertEqual(1, lastTakens.count)
     }
 
     func testUndoLast_whenOnlyOne_decreasesCountToZero() {
         let testtimeString = "12:00:10"
         let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
         lastTakens.undoLast()
-        PDAssertEmpty(lastTakens)
+        XCTAssertEqual(0, lastTakens.count)
     }
 
     func testUndoLast_whenInitWithEmptyString_returnsNil() {
@@ -99,7 +99,8 @@ class PillLastTakenListTests: XCTestCase {
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
         lastTakens.undoLast()
         let times = lastTakens.asList
-        PDAssertSingle(testTimeOne, times)
+        PDAssertSingle(times)
+        PDAssertEquiv(testTimeOne, times[0])
         XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 

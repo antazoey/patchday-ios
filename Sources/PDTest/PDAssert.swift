@@ -71,7 +71,7 @@ public func PDAssertDifferentTime(
 
 /// Asserts that an array has a single item.
 public func PDAssertSingle<T>(
-    _ collection: Array<T>, file: StaticString = #filePath, line: UInt = #line
+    _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
     let failMessage = "The array does not have only 1 item in it"
     XCTAssertEqual(1, collection.count, failMessage, file: file, line: line)
@@ -79,7 +79,7 @@ public func PDAssertSingle<T>(
 
 /// Asserts that an array has a single, specific item.
 public func PDAssertSingle<T: Equatable>(
-    _ expected: T, _ collection: Array<T>, file: StaticString = #filePath, line: UInt = #line
+    _ expected: T, _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
     let countFailMessage = "The array does not have only 1 item in it"
     XCTAssertEqual(1, collection.count, countFailMessage, file: file, line: line)
@@ -94,7 +94,7 @@ public func PDAssertSingle<T: Equatable>(
 
 /// Asserts that an array is empty.
 public func PDAssertEmpty<T>(
-    _ collection: Array<T>, file: StaticString = #filePath, line: UInt = #line
+    _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
     let failMessage = "The array is not empty"
     XCTAssertEqual(0, collection.count, failMessage, file: file, line: line)

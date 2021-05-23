@@ -28,8 +28,9 @@ class ChangeHormoneCommandTests: XCTestCase {
         let command = createCommand()
         command.execute()
         let callArgs = hormones.setDateByIdCallArgs
-        X
-        PDAssertNow(<#T##actual: Date##Date#>)
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(callArgs[0].0, testId)
+        PDAssertNow(callArgs[0].1)
     }
 
     private func createCommand() -> ChangeHormoneCommand {
