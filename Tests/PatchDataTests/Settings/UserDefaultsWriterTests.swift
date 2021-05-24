@@ -12,12 +12,12 @@ import PDTest
 import PatchData
 
 extension MockUserDefaults {
-    func assertSettingWasSet<T>(expected: T, setting: PDSetting) where T: Equatable {
+    func assertSettingWasSet<T>(expected: T, setting: PDSetting, line: UInt = #line) where T: Equatable {
         guard let actual = setCallArgs.last(where: { $0.1 == setting.rawValue})?.0 as? T else {
-            XCTFail("\(setting) was never set to \(expected).")
+            XCTFail("\(setting) was never set to \(expected).", line: line)
             return
         }
-        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(expected, actual, line: line)
     }
 }
 
@@ -425,6 +425,15 @@ class UserDefaultsWriterTests: XCTestCase {
         let r = writer.replaceSiteIndex(to: 50)
         XCTAssertEqual(expected, r)
         defaults.assertSettingWasSet(expected: expected, setting: .SiteIndex)
+    }
+
+    func testReplaceUseStaticExpirationTime_replaces() {
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        defaults.mockObjectMap[PDSetting.UseStaticExpirationTime.rawValue] = true
+        writer.replaceUseStaticExpirationTime(to: false)
+        defaults.assertSettingWasSet(expected: false, setting: .UseStaticExpirationTime)
     }
 
     func testIncrementStoredSiteIndex_whenRoomToIncrementAndNextIsFree_incrementsNormally() {

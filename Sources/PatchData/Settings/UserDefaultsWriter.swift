@@ -74,16 +74,15 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public func reset(defaultSiteCount: Int = 4) {
-        replaceDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
-        replaceExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)
-        replaceQuantity(to: DefaultSettings.QUANTITY_RAW_VALUE)
-        replaceNotifications(to: DefaultSettings.NOTIFICATIONS_RAW_VALUE)
-        replaceNotificationsMinutesBefore(
-            to: DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-        )
-        replaceMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
-        replaceSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
-        replaceUseStaticExpirationTime(to: DefaultSettings.USE_STATIC_EXPIRATION_TIME)
+        typealias defaults = DefaultSettings
+        replaceDeliveryMethod(to: defaults.DELIVERY_METHOD_VALUE)
+        replaceExpirationInterval(to: defaults.EXPIRATION_INTERVAL_VALUE)
+        replaceQuantity(to: defaults.QUANTITY_RAW_VALUE)
+        replaceNotifications(to: defaults.NOTIFICATIONS_RAW_VALUE)
+        replaceNotificationsMinutesBefore(to: defaults.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE)
+        replaceMentionedDisclaimer(to: defaults.MENTIONED_DISCLAIMER_RAW_VALUE)
+        replaceSiteIndex(to: defaults.SITE_INDEX_RAW_VALUE)
+        replaceUseStaticExpirationTime(to: defaults.USE_STATIC_EXPIRATION_TIME)
     }
 
     public func replaceDeliveryMethod(to newValue: DeliveryMethod) {
