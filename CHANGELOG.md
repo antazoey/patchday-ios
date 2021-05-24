@@ -10,7 +10,7 @@ Fixed
 
 Added
 
-- New setting "Preserve Expiration Times" that maintains the same expiration time. This makes it easier to
+- New setting "Constant Expiration Times" that maintains the same expiration time. This makes it easier to
     maintain a consistent schedule.
 
 Changed
