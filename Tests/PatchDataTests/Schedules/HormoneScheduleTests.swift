@@ -140,6 +140,14 @@ class HormoneScheduleTests: XCTestCase {
     }
 #endif
 
+    func testUseStaticExpirationTime_returnsValueFromSettings() {
+        setUpDefaultHormones(1)
+        mockSettings.useStaticExpirationTime = UseStaticExpirationTimeUD(true)
+        XCTAssertTrue(hormones.useStaticExpirationTime)
+        mockSettings.useStaticExpirationTime = UseStaticExpirationTimeUD(false)
+        XCTAssertFalse(hormones.useStaticExpirationTime)
+    }
+
     func testInsertNew_whenStoreReturnsNil_doesNotIncreaseHormoneCount() {
         setUpDefaultHormones(3)
         mockStore.newObjectFactory = nil
