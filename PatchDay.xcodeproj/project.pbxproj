@@ -126,6 +126,8 @@
 		9D5EF42B265AD1FF00F562A8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; };
 		9D5EF42C265AD1FF00F562A8 /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D5EF431265AEB4D00F562A8 /* ChangeHormoneCommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF42F265AEB0100F562A8 /* ChangeHormoneCommandTests.swift */; };
+		9D5EF433265B2D6F00F562A8 /* UserDefaultsWriteHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF432265B2D6F00F562A8 /* UserDefaultsWriteHandlerTests.swift */; };
+		9D5EF435265B2ED800F562A8 /* MockKeyStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF434265B2ED800F562A8 /* MockKeyStorable.swift */; };
 		9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */; };
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
@@ -642,6 +644,8 @@
 		9D5EF4242655EAF300F562A8 /* SettingPickerActivator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPickerActivator.swift; sourceTree = "<group>"; };
 		9D5EF4262655ED7000F562A8 /* SettingsPickerActivatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerActivatorTests.swift; sourceTree = "<group>"; };
 		9D5EF42F265AEB0100F562A8 /* ChangeHormoneCommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeHormoneCommandTests.swift; sourceTree = "<group>"; };
+		9D5EF432265B2D6F00F562A8 /* UserDefaultsWriteHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandlerTests.swift; sourceTree = "<group>"; };
+		9D5EF434265B2ED800F562A8 /* MockKeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockKeyStorable.swift; sourceTree = "<group>"; };
 		9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertTests.swift; sourceTree = "<group>"; };
 		9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertHandlersTests.swift; sourceTree = "<group>"; };
 		9D618794263DA54000B284CF /* PlaceholderStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderStrings.swift; sourceTree = "<group>"; };
@@ -1077,6 +1081,7 @@
 			children = (
 				3397CF33CEB0E43BBF273BDB /* SettingsTests.swift */,
 				9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */,
+				9D5EF432265B2D6F00F562A8 /* UserDefaultsWriteHandlerTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1696,6 +1701,7 @@
 				9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */,
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
 				9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */,
+				9D5EF434265B2ED800F562A8 /* MockKeyStorable.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -2645,6 +2651,7 @@
 				9D788785255399EC00DC0F6D /* MockSiteImageHistory.swift in Sources */,
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
 				9D1908F6247029E800E95244 /* PDAssert.swift in Sources */,
+				9D5EF435265B2ED800F562A8 /* MockKeyStorable.swift in Sources */,
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
 				9DB1E39C2651F6F100EA1F0D /* MockSettingsPickerIndexer.swift in Sources */,
 				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
@@ -2747,6 +2754,7 @@
 				9D8A984723D13052004E20FE /* SiteScheduledTests.swift in Sources */,
 				9D8A983F23CBF384004E20FE /* HormoneTests.swift in Sources */,
 				9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */,
+				9D5EF433265B2D6F00F562A8 /* UserDefaultsWriteHandlerTests.swift in Sources */,
 				9D8A986523D95941004E20FE /* PillTestsUtil.swift in Sources */,
 				B468414221DC815A00A0BE73 /* HormoneScheduleTests.swift in Sources */,
 				9D8A985323D1682E004E20FE /* SiteTests.swift in Sources */,
