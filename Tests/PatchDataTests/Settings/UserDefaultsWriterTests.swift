@@ -342,7 +342,7 @@ class UserDefaultsWriterTests: XCTestCase {
         )
     }
 
-    func testreplaceDeliveryMethod_replaces() {
+    func testReplaceDeliveryMethod_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -353,7 +353,7 @@ class UserDefaultsWriterTests: XCTestCase {
         )
     }
 
-    func testreplaceQuantity_replaces() {
+    func testReplaceQuantity_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -362,7 +362,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: 2, setting: .Quantity)
     }
 
-    func testreplaceExpirationInterval_replaces() {
+    func testReplaceExpirationInterval_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -372,7 +372,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: expected, setting: .ExpirationInterval)
     }
 
-    func testreplaceXDays_replaces() {
+    func testReplaceXDays_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -381,7 +381,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: "5.5", setting: .XDays)
     }
 
-    func testreplaceNotifications_replaces() {
+    func testReplaceNotifications_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -390,7 +390,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: true, setting: .Notifications)
     }
 
-    func testreplaceNotificationsMinutesBefore_replaces() {
+    func testReplaceNotificationsMinutesBefore_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -399,7 +399,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: 23, setting: .NotificationsMinutesBefore)
     }
 
-    func testreplaceMentionedDisclaimer_replaces() {
+    func testReplaceMentionedDisclaimer_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -408,7 +408,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: true, setting: .MentionedDisclaimer)
     }
 
-    func testreplacePillsEnabled_replaces() {
+    func testReplacePillsEnabled_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
@@ -417,7 +417,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(expected: true, setting: .PillsEnabled)
     }
 
-    func testreplaceSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
+    func testReplaceSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
