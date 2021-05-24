@@ -340,6 +340,9 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(
             expected: DefaultSettings.SITE_INDEX_RAW_VALUE, setting: .SiteIndex
         )
+        defaults.assertSettingWasSet(
+            expected: DefaultSettings.USE_STATIC_EXPIRATION_TIME, setting: .UseStaticExpirationTime
+        )
     }
 
     func testReplaceDeliveryMethod_replaces() {
