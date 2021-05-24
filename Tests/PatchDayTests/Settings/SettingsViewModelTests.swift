@@ -181,6 +181,16 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(1, mockReflector.reflectCallCount)
     }
 
+    func testSetUseStaticExpirationTime_sets() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setUseStaticExpirationTime(true)
+        viewModel.setUseStaticExpirationTime(false)
+        viewModel.setUseStaticExpirationTime(true)
+        let mockSettings = dependencies.sdk?.settings as! MockSettings
+        let callArgs = mockSettings.setUseStaticExpirationTimeCallArgs
+        XCTAssertEqual([true, false, true], callArgs)
+    }
+
     func testSetNotifications_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.setNotifications(true)
