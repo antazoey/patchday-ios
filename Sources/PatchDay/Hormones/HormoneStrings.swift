@@ -31,7 +31,7 @@ public class HormoneStrings {
     }
 
     private static func createInjectionViewStrings(_ injection: Hormonal) -> HormoneViewStrings {
-        HormoneViewStrings(Next, DateAndTimeInjected, LastSiteInjected)
+        HormoneViewStrings(Next, DateAndTimeApplied, _Site)
     }
 
     private static func createGelViewStrings(_ gel: Hormonal) -> HormoneViewStrings {
@@ -55,11 +55,7 @@ public class HormoneStrings {
     }
 
     private static var DateAndTimeApplied: String {
-        NSLocalizedString("Date and time applied: ", comment: c2)
-    }
-
-    private static var DateAndTimeInjected: String {
-        NSLocalizedString("Date and time injected: ", comment: c2)
+        NSLocalizedString("Application date and time: ", comment: c2)
     }
 
     private static var DateAndTimeTaken: String {
@@ -68,9 +64,5 @@ public class HormoneStrings {
 
     private static var _Site: String {
         NSLocalizedString("Site: ", comment: c2)
-    }
-
-    private static var LastSiteInjected: String {
-        NSLocalizedString("Site injected: ", comment: c2)
     }
 }

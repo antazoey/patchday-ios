@@ -32,14 +32,22 @@ class DateFactoryTests: XCTestCase {
 
     func testCreateDate_byAddingHoursToDate_returnsExpectedDate() {
         let expected = Date(timeIntervalSinceNow: 10800)
-        let actual = DateFactory.createDate(byAddingHours: 3, to: Date())!
-        XCTAssert(PDAssert.equiv(expected, actual))
+
+        guard let actual = DateFactory.createDate(byAddingHours: 3, to: Date()) else {
+            XCTFail("Was unable to create date")
+            return
+        }
+
+        PDAssertEquiv(expected, actual)
     }
 
     func testCreateDate_byAddingMinutesToDate_returnsExpectedDate() {
         let expected = Date(timeIntervalSinceNow: 10800)
-        let actual = DateFactory.createDate(byAddingMinutes: 180, to: Date())!
-        XCTAssert(PDAssert.equiv(expected, actual))
+        guard let actual = DateFactory.createDate(byAddingMinutes: 180, to: Date()) else {
+            XCTFail("Was unable to create date")
+            return
+        }
+        PDAssertEquiv(expected, actual)
     }
 
     func testCreateTimesFromCommaSeparatedString_handlesSingleDate() {
@@ -54,14 +62,20 @@ class DateFactoryTests: XCTestCase {
 
     func testCreateTimeInterval_returnsExpectedTimeInterval() {
         let expected = 18000.0
-        let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date())!
-        XCTAssert(PDAssert.equiv(expected, actual))
+        guard let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date()) else {
+            XCTFail("Was unable to create date")
+            return
+        }
+        PDAssertEquiv(expected, actual)
     }
 
     func testCreateTimeInterval_whenGivenNegativeHours_returnsExpectedTimeInterval() {
         let expected = -18000.0
-        let actual = DateFactory.createTimeInterval(fromAddingHours: -5, to: Date())!
-        XCTAssert(PDAssert.equiv(expected, actual))
+        guard let actual = DateFactory.createTimeInterval(fromAddingHours: -5, to: Date()) else {
+            XCTFail("Was unable to create date")
+            return
+        }
+        PDAssertEquiv(expected, actual)
     }
 
     func testCreateTimeInterval_whenGivenDefaultDate_returnsNil() {
@@ -82,12 +96,23 @@ class DateFactoryTests: XCTestCase {
     /// Tests a PDTest test method
     public func testSameTime() {
         let time = Date()
-        let d1 = DateFactory.createDate(at: time, daysFromToday: 5)!
-        let d2 = DateFactory.createDate(at: time, daysFromToday: -9)!
-        XCTAssert(PDAssert.sameTime(d1, d2))
-
-        let d3 = DateFactory.createDate(byAddingMinutes: 12, to: time)!
-        let d4 = DateFactory.createDate(byAddingMinutes: -19, to: time)!
-        XCTAssertFalse(PDAssert.sameTime(d3, d4))
+        guard let d1 = DateFactory.createDate(at: time, daysFromToday: 5) else {
+            XCTFail("Unable to create test date one")
+            return
+        }
+        guard let d2 = DateFactory.createDate(at: time, daysFromToday: -9) else {
+            XCTFail("Unable to create test date two")
+            return
+        }
+        PDAssertSameTime(d1, d2)
+        guard let d3 = DateFactory.createDate(byAddingMinutes: 12, to: time) else {
+            XCTFail("Unable to create test date three")
+            return
+        }
+        guard let d4 = DateFactory.createDate(byAddingMinutes: -19, to: time) else {
+            XCTFail("Unable to create test date four")
+            return
+        }
+        PDAssertDifferentTime(d3, d4)
     }
 }

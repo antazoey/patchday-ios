@@ -72,7 +72,7 @@ class EntityAdapter {
         if let notify = pillData.attributes.notify, notify != pill.notify {
             pill.notify = notify
         }
-        if let times = pillData.attributes.times as String?, times != "" {
+        if let times = pillData.attributes.times as String?, !times.isEmpty {
             pill.times = times
         }
         if let timesTaken = pillData.attributes.timesTakenToday,
@@ -106,7 +106,7 @@ class EntityAdapter {
     }
 
     static func applySiteData(_ siteData: SiteStruct, to site: inout MOSite) {
-        if let name = siteData.name, name != "", name != site.name {
+        if let name = siteData.name, !name.isEmpty, name != site.name {
             site.name = name
         }
         if let imageId = siteData.imageIdentifier, imageId != site.imageIdentifier {

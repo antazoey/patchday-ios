@@ -443,10 +443,19 @@ class HormoneTests: XCTestCase {
         let testDate = Date()
         let hormone = createEmptyHormone()
         let interval = ExpirationIntervalUD(.EveryTwoWeeks)
-        hormone.date = testDateThatIsNow
+        let now = testDateThatIsNow
+        hormone.date = now
         hormone.expirationInterval = interval
-        let actual = hormone.createExpirationDate(from: testDate)!
-        let expected = Calendar.current.date(byAdding: .hour, value: interval.hours, to: testDateThatIsNow)!
-        XCTAssert(PDAssert.equiv(expected, actual))
+
+        let hours = interval.hours
+        guard let actual = hormone.createExpirationDate(from: testDate) else {
+            XCTFail("Was unable to create actual date")
+            return
+        }
+        guard let expected = Calendar.current.date(byAdding: .hour, value: hours, to: now) else {
+            XCTFail("Was unable to create expected date")
+            return
+        }
+        PDAssertEquiv(expected, actual)
     }
 }

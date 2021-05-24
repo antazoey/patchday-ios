@@ -332,10 +332,10 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertTrue(tabsReloaded)
         XCTAssertTrue(handleCalled)
         XCTAssertTrue(badgeReflected)
-        XCTAssertEqual(1, notificationCallArgs.count)
+        PDAssertSingle(notificationCallArgs)
         XCTAssertEqual(notificationCallArgs[0].id, expectedHormone.id)
-        XCTAssertEqual(1, setDateCallArgs.count)
-        XCTAssertEqual(1, setSiteCallArgs.count)
+        PDAssertSingle(setDateCallArgs)
+        PDAssertSingle(setSiteCallArgs)
     }
 
     func testHandleRowTapped_whenEditActionChosen_doesExpectedActions() {
@@ -353,7 +353,7 @@ class HormonesViewModelTests: XCTestCase {
         let editAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].3
         editAction()  // Simulates user selecting "Edit" from the alert
         let callArgs = (mockDeps.nav as! MockNav).goToHormoneDetailsCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(0, callArgs[0].0)
         XCTAssertEqual(viewController, callArgs[0].1)
     }
@@ -374,7 +374,7 @@ class HormonesViewModelTests: XCTestCase {
         }
         let callArgs = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs
         XCTAssertFalse(reloadCalled)
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testPresentDisclaimerIfFirstLaunch_ifNilSdk_doesNothing() {
@@ -432,7 +432,7 @@ class HormonesViewModelTests: XCTestCase {
             now: mockNow
         )
         viewModel.presentDisclaimerAlertIfFirstLaunch()
-        XCTAssertEqual(1, mockSettings.setMentionedDisclaimerCallArgs.count)
+        PDAssertSingle(mockSettings.setMentionedDisclaimerCallArgs)
         XCTAssertTrue(mockSettings.setMentionedDisclaimerCallArgs[0])
     }
 

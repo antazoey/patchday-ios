@@ -8,27 +8,22 @@ import PDKit
 
 public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
-    public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DELIVERY_METHOD_RAW_VALUE)
-    public var expirationInterval = ExpirationIntervalUD(
-        DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
-    )
-    public var quantity = QuantityUD(DefaultSettings.QUANTITY_RAW_VALUE)
-    public var notifications = NotificationsUD(DefaultSettings.NOTIFICATIONS_RAW_VALUE)
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(
-        DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-    )
-    public var mentionedDisclaimer = MentionedDisclaimerUD(
-        DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
-    )
-    public var siteIndex = SiteIndexUD(DefaultSettings.SITE_INDEX_RAW_VALUE)
-    public var pillsEnabled = PillsEnabledUD(DefaultSettings.PILLS_ENABLED_RAW_VALUE)
+    public var deliveryMethod = DeliveryMethodUD()
+    public var expirationInterval = ExpirationIntervalUD()
+    public var quantity = QuantityUD()
+    public var notifications = NotificationsUD()
+    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD()
+    public var mentionedDisclaimer = MentionedDisclaimerUD()
+    public var siteIndex = SiteIndexUD()
+    public var pillsEnabled = PillsEnabledUD()
+    public var useStaticExpirationTime = UseStaticExpirationTimeUD()
 
     public init() { }
 
     public func resetMock() {
-        replaceStoredDeliveryMethodCallArgs = []
-        replaceStoredExpirationIntervalCallArgs = []
-        replaceStoredQuantityCallArgs = []
+        replaceDeliveryMethodCallArgs = []
+        replaceExpirationIntervalCallArgs = []
+        replaceQuantityCallArgs = []
         resetCallArgs = []
         replaceSiteIndexMockReturnValue = 0
     }
@@ -38,51 +33,51 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         resetCallArgs.append(defaultSiteCount)
     }
 
-    public var replaceStoredDeliveryMethodCallArgs: [DeliveryMethod] = []
-    public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
-        replaceStoredDeliveryMethodCallArgs.append(newValue)
+    public var replaceDeliveryMethodCallArgs: [DeliveryMethod] = []
+    public func replaceDeliveryMethod(to newValue: DeliveryMethod) {
+        replaceDeliveryMethodCallArgs.append(newValue)
     }
 
-    public var replaceStoredExpirationIntervalCallArgs: [ExpirationInterval] = []
-    public func replaceStoredExpirationInterval(to newValue: ExpirationInterval) {
-        replaceStoredExpirationIntervalCallArgs.append(newValue)
+    public var replaceExpirationIntervalCallArgs: [ExpirationInterval] = []
+    public func replaceExpirationInterval(to newValue: ExpirationInterval) {
+        replaceExpirationIntervalCallArgs.append(newValue)
     }
 
-    public var replaceStoredXDaysCallArgs: [String] = []
-    public func replaceStoredXDays(to newValue: String) {
-        replaceStoredXDaysCallArgs.append(newValue)
+    public var replaceXDaysCallArgs: [String] = []
+    public func replaceXDays(to newValue: String) {
+        replaceXDaysCallArgs.append(newValue)
     }
 
-    public var replaceStoredQuantityCallArgs: [Int] = []
-    public func replaceStoredQuantity(to newValue: Int) {
-        replaceStoredQuantityCallArgs.append(newValue)
+    public var replaceQuantityCallArgs: [Int] = []
+    public func replaceQuantity(to newValue: Int) {
+        replaceQuantityCallArgs.append(newValue)
         self.quantity = QuantityUD(newValue)
     }
 
-    public var replaceStoredNotificationsCallArgs: [Bool] = []
-    public func replaceStoredNotifications(to newValue: Bool) {
-        replaceStoredNotificationsCallArgs.append(newValue)
+    public var replaceNotificationsCallArgs: [Bool] = []
+    public func replaceNotifications(to newValue: Bool) {
+        replaceNotificationsCallArgs.append(newValue)
         self.notifications = NotificationsUD(newValue)
     }
 
-    public var replaceStoredNotificationsMinutesBeforeCallArgs: [Int] = []
-    public func replaceStoredNotificationsMinutesBefore(to newValue: Int) {
-        replaceStoredNotificationsMinutesBeforeCallArgs.append(newValue)
+    public var replaceNotificationsMinutesBeforeCallArgs: [Int] = []
+    public func replaceNotificationsMinutesBefore(to newValue: Int) {
+        replaceNotificationsMinutesBeforeCallArgs.append(newValue)
         self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(
             newValue
         )
     }
 
-    public var replaceStoredMentionedDisclaimerCallArgs: [Bool] = []
-    public func replaceStoredMentionedDisclaimer(to newValue: Bool) {
-        replaceStoredMentionedDisclaimerCallArgs.append(newValue)
+    public var replaceMentionedDisclaimerCallArgs: [Bool] = []
+    public func replaceMentionedDisclaimer(to newValue: Bool) {
+        replaceMentionedDisclaimerCallArgs.append(newValue)
         self.mentionedDisclaimer = MentionedDisclaimerUD(newValue)
     }
 
     public var replaceSiteIndexMockReturnValue = 0
-    public var replaceStoredSiteIndexCallArgs: [Index] = []
-    public func replaceStoredSiteIndex(to newValue: Index) -> Index {
-        replaceStoredSiteIndexCallArgs.append(newValue)
+    public var replaceSiteIndexCallArgs: [Index] = []
+    public func replaceSiteIndex(to newValue: Index) -> Index {
+        replaceSiteIndexCallArgs.append(newValue)
         self.siteIndex = SiteIndexUD(newValue)
         return newValue
     }
@@ -94,8 +89,13 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         return self.siteIndex.rawValue + 1
     }
 
-    public var replaceStoredPillsEnabledCallArgs: [Bool] = []
-    public func replaceStoredPillsEnabled(to newValue: Bool) {
-        replaceStoredPillsEnabledCallArgs.append(newValue)
+    public var replacePillsEnabledCallArgs: [Bool] = []
+    public func replacePillsEnabled(to newValue: Bool) {
+        replacePillsEnabledCallArgs.append(newValue)
+    }
+
+    public var replaceUseStaticExpirationTimeCallArgs: [Bool] = []
+    public func replaceUseStaticExpirationTime(to newValue: Bool) {
+        replaceUseStaticExpirationTimeCallArgs.append(newValue)
     }
 }

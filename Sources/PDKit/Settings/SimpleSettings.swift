@@ -45,3 +45,11 @@ public class PillsEnabledUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
         self.init(DefaultSettings.PILLS_ENABLED_RAW_VALUE)
     }
 }
+
+public class UseStaticExpirationTimeUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
+    public var setting: PDSetting = .UseStaticExpirationTime
+
+    public convenience init() {
+        self.init(DefaultSettings.USE_STATIC_EXPIRATION_TIME)
+    }
+}

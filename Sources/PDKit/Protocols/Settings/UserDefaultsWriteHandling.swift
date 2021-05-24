@@ -8,5 +8,5 @@ import Foundation
 
 public protocol UserDefaultsWriteHandling {
     func replace<T>(_ v: T, to newValue: T.RawValue) where T: KeyStorable
-    func load<T>(setting: PDSetting, defaultValue: T) -> T
+    func load<T>(_ setting: PDSetting) -> T?
 }

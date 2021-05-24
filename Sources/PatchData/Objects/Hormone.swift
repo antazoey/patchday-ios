@@ -54,10 +54,8 @@ public class Hormone: Hormonal {
 
     public var siteName: SiteName {
         get {
-            let backup = hormoneData.siteNameBackUp == "" ?
-                SiteStrings.NewSite : hormoneData.siteNameBackUp ?? SiteStrings.NewSite
-            guard let name = hormoneData.siteName, name != "", name != SiteStrings.NewSite else {
-                return backup
+            guard let name = hormoneData.siteName, !name.isEmpty, name != SiteStrings.NewSite else {
+                return backupSiteName
             }
             hormoneData.siteImageId = nil
             return name
@@ -67,10 +65,8 @@ public class Hormone: Hormonal {
 
     public var siteImageId: SiteName {
         get {
-            guard let id = hormoneData.siteImageId else {
-                return siteName
-            }
-            return id == "" || id == SiteStrings.NewSite ? siteName : id
+            guard let id = hormoneData.siteImageId else { return siteName }
+            return id.isEmpty || id == SiteStrings.NewSite ? siteName : id
         }
         set { hormoneData.siteImageId = newValue }
     }
@@ -81,17 +77,13 @@ public class Hormone: Hormonal {
     }
 
     public var expiration: Date? {
-        if let date = date as Date?, !date.isDefault() {
-            return createExpirationDate(from: date)
-        }
-        return nil
+        guard let date = date as Date?, !date.isDefault() else { return nil }
+        return createExpirationDate(from: date)
     }
 
     public var isExpired: Bool {
-        guard let expDate = expiration else {
-            return false
-        }
-        return expDate < now.now
+        guard let expirationDate = expiration else { return false }
+        return expirationDate < now.now
     }
 
     public var isPastNotificationTime: Bool {
@@ -106,10 +98,8 @@ public class Hormone: Hormonal {
     }
 
     public var expiresOvernight: Bool {
-        guard let exp = expiration, !isExpired else {
-            return false
-        }
-        return exp.isOvernight()
+        guard let expirationDate = expiration, !isExpired else { return false }
+        return expirationDate.isOvernight()
     }
 
     public var siteNameBackUp: String? {
@@ -142,5 +132,13 @@ public class Hormone: Hormonal {
 
     public func createExpirationDate(from startDate: Date) -> Date? {
         DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: date)
+    }
+
+    private var backupSiteName: String {
+        var backupSite = hormoneData.siteNameBackUp ?? SiteStrings.NewSite
+        if backupSite.isEmpty {
+            backupSite = SiteStrings.NewSite
+        }
+        return backupSite
     }
 }

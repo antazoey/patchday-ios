@@ -12,25 +12,25 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     func reset(defaultSiteCount: Int)
 
     /// Replace the value of `deliveryMethod` with the given one.
-    func replaceStoredDeliveryMethod(to newMethod: DeliveryMethod)
+    func replaceDeliveryMethod(to newMethod: DeliveryMethod)
 
     /// Replace the value of `expirationInterval` with the given one.
-    func replaceStoredExpirationInterval(to newValue: ExpirationInterval)
+    func replaceExpirationInterval(to newValue: ExpirationInterval)
 
     /// Replace the value of `XDays` with the given one. Accepts 1...25.
-    func replaceStoredXDays(to newValue: String)
+    func replaceXDays(to newValue: String)
 
     /// Replace the value of `quantity` with the given one. Accepts 1, 2, 3, 4.
-    func replaceStoredQuantity(to newValue: Int)
+    func replaceQuantity(to newValue: Int)
 
     /// Replace the value of `notifications` with the given one.
-    func replaceStoredNotifications(to newNotifications: Bool)
+    func replaceNotifications(to newNotifications: Bool)
 
     /// Replace the value of `notificationsMinutesBefore` with the given one.
-    func replaceStoredNotificationsMinutesBefore(to newValue: Int)
+    func replaceNotificationsMinutesBefore(to newValue: Int)
 
     /// Replace the value of `mentionedDisclaimer` with the given one.
-    func replaceStoredMentionedDisclaimer(to newValue: Bool)
+    func replaceMentionedDisclaimer(to newValue: Bool)
 
     /// Increment the site index modularly. Use `start` when changing sites outside of schedule order.
     @discardableResult
@@ -39,8 +39,11 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     /// Replace the value of `siteIndex` with the given one.
     /// Accepts `0..<siteCount`. Returns the index after trying to set.
     @discardableResult
-    func replaceStoredSiteIndex(to newValue: Index) -> Index
+    func replaceSiteIndex(to newValue: Index) -> Index
 
     /// Replace the value that indicates whether pills are activated.
-    func replaceStoredPillsEnabled(to newValue: Bool)
+    func replacePillsEnabled(to newValue: Bool)
+
+    /// Replace the value that indicates to use static expiration times instead of dynamic.
+    func replaceUseStaticExpirationTime(to newValue: Bool)
 }

@@ -15,6 +15,7 @@ struct SettingsControls {
     let notificationsSwitch: UISwitch
     let notificationsMinutesBeforeSlider: UISlider
     let notificationsMinutesBeforeValueLabel: UILabel
+    let useStaticExpirationTimeSwitch: UISwitch
 
     func reflect(method: DeliveryMethod) {
         switch method {

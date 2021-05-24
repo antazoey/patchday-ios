@@ -72,6 +72,7 @@ public class DefaultSettings {
     public static let QUANTITY_VALUE = Quantity.Three
     public static let QUANTITY_RAW_VALUE = 3
     public static let SITE_INDEX_RAW_VALUE = 0
+    public static let USE_STATIC_EXPIRATION_TIME = false
     public static let XDAYS_RAW_VALUE = "3.5"
     public static let XDAYS_DOUBLE = 3.0
     public static let XDAYS_INT = 3

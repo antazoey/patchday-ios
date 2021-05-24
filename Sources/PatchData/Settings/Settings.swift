@@ -36,9 +36,10 @@ public class Settings: SettingsManaging {
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
+    public var useStaticExpirationTime: UseStaticExpirationTimeUD { writer.useStaticExpirationTime }
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
-        writer.replaceStoredDeliveryMethod(to: newMethod)
+        writer.replaceDeliveryMethod(to: newMethod)
         sites.reset()
         hormones.shareData()
         let defaultQuantity = DefaultQuantities.Hormone[newMethod]
@@ -54,37 +55,41 @@ public class Settings: SettingsManaging {
         } else if newQuantity > oldQuantity {
             hormones.fillIn(to: newQuantity)
         }
-        writer.replaceStoredQuantity(to: newQuantity)
+        writer.replaceQuantity(to: newQuantity)
     }
 
     public func setExpirationInterval(to newInterval: String) {
         let interval = SettingsOptions.getExpirationInterval(for: newInterval)
         if interval == .EveryXDays {
             let days = XDaysUD.extract(newInterval)
-            writer.replaceStoredXDays(to: days)
+            writer.replaceXDays(to: days)
         }
-        writer.replaceStoredExpirationInterval(to: interval)
+        writer.replaceExpirationInterval(to: interval)
     }
 
     @discardableResult
     public func setSiteIndex(to newIndex: Index) -> Index {
-        writer.replaceStoredSiteIndex(to: newIndex)
+        writer.replaceSiteIndex(to: newIndex)
     }
 
     public func setNotifications(to newValue: Bool) {
-        writer.replaceStoredNotifications(to: newValue)
+        writer.replaceNotifications(to: newValue)
     }
 
     public func setNotificationsMinutesBefore(to newMinutes: Int) {
-        writer.replaceStoredNotificationsMinutesBefore(to: newMinutes)
+        writer.replaceNotificationsMinutesBefore(to: newMinutes)
     }
 
     public func setMentionedDisclaimer(to newValue: Bool) {
-        writer.replaceStoredMentionedDisclaimer(to: newValue)
+        writer.replaceMentionedDisclaimer(to: newValue)
     }
 
     public func setPillsEnabled(to newValue: Bool) {
-        writer.replaceStoredPillsEnabled(to: newValue)
+        writer.replacePillsEnabled(to: newValue)
+    }
+
+    public func setUseStaticExpirationTime(to newValue: Bool) {
+        writer.replaceUseStaticExpirationTime(to: newValue)
     }
 
     public func reset(defaultSiteCount: Int) {

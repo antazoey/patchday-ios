@@ -33,7 +33,7 @@ class SitesViewModelTests: XCTestCase {
         let actualSite = actualSites[0]
         let actualSiteId = actualSite.id
         XCTAssertEqual(expectedSiteId, actualSiteId)
-        XCTAssertEqual(1, actualSites.count)
+        PDAssertSingle(actualSites)
     }
 
     func testSitesCount_whenNilSdk_returnsZero() {
@@ -75,7 +75,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         let gesture = viewModel.createSiteCellSwipeActions(indexPath: IndexPath(index: 0))
-        XCTAssertEqual(1, gesture.actions.count)
+        PDAssertSingle(gesture.actions)
     }
 
     func testCreateSiteCellSwipeActions_returnsRedActionButton() {
@@ -190,7 +190,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: UIViewController())
-        XCTAssertEqual(0, table.toggleEditCallArgs.count)
+        PDAssertEmpty(table.toggleEditCallArgs)
     }
 
     func testGoToSiteDetails_setsBarBackItem() {
@@ -222,7 +222,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.goToSiteDetails(siteIndex: testIndex, sitesViewController: viewController)
 
         let callArgs = nav.goToSiteDetailsCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         let actualIndex = callArgs[0].0
         let actualVc = callArgs[0].1
         let params = callArgs[0].2
@@ -244,7 +244,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.handleSiteInsert(sitesViewController: UIViewController())
 
         let callArgs = nav.goToSiteDetailsCallArgs
-        XCTAssertEqual(0, callArgs.count)
+        PDAssertEmpty(callArgs)
     }
 
     func testHandleInsert_whenInsertSucceeds_navigates() {
@@ -259,7 +259,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.handleSiteInsert(sitesViewController: UIViewController())
 
         let callArgs = nav.goToSiteDetailsCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
     }
 
     func testHandleInsert_callsSdkInsertWithExpectedParameters() {
@@ -273,7 +273,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.handleSiteInsert(sitesViewController: UIViewController())
 
         let callArgs = sites.insertNewCallArgs
-        XCTAssertEqual(1, callArgs.count)
+        PDAssertSingle(callArgs)
         XCTAssertEqual(SiteStrings.NewSite, callArgs[0].0)
         XCTAssertNil(callArgs[0].1)
     }
@@ -287,8 +287,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.toggleEdit(true)
 
         let callArgs = table.toggleEditCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertTrue(callArgs[0])
+        PDAssertSingle(true, callArgs)
     }
 
     func testToggleEdit_whenNotEditing_callsToggleEditWithFalse() {
@@ -300,8 +299,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.toggleEdit(false)
 
         let callArgs = table.toggleEditCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertFalse(callArgs[0])
+        PDAssertSingle(false, callArgs)
     }
 
     func testDeleteSite_deletesSite() {
@@ -314,8 +312,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.deleteSite(at: IndexPath(row: 1, section: 0))
 
         let callArgs = sites.deleteCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(1, callArgs[0])
+        PDAssertSingle(1, callArgs)
     }
 
     func testDeleteSite_deletesCell() {
@@ -328,8 +325,7 @@ class SitesViewModelTests: XCTestCase {
         viewModel.deleteSite(at: index)
 
         let callArgs = table.deleteCellCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(index, callArgs[0])
+        PDAssertSingle(index, callArgs)
     }
 
     func testDeleteSite_reloadsTable() {

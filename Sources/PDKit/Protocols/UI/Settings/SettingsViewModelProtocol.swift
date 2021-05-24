@@ -21,6 +21,9 @@ public protocol SettingsViewModelProtocol: SettingsPickerIndexing {
     /// Set UI properties using stored values.
     func reflect()
 
-    /// Set the notifications setting.
+    /// Set the `useStaticExpirationTime` setting.
+    func setUseStaticExpirationTime(_ newValue: Bool)
+
+    /// Set the `notifications` setting.
     func setNotifications(_ newValue: Bool)
 }

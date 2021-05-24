@@ -120,13 +120,13 @@ class SettingsViewModelTests: XCTestCase {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         settings.notifications = NotificationsUD(false)
         viewModel.handleNewNotificationsMinutesValue(23.0)
-        XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
+        PDAssertEmpty(settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(-23.0)
-        XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
+        PDAssertEmpty(settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_cancelsAndResendsAllNotifications() {
@@ -151,8 +151,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(23.0)
-        XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
-        XCTAssertEqual(23, settings.setNotificationsMinutesBeforeCallArgs[0])
+        PDAssertSingle(23, settings.setNotificationsMinutesBeforeCallArgs)
     }
 
     func testHandleNewNotificationsMinutesValue_returnsExpectedTitleString() {
@@ -180,6 +179,16 @@ class SettingsViewModelTests: XCTestCase {
         let viewModel = SettingsViewModel(mockReflector, saver, alertFactory, dependencies)
         viewModel.reflect()
         XCTAssertEqual(1, mockReflector.reflectCallCount)
+    }
+
+    func testSetUseStaticExpirationTime_sets() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setUseStaticExpirationTime(true)
+        viewModel.setUseStaticExpirationTime(false)
+        viewModel.setUseStaticExpirationTime(true)
+        let mockSettings = dependencies.sdk?.settings as! MockSettings
+        let callArgs = mockSettings.setUseStaticExpirationTimeCallArgs
+        XCTAssertEqual([true, false, true], callArgs)
     }
 
     func testSetNotifications_sets() {

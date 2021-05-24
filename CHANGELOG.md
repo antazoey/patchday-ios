@@ -1,10 +1,21 @@
 # Changelog
 
-# Unreleased
+# 3.6.0 (Unreleased)
 
 Fixed
 
 - A bug where a portion of the notification minutes slider in the Settings View was not honoring dark mode.
+- A display fallacy where the "Notifications Minutes Before" label would say "30" even though notifications were 
+    off.
+
+Added
+
+- New setting "Constant Expiration Times" that maintains the same expiration time. This makes it easier to
+    maintain a consistent schedule.
+
+Changed
+
+- Some verbiage around hormone dates and sites on the Hormone Details View.
 
 ## 3.5.0
 

@@ -9,12 +9,10 @@ import PDKit
 public class MockHormoneSchedule: HormoneScheduling {
 
     public var all: [Hormonal] = []
-
     public var isEmpty: Bool = false
-
     public var next: Hormonal?
-
     public var totalExpired: Int = -1
+    public var useStaticExpirationTime = false
 
     public var count: Int {
         all.count

@@ -26,10 +26,8 @@ class SettingsReflectorTests: XCTestCase {
         settings.quantity = QuantityUD(3)
         settings.notifications = NotificationsUD(true)
         settings.notificationsMinutesBefore = NotificationsMinutesBeforeUD(23)
-
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual(controls.deliveryMethodButton.titleLabel?.text, "Patches")
         XCTAssertEqual(controls.expirationIntervalButton.titleLabel?.text, "Once Weekly")
         XCTAssertEqual(controls.quantityButton.titleLabel?.text, "3")
@@ -43,7 +41,7 @@ class SettingsReflectorTests: XCTestCase {
         settings.notificationsMinutesBefore = NotificationsMinutesBeforeUD(32)
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
-
+        XCTAssertEqual("0", controls.notificationsMinutesBeforeValueLabel.text)
         XCTAssertEqual(0, controls.notificationsMinutesBeforeSlider.value)
     }
 
@@ -54,7 +52,6 @@ class SettingsReflectorTests: XCTestCase {
         settings.notificationsMinutesBefore = NotificationsMinutesBeforeUD(32)
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual("32", controls.notificationsMinutesBeforeValueLabel.text)
         XCTAssertEqual(Float(32), controls.notificationsMinutesBeforeSlider.value)
     }
@@ -67,7 +64,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual("1", controls.quantityButton.titleLabel?.text)
     }
 
@@ -79,7 +75,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual(1, settings.setQuantityCallArgs[0])
     }
 
@@ -91,7 +86,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertFalse(controls.quantityButton.isEnabled)
         XCTAssertFalse(controls.quantityArrowButton.isEnabled)
     }
@@ -104,7 +98,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual("1", controls.quantityButton.titleLabel?.text)
     }
 
@@ -116,7 +109,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertEqual(1, settings.setQuantityCallArgs[0])
     }
 
@@ -128,7 +120,6 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         controls.quantityButton.setTitle("Not 1")
         SettingsReflector(controls, dependencies).reflect()
-
         XCTAssertFalse(controls.quantityButton.isEnabled)
         XCTAssertFalse(controls.quantityArrowButton.isEnabled)
     }
@@ -141,5 +132,23 @@ class SettingsReflectorTests: XCTestCase {
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
         XCTAssertEqual("Every 5 Days", controls.expirationIntervalButton.titleLabel?.text)
+    }
+
+    func testReflect_whenUsingStaticExpirationTime_setsUseStaticExpirationTimeSwitchToOn() {
+        let sdk = dependencies.sdk as! MockSDK
+        let settings = sdk.settings as! MockSettings
+        settings.useStaticExpirationTime = UseStaticExpirationTimeUD(true)
+        controls = helper.createControls()
+        SettingsReflector(controls, dependencies).reflect()
+        XCTAssertTrue(controls.useStaticExpirationTimeSwitch.isOn)
+    }
+
+    func testReflect_whenUsingDynamicExpirationTime_setsUseStaticExpirationTimeSwitchToOff() {
+        let sdk = dependencies.sdk as! MockSDK
+        let settings = sdk.settings as! MockSettings
+        settings.useStaticExpirationTime = UseStaticExpirationTimeUD(false)
+        controls = helper.createControls()
+        SettingsReflector(controls, dependencies).reflect()
+        XCTAssertFalse(controls.useStaticExpirationTimeSwitch.isOn)
     }
 }

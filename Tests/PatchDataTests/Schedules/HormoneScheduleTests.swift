@@ -102,21 +102,15 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testTotalExpired_integration_returnsCountOfHormonesExpired() {
-        let data1 = HormoneStruct(
-            UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil, nil
-        )
-        let data2 = HormoneStruct(
-            UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil, nil
-        )
-        let hormone1 = Hormone(hormoneData: data1, settings: MockSettings())
-        let hormone2 = Hormone(hormoneData: data2, settings: MockSettings())
+    func testTotalExpired_usingRealHormoneType_returnsCountOfHormonesExpired() {
+        let testDate = DateFactory.createDate(daysFromNow: -20)
+        let data1 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
+        let data2 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
+        let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)
+        let hormone2 = Hormone(hormoneData: data2, settings: mockSettings)
         setUpHormones([hormone1, hormone2])
-
         XCTAssertEqual(2, hormones.totalExpired)
-
         hormones.setDate(at: 0, with: Date())
-
         XCTAssertEqual(1, hormones.totalExpired)
     }
 
@@ -124,12 +118,9 @@ class HormoneScheduleTests: XCTestCase {
     /// Integration
     func testTotalExpired_afterSettingDate_reflectsAccurately() {
         let mockSettings = MockSettings()
-        let data1 = HormoneStruct(
-            UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil, nil
-        )
-        let data2 = HormoneStruct(
-            UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil, nil
-        )
+        let testDate = DateFactory.createDate(daysFromNow: -20)
+        let data1 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
+        let data2 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
         let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)
         let hormone2 = Hormone(hormoneData: data2, settings: mockSettings)
         setUpHormones([hormone1, hormone2])
@@ -139,6 +130,14 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 #endif
+
+    func testUseStaticExpirationTime_returnsValueFromSettings() {
+        setUpDefaultHormones(1)
+        mockSettings.useStaticExpirationTime = UseStaticExpirationTimeUD(true)
+        XCTAssertTrue(hormones.useStaticExpirationTime)
+        mockSettings.useStaticExpirationTime = UseStaticExpirationTimeUD(false)
+        XCTAssertFalse(hormones.useStaticExpirationTime)
+    }
 
     func testInsertNew_whenStoreReturnsNil_doesNotIncreaseHormoneCount() {
         setUpDefaultHormones(3)
@@ -230,12 +229,9 @@ class HormoneScheduleTests: XCTestCase {
     func testReset_ifGivenClosure_callsClosure() {
         mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
         setUpHormones()
-
         var closureWasCalled = false
         let testClosure = { closureWasCalled = true }
-
         hormones.reset(completion: testClosure)
-
         XCTAssertTrue(closureWasCalled)
     }
 
@@ -257,14 +253,14 @@ class HormoneScheduleTests: XCTestCase {
         mockStore.newObjectFactory = nil
         setUpHormones()
         hormones.saveAll()
-        XCTAssert(mockStore.pushLocalChangesCallArgs.count == 0)
+        PDAssertEmpty(mockStore.pushLocalChangesCallArgs)
     }
 
     func testDeleteAll_whenCountIsZero_doesNotCallStoreDelete() {
         mockStore.newObjectFactory = nil
         setUpHormones()
         hormones.deleteAll()
-        XCTAssert(mockStore.deleteCallArgs.count == 0)
+        PDAssertEmpty(mockStore.deleteCallArgs)
     }
 
     func testSubscript_whenIndexOutOfBound_returnsNil() {
@@ -302,7 +298,9 @@ class HormoneScheduleTests: XCTestCase {
         let testSite = MockSite()
         testSite.id = UUID()
         hormones.set(by: expectedId, date: testDate, site: testSite)
-        XCTAssert(mockHormones[0].date == testDate && mockHormones[0].siteId == testSite.id)
+        let actual = mockHormones[0]
+        XCTAssertEqual(testDate, actual.date)
+        XCTAssertEqual(testSite.id, actual.siteId)
     }
 
     func testSet_whenGivenId_callsPushWithExpectedArgs() {
@@ -310,10 +308,10 @@ class HormoneScheduleTests: XCTestCase {
         let testId = UUID()
         mockHormones[0].id = testId
         hormones.set(by: testId, date: Date(), site: MockSite())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
     }
 
     func testSet_whenGivenIndex_setsDateAndSiteOfHormoneAtIndex() {
@@ -323,8 +321,11 @@ class HormoneScheduleTests: XCTestCase {
         let testSite = MockSite()
         testSite.id = UUID()
         let testDate = Date()
-        hormones.set(at: 0, date: testDate, site: testSite)
-        XCTAssert(mockHormones[0].date == testDate && mockHormones[0].siteId == testSite.id)
+        let testIndex = 0
+        hormones.set(at: testIndex, date: testDate, site: testSite)
+        let actual = mockHormones[testIndex]
+        XCTAssertEqual(testDate, actual.date)
+        XCTAssertEqual(testSite.id, actual.siteId)
     }
 
     func testSet_whenGivenIndex_callsPushWithExpectedArgs() {
@@ -332,13 +333,13 @@ class HormoneScheduleTests: XCTestCase {
         let testId = UUID()
         mockHormones[0].id = testId
         hormones.set(at: 0, date: Date(), site: MockSite())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
     }
 
-    func testSet_whenGivenValidId_setsSiteIndexToIncrementedIndexFromSite() {
+    func testSet_validId_setsSiteIndexToIncrementedIndexFromSite() {
         let mockHormones = setUpDefaultHormones(1)
         let testId = UUID()
         mockHormones[0].id = testId
@@ -348,7 +349,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(2, mockSettings.incrementStoredSiteIndexCallArgs[0])
     }
 
-    func testSet_whenNotGivenValidId_doesNotBumpSiteIndex() {
+    func testSet_invalidId_doesNotBumpSiteIndex() {
         let mockHormones = setUpDefaultHormones(1)
         let testId = UUID()
         mockHormones[0].id = testId
@@ -356,7 +357,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(0, mockSettings.siteIndex.rawValue)
     }
 
-    func testSetDate_withId_setsTheHormoneDate() {
+    func testSetDate_withId_sets() {
         let mockHormones = setUpDefaultHormones(1)
         let testId = UUID()
         let testDate = Date()
@@ -370,13 +371,24 @@ class HormoneScheduleTests: XCTestCase {
         let testId = UUID()
         mockHormones[0].id = testId
         hormones.setDate(by: testId, with: Date())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
     }
 
-    func testSetDate_withIndex_setsTheHormoneDate() {
+    func testSetDate_withId_sharesData() {
+        let testId = UUID()
+        let mockHormones = setUpDefaultHormones(1)
+        mockHormones[0].id = testId
+        mockSharer.resetMock()
+        hormones.setDate(by: testId, with: Date())
+        let callArgs = mockSharer.shareCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(testId, callArgs[0].id)
+    }
+
+    func testSetDate_withIndex_sets() {
         let mockHormones = setUpDefaultHormones(1)
         let testDate = Date()
         hormones.setDate(at: 0, with: testDate)
@@ -386,10 +398,21 @@ class HormoneScheduleTests: XCTestCase {
     func testSetDate_withIndex_callsPushWithExpectedArgs() {
         let mockHormones = setUpDefaultHormones(1)
         hormones.setDate(at: 0, with: Date())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
+    }
+
+    func testSetDate_withIndex_sharesData() {
+        let testId = UUID()
+        let mockHormones = setUpDefaultHormones(1)
+        mockHormones[0].id = testId
+        mockSharer.resetMock()
+        hormones.setDate(at: 0, with: Date())
+        let callArgs = mockSharer.shareCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(testId, callArgs[0].id)
     }
 
     func testSet_whenGivenValidIndex_incrementSiteIndexFromSiteOrder() {
@@ -406,7 +429,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(0, mockSettings.siteIndex.rawValue)
     }
 
-    func testSetSite_withId_setsTheHormoneDate() {
+    func testSetSite_withId_sets() {
         let mockHormones = setUpDefaultHormones(1)
         let testId = UUID()
         let testSite = MockSite()
@@ -422,13 +445,24 @@ class HormoneScheduleTests: XCTestCase {
         let testId = UUID()
         mockHormones[0].id = testId
         hormones.setSite(by: testId, with: MockSite())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
     }
 
-    func testSetSite_withIndex_setsTheHormoneDate() {
+    func testSetSite_withId_sharesData() {
+        let mockHormones = setUpDefaultHormones(1)
+        let testId = UUID()
+        mockHormones[0].id = testId
+        mockSharer.shareCallArgs = []
+        hormones.setSite(by: testId, with: MockSite())
+        let callArgs = mockSharer.shareCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(testId, callArgs[0].id)
+    }
+
+    func testSetSite_withIndex_sets() {
         let mockHormones = setUpDefaultHormones(1)
         let testSite = MockSite()
         let testSiteId = UUID()
@@ -440,13 +474,24 @@ class HormoneScheduleTests: XCTestCase {
     func testSetSite_withIndex_callsPushWithExpectedArgs() {
         let mockHormones = setUpDefaultHormones(1)
         hormones.setSite(at: 0, with: MockSite())
-        XCTAssert(
-            mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-                && mockStore.pushLocalChangesCallArgs[0].1
-        )
+        let callArgs = mockStore.pushLocalChangesCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(mockHormones[0].id, callArgs[0].0[0].id)
+        XCTAssertTrue(callArgs[0].1)
     }
 
-    func testSetSite_whenGivenValidId_incrementsSiteIndexFromSiteOrder() {
+    func testSetSite_withIndex_sharesData() {
+        let mockHormones = setUpDefaultHormones(1)
+        let testId = UUID()
+        mockHormones[0].id = testId
+        mockSharer.shareCallArgs = []
+        hormones.setSite(at: 0, with: MockSite())
+        let callArgs = mockSharer.shareCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(testId, callArgs[0].id)
+    }
+
+    func testSetSite_validId_incrementsSiteIndexFromSiteIndexSetting() {
         let mockHormones = setUpDefaultHormones(1)
         let testId = UUID()
         mockHormones[0].id = testId
@@ -456,7 +501,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(site.order, mockSettings.incrementStoredSiteIndexCallArgs[0])
     }
 
-    func testSetSite_whenGivenValidIndex_incrementsSiteIndexFromSiteORder() {
+    func testSetSite_validIndex_incrementsSiteIndexFromSiteIndexSetting() {
         setUpDefaultHormones(1)
         let site = MockSite()
         site.order = 0
@@ -464,9 +509,17 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(0, mockSettings.incrementStoredSiteIndexCallArgs[0])
     }
 
-    func testSetSite_whenNotGivenValidIndex_doesNotBumpSiteIndex() {
+    func testSetSite_InvalidId_doesNotBumpSiteIndex() {
+        setUpDefaultHormones(1)
+        hormones.setSite(by: UUID(), with: MockSite())
+        PDAssertEmpty(mockSettings.replaceSiteIndexCallArgs)
+        XCTAssertEqual(0, mockSettings.siteIndex.rawValue)
+    }
+
+    func testSetSite_InvalidIndex_doesNotBumpSiteIndex() {
         setUpDefaultHormones(1)
         hormones.setSite(at: 23523, with: MockSite())
+        PDAssertEmpty(mockSettings.replaceSiteIndexCallArgs)
         XCTAssertEqual(0, mockSettings.siteIndex.rawValue)
     }
 
@@ -479,14 +532,14 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(testId, actual)
     }
 
-    func testFirstIndexOf_whenGiveHormoneIsInSchedule_returnsIndexOfGivenHormone() {
+    func testIndexOf_whenGiveHormoneIsInSchedule_returnsIndexOfGivenHormone() {
         let mockHormones = setUpDefaultHormones(2)
         let expected = 1
         let actual = hormones.indexOf(mockHormones[1])
         XCTAssertEqual(expected, actual)
     }
 
-    func testFirstIndexOf_whenGivenHormoneThatIsNotInSchedule_returnsNil() {
+    func testIndexOf_whenGivenHormoneThatIsNotInSchedule_returnsNil() {
         setUpDefaultHormones(2)
         let testHormone = MockHormone()
         let actual = hormones.indexOf(testHormone)
@@ -517,16 +570,19 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testBroadcastData_whenEmptySchedule_doesNotCallBroadcaster() {
+    func testShareData_whenEmptySchedule_doesNotCallBroadcaster() {
         setUpEmptyHormones()
         hormones.shareData()
-        XCTAssert(mockSharer.shareedHormoneIds.count == 0)
+        PDAssertEmpty(mockSharer.shareCallArgs)
     }
 
-    func testBroadcastData_callBroadcasterWithExpectedArg() {
+    func testShareData_callSharerWithExpectedArg() {
         let testId = UUID()
         setUpDefaultHormones(1)[0].id = testId
+        mockSharer.resetMock()
         hormones.shareData()
-        XCTAssert(mockSharer.shareedHormoneIds.contains(testId.uuidString))
+        let callArgs = mockSharer.shareCallArgs
+        PDAssertSingle(callArgs)
+        XCTAssertEqual(testId, callArgs[0].id)
     }
 }

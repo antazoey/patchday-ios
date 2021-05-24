@@ -23,7 +23,7 @@ class SettingsTests: XCTestCase {
     func testSetDeliveryMethod_replacesMethod() {
         let settings = createSettings() // Defaults to Patches
         settings.setDeliveryMethod(to: .Injections)
-        let actual = mockSettingsWriter.replaceStoredDeliveryMethodCallArgs[0]
+        let actual = mockSettingsWriter.replaceDeliveryMethodCallArgs[0]
         XCTAssertEqual(.Injections, actual)
     }
 
@@ -48,7 +48,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Patches)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -61,7 +61,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Injections)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -74,7 +74,7 @@ class SettingsTests: XCTestCase {
 
         settings.setDeliveryMethod(to: .Gel)
 
-        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        let callArgs = mockSettingsWriter.replaceQuantityCallArgs
         if callArgs.count < 1 {
             XCTFail("Set quantity was never called")
             return
@@ -116,7 +116,7 @@ class SettingsTests: XCTestCase {
         settings.setExpirationInterval(to: SettingsOptions.OnceDaily)
         settings.setExpirationInterval(to: SettingsOptions.OnceWeekly)
 
-        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
+        let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
         XCTAssertEqual(3, callArgs.count)
         XCTAssertEqual(.EveryTwoWeeks, callArgs[0])
         XCTAssertEqual(.OnceDaily, callArgs[1])
@@ -126,80 +126,77 @@ class SettingsTests: XCTestCase {
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedInterval() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4.5 Days")
-        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(.EveryXDays, callArgs[0])
+        let callArgs = mockSettingsWriter.replaceExpirationIntervalCallArgs
+        PDAssertSingle(.EveryXDays, callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("4.5", callArgs[0])
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
+        PDAssertSingle("4.5", callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomIntervalWithAHalfMark_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 4½ Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("4.5", callArgs[0])
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
+        PDAssertSingle("4.5", callArgs)
     }
 
     func testSetExpirationInterval_whenSettingACustomIntervalWithDoubleDigitDays_setsExpectedIntervalDays() {
         let settings = createSettings()
         settings.setExpirationInterval(to: "Every 14 Days")
-        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("14.0", callArgs[0])
+        let callArgs = mockSettingsWriter.replaceXDaysCallArgs
+        PDAssertSingle("14.0", callArgs)
     }
 
     func testSetSiteIndex_setsSiteIndex() {
         let settings = createSettings()
         settings.setSiteIndex(to: 3)
-        let callArgs = mockSettingsWriter.replaceStoredSiteIndexCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(3, callArgs[0])
+        let callArgs = mockSettingsWriter.replaceSiteIndexCallArgs
+        PDAssertSingle(3, callArgs)
     }
 
     func testSetNotifications_setsNotifications() {
         let settings = createSettings()
         settings.setNotifications(to: false)
-        let callArgs = mockSettingsWriter.replaceStoredNotificationsCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(false, callArgs[0])
+        let callArgs = mockSettingsWriter.replaceNotificationsCallArgs
+        PDAssertSingle(false, callArgs)
     }
 
     func testSetNotificationsMinutesBefore_setsNotificationsMinutesBefore() {
         let settings = createSettings()
         settings.setNotificationsMinutesBefore(to: 32)
-        let callArgs = mockSettingsWriter.replaceStoredNotificationsMinutesBeforeCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(32, callArgs[0])
+        let callArgs = mockSettingsWriter.replaceNotificationsMinutesBeforeCallArgs
+        PDAssertSingle(32, callArgs)
     }
 
     func testSetMentionedDisclaimer_setsMentionedDisclaimer() {
         let settings = createSettings()
         settings.setMentionedDisclaimer(to: true)
-        let callArgs = mockSettingsWriter.replaceStoredMentionedDisclaimerCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(true, callArgs[0])
+        let callArgs = mockSettingsWriter.replaceMentionedDisclaimerCallArgs
+        PDAssertSingle(true, callArgs)
     }
 
     func testSetPillsEnabled_setsPillsEnabled() {
         let settings = createSettings()
         settings.setPillsEnabled(to: false)
-        let callArgs = mockSettingsWriter.replaceStoredPillsEnabledCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(false, callArgs[0])
+        let callArgs = mockSettingsWriter.replacePillsEnabledCallArgs
+        PDAssertSingle(false, callArgs)
+    }
+
+    func testSetUseStaticExpirationTime_setsUseStaticExpirationTime() {
+        let settings = createSettings()
+        settings.setUseStaticExpirationTime(to: true)
+        let callArgs = mockSettingsWriter.replaceUseStaticExpirationTimeCallArgs
+        PDAssertSingle(true, callArgs)
     }
 
     func testReset_resets() {
         let settings = createSettings()
         settings.reset(defaultSiteCount: 2)
         let callArgs = mockSettingsWriter.resetCallArgs
-        XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual(2, callArgs[0])
+        PDAssertSingle(2, callArgs)
     }
 }

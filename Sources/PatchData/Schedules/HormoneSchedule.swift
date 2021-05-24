@@ -54,6 +54,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         all.reduce(0, { c, h in (h.isExpired ? 1 : 0) + c })
     }
 
+    public var useStaticExpirationTime: Bool {
+        settings.useStaticExpirationTime.rawValue
+    }
+
     public func reloadContext() {
         self.context = store.getStoredHormones(settings)
     }
@@ -202,25 +206,23 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormone.siteId = site.id
         hormone.date = date
         hormone.siteName = site.imageId
-        pushFromDateAndSiteChange(hormone)
+        save(hormone)
         settings.incrementStoredSiteIndex(from: site.order)
     }
 
     private func setSite(_ hormone: inout Hormonal, with site: Bodily) {
         hormone.siteId = site.id
         hormone.siteName = site.imageId
-        shareData()
-        store.pushLocalChangesToManagedContext([hormone], doSave: true)
+        save(hormone)
         settings.incrementStoredSiteIndex(from: site.order)
     }
 
     private func setDate(_ hormone: inout Hormonal, with date: Date) {
         hormone.date = date
-        shareData()
-        store.pushLocalChangesToManagedContext([hormone], doSave: true)
+        save(hormone)
     }
 
-    private func pushFromDateAndSiteChange(_ hormone: Hormonal) {
+    private func save(_ hormone: Hormonal) {
         store.pushLocalChangesToManagedContext([hormone], doSave: true)
         shareData()
     }

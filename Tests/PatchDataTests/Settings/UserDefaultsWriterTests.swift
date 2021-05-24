@@ -12,12 +12,12 @@ import PDTest
 import PatchData
 
 extension MockUserDefaults {
-    func assertSettingWasSet<T>(expected: T, setting: PDSetting) where T: Equatable {
+    func assertSettingWasSet<T>(expected: T, setting: PDSetting, line: UInt = #line) where T: Equatable {
         guard let actual = setCallArgs.last(where: { $0.1 == setting.rawValue})?.0 as? T else {
-            XCTFail("\(setting) was never set to \(expected).")
+            XCTFail("\(setting) was never set to \(expected).", line: line)
             return
         }
-        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(expected, actual, line: line)
     }
 }
 
@@ -52,7 +52,7 @@ class UserDefaultsWriterTests: XCTestCase {
     func testDeliveryMethod_whenLoadsValue_usesLoadedValue() {
         defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = DeliveryMethodUD.GelKey
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.deliveryMethod.rawValue
         let expected = DeliveryMethodUD.GelKey
@@ -62,7 +62,7 @@ class UserDefaultsWriterTests: XCTestCase {
     func testDeliveryMethod_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.deliveryMethod.rawValue
         let expected = DeliveryMethodUD.PatchesKey
@@ -73,7 +73,7 @@ class UserDefaultsWriterTests: XCTestCase {
         let key = ExpirationIntervalUD.EveryTwoWeeksKey
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = key
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.rawValue
         let expected = ExpirationIntervalUD.EveryTwoWeeksKey
@@ -83,7 +83,7 @@ class UserDefaultsWriterTests: XCTestCase {
     func testExpirationInterval_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.rawValue
         let expected = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
@@ -95,7 +95,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "11.5"
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = "11.5"
@@ -107,7 +107,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = nil  // Does not have
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = DefaultSettings.XDAYS_RAW_VALUE
@@ -122,7 +122,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
 
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = "1.0"
@@ -137,7 +137,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
 
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = "3.5"
@@ -152,7 +152,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
 
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = "7.0"
@@ -167,7 +167,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
 
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.xDays.value
         let expected = "14.0"
@@ -197,17 +197,16 @@ class UserDefaultsWriterTests: XCTestCase {
     func testNotifications_whenLoadsValue_usesLoadedValue() {
         defaults.mockObjectMap[PDSetting.Notifications.rawValue] = false
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.notifications.rawValue
-        let expected = false
-        XCTAssertEqual(expected, actual)
+        XCTAssertFalse(actual)
     }
 
     func testNotifications_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.Notifications.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.notifications.rawValue
         let expected = DefaultSettings.NOTIFICATIONS_RAW_VALUE
@@ -217,7 +216,7 @@ class UserDefaultsWriterTests: XCTestCase {
     func testNotificationsMinutesBefore_whenLoadsValue_usesLoadedValue() {
         defaults.mockObjectMap[PDSetting.NotificationsMinutesBefore.rawValue] = 20
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.notificationsMinutesBefore.rawValue
         let expected = 20
@@ -227,7 +226,7 @@ class UserDefaultsWriterTests: XCTestCase {
     func testNotificationsMinutesBefore_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.Notifications.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.notificationsMinutesBefore.rawValue
         let expected = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
@@ -237,17 +236,16 @@ class UserDefaultsWriterTests: XCTestCase {
     func testMentionedDisclaimer_whenLoadsValue_usesLoadedValue() {
         defaults.mockObjectMap[PDSetting.MentionedDisclaimer.rawValue] = true
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.mentionedDisclaimer.rawValue
-        let expected = true
-        XCTAssertEqual(expected, actual)
+        XCTAssertTrue(actual)
     }
 
     func testMentionedDisclaimer_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.Notifications.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.mentionedDisclaimer.rawValue
         let expected = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
@@ -277,20 +275,38 @@ class UserDefaultsWriterTests: XCTestCase {
     func testPillsEnabled_whenLoadsValue_usesLoadedValue() {
         defaults.mockObjectMap[PDSetting.PillsEnabled.rawValue] = false
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.pillsEnabled.rawValue
-        let expected = false
-        XCTAssertEqual(expected, actual)
+        XCTAssertFalse(actual)
     }
 
     func testPillsEnabled_whenNoStoredValue_usesDefaultValue() {
         defaults.mockObjectMap[PDSetting.PillsEnabled.rawValue] = nil
         let writer = UserDefaultsWriter(
-            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
         )
         let actual = writer.pillsEnabled.rawValue
         let expected = DefaultSettings.PILLS_ENABLED_RAW_VALUE
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testUseStaticExpirationTime_whenLoadsValue_usesLoadedValue() {
+        defaults.mockObjectMap[PDSetting.UseStaticExpirationTime.rawValue] = true
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
+        )
+        let actual = writer.useStaticExpirationTime.rawValue
+        XCTAssertTrue(actual)
+    }
+
+    func testUseStaticExpirationTime_whenNoStoredValue_usesDefaultValue() {
+        defaults.mockObjectMap[PDSetting.UseStaticExpirationTime.rawValue] = nil
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 1, freeHormoneIndex: 0)
+        )
+        let actual = writer.useStaticExpirationTime.rawValue
+        let expected = DefaultSettings.USE_STATIC_EXPIRATION_TIME
         XCTAssertEqual(expected, actual)
     }
 
@@ -324,91 +340,103 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.assertSettingWasSet(
             expected: DefaultSettings.SITE_INDEX_RAW_VALUE, setting: .SiteIndex
         )
+        defaults.assertSettingWasSet(
+            expected: DefaultSettings.USE_STATIC_EXPIRATION_TIME, setting: .UseStaticExpirationTime
+        )
     }
 
-    func testReplaceStoredDeliveryMethod_replaces() {
+    func testReplaceDeliveryMethod_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = 2  // Not default
-        writer.replaceStoredDeliveryMethod(to: .Patches)
+        writer.replaceDeliveryMethod(to: .Patches)
         defaults.assertSettingWasSet(
             expected: DeliveryMethodUD.PatchesKey, setting: .DeliveryMethod
         )
     }
 
-    func testReplaceStoredQuantity_replaces() {
+    func testReplaceQuantity_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.Quantity.rawValue] = 2  // Not default
-        writer.replaceStoredQuantity(to: 2)
+        writer.replaceQuantity(to: 2)
         defaults.assertSettingWasSet(expected: 2, setting: .Quantity)
     }
 
-    func testReplaceStoredExpirationInterval_replaces() {
+    func testReplaceExpirationInterval_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = "not default"
-        writer.replaceStoredExpirationInterval(to: ExpirationInterval.EveryTwoWeeks)
+        writer.replaceExpirationInterval(to: ExpirationInterval.EveryTwoWeeks)
         let expected = ExpirationIntervalUD.EveryTwoWeeksKey
         defaults.assertSettingWasSet(expected: expected, setting: .ExpirationInterval)
     }
 
-    func testReplaceStoredXDays_replaces() {
+    func testReplaceXDays_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.XDays.rawValue] = "not default"
-        writer.replaceStoredXDays(to: "5.5")
+        writer.replaceXDays(to: "5.5")
         defaults.assertSettingWasSet(expected: "5.5", setting: .XDays)
     }
 
-    func testReplaceStoredNotifications_replaces() {
+    func testReplaceNotifications_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.Notifications.rawValue] = false
-        writer.replaceStoredNotifications(to: true)
+        writer.replaceNotifications(to: true)
         defaults.assertSettingWasSet(expected: true, setting: .Notifications)
     }
 
-    func testReplaceStoredNotificationsMinutesBefore_replaces() {
+    func testReplaceNotificationsMinutesBefore_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.NotificationsMinutesBefore.rawValue] = 22
-        writer.replaceStoredNotificationsMinutesBefore(to: 23)
+        writer.replaceNotificationsMinutesBefore(to: 23)
         defaults.assertSettingWasSet(expected: 23, setting: .NotificationsMinutesBefore)
     }
 
-    func testReplaceStoredMentionedDisclaimer_replaces() {
+    func testReplaceMentionedDisclaimer_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.MentionedDisclaimer.rawValue] = false
-        writer.replaceStoredMentionedDisclaimer(to: true)
+        writer.replaceMentionedDisclaimer(to: true)
         defaults.assertSettingWasSet(expected: true, setting: .MentionedDisclaimer)
     }
 
-    func testReplaceStoredPillsEnabled_replaces() {
+    func testReplacePillsEnabled_replaces() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         defaults.mockObjectMap[PDSetting.PillsEnabled.rawValue] = false
-        writer.replaceStoredPillsEnabled(to: true)
+        writer.replacePillsEnabled(to: true)
         defaults.assertSettingWasSet(expected: true, setting: .PillsEnabled)
     }
 
-    func testReplaceStoredSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
+    func testReplaceSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let expected = 0
-        let r = writer.replaceStoredSiteIndex(to: 50)
+        let r = writer.replaceSiteIndex(to: 50)
         XCTAssertEqual(expected, r)
         defaults.assertSettingWasSet(expected: expected, setting: .SiteIndex)
+    }
+
+    func testReplaceUseStaticExpirationTime_replaces() {
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        defaults.mockObjectMap[PDSetting.UseStaticExpirationTime.rawValue] = true
+        writer.replaceUseStaticExpirationTime(to: false)
+        defaults.assertSettingWasSet(expected: false, setting: .UseStaticExpirationTime)
     }
 
     func testIncrementStoredSiteIndex_whenRoomToIncrementAndNextIsFree_incrementsNormally() {

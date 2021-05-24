@@ -143,7 +143,7 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         attrs.times = nil
         let pill = createPill(attrs)
-        XCTAssertEqual(0, pill.times.count)
+        PDAssertEmpty(pill.times)
     }
 
     func testTimes_returnsTimeFromAttributes() {
@@ -152,8 +152,8 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         let actual = pill.times[0]
         let expected = PillTestsUtil.testTime
-        XCTAssertEqual(1, pill.times.count)
-        XCTAssert(PDAssert.sameTime(expected, actual))
+        PDAssertSingle(pill.times)
+        PDAssertSameTime(expected, actual)
     }
 
     func testTimes_whenStoredOutOfOrder_reorders() {
@@ -165,11 +165,14 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         let actualTimes = pill.times
         XCTAssertEqual(2, actualTimes.count)
-        XCTAssert(PDAssert.sameTime(PillTestsUtil.testTime, actualTimes[0]))
-        let expectedNewTime = Calendar.current.date(
+        PDAssertSameTime(PillTestsUtil.testTime, actualTimes[0])
+        guard let expectedNewTime = Calendar.current.date(
             bySettingHour: PillTestsUtil.testHour + 1, minute: 0, second: 0, of: Date()
-        )!
-        XCTAssert(PDAssert.sameTime(expectedNewTime, actualTimes[1]))
+        ) else {
+            XCTFail("Was unable to create the expected new time")
+            return
+        }
+        PDAssertSameTime(expectedNewTime, actualTimes[1])
     }
 
     func testAppendTime_whenGivenDefaultValue_doesNotSet() {
@@ -179,8 +182,8 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         pill.appendTime(DateFactory.createDefaultDate())
         // Only has original time
-        XCTAssertEqual(1, pill.times.count)
-        XCTAssert(PDAssert.sameTime(PillTestsUtil.testTime, pill.times[0]))
+        PDAssertSingle(pill.times)
+        PDAssertSameTime(PillTestsUtil.testTime, pill.times[0])
     }
 
     func testAppendTime_whenTimeSecondAndLessThanFirstTime_maintainsOrder() {
@@ -194,8 +197,8 @@ public class PillTests: XCTestCase {
         pill.appendTime(secondTime)
         let actualTimes = pill.times
         XCTAssertEqual(2, pill.times.count)
-        XCTAssert(PDAssert.sameTime(secondTime, actualTimes[0]))
-        XCTAssert(PDAssert.sameTime(PillTestsUtil.testTime, actualTimes[1]))
+        PDAssertSameTime(secondTime, actualTimes[0])
+        PDAssertSameTime(PillTestsUtil.testTime, actualTimes[1])
     }
 
     func testNotify_whenNilInAttributes_returnsDefaultNotify() {
@@ -260,8 +263,9 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         let actual = pill.timesTakenTodayList
         let expectedDates = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        XCTAssert(PDAssert.equiv(expectedDates[0], actual[0]))
-        XCTAssert(PDAssert.equiv(expectedDates[1], actual[1]))
+        XCTAssertEqual(2, actual.count)
+        PDAssertEquiv(expectedDates[0], actual[0])
+        PDAssertEquiv(expectedDates[1], actual[1])
     }
 
     func testXDays_whenHasSupportedExpirationInterval_returnsDaysOnDaysOffFromAtttributes() {
@@ -1318,8 +1322,8 @@ public class PillTests: XCTestCase {
         newAttrs.expirationInterval.daysOne = 5
         pill.set(attributes: newAttrs)
         XCTAssertEqual(newName, pill.name)
-        XCTAssert(PDAssert.sameTime(newTime1, pill.times[0]))
-        XCTAssert(PDAssert.sameTime(newTime2, pill.times[1]))
+        PDAssertSameTime(newTime1, pill.times[0])
+        PDAssertSameTime(newTime2, pill.times[1])
         XCTAssert(pill.notify)
         XCTAssertEqual(newLastTaken, pill.lastTaken)
         XCTAssertEqual(newExpiration, pill.expirationInterval.value)
@@ -1397,7 +1401,7 @@ public class PillTests: XCTestCase {
 
         let expected = DateFactory.createDate(byAddingHours: -24, to: Date())!
         if let actual = pill.lastTaken {
-            XCTAssert(PDAssert.sameTime(expected, actual))
+            PDAssertSameTime(expected, actual)
         } else {
             XCTFail("Pill did not initalize its lastTaken")
         }
@@ -1608,8 +1612,7 @@ public class PillTests: XCTestCase {
         }
 
         let expected = DateFactory.createTimesFromCommaSeparatedString(timeString)[0]
-        let failMessage = "\(expected) != \(actual)"
-        XCTAssert(PDAssert.equiv(expected, actual), failMessage)
+        PDAssertEquiv(expected, actual)
     }
 
     func testUnswallow_whenLastLastTakenNotToday_resetsToDateInToday() {

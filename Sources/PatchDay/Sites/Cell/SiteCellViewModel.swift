@@ -17,7 +17,7 @@ class SiteCellViewModel: SiteCellViewModelProtocol {
 
     var siteNameText: String {
         if let site = props.site {
-            return site.name == "" ? SiteStrings.NewSite : site.name
+            return site.name.isEmpty ? SiteStrings.NewSite : site.name
         }
         return SiteStrings.NewSite
     }

@@ -237,8 +237,8 @@ class PillScheduleTests: XCTestCase {
         pills.reset()
         let pill1 = pills[0]! as! MockPill
         let pill2 = pills[1]! as! MockPill
-        XCTAssertEqual(1, pill1.appendTimeCallArgs.count)
-        XCTAssertEqual(1, pill2.appendTimeCallArgs.count)
+        PDAssertSingle(pill1.appendTimeCallArgs)
+        PDAssertSingle(pill2.appendTimeCallArgs)
     }
 
     public func testReset_savesChanges() {
@@ -493,7 +493,7 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = nil // Key to test
 
         pills.swallow(mockPills[1].id, onSuccess: {})
-        XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
+        PDAssertSingle(mockDataSharer.shareCallArgs)
         XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
     }
 
@@ -501,7 +501,7 @@ class PillScheduleTests: XCTestCase {
         setUpThreePillsWithMiddleOneNextDue()
         mockStore.pushLocalChangesCallArgs = []
         pills.unswallow(UUID(), onSuccess: {})
-        XCTAssertEqual(0, mockStore.pushLocalChangesCallArgs.count)
+        PDAssertEmpty(mockStore.pushLocalChangesCallArgs)
     }
 
     public func testUnswallow_saves() {
@@ -510,7 +510,7 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = Date()
         mockStore.pushLocalChangesCallArgs = []
         pills.unswallow(mockPills[1].id, onSuccess: {})
-        XCTAssertEqual(1, mockStore.pushLocalChangesCallArgs.count)
+        PDAssertSingle(mockStore.pushLocalChangesCallArgs)
     }
 
     public func testUnswallow_whenPillNotTakenToday_doesNothing() {
@@ -552,7 +552,7 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].timesTakenToday = 10
         mockPills[1].lastTaken = Date()
         pills.unswallow(mockPills[1].id, onSuccess: {})
-        XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
+        PDAssertSingle(mockDataSharer.shareCallArgs)
         XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
     }
 }

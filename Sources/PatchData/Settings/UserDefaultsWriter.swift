@@ -18,107 +18,113 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var deliveryMethod: DeliveryMethodUD {
-        let def = DefaultSettings.DELIVERY_METHOD_RAW_VALUE
-        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
-        return DeliveryMethodUD(deliveryMethod)
+        let defaultValue = DefaultSettings.DELIVERY_METHOD_RAW_VALUE
+        let deliveryMethod: String? = handler.load(.DeliveryMethod)
+        return DeliveryMethodUD(deliveryMethod ?? defaultValue)
     }
 
     public var expirationInterval: ExpirationIntervalUD {
-        let defaultInterval = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
-        let expirationInterval = handler.load(
-            setting: .ExpirationInterval, defaultValue: defaultInterval
-        )
-        let expirationIntervalUserDefault = ExpirationIntervalUD(expirationInterval)
-        expirationIntervalUserDefault.xDays.rawValue = getXDays(expirationIntervalUserDefault)
-        return expirationIntervalUserDefault
+        let defaultValue = DefaultSettings.EXPIRATION_INTERVAL_RAW_VALUE
+        let value: String? = handler.load(.ExpirationInterval)
+        let expirationInterval = ExpirationIntervalUD(value ?? defaultValue)
+        expirationInterval.xDays.rawValue = getXDays(expirationInterval)
+        return expirationInterval
     }
 
     public var quantity: QuantityUD {
-        let def = DefaultSettings.QUANTITY_RAW_VALUE
-        let quantity = handler.load(setting: .Quantity, defaultValue: def)
-        return QuantityUD(quantity)
+        let defaultQuantity = DefaultSettings.QUANTITY_RAW_VALUE
+        let quantity: Int? = handler.load(.Quantity)
+        return QuantityUD(quantity ?? defaultQuantity)
     }
 
     public var notifications: NotificationsUD {
-        let def = DefaultSettings.NOTIFICATIONS_RAW_VALUE
-        let notifications = handler.load(setting: .Notifications, defaultValue: def)
-        return NotificationsUD(notifications)
+        let defaultValue = DefaultSettings.NOTIFICATIONS_RAW_VALUE
+        let value: Bool? = handler.load(.Notifications)
+        return NotificationsUD(value ?? defaultValue)
     }
 
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
-        let def = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-        let notificationsMinutesBefore = handler.load(
-            setting: .NotificationsMinutesBefore, defaultValue: def
-        )
-        return NotificationsMinutesBeforeUD(notificationsMinutesBefore)
+        let defaultValue = DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
+        let value: Int? = handler.load(.NotificationsMinutesBefore)
+        return NotificationsMinutesBeforeUD(value ?? defaultValue)
     }
 
     public var mentionedDisclaimer: MentionedDisclaimerUD {
-        let def = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
-        let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
-        return MentionedDisclaimerUD(mentionedDisclaimer)
+        let defaultValue = DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE
+        let value: Bool? = handler.load(.MentionedDisclaimer)
+        return MentionedDisclaimerUD(value ?? defaultValue)
     }
 
     public var siteIndex: SiteIndexUD {
-        let def = DefaultSettings.SITE_INDEX_RAW_VALUE
-        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
-        return SiteIndexUD(siteIndex)
+        let defaultValue = DefaultSettings.SITE_INDEX_RAW_VALUE
+        let value: Int? = handler.load(.SiteIndex)
+        return SiteIndexUD(value ?? defaultValue)
     }
 
     public var pillsEnabled: PillsEnabledUD {
-        let def = DefaultSettings.PILLS_ENABLED_RAW_VALUE
-        let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
-        return PillsEnabledUD(pillsEnabled)
+        let defaultValue = DefaultSettings.PILLS_ENABLED_RAW_VALUE
+        let value: Bool? = handler.load(.PillsEnabled)
+        return PillsEnabledUD(value ?? defaultValue)
+    }
+
+    public var useStaticExpirationTime: UseStaticExpirationTimeUD {
+        let defaultValue = DefaultSettings.USE_STATIC_EXPIRATION_TIME
+        let value: Bool? = handler.load(.UseStaticExpirationTime)
+        return UseStaticExpirationTimeUD(value ?? defaultValue)
     }
 
     public func reset(defaultSiteCount: Int = 4) {
-        replaceStoredDeliveryMethod(to: DefaultSettings.DELIVERY_METHOD_VALUE)
-        replaceStoredExpirationInterval(to: DefaultSettings.EXPIRATION_INTERVAL_VALUE)
-        replaceStoredQuantity(to: DefaultSettings.QUANTITY_RAW_VALUE)
-        replaceStoredNotifications(to: DefaultSettings.NOTIFICATIONS_RAW_VALUE)
-        replaceStoredNotificationsMinutesBefore(
-            to: DefaultSettings.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE
-        )
-        replaceStoredMentionedDisclaimer(to: DefaultSettings.MENTIONED_DISCLAIMER_RAW_VALUE)
-        replaceStoredSiteIndex(to: DefaultSettings.SITE_INDEX_RAW_VALUE)
+        typealias Defaults = DefaultSettings
+        replaceDeliveryMethod(to: Defaults.DELIVERY_METHOD_VALUE)
+        replaceExpirationInterval(to: Defaults.EXPIRATION_INTERVAL_VALUE)
+        replaceQuantity(to: Defaults.QUANTITY_RAW_VALUE)
+        replaceNotifications(to: Defaults.NOTIFICATIONS_RAW_VALUE)
+        replaceNotificationsMinutesBefore(to: Defaults.NOTIFICATIONS_MINUTES_BEFORE_RAW_VALUE)
+        replaceMentionedDisclaimer(to: Defaults.MENTIONED_DISCLAIMER_RAW_VALUE)
+        replaceSiteIndex(to: Defaults.SITE_INDEX_RAW_VALUE)
+        replaceUseStaticExpirationTime(to: Defaults.USE_STATIC_EXPIRATION_TIME)
     }
 
-    public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
+    public func replaceDeliveryMethod(to newValue: DeliveryMethod) {
         let rawValue = DeliveryMethodUD.getRawValue(for: newValue)
         handler.replace(deliveryMethod, to: rawValue)
     }
 
-    @objc public func replaceStoredQuantity(to newValue: Int) {
+    @objc public func replaceQuantity(to newValue: Int) {
         handler.replace(quantity, to: newValue)
     }
 
-    public func replaceStoredExpirationInterval(to newValue: ExpirationInterval) {
+    public func replaceExpirationInterval(to newValue: ExpirationInterval) {
         let rawValue = ExpirationIntervalUD.getRawValue(for: newValue)
         handler.replace(expirationInterval, to: rawValue)
     }
 
-    public func replaceStoredXDays(to newValue: String) {
+    public func replaceXDays(to newValue: String) {
         handler.replace(expirationInterval.xDays, to: newValue)
     }
 
-    public func replaceStoredNotifications(to newValue: Bool) {
+    public func replaceNotifications(to newValue: Bool) {
         handler.replace(notifications, to: newValue)
     }
 
-    public func replaceStoredNotificationsMinutesBefore(to newValue: Int) {
+    public func replaceNotificationsMinutesBefore(to newValue: Int) {
         handler.replace(notificationsMinutesBefore, to: newValue)
     }
 
-    public func replaceStoredMentionedDisclaimer(to newValue: Bool) {
+    public func replaceMentionedDisclaimer(to newValue: Bool) {
         handler.replace(mentionedDisclaimer, to: newValue)
     }
 
-    public func replaceStoredPillsEnabled(to newValue: Bool) {
+    public func replacePillsEnabled(to newValue: Bool) {
         handler.replace(pillsEnabled, to: newValue)
     }
 
+    public func replaceUseStaticExpirationTime(to newValue: Bool) {
+        handler.replace(useStaticExpirationTime, to: newValue)
+    }
+
     @discardableResult
-    public func replaceStoredSiteIndex(to newValue: Index) -> Index {
+    public func replaceSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()
         if storedSites.count == 0 || newValue >= storedSites.count || newValue < 0 {
             handler.replace(siteIndex, to: 0)
@@ -146,16 +152,15 @@ public class UserDefaultsWriter: UserDefaultsWriting {
             handler.replace(siteIndex, to: 0)
             return 0
         } else if !(0..<siteCount ~= currentIndex) {
-            return replaceStoredSiteIndex(to: 0)
+            return replaceSiteIndex(to: 0)
         }
         let incrementedIndex = currentIndex + 1
-        return replaceStoredSiteIndex(to: incrementedIndex)
+        return replaceSiteIndex(to: incrementedIndex)
     }
 
     private func getXDays(_ expirationInterval: ExpirationIntervalUD) -> String {
         let defaultXDays = "\(expirationInterval.days)"
-        return expirationInterval.value == .EveryXDays
-            ? handler.load(setting: .XDays, defaultValue: defaultXDays)
-            : defaultXDays
+        let value = handler.load(.XDays) ?? defaultXDays
+        return expirationInterval.value == .EveryXDays ? value : defaultXDays
     }
 }
