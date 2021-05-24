@@ -186,6 +186,13 @@ class SettingsTests: XCTestCase {
         PDAssertSingle(false, callArgs)
     }
 
+    func testSetUseStaticExpirationTime_setsUseStaticExpirationTime() {
+        let settings = createSettings()
+        settings.setUseStaticExpirationTime(to: true)
+        let callArgs = mockSettingsWriter.replaceUseStaticExpirationTimeCallArgs
+        PDAssertSingle(true, callArgs)
+    }
+
     func testReset_resets() {
         let settings = createSettings()
         settings.reset(defaultSiteCount: 2)
