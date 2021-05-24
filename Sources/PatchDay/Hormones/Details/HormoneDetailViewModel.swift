@@ -103,7 +103,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         guard let site = getSite() else { return 0 }
         let order = site.order
         let end = siteCount
-        if order >= 0 && order < end {
+        if 0..<end ~= order {
             selections.site = site
             return order
         }
