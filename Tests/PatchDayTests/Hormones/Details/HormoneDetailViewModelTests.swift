@@ -208,9 +208,21 @@ class HormoneDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasOrderOutOfRange_returnsZero() {
+    func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasOrderGreaterThanCount_returnsZero() {
         let site = MockSite()
         site.order = 5
+        hormone.siteId = site.id
+        let sites = dependencies.sdk?.sites as! MockSiteSchedule
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
+        sites.subscriptIdReturnValue = site
+        let actual = viewModel.siteStartRow
+        let expected = 0
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasNegativeIndex_returnsZero() {
+        let site = MockSite()
+        site.order = -1
         hormone.siteId = site.id
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
