@@ -1,5 +1,11 @@
 # Changelog
 
+# 3.6.1
+
+Changed
+
+- A Pill's Last Taken Date is now shown again when taken on a previous day.
+
 # 3.6.0
 
 Fixed

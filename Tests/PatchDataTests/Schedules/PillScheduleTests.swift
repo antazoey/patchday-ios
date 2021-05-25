@@ -45,8 +45,8 @@ class PillScheduleTests: XCTestCase {
         return mockPills
     }
 
-    private func setUpPills(_ mockPills: [MockPill]) {
-        mockStore.getStoredCollectionReturnValues = [mockPills]
+    private func setUpPills(_ swallowables: [Swallowable]) {
+        mockStore.getStoredCollectionReturnValues = [swallowables]
         pills = PillSchedule(
             store: mockStore,
             pillDataSharer: mockDataSharer,
@@ -167,7 +167,7 @@ class PillScheduleTests: XCTestCase {
     public func testInsertNew_whenStoreReturnsPill_containsPillInAll() {
         setUpPills(insertPillFactory: { () in self.newPill })
         pills.insertNew(onSuccess: nil)
-        XCTAssert(pills.all.contains(where: { $0.id == newPill.id }))
+        XCTAssertEqual(newPill.id, pills.all[0].id)
     }
 
     public func testInsertNew_whenStoreReturnsPills_savesChanges() {
@@ -335,8 +335,10 @@ class PillScheduleTests: XCTestCase {
         pills.set(by: idToSet, with: attributes)
         let pill = pills[idToSet] as! MockPill
 
-        XCTAssert(pill.setCallArgs.contains { $0.name == "New Name" && $0.times == PillTestsUtil.testTimeString }
-        )
+        XCTAssertEqual("New Name", pill.setCallArgs[0].name)
+//        XCTAssert(
+//            pill.setCallArgs.contains { $0.name == "New Name" && $0.times == PillTestsUtil.testTimeString }
+//        )
     }
 
     public func testSet_whenPillExistsAndSettingById_savesChanges() {
@@ -350,7 +352,7 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [mockPills[0]]))
     }
 
-    public func testSet_whenPillExistsAndSettingById_sharedNextPillDue() {
+    public func testSet_whenPillExistsAndSettingById_sharesNextPillDue() {
         let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
@@ -360,18 +362,19 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [mockPills[0]]))
     }
 
-    public func testSwallow_whenGivenPillIdForNonCompletedPill_swallowPillForGivenId() {
+    public func testSwallow_whenGivenPillIdForNonCompletedPill_swallowsPill() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
 
         // Pill is not done unless timesTakenToday == timesaday
         mockPills[1].timesTakenToday = 0
         mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = Date()
 
         pills.swallow(mockPills[1].id, onSuccess: nil)
-        XCTAssert(mockPills[1].swallowCallCount == 1)
+        XCTAssertEqual(1, mockPills[1].swallowCallCount)
     }
 
-    public func testSwallow_whenGivenPillIdForCompletedPill_doesNotSwallowPillForGivenId() {
+    public func testSwallow_whenGivenPillIdForCompletedPill_doesNotSwallow() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
 
         // Pill is not done unless timesTakenToday == timesaday
@@ -380,7 +383,55 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = Date()
 
         pills.swallow(mockPills[1].id, onSuccess: nil)
-        XCTAssert(mockPills[1].swallowCallCount == 0)
+        XCTAssertEqual(0, mockPills[1].swallowCallCount)
+    }
+
+    /// Integration test will Pill.
+    public func testSwallow_worksAfterCallingAwaken() {
+        guard let initialLastTaken = DateFactory.createDate(daysFromNow: -1) else {
+            XCTFail("Unable to create initial last taken")
+            return
+        }
+
+        let initialPillAttributes = PillAttributes(
+            name: "Test Pill",
+            expirationIntervalSetting: .EveryDay,
+            xDays: nil,
+            times: "12:00:00,12:00:01",
+            notify: false,
+            lastTaken: initialLastTaken,
+            timesTakenToday: "12:00:00,12:00:01"
+        )
+        let pillData = PillStruct(UUID(), initialPillAttributes)
+        let testPill = Pill(pillData: pillData)
+        let pillList = [testPill]
+        setUpPills(pillList)
+        pills.awaken()
+
+        guard let lastTaken = testPill.lastTaken else {
+            XCTFail("Last taken is nil after taking")
+            return
+        }
+
+        PDAssertEquiv(initialLastTaken, lastTaken)
+        pills.swallow(testPill.id, onSuccess: nil)
+        XCTAssertEqual(1, testPill.timesTakenToday)
+
+        guard let lastTaken = testPill.lastTaken else {
+            XCTFail("Last taken is nil after taking")
+            return
+        }
+
+        PDAssertNow(lastTaken)
+        pills.unswallow(testPill.id, onSuccess: nil)
+
+        guard let lastTaken2 = testPill.lastTaken else {
+            XCTFail("Last taken is nil after taking")
+            return
+        }
+
+        XCTAssertEqual(0, testPill.timesTakenToday)
+        PDAssertDefault(lastTaken2)
     }
 
     public func testSwallow_whenGivenIdForExistentNonCompletedPill_callsOnSuccess() {
@@ -437,7 +488,7 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = Date()
 
         pills.swallow(onSuccess: nil)
-        XCTAssert(mockPills[1].swallowCallCount == 0)
+        XCTAssertEqual(0, mockPills[1].swallowCallCount)
     }
 
     public func testSwallow_whenGivenNoArgsAndPillDueIsNonCompleted_callsOnSuccess() {

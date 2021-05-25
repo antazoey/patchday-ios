@@ -47,6 +47,12 @@ public func PDAssertNow(_ actual: Date, file: StaticString = #filePath, line: UI
     XCTAssertTrue(equiv(Date(), actual), equivFailMessage("$NOW", actual))
 }
 
+/// Assert that the given date is equivalent to the default date (.nanosecond granularity).
+public func PDAssertDefault(_ actual: Date, file: StaticString = #filePath, line: UInt = #line) {
+    let evaluation = equiv(DateFactory.createDefaultDate(), actual)
+    XCTAssertTrue(evaluation, equivFailMessage("<default-date>", actual))
+}
+
 /// Assert that the given date is not equivalent to now (.nanosecond granularity).
 public func PDAssertNotNow(_ actual: Date, file: StaticString = #filePath, line: UInt = #line) {
     let failMessage = notEquivFailMessage("$NOW", actual)

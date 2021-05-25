@@ -9,8 +9,10 @@ import PDKit
 class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProtocol {
 
     var pillsTable: PillsTableProtocol! = nil
+    private let now: NowProtocol
 
     init(pillsTableView: UITableView) {
+        now = PDNow()
         super.init()
         let tableWrapper = PillsTable(pillsTableView, pills: pills)
         self.pillsTable = tableWrapper
@@ -21,8 +23,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         pillsTableView: UITableView,
         alertFactory: AlertProducing? = nil,
         table: PillsTableProtocol,
-        dependencies: DependenciesProtocol
+        dependencies: DependenciesProtocol,
+        now: NowProtocol?=nil
     ) {
+        self.now = now ?? PDNow()
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,

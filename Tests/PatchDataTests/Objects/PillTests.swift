@@ -1652,7 +1652,6 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = timeString
         let pill = createPill(attrs)
         pill.awaken()
-        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
         XCTAssertEqual(0, pill.timesTakenTodayList.count)
     }
@@ -1664,7 +1663,6 @@ public class PillTests: XCTestCase {
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
         pill.awaken()
-        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
         XCTAssertEqual(0, pill.timesTakenTodayList.count)
     }
@@ -1675,7 +1673,6 @@ public class PillTests: XCTestCase {
         attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
         let pill = createPill(attrs)
         pill.awaken()
-        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
         XCTAssertEqual(0, pill.timesTakenTodayList.count)
     }
