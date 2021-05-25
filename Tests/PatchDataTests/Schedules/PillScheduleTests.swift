@@ -384,7 +384,7 @@ class PillScheduleTests: XCTestCase {
         XCTAssertEqual(0, mockPills[1].swallowCallCount)
     }
 
-    /// Integration test will Pill.
+    /// Integration test with Pill.
     public func testSwallow_worksAfterCallingAwaken() {
         guard let initialLastTaken = DateFactory.createDate(daysFromNow: -1) else {
             XCTFail("Unable to create initial last taken")
