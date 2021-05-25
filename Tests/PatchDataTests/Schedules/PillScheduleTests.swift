@@ -336,9 +336,7 @@ class PillScheduleTests: XCTestCase {
         let pill = pills[idToSet] as! MockPill
 
         XCTAssertEqual("New Name", pill.setCallArgs[0].name)
-//        XCTAssert(
-//            pill.setCallArgs.contains { $0.name == "New Name" && $0.times == PillTestsUtil.testTimeString }
-//        )
+        XCTAssertEqual(PillTestsUtil.testTimeString, pill.setCallArgs[0].times)
     }
 
     public func testSet_whenPillExistsAndSettingById_savesChanges() {
