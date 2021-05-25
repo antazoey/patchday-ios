@@ -226,7 +226,6 @@ class IntegrationTests: XCTestCase {
 
         let actual = hormoneAfterTest.date
         PDAssertNotEquiv(testDate, actual)
-
     }
 
 #endif
