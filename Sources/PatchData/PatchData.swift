@@ -85,7 +85,55 @@ public class PatchData: NSObject, PatchDataSDK {
             PDLogLevel = PDLogLevels.DEBUG
             return
         }
-        Self.handleDebugMode(settings, hormones, pills)
+
+        // ******************************************************
+        // New Day Test - Pills completed yesterday
+        // ******************************************************
+        if PDCli.isWakeUpTest() {
+            let attributes = PillAttributes(
+                name: "Test Pill",
+                expirationIntervalSetting: .EveryDay,
+                xDays: "",
+                times: "12:00:00,2:00:00",
+                notify: false,
+                lastTaken: DateFactory.createDate(daysFromNow: -1),
+                timesTakenToday: "12:02:02,2:03:05"
+            )
+            pills.set(at: 0, with: attributes)
+            PDCli.clearWakeUpFlag()
+            self.init()
+            PDLogLevel = PDLogLevels.DEBUG
+            return
+        }
+
+        // ******************************************************
+        // Debug mode
+        // ******************************************************
+        if PDCli.isDebugMode() {
+            PDLogLevel = PDLogLevels.DEBUG
+        }
+
+        // ******************************************************
+        // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
+        // ******************************************************
+        else if PDCli.isNotificationsTest() {
+            let now = Date()
+            let delay = 20
+            let seconds = settings.expirationInterval.hours * 60 * 60 - delay
+            settings.setNotifications(to: true)
+            let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
+            hormones.setDate(at: 0, with: date!)
+
+            let attrs = PillAttributes()
+            let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
+            attrs.expirationInterval.value = .EveryDay
+            attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
+            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+            attrs.notify = true
+            attrs.timesTakenToday = ""
+            attrs.name = "Notification Test"
+            pills.set(at: 0, with: attrs)
+        }
         #endif
         self.init(
             settings: settings,
@@ -111,38 +159,5 @@ public class PatchData: NSObject, PatchDataSDK {
         pills.reset()
         let newSiteCount = sites.reset()
         settings.reset(defaultSiteCount: newSiteCount)
-    }
-
-    private static func handleDebugMode(
-        _ settings: Settings, _ hormones: HormoneSchedule, _ pills: PillSchedule) {
-
-        // ******************************************************
-        // Debug mode
-        // ******************************************************
-        if PDCli.isDebugMode() {
-            PDLogLevel = PDLogLevels.DEBUG
-        }
-
-        // ******************************************************
-        // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
-        // ******************************************************
-        if PDCli.isNotificationsTest() {
-            let now = Date()
-            let delay = 20
-            let seconds = settings.expirationInterval.hours * 60 * 60 - delay
-            settings.setNotifications(to: true)
-            let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
-            hormones.setDate(at: 0, with: date!)
-
-            let attrs = PillAttributes()
-            let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-            attrs.expirationInterval.value = .EveryDay
-            attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
-            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
-            attrs.notify = true
-            attrs.timesTakenToday = ""
-            attrs.name = "Notification Test"
-            pills.set(at: 0, with: attrs)
-        }
     }
 }
