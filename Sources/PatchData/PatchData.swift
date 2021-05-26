@@ -44,6 +44,7 @@ public class PatchData: NSObject, PatchDataSDK {
         super.init()
     }
 
+    // swiftlint:disable function_body_length
     public override convenience init() {
         let storeDataStackWrapper = CoreDataStackWrapper()
         let hormoneStore = HormoneStore(storeDataStackWrapper)
@@ -145,6 +146,7 @@ public class PatchData: NSObject, PatchDataSDK {
             hormoneDataSharer: hormoneDataSharer
         )
     }
+    // swiftlint:enable function_body_length
 
     public var isFresh: Bool {
         hormones.isEmpty && sites.isDefault
