@@ -89,7 +89,7 @@ public class PatchData: NSObject, PatchDataSDK {
         // ******************************************************
         // New Day Test - Pills completed yesterday
         // ******************************************************
-        if PDCli.isWakeUpTest() {
+        else if PDCli.isWakeUpTest() {
             let attributes = PillAttributes(
                 name: "Test Pill",
                 expirationIntervalSetting: .EveryDay,
@@ -116,7 +116,7 @@ public class PatchData: NSObject, PatchDataSDK {
         // ******************************************************
         // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
         // ******************************************************
-        else if PDCli.isNotificationsTest() {
+        if PDCli.isNotificationsTest() {
             let now = Date()
             let delay = 20
             let seconds = settings.expirationInterval.hours * 60 * 60 - delay
