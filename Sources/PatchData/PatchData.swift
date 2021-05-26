@@ -44,6 +44,7 @@ public class PatchData: NSObject, PatchDataSDK {
         super.init()
     }
 
+    // swiftlint:disable function_body_length
     public override convenience init() {
         let storeDataStackWrapper = CoreDataStackWrapper()
         let hormoneStore = HormoneStore(storeDataStackWrapper)
@@ -85,36 +86,26 @@ public class PatchData: NSObject, PatchDataSDK {
             PDLogLevel = PDLogLevels.DEBUG
             return
         }
-        Self.handleDebugMode(settings, hormones, pills)
-        #endif
-        self.init(
-            settings: settings,
-            dataSharer: dataSharer,
-            hormones: hormones,
-            pills: pills,
-            sites: sites,
-            coreData: storeDataStackWrapper,
-            hormoneDataSharer: hormoneDataSharer
-        )
-    }
 
-    public var isFresh: Bool {
-        hormones.isEmpty && sites.isDefault
-    }
-
-    public var totalAlerts: Int {
-        hormones.totalExpired + pills.totalDue
-    }
-
-    public func resetAll() {
-        hormones.reset()
-        pills.reset()
-        let newSiteCount = sites.reset()
-        settings.reset(defaultSiteCount: newSiteCount)
-    }
-
-    private static func handleDebugMode(
-        _ settings: Settings, _ hormones: HormoneSchedule, _ pills: PillSchedule) {
+        // ******************************************************
+        // New Day Test - Pills completed yesterday
+        // ******************************************************
+        else if PDCli.isWakeUpTest() {
+            let attributes = PillAttributes(
+                name: "Test Pill",
+                expirationIntervalSetting: .EveryDay,
+                xDays: "",
+                times: "12:00:00,2:00:00",
+                notify: false,
+                lastTaken: DateFactory.createDate(daysFromNow: -1),
+                timesTakenToday: "12:02:02,2:03:05"
+            )
+            pills.set(at: 0, with: attributes)
+            PDCli.clearWakeUpFlag()
+            self.init()
+            PDLogLevel = PDLogLevels.DEBUG
+            return
+        }
 
         // ******************************************************
         // Debug mode
@@ -144,5 +135,31 @@ public class PatchData: NSObject, PatchDataSDK {
             attrs.name = "Notification Test"
             pills.set(at: 0, with: attrs)
         }
+        #endif
+        self.init(
+            settings: settings,
+            dataSharer: dataSharer,
+            hormones: hormones,
+            pills: pills,
+            sites: sites,
+            coreData: storeDataStackWrapper,
+            hormoneDataSharer: hormoneDataSharer
+        )
+    }
+    // swiftlint:enable function_body_length
+
+    public var isFresh: Bool {
+        hormones.isEmpty && sites.isDefault
+    }
+
+    public var totalAlerts: Int {
+        hormones.totalExpired + pills.totalDue
+    }
+
+    public func resetAll() {
+        hormones.reset()
+        pills.reset()
+        let newSiteCount = sites.reset()
+        settings.reset(defaultSiteCount: newSiteCount)
     }
 }

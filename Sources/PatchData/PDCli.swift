@@ -12,24 +12,47 @@ public class PDCli {
     private static let DebugFlag = "--debug"
     private static let DebugFlagShort = "-d"
     private static let NotificationsTestFlag = "--notifications-test"
+    private static let WakeUpTestFlag = "--wakeup-test"
 
-    public static func isNukeMode() -> Bool {
-        CommandLine.arguments.contains(NukeFlag)
-    }
-
-    public static func clearNukeFlag() {
-        CommandLine.arguments.removeAll(where: { $0 == NukeFlag })
-    }
+    // MARK: - Arg Existence Checking
 
     public static func isDebugMode() -> Bool {
-        CommandLine.arguments.contains(DebugFlagShort) || CommandLine.arguments.contains(DebugFlag)
+        has(DebugFlagShort) || has(DebugFlag)
+    }
+
+    public static func isNukeMode() -> Bool {
+        has(NukeFlag)
     }
 
     public static func isNotificationsTest() -> Bool {
-        CommandLine.arguments.contains(NotificationsTestFlag)
+        has(NotificationsTestFlag)
+    }
+
+    public static func isWakeUpTest() -> Bool {
+        has(WakeUpTestFlag)
+    }
+
+    // MARK: - Clearing Args
+
+    public static func clearNukeFlag() {
+        remove(NukeFlag)
     }
 
     public static func clearNotificationsFlag() {
-        CommandLine.arguments.removeAll(where: { $0 == NotificationsTestFlag })
+        remove(NotificationsTestFlag)
+    }
+
+    public static func clearWakeUpFlag() {
+        remove(WakeUpTestFlag)
+    }
+
+    // MARK: - Private
+
+    private static func has(_ flag: String) -> Bool {
+        CommandLine.arguments.contains(flag)
+    }
+
+    private static func remove(_ flag: String) {
+        CommandLine.arguments.removeAll(where: { $0 == flag })
     }
 }
