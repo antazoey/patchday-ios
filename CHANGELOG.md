@@ -1,5 +1,11 @@
 # Changelog
 
+# 3.6.2
+
+Fixed
+
+- New Pill button is now disabled when pills are disabled.
+
 # 3.6.1
 
 Changed

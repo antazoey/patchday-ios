@@ -57,6 +57,9 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.togglePillsEnabled(switchObj.isOn)
         pillsTableView.reloadData()
         setTableBackgroundView()
+        if let items = navigationItem.rightBarButtonItems, items.count > 0 {
+            items[0].isEnabled = switchObj.isOn
+        }
     }
 
     // MARK: - Table Delegate Methods
@@ -99,6 +102,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
             action: #selector(handleInsertNewPill)
         )
         insertButton.tintColor = PDColors[.NewItem]
+        insertButton.isEnabled = viewModel.enabled
         navigationItem.rightBarButtonItems = [insertButton]
         let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.PillTitle)
         navigationItem.backBarButtonItem = backItem
