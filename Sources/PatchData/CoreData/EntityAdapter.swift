@@ -85,6 +85,9 @@ class EntityAdapter {
         if let days = pillData.attributes.expirationInterval.xDaysValue {
             pill.xDays = days
         }
+        if let lastWakeUp = pillData.attributes.lastWakeUp as NSDate?, lastWakeUp != pill.lastWakeUp {
+            pill.lastWakeUp = lastWakeUp
+        }
     }
 
     // MARK: - Sites

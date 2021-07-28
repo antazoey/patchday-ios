@@ -180,10 +180,7 @@ public class Pill: Swallowable {
     }
 
     private var untaken: Bool {
-        guard let _ = lastTaken as Date? else {
-            return true
-        }
-        return false
+        lastTaken as Date? == nil
     }
 
     private var untakenToday: Bool {

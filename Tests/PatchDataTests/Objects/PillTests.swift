@@ -1674,6 +1674,25 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         pill.awaken()
         XCTAssertEqual(0, pill.timesTakenToday)
-        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+    }
+
+    func testAwaken_whenAlreadyAwokenToday_doesNotAwaken() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        attrs.lastWakeUp = Date()
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(2, pill.timesTakenToday)
+    }
+
+    func testAwaken_whenNotYetWokeUpToday_setsWakeUpDate() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        attrs.lastWakeUp = DateFactory.createDate(daysFromNow: -1)
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssert(pill.attributes.lastWakeUp?.isInToday() ?? false)
     }
 }
