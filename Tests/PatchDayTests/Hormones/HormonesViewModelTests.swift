@@ -304,7 +304,7 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertEqual(1, actual)
     }
 
-    func testHandleRowTapped_whenChangeActionChosen_doesExpectedActions() {
+    func testHandleRowTapped_whenChangeActionChosen_reloadsTabs() {
         let expectedSite = MockSite()
         let expectedHormone = MockHormone()
         (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
@@ -316,26 +316,113 @@ class HormonesViewModelTests: XCTestCase {
             dependencies: mockDeps,
             now: mockNow
         )
-        var handleCalled = false
+        viewModel.handleRowTapped(at: 0, UIViewController()) { }
+        let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alert
+        let tabsReloaded = (mockDeps.tabs as! MockTabs).reflectHormonesCallCount == 1
+        XCTAssertTrue(tabsReloaded)
+    }
+
+    func testHandleRowTapped_whenChangeActionChosen_callsHandler() {
+        let expectedSite = MockSite()
+        let expectedHormone = MockHormone()
+        (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
+        (mockDeps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            table: mockTable,
+            dependencies: mockDeps,
+            now: mockNow
+        )
+        var handlerCalled = false
         viewModel.handleRowTapped(at: 0, UIViewController()) {
-            handleCalled = true
+            handlerCalled = true
         }
         let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
         changeAction()  // Simulates user selecting "Change" from the alert
-        let mockHormones = mockDeps.sdk!.hormones as! MockHormoneSchedule
-        let tabsReloaded = (mockDeps.tabs as! MockTabs).reflectHormonesCallCount == 1
+        XCTAssertTrue(handlerCalled)
+    }
+
+    func testHandleRowTapped_whenChangeActionChosen_reflectsBadge() {
+        let expectedSite = MockSite()
+        let expectedHormone = MockHormone()
+        (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
+        (mockDeps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            table: mockTable,
+            dependencies: mockDeps,
+            now: mockNow
+        )
+        viewModel.handleRowTapped(at: 0, UIViewController()) { }
+        let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alert
         let badgeReflected = (mockDeps.badge as! MockBadge).reflectCallCount == 1
+        XCTAssertTrue(badgeReflected)
+    }
+
+    func testHandleRowTapped_whenChangeActionChosen_requestsNotifications() {
+        let expectedSite = MockSite()
+        let expectedHormone = MockHormone()
+        (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
+        (mockDeps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            table: mockTable,
+            dependencies: mockDeps,
+            now: mockNow
+        )
+        viewModel.handleRowTapped(at: 0, UIViewController()) { }
+        let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alerts
         let notificationCallArgs = (mockDeps.notifications as! MockNotifications)
             .requestExpiredHormoneNotificationCallArgs
-        let setDateCallArgs = mockHormones.setDateByIdCallArgs
-        let setSiteCallArgs = mockHormones.setSiteByIdCallArgs
-        XCTAssertTrue(tabsReloaded)
-        XCTAssertTrue(handleCalled)
-        XCTAssertTrue(badgeReflected)
         PDAssertSingle(notificationCallArgs)
         XCTAssertEqual(notificationCallArgs[0].id, expectedHormone.id)
+    }
+
+    func testHandleRowTapped_whenChangeActionChosen_setsDateAndSiteOfHormone() {
+        let expectedSite = MockSite()
+        let expectedHormone = MockHormone()
+        (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
+        (mockDeps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            table: mockTable,
+            dependencies: mockDeps,
+            now: mockNow
+        )
+        viewModel.handleRowTapped(at: 0, UIViewController()) { }
+        let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alert
+        let mockHormones = mockDeps.sdk!.hormones as! MockHormoneSchedule
+        let setDateCallArgs = mockHormones.setDateByIdCallArgs
+        let setSiteCallArgs = mockHormones.setSiteByIdCallArgs
         PDAssertSingle(setDateCallArgs)
         PDAssertSingle(setSiteCallArgs)
+    }
+
+    func testHandleRowTapped_whenChangeActionChosen_setsWidget() {
+        let expectedSite = MockSite()
+        let expectedHormone = MockHormone()
+        (mockDeps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
+        (mockDeps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            table: mockTable,
+            dependencies: mockDeps,
+            now: mockNow
+        )
+        viewModel.handleRowTapped(at: 0, UIViewController()) {}
+        let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alert
+        let widgetSetCalled = (mockDeps.widget as! MockWidget).setCallCount == 1
+        XCTAssertTrue(widgetSetCalled)
     }
 
     func testHandleRowTapped_whenEditActionChosen_doesExpectedActions() {
