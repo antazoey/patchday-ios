@@ -1695,4 +1695,52 @@ public class PillTests: XCTestCase {
         pill.awaken()
         XCTAssert(pill.attributes.lastWakeUp?.isInToday() ?? false)
     }
+
+    func testAwaken_whenNotYetWokeUpTodayAndUsesXDaysAndIsInOffPosition_incrementsXDaysPosition() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        attrs.lastWakeUp = DateFactory.createDate(daysFromNow: -1)
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 2
+        attrs.expirationInterval.daysTwo = 2
+        attrs.expirationInterval.xDaysPosition = 1
+        attrs.expirationInterval.xDaysIsOn = false
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(2, pill.expirationInterval.xDaysPosition)
+        XCTAssert(!pill.expirationInterval.xDaysIsOn!)
+    }
+
+    func testAwaken_whenNotYetWokeUpTodayAndUsesXDaysAndIsInLastOffPosition_incrementsXDaysPositionAndSetsIsOn() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        attrs.lastWakeUp = DateFactory.createDate(daysFromNow: -1)
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 2
+        attrs.expirationInterval.daysTwo = 2
+        attrs.expirationInterval.xDaysPosition = 2
+        attrs.expirationInterval.xDaysIsOn = false
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(1, pill.expirationInterval.xDaysPosition)
+        XCTAssert(pill.expirationInterval.xDaysIsOn!)
+    }
+
+    func testAwaken_whenNotYetWokeUpTodayAndUsesXDaysAndIsInOnPosition_doesNotincrementsXDaysPosition() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        attrs.lastWakeUp = DateFactory.createDate(daysFromNow: -1)
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 2
+        attrs.expirationInterval.daysTwo = 2
+        attrs.expirationInterval.xDaysPosition = 1
+        attrs.expirationInterval.xDaysIsOn = true
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(1, pill.expirationInterval.xDaysPosition)
+        XCTAssert(pill.expirationInterval.xDaysIsOn!)
+    }
 }
