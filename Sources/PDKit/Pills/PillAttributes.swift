@@ -15,6 +15,7 @@ public class PillAttributes {
     public var notify: Bool?
     public var lastTaken: Date?
     public var timesTakenToday: String?
+    public var lastWakeUp: Date?
 
     public init(
         name: String?,
@@ -23,7 +24,8 @@ public class PillAttributes {
         times: String?,
         notify: Bool?,
         lastTaken: Date?,
-        timesTakenToday: String?
+        timesTakenToday: String?,
+        lastWakeUp: Date?
     ) {
         self.name = name
         self._expirationInterval = PillExpirationInterval(
@@ -33,6 +35,7 @@ public class PillAttributes {
         self.notify = notify
         self.lastTaken = lastTaken
         self.timesTakenToday = timesTakenToday
+        self.lastWakeUp = lastWakeUp
     }
 
     public init(_ attributes: PillAttributes) {
@@ -44,6 +47,7 @@ public class PillAttributes {
         let interval = attributes.expirationInterval.value
         let xDaysValue = attributes.expirationInterval.xDaysValue
         self._expirationInterval = PillExpirationInterval(interval, xDays: xDaysValue)
+        self.lastWakeUp = attributes.lastWakeUp
     }
 
     public init() {
@@ -63,6 +67,7 @@ public class PillAttributes {
         let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
         let timesTakenTodayExists = timesTakenToday != nil
             && timesTakenToday != exclusions.timesTakenToday
+        let lastWakeUpExists = lastWakeUp != nil && lastWakeUp != exclusions.lastWakeUp
 
         return nameExists
             || intervalExists
@@ -71,6 +76,7 @@ public class PillAttributes {
             || notifyExists
             || lastTakenExists
             || timesTakenTodayExists
+            || lastWakeUpExists
     }
 
     /// Update this instance's properties with the given ones. This does not update if the given property is nil.
@@ -80,6 +86,7 @@ public class PillAttributes {
         notify = attributes.notify != nil ? attributes.notify : notify
         lastTaken = attributes.lastTaken ?? lastTaken
         timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
+        lastWakeUp = attributes.lastWakeUp ?? lastWakeUp
 
         let interval = attributes.expirationInterval.value ?? expirationInterval.value
         let days = attributes.expirationInterval.xDaysValue ?? expirationInterval.xDaysValue
@@ -99,5 +106,6 @@ public class PillAttributes {
         notify = nil
         lastTaken = nil
         timesTakenToday = nil
+        lastWakeUp = nil
     }
 }

@@ -398,7 +398,8 @@ class PillScheduleTests: XCTestCase {
             times: "12:00:00,12:00:01",
             notify: false,
             lastTaken: initialLastTaken,
-            timesTakenToday: "12:00:00,12:00:01"
+            timesTakenToday: "12:00:00,12:00:01",
+            lastWakeUp: DateFactory.createDate(daysFromNow: -1)
         )
         let pillData = PillStruct(UUID(), initialPillAttributes)
         let testPill = Pill(pillData: pillData)

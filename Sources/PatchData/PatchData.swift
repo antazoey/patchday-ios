@@ -98,7 +98,8 @@ public class PatchData: NSObject, PatchDataSDK {
                 times: "12:00:00,2:00:00",
                 notify: false,
                 lastTaken: DateFactory.createDate(daysFromNow: -1),
-                timesTakenToday: "12:02:02,2:03:05"
+                timesTakenToday: "12:02:02,2:03:05",
+                lastWakeUp: DateFactory.createDate(daysFromNow: -1)
             )
             pills.set(at: 0, with: attributes)
             PDCli.clearWakeUpFlag()

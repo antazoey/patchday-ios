@@ -66,6 +66,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
         self.tabs?.reflectPills()
+        self.widget?.set()
     }
 
     func deletePill(at index: IndexPath) {

@@ -154,7 +154,8 @@ class EntityAdapter {
             times: pill.times,
             notify: pill.notify,
             lastTaken: pill.lastTaken as Date?,
-            timesTakenToday: pill.timesTakenTodayList
+            timesTakenToday: pill.timesTakenTodayList,
+            lastWakeUp: pill.lastWakeUp as Date?
         )
     }
 

@@ -1,10 +1,12 @@
 # Changelog
 
-# 3.6.2
+# 3.6.2 (unreleased)
 
 Fixed
 
-- New Pill button is now disabled when pills are disabled.
+- Bug where a Pill's X-Days "Off" position would NOT increment, causing a perpetually increasing due date.
+- Bug where the widget would not update immediately after taking a hormone or changing a pill.
+- Bug where you were still able to add new pills when Pills were globally disabled.
 
 # 3.6.1
 

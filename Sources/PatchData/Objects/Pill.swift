@@ -12,8 +12,6 @@ public class Pill: Swallowable {
     private lazy var log = PDLog<Pill>()
     public var _now: NowProtocol
 
-    private var now: Date { self._now.now }
-
     public init(pillData: PillStruct, now: NowProtocol?=nil) {
         self.pillData = pillData
         self._now = now ?? PDNow()
@@ -37,7 +35,8 @@ public class Pill: Swallowable {
             times: pillData.attributes.times,
             notify: notify,
             lastTaken: lastTaken,
-            timesTakenToday: pillData.attributes.timesTakenToday
+            timesTakenToday: pillData.attributes.timesTakenToday,
+            lastWakeUp: pillData.attributes.lastWakeUp
         )
     }
 
@@ -152,7 +151,7 @@ public class Pill: Swallowable {
 
         // Increment XDays position if done for the day.
         if expirationInterval.value == .XDaysOnXDaysOff && isDone {
-            expirationInterval.incrementXDays()
+            incrementXDaysPosition()
         }
     }
 
@@ -166,14 +165,42 @@ public class Pill: Swallowable {
     }
 
     public func awaken() {
-        guard let lastDate = lastTaken as Date? else {
+        guard !untaken else {
             pillData.attributes.timesTakenToday = ""
             return
         }
 
-        if !lastDate.isInToday(now: _now) || timesTakenToday == 0 {
+        if untakenToday && !wokeUpToday {
+            lastWakeUp = now
             pillData.attributes.timesTakenToday = ""
+            if xDaysIsOn {
+                incrementXDaysPosition()
+            }
         }
+    }
+
+    private var untaken: Bool {
+        guard let _ = lastTaken as Date? else {
+            return true
+        }
+        return false
+    }
+
+    private var untakenToday: Bool {
+        guard let lastDate = lastTaken as Date? else {
+            pillData.attributes.timesTakenToday = ""
+            return false
+        }
+
+        return !lastDate.isInToday(now: _now) || timesTakenToday == 0
+    }
+
+    private var wokeUpToday: Bool {
+        lastWakeUp.isInToday(now: _now)
+    }
+
+    private var xDaysIsOn: Bool {
+        expirationInterval.usesXDays && !(expirationInterval.xDaysIsOn ?? false)
     }
 
     private func appendLastTaken() {
@@ -183,6 +210,13 @@ public class Pill: Swallowable {
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {
         PillDueDateFinderParams(timesTakenToday, timesaday, times)
+    }
+
+    private var now: Date { _now.now }
+
+    private var lastWakeUp: Date {
+        get { pillData.attributes.lastWakeUp ?? DateFactory.createDefaultDate() }
+        set { pillData.attributes.lastWakeUp = newValue }
     }
 
     private var dueDateForEveryOtherDay: Date? {
@@ -317,5 +351,9 @@ public class Pill: Swallowable {
 
         // Is during off-cycle
         return getTimeOne(daysFromNow: (offSpan + 1) - pos)
+    }
+
+    private func incrementXDaysPosition() {
+        expirationInterval.incrementXDays()
     }
 }
