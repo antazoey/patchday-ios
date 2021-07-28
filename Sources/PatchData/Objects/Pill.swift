@@ -188,8 +188,7 @@ public class Pill: Swallowable {
 
     private var untakenToday: Bool {
         guard let lastDate = lastTaken as Date? else {
-            pillData.attributes.timesTakenToday = ""
-            return false
+            return true
         }
 
         return !lastDate.isInToday(now: _now) || timesTakenToday == 0
