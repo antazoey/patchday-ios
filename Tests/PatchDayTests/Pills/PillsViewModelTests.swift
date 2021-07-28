@@ -213,6 +213,15 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, params.index)
     }
 
+    func testTakePill_setsWidget() {
+        let viewModel = createViewModel()
+        viewModel.takePill(at: 0)
+        (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
+        let widget = viewModel.widget as! MockWidget
+        let callCount = widget.setCallCount
+        XCTAssertEqual(1, callCount)
+    }
+
     func testDeletePill_deletesPill() {
         let viewModel = createViewModel()
         let pills = deps.sdk?.pills as! MockPillSchedule
