@@ -864,21 +864,54 @@ class PillDetailViewModelTests: XCTestCase {
         setupPill()
         let pills = dependencies.sdk!.pills as! MockPillSchedule
         let testPill = MockPill()
-        testPill.name = PillStrings.NewPill
+        testPill.isNew = true
         pills.all = [MockPill(), MockPill(), testPill]
         let viewModel = PillDetailViewModel(expectedIndex, dependencies: dependencies)
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
+
         if alerts.createUnsavedAlertCallArgs.count <= 0 {
             XCTFail("The alert was not created.")
             return
         }
+
         let discard = alerts.createUnsavedAlertCallArgs[0].2
         discard()
-        let actual = pills.deleteCallArgs[0]
+        let callArgs = pills.deleteCallArgs
+
+        if callArgs.count <= 0 {
+            XCTFail("Did not call delete.")
+            return
+        }
+
+        let actual = callArgs[0]
         XCTAssertEqual(expectedIndex, actual)
         XCTAssertEqual(1, alerts.createUnsavedAlertReturnValue.presentCallCount)
+    }
+
+    func testHandleIfUnsaved_whenDiscardingOldPill_doesNotDeletePill() {
+        let expectedIndex = 2
+        setupPill()
+        let pills = dependencies.sdk!.pills as! MockPillSchedule
+        let testPill = MockPill()
+        testPill.isNew = false
+        pills.all = [MockPill(), MockPill(), testPill]
+        let viewModel = PillDetailViewModel(expectedIndex, dependencies: dependencies)
+        viewModel.selections.name = "new name"  // To trigger the alert
+        let testViewController = UIViewController()
+        viewModel.handleIfUnsaved(testViewController)
+        let alerts = viewModel.alerts! as! MockAlertFactory
+
+        if alerts.createUnsavedAlertCallArgs.count <= 0 {
+            XCTFail("The alert was not created.")
+            return
+        }
+
+        let discard = alerts.createUnsavedAlertCallArgs[0].2
+        discard()
+        let callArgs = pills.deleteCallArgs
+        XCTAssertEqual(0, callArgs.count)
     }
 
     func testHandleIfUnsaved_whenNothingSelected_popsNavigationWithoutAlertChoice() {

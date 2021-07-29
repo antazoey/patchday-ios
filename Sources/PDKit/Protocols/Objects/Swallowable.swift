@@ -41,6 +41,9 @@ public protocol Swallowable {
     /// The times taken today as a list of times.
     var timesTakenTodayList: PillTimesTakenTodayList { get }
 
+    /// The time the pill last "woke up" (called the `awaken()` method and it reset daily properties).
+    var lastWakeUp: Date { get }
+
     /// The number of times you took this pill today.
     var timesTakenToday: Int { get }
 
@@ -52,9 +55,6 @@ public protocol Swallowable {
 
     /// Whether you never took this pill before.
     var isNew: Bool { get }
-
-    /// Whether the pill was ever given a name.
-    var hasName: Bool { get }
 
     /// If you are done taking this pill today.
     var isDone: Bool { get }

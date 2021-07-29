@@ -230,7 +230,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
         let discard: () -> Void = {
             self.selections.reset()
-            if let pill = self.pill, pill.name == PillStrings.NewPill {
+            if let pill = self.pill, pill.isNew {
                 self.sdk?.pills.delete(at: self.index)
             }
             self.nav?.pop(source: viewController)
@@ -342,7 +342,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     private var wereChanges: Bool {
         guard let pill = pill else { return false }
         return selections.anyAttributeExists(exclusions: pill.attributes)
-            || pill.name == PillStrings.NewPill
+            || pill.isNew
     }
 
     private var startIndexForPosition: Int {

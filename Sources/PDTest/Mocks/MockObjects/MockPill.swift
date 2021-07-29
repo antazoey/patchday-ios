@@ -8,21 +8,22 @@ import Foundation
 import PDKit
 
 public class MockPill: Swallowable {
-    public var id: UUID = UUID()
-    public var attributes: PillAttributes = PillAttributes()
-    public var name: String = ""
+    public var id = UUID()
+    public var attributes = PillAttributes()
+    public var name = ""
     public var times: [Time] = []
-    public var notify: Bool = false
+    public var notify = false
     public var expirationInterval = PillExpirationInterval(.EveryDay)
-    public var timesaday: Int = -1
-    public var timesTakenToday: Int = -1
+    public var timesaday = -1
+    public var timesTakenToday = -1
     public var lastTaken: Date?
     public var due: Date? = Date()
-    public var isDue: Bool = false
-    public var isNew: Bool = false
-    public var isDone: Bool = false
-    public var hasName: Bool = false
+    public var isDue = false
+    public var isNew = false
+    public var isDone = false
+    public var hasName = false
     public var timesTakenTodayList = PillTimesTakenTodayList()
+    public var lastWakeUp = Date()
 
     public init() { }
 

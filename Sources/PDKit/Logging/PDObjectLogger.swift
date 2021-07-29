@@ -46,7 +46,6 @@ public class PDObjectLogger {
                 \"name\": \"\(pill.name)\",
                 \"timesTakenToday\": \(pill.timesTakenToday),
                 \"timesaday\": \(pill.timesaday),
-                \"times\": \"\(pill.times)\",
                 \"lastTaken\": \(lastTakenStr ?? "null"),
                 \"notify\": \(pill.notify)
             }

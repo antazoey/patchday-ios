@@ -36,7 +36,8 @@ public class Pill: Swallowable {
             notify: notify,
             lastTaken: lastTaken,
             timesTakenToday: pillData.attributes.timesTakenToday,
-            lastWakeUp: pillData.attributes.lastWakeUp
+            lastWakeUp: pillData.attributes.lastWakeUp,
+            isCreated: pillData.attributes.isCreated
         )
     }
 
@@ -50,6 +51,11 @@ public class Pill: Swallowable {
 
     public var expirationIntervalSetting: PillExpirationIntervalSetting {
         expirationInterval.value ?? DefaultPillAttributes.EXPIRATION_INTERVAL
+    }
+
+    private var isCreated: Bool {
+        get { pillData.attributes.isCreated ?? false }
+        set { pillData.attributes.isCreated = true }
     }
 
     public var times: [Time] {
@@ -85,6 +91,11 @@ public class Pill: Swallowable {
         timesTakenTodayList.count
     }
 
+    public var lastWakeUp: Date {
+        get { pillData.attributes.lastWakeUp ?? DateFactory.createDefaultDate() }
+        set { pillData.attributes.lastWakeUp = newValue }
+    }
+
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
@@ -105,11 +116,7 @@ public class Pill: Swallowable {
     }
 
     public var isNew: Bool {
-        pillData.attributes.lastTaken == nil && !hasName
-    }
-
-    public var hasName: Bool {
-        pillData.attributes.name != PillStrings.NewPill && pillData.attributes.name != ""
+        !isCreated && pillData.attributes.lastTaken == nil
     }
 
     public var isDone: Bool {
@@ -122,6 +129,7 @@ public class Pill: Swallowable {
 
     public func set(attributes: PillAttributes) {
         pillData.attributes.update(attributes)
+        isCreated = true
 
         // Prevent pills with 0 set times
         if timesaday == 0 {
@@ -209,11 +217,6 @@ public class Pill: Swallowable {
     }
 
     private var now: Date { _now.now }
-
-    private var lastWakeUp: Date {
-        get { pillData.attributes.lastWakeUp ?? DateFactory.createDefaultDate() }
-        set { pillData.attributes.lastWakeUp = newValue }
-    }
 
     private var dueDateForEveryOtherDay: Date? {
         guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }

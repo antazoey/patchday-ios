@@ -10,6 +10,7 @@
     <entity name="Pill" representedClassName="MOPill" syncable="YES">
         <attribute name="expirationInterval" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isCreated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastTaken" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastWakeUp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -31,7 +32,7 @@
     </entity>
     <elements>
         <element name="Estrogen" positionX="-36" positionY="54" width="128" height="104"/>
-        <element name="Pill" positionX="-27" positionY="63" width="128" height="224"/>
+        <element name="Pill" positionX="-27" positionY="63" width="128" height="239"/>
         <element name="Site" positionX="-27" positionY="63" width="128" height="118"/>
     </elements>
 </model>

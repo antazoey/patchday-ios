@@ -1203,33 +1203,12 @@ public class PillTests: XCTestCase {
         XCTAssertTrue(pill.isNew)
     }
 
-    func testIsNew_whenLastTakenIsNilAndNameIsNotEmpty_returnsFalse() {
+    func testIsNew_whenLastTakenIsNilAndIsCreatedTrue_returnsFalse() {
         let attrs = PillAttributes()
         attrs.lastTaken = nil
-        attrs.name = "Testosterone"
+        attrs.isCreated = true
         let pill = createPill(attrs)
         XCTAssertFalse(pill.isNew)
-    }
-
-    func testHasName_whenNameIsDefault_returnsFalse() {
-        let attrs = PillAttributes()
-        attrs.name = PillStrings.NewPill
-        let pill = createPill(attrs)
-        XCTAssertFalse(pill.hasName)
-    }
-
-    func testHasName_whenNameIsEmpty_returnsFalse() {
-        let attrs = PillAttributes()
-        attrs.name = ""
-        let pill = createPill(attrs)
-        XCTAssertFalse(pill.hasName)
-    }
-
-    func testHasName_whenNameIsSet_returnsTrue() {
-        let attrs = PillAttributes()
-        attrs.name = "Testosterone"
-        let pill = createPill(attrs)
-        XCTAssertTrue(pill.hasName)
     }
 
     func testIsNew_whenLastTakenHasValue_returnsFalse() {

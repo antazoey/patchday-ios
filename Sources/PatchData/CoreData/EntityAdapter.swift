@@ -88,6 +88,9 @@ class EntityAdapter {
         if let lastWakeUp = pillData.attributes.lastWakeUp as NSDate?, lastWakeUp != pill.lastWakeUp {
             pill.lastWakeUp = lastWakeUp
         }
+        if let isCreated = pillData.attributes.isCreated as Bool?, isCreated != pill.isCreated {
+            pill.isCreated = isCreated
+        }
     }
 
     // MARK: - Sites
@@ -158,7 +161,8 @@ class EntityAdapter {
             notify: pill.notify,
             lastTaken: pill.lastTaken as Date?,
             timesTakenToday: pill.timesTakenTodayList,
-            lastWakeUp: pill.lastWakeUp as Date?
+            lastWakeUp: pill.lastWakeUp as Date?,
+            isCreated: pill.isCreated
         )
     }
 
