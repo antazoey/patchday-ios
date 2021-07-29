@@ -1187,18 +1187,10 @@ public class PillTests: XCTestCase {
         XCTAssertFalse(pill.isDue)
     }
 
-    func testIsNew_whenLastTakenIsNilAndNameIsDefault_returnsTrue() {
+    func testIsNew_whenLastTakenIsNilAndIsCreatedFalse_returnsTrue() {
         let attrs = PillAttributes()
         attrs.lastTaken = nil
-        attrs.name = PillStrings.NewPill
-        let pill = createPill(attrs)
-        XCTAssertTrue(pill.isNew)
-    }
-
-    func testIsNew_whenLastTakenIsNilAndNameIsEmpty_returnsTrue() {
-        let attrs = PillAttributes()
-        attrs.lastTaken = nil
-        attrs.name = ""
+        attrs.isCreated = false
         let pill = createPill(attrs)
         XCTAssertTrue(pill.isNew)
     }
@@ -1625,14 +1617,11 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval.daysOne = 5
         attrs.expirationInterval.daysTwo = 5
         attrs.times = "12:00:00,01:10:10"
-        attrs.timesTakenToday = "12:00:00"
+        attrs.timesTakenToday = "12:00:00"  // taken 1 time
         attrs.lastTaken = Date()
-        tprint(attrs.expirationInterval.xDaysIsOn)
         let pill = createPill(attrs)
-
-        tprint(pill.expirationInterval.xDaysIsOn)
         pill.unswallow()
-        XCTAssertEqual(2, pill.timesTakenToday)
+        XCTAssertEqual(1, pill.timesTakenToday)
     }
 
     func testUnswallow_whenOffAtPositionEqualToOne_resetToOnAtLastPosition() {
@@ -1645,10 +1634,7 @@ public class PillTests: XCTestCase {
         attrs.times = "12:00:00,01:10:10"
         attrs.timesTakenToday = "12:00:00"
         attrs.lastTaken = Date()
-        tprint(attrs.expirationInterval.xDaysIsOn)
         let pill = createPill(attrs)
-
-        tprint(pill.expirationInterval.xDaysIsOn)
         pill.unswallow()
         XCTAssertTrue(pill.expirationInterval.xDaysIsOn!)
         XCTAssertEqual(6, pill.expirationInterval.xDaysPosition)
@@ -1664,7 +1650,7 @@ public class PillTests: XCTestCase {
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
         pill.unswallow()
-        XCTAssertEqual(1, pill.timesTakenToday)
+        XCTAssertEqual(0, pill.timesTakenToday)
     }
 
     func testUnswallow_whenXDaysOn_resetsToPositionBefore() {
@@ -1677,10 +1663,7 @@ public class PillTests: XCTestCase {
         attrs.times = "12:00:00,01:10:10"
         attrs.timesTakenToday = "12:00:00"
         attrs.lastTaken = Date()
-        tprint(attrs.expirationInterval.xDaysIsOn)
         let pill = createPill(attrs)
-
-        tprint(pill.expirationInterval.xDaysIsOn)
         pill.unswallow()
         XCTAssertTrue(pill.expirationInterval.xDaysIsOn!)
         XCTAssertEqual(5, pill.expirationInterval.xDaysPosition)
@@ -1696,10 +1679,7 @@ public class PillTests: XCTestCase {
         attrs.times = "12:00:00,01:10:10"
         attrs.timesTakenToday = "12:00:00"
         attrs.lastTaken = Date()
-        tprint(attrs.expirationInterval.xDaysIsOn)
         let pill = createPill(attrs)
-
-        tprint(pill.expirationInterval.xDaysIsOn)
         pill.unswallow()
         XCTAssertFalse(pill.expirationInterval.xDaysIsOn ?? true)
         XCTAssertEqual(5, pill.expirationInterval.xDaysPosition)
@@ -1717,7 +1697,7 @@ public class PillTests: XCTestCase {
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
         pill.unswallow()
-        XCTAssertEqual(1, pill.timesTakenToday)
+        XCTAssertEqual(0, pill.timesTakenToday)
     }
 
     func testUnswallow_andMoreTimesToUntakeYetForTheDay_doesNotDecrementPosition() {

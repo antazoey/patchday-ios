@@ -116,7 +116,7 @@ public class Pill: Swallowable {
     }
 
     public var isNew: Bool {
-        !isCreated && pillData.attributes.lastTaken == nil
+        !isCreated && untaken
     }
 
     public var isDone: Bool {
@@ -201,7 +201,7 @@ public class Pill: Swallowable {
     }
 
     private var untaken: Bool {
-        lastTaken as Date? == nil
+        lastTaken as Date? == nil || lastTaken == DateFactory.createDefaultDate()
     }
 
     private var untakenToday: Bool {
