@@ -14,6 +14,10 @@ public class PillExpirationIntervalXDays {
     public var position: Int?
     public var isOn: Bool?
 
+    public convenience init() {
+        self.init(DefaultPillAttributes.XDAYS_STRING)
+    }
+
     public init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
         let daysResult = PillExpirationIntervalXDays.parseMultipleDays(daysList)
@@ -100,16 +104,23 @@ public class PillExpirationIntervalXDays {
         }
     }
 
+    /// The string value of the first days property; only applies to expiration intervals that use X days.
+    public var daysOn: String? {
+        guard let days = one else { return nil }
+        return String(days)
+    }
+
     /// The string value of the second days property; only applies to `.XDaysOnXDaysOff`.
     public var daysOff: String? {
         guard let days = two else { return nil }
         return String(days)
     }
 
-    /// The string value of the first days property; only applies to expiration intervals that use X days.
-    public var daysOn: String? {
-        guard let days = one else { return nil }
-        return String(days)
+    /// Returns True if X Days position is more than 1 and in the Off position.
+    public var offMoreThanOneDay: Bool {
+        guard let isOn = isOn else { return false }
+        guard let position = position else { return false }
+        return !isOn && position > 1
     }
 
     /// The supported range for any days value, 1-25.
@@ -117,15 +128,18 @@ public class PillExpirationIntervalXDays {
         1...EXPIRATION_INTERVAL_DAYS_LAST_INTEGER
     }
 
+    /// Initializing the positioning.
     public func startPositioning() {
         isOn = true
         position = 1
     }
 
+    /// Move forward in position.
     public func incrementDayPosition() {
         changePosition(incrementValue: 1)
     }
 
+    /// Move backwards in position.
     public func decrementDayPosition() {
         changePosition(incrementValue: -1)
     }

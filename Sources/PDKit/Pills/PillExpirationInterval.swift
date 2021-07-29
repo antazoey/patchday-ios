@@ -129,7 +129,13 @@ public class PillExpirationInterval {
             return _xDays?.isOn
         }
         set {
-            _xDays?.isOn = newValue
+            if let xDays = _xDays {
+                xDays.isOn = newValue
+            } else {
+                var xDays = PillExpirationIntervalXDays()
+                xDays.isOn = newValue
+                _xDays = xDays
+            }
         }
     }
 
@@ -141,6 +147,11 @@ public class PillExpirationInterval {
         set {
             _xDays?.position = newValue
         }
+    }
+
+    public var xDaysOffMoreThanOneDay: Bool {
+        guard usesXDays else { return false }
+        return _xDays?.offMoreThanOneDay ?? false
     }
 
     public func startPositioning() {

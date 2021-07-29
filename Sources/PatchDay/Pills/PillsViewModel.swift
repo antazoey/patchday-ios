@@ -161,6 +161,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     private func undoTakePill(at index: Index) {
         guard let pills = pills else { return }
         guard let pill = pills[index] else { return }
+        guard !pill.expirationInterval.xDaysOffMoreThanOneDay else { return }
         pills.unswallow(pill.id) {
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
