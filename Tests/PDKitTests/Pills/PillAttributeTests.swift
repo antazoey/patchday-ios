@@ -296,6 +296,48 @@ class PillAttributesTests: XCTestCase {
         XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
     }
 
+    func testUpdate_updates() {
+        let attributes = PillAttributes(
+            name: "Old",
+            expirationIntervalSetting: .FirstXDays,
+            xDays: nil,
+            times: "23:00:33,23:11:11",
+            notify: false,
+            lastTaken: DateFactory.createDate(byAddingHours: -3, to: Date()),
+            timesTakenToday: "23:00:33,23:11:11",
+            lastWakeUp: Date(),
+            isCreated: true
+        )
+        let newName = "New"
+        let newInterval = PillExpirationIntervalSetting.XDaysOnXDaysOff
+        let newXDays = "12-12-on-3"
+        let newLastTaken = Date()
+        let newTimes = "12:00:11,3:03:03"
+        let newTimesTakenToday = "23:33:33,23:22:11"
+        let newLastWakeUp = DateFactory.createDate(byAddingHours: 3, to: Date())
+        let newAttributes = PillAttributes(
+            name: newName,
+            expirationIntervalSetting: newInterval,
+            xDays: newXDays,
+            times: newTimes,
+            notify: true,
+            lastTaken: newLastTaken,
+            timesTakenToday: newTimesTakenToday,
+            lastWakeUp: newLastWakeUp,
+            isCreated: false
+        )
+        attributes.update(newAttributes)
+        XCTAssertEqual(newName, attributes.name)
+        XCTAssertEqual(newInterval, attributes.expirationInterval.value)
+        XCTAssertEqual(newXDays, attributes.expirationInterval.xDaysValue)
+        XCTAssertTrue(attributes.notify ?? false)
+        XCTAssertEqual(newLastTaken, attributes.lastTaken)
+        XCTAssertEqual(newTimes, attributes.times)
+        XCTAssertEqual(newTimesTakenToday, attributes.timesTakenToday)
+        XCTAssertEqual(newLastWakeUp, attributes.lastWakeUp)
+        XCTAssertFalse(attributes.isCreated ?? true)
+    }
+
     func testReset_resetsAllPropertiesToNil() {
         let attributes = PillAttributes(
             name: "name",

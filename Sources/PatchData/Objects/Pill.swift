@@ -55,7 +55,7 @@ public class Pill: Swallowable {
 
     private var isCreated: Bool {
         get { pillData.attributes.isCreated ?? false }
-        set { pillData.attributes.isCreated = true }
+        set { pillData.attributes.isCreated = newValue }
     }
 
     public var times: [Time] {
@@ -129,6 +129,9 @@ public class Pill: Swallowable {
 
     public func set(attributes: PillAttributes) {
         pillData.attributes.update(attributes)
+
+        // This method should be called at the end of the pill creation cycle
+        // to finalize creating the pill. Note: overrides value in attributes parameter.
         isCreated = true
 
         // Prevent pills with 0 set times

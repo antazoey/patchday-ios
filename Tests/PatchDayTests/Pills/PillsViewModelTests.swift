@@ -420,7 +420,7 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, params.index)
     }
 
-    func testPresentPillActions_whenPillXDaysInOffPositionGreaterThanOne_whenXDaysInOffPositionGreaterThanOne_doesNothing() {
+    func testPresentPillActions_whenPillXDaysInOffPositionGreaterThanOne_doesNothing() {
         testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-0ff-3")
         let viewModel = createViewModel()
         viewModel.presentPillActions(
@@ -434,7 +434,7 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, pills.unswallowCallArgs.count)
     }
 
-    func testPresentPillActions_whenPillXDaysInOffPositionGreaterThanOne_whenXDaysInOffPositionEqualToOne_unswallows() {
+    func testPresentPillActions_whenPillXDaysInOffPositionEqualToOne_unswallows() {
         testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-0ff-1")
         let viewModel = createViewModel()
         viewModel.presentPillActions(
@@ -448,8 +448,8 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(1, pills.unswallowCallArgs.count)
     }
 
-    func testPresentPillActions_whenPillXDaysInOffPositionGreaterThanOne_whenXDaysInOnPosition_unswallows() {
-        testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-0n-1")
+    func testPresentPillActions_whenXDaysInOnPosition_unswallows() {
+        testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-on-1")
         let viewModel = createViewModel()
         viewModel.presentPillActions(
             at: 0,

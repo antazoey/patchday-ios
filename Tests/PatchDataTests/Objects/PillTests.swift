@@ -1290,16 +1290,16 @@ public class PillTests: XCTestCase {
         let newLastTaken = Date()
         let newExpiration = PillExpirationIntervalSetting.FirstXDays
         let pill = createPill(PillAttributes())
-        let newAttrs = PillAttributes()
+        let newAttributes = PillAttributes()
         let timesTakenToday = "12:00:00"
-        newAttrs.name = newName
-        newAttrs.times = timesString
-        newAttrs.notify = true
-        newAttrs.lastTaken = newLastTaken
-        newAttrs.expirationInterval.value = newExpiration
-        newAttrs.timesTakenToday = timesTakenToday
-        newAttrs.expirationInterval.daysOne = 5
-        pill.set(attributes: newAttrs)
+        newAttributes.name = newName
+        newAttributes.times = timesString
+        newAttributes.notify = true
+        newAttributes.lastTaken = newLastTaken
+        newAttributes.expirationInterval.value = newExpiration
+        newAttributes.timesTakenToday = timesTakenToday
+        newAttributes.expirationInterval.daysOne = 5
+        pill.set(attributes: newAttributes)
         XCTAssertEqual(newName, pill.name)
         PDAssertSameTime(newTime1, pill.times[0])
         PDAssertSameTime(newTime2, pill.times[1])
@@ -1311,6 +1311,14 @@ public class PillTests: XCTestCase {
             pill.timesTakenTodayList[0]
         )
         XCTAssertEqual("5", pill.expirationInterval.xDaysValue)
+    }
+
+    func testSet_alwaysSetsIsCreatedToTrue() {
+        let pill = createPill(PillAttributes())
+        let newAttributes = PillAttributes()
+        newAttributes.isCreated = false  // To prove it does not matter
+        pill.set(attributes: newAttributes)
+        XCTAssertTrue(pill.attributes.isCreated ?? false)
     }
 
     func testSet_whenGivenNil_doesNotSet() {
