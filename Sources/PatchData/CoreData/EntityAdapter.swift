@@ -167,6 +167,16 @@ class EntityAdapter {
     }
 
     private static func migratePill(_ pill: MOPill) {
+
+        // We used to rely on pill name being "New Pill" to know if it
+        // it created. However, if the user did not change the name,
+        // it caused things to be weird.
+        // For the migration, we still rely on this fact. All user pills
+        // with a different name will be migrated to `isCreated = true`.
+        if pill.name != PillStrings.NewPill {
+            pill.isCreated = true
+        }
+
         if let intervalString = pill.expirationInterval {
             // Set values after post-migration, in case that happens.
             let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)
