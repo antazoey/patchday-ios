@@ -170,6 +170,9 @@ public class Pill: Swallowable {
         let newLastTaken = timesTakenToday.undoLast() ?? DateFactory.createDefaultDate()
         pillData.attributes.lastTaken = newLastTaken
         pillData.attributes.timesTakenToday = timesTakenToday.asString
+        if expirationInterval.usesXDays {
+            expirationInterval.decrementXDays()
+        }
     }
 
     public func awaken() {

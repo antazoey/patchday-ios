@@ -171,6 +171,13 @@ public class PillExpirationInterval {
         }
     }
 
+    public func decrementXDays() {
+        guard value == .XDaysOnXDaysOff else { return }
+        guard let xDays = _xDays else { return }
+        guard xDays.isOn != nil else { return }
+        xDays.decrementDayPosition()
+    }
+
     /// All of the available PillExpirationIntervalSetting enum values.
     public static var options: [PillExpirationIntervalSetting] {
         [

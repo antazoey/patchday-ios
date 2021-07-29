@@ -123,16 +123,39 @@ public class PillExpirationIntervalXDays {
     }
 
     public func incrementDayPosition() {
+        changePosition(incrementValue: 1)
+    }
+
+    public func decrementDayPosition() {
+        changePosition(incrementValue: -1)
+    }
+
+    private func changePosition(incrementValue: Int) {
         guard let one = one else { return }
         guard let two = two else { return }
         guard let isOnValue = isOn else { return }
         guard let pos = position else { return }
-        var nextPosition = pos + 1
-        if nextPosition < 1 || nextPosition > (isOnValue ? one : two) {
-            nextPosition = 1
-        }
+        let nextPosition = getNextPosition(incrementValue, pos, isOnValue, one, two)
         position = nextPosition
-        isOn = nextPosition < pos ? !isOnValue : isOn
+        let incrementing = incrementValue > 0
+        let changedPosition = incrementing ? nextPosition < pos : nextPosition > pos
+        if changedPosition {
+            isOn = !isOnValue
+        }
+    }
+
+    private func getNextPosition(
+        _ incrementValue: Int, _ position: Int, _ isOn: Bool, _ one: Int, _ two: Int
+    ) -> Int {
+        var nextPosition = position + incrementValue
+        if nextPosition < 1 || nextPosition > (isOn ? one : two) {
+            let incrementing = incrementValue > 0
+            // Is 1 if going from off to on and is the count of
+            // the opposite if decrementing.
+            let oppositeEnd = isOn ? two : one
+            nextPosition = incrementing ? 1 : oppositeEnd
+        }
+        return nextPosition
     }
 
     private var _daysRange: ClosedRange<Int> {
