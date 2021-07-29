@@ -9,6 +9,8 @@ Fixed
 - Bug where you were still able to add new pills when Pills were globally disabled.
 - Bug where if you kept the name of your pill as "New Pill", it would always prompt you for Unsaved Changes
     when editing the details of the pill and delete the pill if you said to discard changes.
+- Bug where the days position in X Days On X Days Off Pills schedule would not decrement when untaking
+    a pill.
 
 # 3.6.1
 
