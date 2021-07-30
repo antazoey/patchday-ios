@@ -35,19 +35,24 @@ extension Date {
 
     /// Whether this date is today.
     public func isInToday(now: NowProtocol?=nil) -> Bool {
-        let nowFactory = now ?? PDNow()
-        let nowDate = nowFactory.now
-        return Calendar.current.isDate(nowDate, equalTo: self, toGranularity: .day)
+        let today = now?.now ?? Date()
+        return Calendar.current.isDate(today, equalTo: self, toGranularity: .day)
     }
 
     /// Whether this date is tomorrow.
-    public func isInTomorrow() -> Bool {
-        Calendar.current.isDateInTomorrow(self)
+    public func isInTomorrow(now: NowProtocol?=nil) -> Bool {
+        guard let tomorrow = DateFactory.createDate(daysFromNow: 1, now: now) else {
+            return false
+        }
+        return Calendar.current.isDate(tomorrow, equalTo: self, toGranularity: .day)
     }
 
     /// Whether this date is yesterday.
-    public func isInYesterday() -> Bool {
-        Calendar.current.isDateInYesterday(self)
+    public func isInYesterday(now: NowProtocol?=nil) -> Bool {
+        guard let yesterday = DateFactory.createDate(daysFromNow: -1, now: now) else {
+            return false
+        }
+        return Calendar.current.isDate(yesterday, equalTo: self, toGranularity: .day)
     }
 
     /// Whether this date is between the hours of midnight and 6 am.

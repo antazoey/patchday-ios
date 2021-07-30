@@ -151,6 +151,11 @@ public class Pill: Swallowable {
 
     public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
+
+        if expirationInterval.usesXDays, let isOn = expirationInterval.xDaysIsOn, !isOn {
+            return
+        }
+
         if lastTaken == nil
             && expirationInterval.value == .XDaysOnXDaysOff
             && pillData.attributes.expirationInterval.xDaysIsOn == nil {
@@ -194,7 +199,13 @@ public class Pill: Swallowable {
         if untakenToday && !wokeUpToday {
             lastWakeUp = now
             pillData.attributes.timesTakenToday = ""
-            if xDaysIsOn {
+
+            // Don't increment days position if we took the pill yesterday
+            // because this is the official first day of the off schedule
+            if !xDaysIsOn,
+               let lastTaken = lastTaken,
+               !lastTaken.isInYesterday(now: _now) {
+                tprint(lastTaken)
                 incrementXDaysPosition()
             }
         }
@@ -217,7 +228,7 @@ public class Pill: Swallowable {
     }
 
     private var xDaysIsOn: Bool {
-        expirationInterval.usesXDays && !(expirationInterval.xDaysIsOn ?? false)
+        expirationInterval.usesXDays && expirationInterval.xDaysIsOn ?? false
     }
 
     private func appendLastTaken() {

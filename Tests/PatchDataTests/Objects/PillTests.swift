@@ -1310,7 +1310,7 @@ public class PillTests: XCTestCase {
         let newAttributes = PillAttributes()
         newAttributes.isCreated = false  // To prove it does not matter
         pill.set(attributes: newAttributes)
-        XCTAssertTrue(pill.attributes.isCreated ?? false)
+        XCTAssertTrue(pill.isCreated)
     }
 
     func testSet_whenGivenNil_doesNotSet() {
@@ -1534,15 +1534,15 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval.value = .XDaysOnXDaysOff
         attrs.expirationInterval.daysOne = 5
         attrs.expirationInterval.daysTwo = 5
-        attrs.expirationInterval.xDaysIsOn = false
-        attrs.expirationInterval.xDaysPosition = 3
+        attrs.expirationInterval.xDaysIsOn = true
+        attrs.expirationInterval.xDaysPosition = 5
         attrs.lastTaken = Date()
         attrs.times = "12:00:00"
         attrs.timesTakenToday = ""
         let pill = createPill(attrs)
         pill.swallow()
         let interval = pill.attributes.expirationInterval
-        XCTAssertEqual(4, interval.xDaysPosition)
+        XCTAssertEqual(1, interval.xDaysPosition)
         XCTAssertEqual(false, interval.xDaysIsOn)
     }
 
@@ -1796,6 +1796,22 @@ public class PillTests: XCTestCase {
         pill.awaken()
         XCTAssertEqual(2, pill.expirationInterval.xDaysPosition)
         XCTAssert(!pill.expirationInterval.xDaysIsOn!)
+    }
+
+    func testAwaken_whenNotYetWokeUpTodayAndUsesXDaysAndIsInOffPositionButWasTakenYesterday_doesNotIncrementsXDaysPosition() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = "12:00:00,01:10:10"
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
+        attrs.lastWakeUp = DateFactory.createDate(daysFromNow: -1)
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 2
+        attrs.expirationInterval.daysTwo = 2
+        attrs.expirationInterval.xDaysPosition = 1
+        attrs.expirationInterval.xDaysIsOn = false
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(1, pill.expirationInterval.xDaysPosition)
+        XCTAssert(pill.expirationInterval.xDaysIsOn!)
     }
 
     func testAwaken_whenNotYetWokeUpTodayAndUsesXDaysAndIsInLastOffPosition_incrementsXDaysPositionAndSetsIsOn() {

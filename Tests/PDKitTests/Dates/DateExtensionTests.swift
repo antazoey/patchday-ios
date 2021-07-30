@@ -61,8 +61,91 @@ class DateExtensionTests: XCTestCase {
 
     func testIsInToday_whenGivenDateThatIs2359Today_returnsTrue() {
         let today = Date()
-        let atMidnightIsh = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: today)
+        let atMidnightIsh = Calendar.current.date(
+            bySettingHour: 23, minute: 59, second: 59, of: today
+        )
         XCTAssertTrue(atMidnightIsh!.isInToday())
+    }
+
+    func testIsInTomorrow_whenGivenDateThatIsTomorrow_returnsTrue() {
+        guard let tomorrow = DateFactory.createDate(daysFromNow: 1) else {
+            XCTFail("Failed creating tomorrow date.")
+            return
+        }
+        XCTAssertTrue(tomorrow.isInTomorrow())
+    }
+
+    func testIsInTomorrow_whenGivenDateThatIs0000TheDayAfterTomorrow_returnsFalse() {
+        guard let dayAfterTomorrow = DateFactory.createDate(daysFromNow: 2) else {
+            XCTFail("Failed creating day after tomorrow date.")
+            return
+        }
+        guard let atMidnight = Calendar.current.date(
+            bySettingHour: 0, minute: 0, second: 0, of: dayAfterTomorrow
+        ) else {
+            XCTFail("Failed creating day after tomorrow at midnight.")
+            return
+        }
+        XCTAssertFalse(atMidnight.isInTomorrow())
+    }
+
+    func testIsInTomorrow_whenGivenDateThatIsToday_returnsFalse() {
+        XCTAssertFalse(Date().isInTomorrow())
+    }
+
+    func testIsInTomorrow_whenGivenDateThatIs2359Tomorrow_returnsTrue() {
+        guard let tomorrow = DateFactory.createDate(daysFromNow: 1) else {
+            XCTFail("Failed creating tomorrow date.")
+            return
+        }
+        guard let atMidnightIsh = Calendar.current.date(
+            bySettingHour: 23, minute: 59, second: 59, of: tomorrow
+        ) else {
+            XCTFail("Failed creating date tomorrow at midnight ish.")
+            return
+        }
+        XCTAssertTrue(atMidnightIsh.isInTomorrow())
+    }
+
+    func testIsInYesterday_whenGivenDateThatIsYesterday_returnsTrue() {
+        guard let yesterday = DateFactory.createDate(daysFromNow: -1) else {
+            XCTFail("Failed creating yesterday date.")
+            return
+        }
+        tprint(yesterday)
+        XCTAssertTrue(yesterday.isInYesterday())
+    }
+
+    func testIsInYesterday_whenGivenDateThatIs0000TheDayBeforeYesterday_returnsFalse() {
+        guard let dayBeforeYesterday = DateFactory.createDate(daysFromNow: -2) else {
+            XCTFail("Failed creating day after yesterday date.")
+            return
+        }
+        guard let atMidnight = Calendar.current.date(
+            bySettingHour: 0, minute: 0, second: 0, of: dayBeforeYesterday
+        ) else {
+            XCTFail("Failed creating day after tomorrow at midnight.")
+            return
+        }
+        XCTAssertFalse(atMidnight.isInYesterday())
+    }
+
+    func testIsInYesterday_whenGivenDateThatIsToday_returnsFalse() {
+        XCTAssertFalse(Date().isInYesterday())
+    }
+
+    func testIsInYesterday_whenGivenDateThatIs2359Yesterday_returnsTrue() {
+        guard let yesterday = DateFactory.createDate(daysFromNow: -1) else {
+            XCTFail("Failed creating tomorrow date.")
+            return
+        }
+        guard let atMidnightIsh = Calendar.current.date(
+            bySettingHour: 23, minute: 59, second: 59, of: yesterday
+        ) else {
+            XCTFail("Failed creating date tomorrow at midnight ish.")
+            return
+        }
+        XCTAssertTrue(atMidnightIsh.isInYesterday())
     }
 
     func testIsOvernight_whenGivenThreeAM_returnsTrue() {
