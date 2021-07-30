@@ -341,8 +341,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     private var wereChanges: Bool {
         guard let pill = pill else { return false }
-        return selections.anyAttributeExists(exclusions: pill.attributes)
-            || pill.isNew
+        let changesMade = selections.anyAttributeExists(exclusions: pill.attributes)
+        return changesMade || pill.isNew
     }
 
     private var startIndexForPosition: Int {

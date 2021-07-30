@@ -23,6 +23,9 @@ public protocol Swallowable {
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
     var expirationIntervalSetting: PillExpirationIntervalSetting { get }
 
+    /// Whether the pill is finished being created and having its settings set for the first time.
+    var isCreated: Bool { get set }
+
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }
 

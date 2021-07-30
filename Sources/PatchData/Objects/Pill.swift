@@ -53,7 +53,7 @@ public class Pill: Swallowable {
         expirationInterval.value ?? DefaultPillAttributes.EXPIRATION_INTERVAL
     }
 
-    private var isCreated: Bool {
+    public var isCreated: Bool {
         get { pillData.attributes.isCreated ?? false }
         set { pillData.attributes.isCreated = newValue }
     }
@@ -99,8 +99,8 @@ public class Pill: Swallowable {
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
-        guard let val = expirationInterval.value else { return nil }
-        switch val {
+        guard let expirationEnumValue = expirationInterval.value else { return nil }
+        switch expirationEnumValue {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
             case .EveryOtherDay: return dueDateForEveryOtherDay
             case .FirstXDays: return dueDateForFirstXDays

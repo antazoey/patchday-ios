@@ -176,6 +176,12 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [newPill]))
     }
 
+    public func testInsertNew_setsIsCreatedToFalse() {
+        setUpPills(insertPillFactory: { () in self.newPill })
+        let newPill = pills.insertNew(onSuccess: nil)
+        XCTAssertFalse(newPill?.attributes.isCreated ?? true)
+    }
+
     public func testInsertNew_whenStoreReturnsPills_callsCompletion() {
         setUpPills(insertPillFactory: { () in self.newPill })
         var wasCalled = false
