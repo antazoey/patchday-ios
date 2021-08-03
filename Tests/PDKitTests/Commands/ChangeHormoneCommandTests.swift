@@ -40,16 +40,9 @@ class ChangeHormoneCommandTests: XCTestCase {
 
     func testExecute_whenHormoneHasStaticExpirationTimes_setsDateToNowWithTimeAsExpirationTime() {
         hormones.useStaticExpirationTime = true
-        let now = Date()
-        guard let expirationDate = DateFactory.createDate(byAddingHours: -54, to: now) else {
-            XCTFail("Unable to create test expiration date")
-            return
-        }
+        let expirationDate = TestDateFactory.createTestDate(hoursFrom: -54)
         hormone.expiration = expirationDate
-        guard let expected = DateFactory.createDate(on: now, at: expirationDate) else {
-            XCTFail("Unable to create expected date")
-            return
-        }
+        let expected = TestDateFactory.createTestDate(at: expirationDate)
         let command = createCommand()
         command.execute()
         let callArgs = hormones.setDateByIdCallArgs
@@ -92,16 +85,9 @@ class ChangeHormoneCommandTests: XCTestCase {
     }
 
     func testCreateAutoDate_whenGivenTrueForStaticTime_returnsNowAtHormoneExpirationTime() {
-        let now = Date()
-        guard let expirationDate = DateFactory.createDate(byAddingHours: -54, to: now) else {
-            XCTFail("Unable to create test expiration date")
-            return
-        }
+        let expirationDate = TestDateFactory.createTestDate(hoursFrom: -54)
         hormone.expiration = expirationDate
-        guard let expected = DateFactory.createDate(on: now, at: expirationDate) else {
-            XCTFail("Unable to create expected date")
-            return
-        }
+        let expected = TestDateFactory.createTestDate(at: expirationDate)
         let actual = ChangeHormoneCommand.createAutoDate(hormone: hormone, useStaticTime: true)
         PDAssertEquiv(expected, actual)
     }

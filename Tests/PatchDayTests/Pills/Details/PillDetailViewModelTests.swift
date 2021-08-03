@@ -532,9 +532,7 @@ class PillDetailViewModelTests: XCTestCase {
     func testTimes_whenTimesSelected_returnsSelectedTimesCount() {
         let pill = setupPill()
         let times = [Time()]
-        let selectedTimes = [
-            Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
-        ]
+        let selectedTimes = [createTestTime(23, 59, 59, times[0])]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(selectedTimes)
@@ -553,9 +551,7 @@ class PillDetailViewModelTests: XCTestCase {
     func testTimes_whenTimesSelected_returnsSelectedTimes() {
         let pill = setupPill()
         let times = [Time()]
-        let selectedTimes = [
-            Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
-        ]
+        let selectedTimes = [createTestTime(23, 59, 59, times[0])]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(selectedTimes)
@@ -565,9 +561,9 @@ class PillDetailViewModelTests: XCTestCase {
     func testTimes_ordersTimes() {
         let now = Date()
         let times = [
-            Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
+            createTestTime(12, 9, 9, now),
+            createTestTime(10, 10, 10, now),
+            createTestTime(11, 11, 11, now),
         ]
         let pill = setupPill()
         pill.times = times
@@ -583,9 +579,9 @@ class PillDetailViewModelTests: XCTestCase {
 
         let yesterday = DateFactory.createDate(byAddingHours: -24, to: now.now)!
         let times = [
-            Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: yesterday)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: yesterday)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: yesterday)!
+            createTestTime(12, 9, 9, yesterday),
+            createTestTime(10, 10, 10, yesterday),
+            createTestTime(11, 11, 11, yesterday)
         ]
         let pill = setupPill()
         pill.times = times
@@ -603,8 +599,7 @@ class PillDetailViewModelTests: XCTestCase {
         let times = [Time(), Time(), Time()]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let newTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
-        viewModel.selectTime(newTime!, 1)
+        let newTime = createTestTime(23, 59, 59, times[0])
         let expectedTimes = [times[0], newTime, times[2]]
         let expected = PDDateFormatter.convertTimesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
@@ -616,15 +611,13 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let previousSelectedTimes = [
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: times[0]),
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: times[1]),
-            Calendar.current.date(bySettingHour: 13, minute: 13, second: 13, of: times[2])
+            createTestTimeOne(times[0]), createTestTimeOne(times[1]), createTestTimeOne(times[2])
         ]
         viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
             previousSelectedTimes
         )
-        let newTime = Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: times[0])
-        viewModel.selectTime(newTime!, 1)
+        let newTime = createTestTime(12, 12, 12, times[0])
+        viewModel.selectTime(newTime, 1)
         let expectedTimes = [previousSelectedTimes[0], newTime, previousSelectedTimes[2]]
         let expected = PDDateFormatter.convertTimesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
@@ -705,13 +698,8 @@ class PillDetailViewModelTests: XCTestCase {
 
     func testSetPickerTimes_setsExpectedTime() {
         let pill = setupPill()
-        let now = Date()
         let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        pill.times = [
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
-        ]
+        pill.times = [createTestTimeOne(), createTestTimeTwo(), createTestTimeThree()]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setPickerTimes(pickers)
 
@@ -1265,5 +1253,21 @@ class PillDetailViewModelTests: XCTestCase {
     private func assertPosition(_ position: Int, _ isOn: Bool, _ viewModel: PillDetailViewModel) {
         XCTAssertEqual(position, viewModel.selections.expirationInterval.xDaysPosition)
         XCTAssertEqual(isOn, viewModel.selections.expirationInterval.xDaysIsOn)
+    }
+
+    private func createTestTimeOne(_ date: Date?=nil) -> Time {
+        createTestTime(9, 9, 9, date)
+    }
+
+    private func createTestTimeTwo(_ date: Date?=nil) -> Time {
+        createTestTime(10, 10, 10, date)
+    }
+
+    private func createTestTimeThree(_ date: Date?=nil) -> Time {
+        createTestTime(13, 13, 13, date)
+    }
+
+    private func createTestTime(_ hour: Int, _ minute: Int, _ second: Int, _ date: Date?=nil) -> Time {
+        TestDateFactory.createTestDate(hour: hour, minute: minute, second: second, date: date)
     }
 }

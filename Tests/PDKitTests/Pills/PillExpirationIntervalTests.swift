@@ -261,6 +261,12 @@ class PillExpirationIntervalTests: XCTestCase {
         assertPosition(3, true, interval)
     }
 
+    func testIncrementXDays_whenXDaysOnXDaysOffAndStartedAlreadyAndGivenTwo_incrementsTwo() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
+        interval.incrementXDays(days: 2)
+        assertPosition(4, true, interval)
+    }
+
     func testIncrementXDays_whenNotXDaysOnXDaysOff_doesNothing() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5")
         interval.incrementXDays()
@@ -273,11 +279,63 @@ class PillExpirationIntervalTests: XCTestCase {
         assertPosition(2, true, interval)
     }
 
+    func testIncrementXDays_whenXDaysOnXDaysOffAndNotYetStartedAndGivenTwo_initsAndIncrementsTwo() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
+        interval.incrementXDays(days: 2)
+        assertPosition(3, true, interval)
+    }
+
     func testIncrementXDays_whenJustSwitchedToXDaysOnXDaysOff_increments() {
         let interval = PillExpirationInterval(.EveryDay)
         interval.value = .XDaysOnXDaysOff
         interval.incrementXDays()
         assertPosition(2, true, interval)
+    }
+
+    func testIncrementXDays_whenJustSwitchedToXDaysOnXDaysOffAndGivenTwo_incrementsTwo() {
+        let interval = PillExpirationInterval(.EveryDay)
+        interval.value = .XDaysOnXDaysOff
+        interval.incrementXDays(days: 2)
+        assertPosition(3, true, interval)
+    }
+
+    func testDecrementXDays_whenXDaysOnXDaysOffAndStartedAlready_decrements() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
+        interval.decrementXDays()
+        assertPosition(1, true, interval)
+    }
+
+    func testDecrementXDays_whenXDaysOnXDaysOffAndStartedAlreadyAndGivenTwo_incrementsTwo() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-3")
+        interval.decrementXDays(days: 2)
+        assertPosition(1, true, interval)
+    }
+
+    func testDecrementXDays_whenNotXDaysOnXDaysOff_doesNothing() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "5")
+        interval.decrementXDays()
+        assertNilPosition(interval)
+    }
+
+    func testDecrementXDays_whenXDaysOnXDaysOffAndNotYetStarted_decrementsToLastOffDay() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-6")
+        interval.decrementXDays()
+        assertPosition(6, false, interval)
+    }
+
+    func testDecrementXDays_whenXDaysOnXDaysOffAndNotYetStartedAndDecrementingByTwo_decrementsToSecondToLastOffDay() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-6")
+        interval.decrementXDays(days: 2)
+        assertPosition(5, false, interval)
+    }
+
+    func testDecrementXDays_whenJustSwitchedToXDaysOnXDaysOff_setsToFirstDay() {
+        // Is this the best thing to do here?  I did this assuming when they switched schedules,
+        // they also wanted to undo their take, so it is like no effect here.
+        let interval = PillExpirationInterval(.EveryDay)
+        interval.value = .XDaysOnXDaysOff
+        interval.decrementXDays()
+        assertPosition(1, true, interval)
     }
 
     func testOptions_containsAllOptions() {

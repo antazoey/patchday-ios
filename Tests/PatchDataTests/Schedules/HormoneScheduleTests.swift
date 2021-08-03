@@ -103,7 +103,7 @@ class HormoneScheduleTests: XCTestCase {
     }
 
     func testTotalExpired_usingRealHormoneType_returnsCountOfHormonesExpired() {
-        let testDate = DateFactory.createDate(daysFromNow: -20)
+        let testDate = DateFactory.createDate(daysFrom: -20)
         let data1 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
         let data2 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
         let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)
@@ -118,7 +118,7 @@ class HormoneScheduleTests: XCTestCase {
     /// Integration
     func testTotalExpired_afterSettingDate_reflectsAccurately() {
         let mockSettings = MockSettings()
-        let testDate = DateFactory.createDate(daysFromNow: -20)
+        let testDate = DateFactory.createDate(daysFrom: -20)
         let data1 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
         let data2 = HormoneStruct(UUID(), nil, nil, nil, testDate, nil, nil)
         let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)

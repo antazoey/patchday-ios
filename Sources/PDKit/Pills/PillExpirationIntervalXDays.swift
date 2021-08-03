@@ -135,41 +135,64 @@ public class PillExpirationIntervalXDays {
     }
 
     /// Move forward in position.
-    public func incrementDayPosition() {
-        changePosition(incrementValue: 1)
+    public func incrementDayPosition(numberOfDays: Int=1) {
+        changePosition(by: numberOfDays)
     }
 
     /// Move backwards in position.
-    public func decrementDayPosition() {
-        changePosition(incrementValue: -1)
+    public func decrementDayPosition(numberOfDays: Int=1) {
+        changePosition(by: -numberOfDays)
     }
 
-    private func changePosition(incrementValue: Int) {
+    private func changePosition(by: Int) {
         guard let one = one else { return }
         guard let two = two else { return }
         guard let isOnValue = isOn else { return }
         guard let pos = position else { return }
-        let nextPosition = getNextPosition(incrementValue, pos, isOnValue, one, two)
+        let (nextIsOn, nextPosition) = getNextPosition(by, pos, isOnValue, one, two)
         position = nextPosition
-        let incrementing = incrementValue > 0
-        let changedPosition = incrementing ? nextPosition < pos : nextPosition > pos
-        if changedPosition {
-            isOn = !isOnValue
-        }
+        isOn = nextIsOn
     }
 
+    // Pass in negative numbers to decrement.
     private func getNextPosition(
-        _ incrementValue: Int, _ position: Int, _ isOn: Bool, _ one: Int, _ two: Int
-    ) -> Int {
-        var nextPosition = position + incrementValue
-        if nextPosition < 1 || nextPosition > (isOn ? one : two) {
-            let incrementing = incrementValue > 0
-            // Is 1 if going from off to on and is the count of
-            // the opposite if decrementing.
-            let oppositeEnd = isOn ? two : one
-            nextPosition = incrementing ? 1 : oppositeEnd
+        _ value: Int, _ position: Int, _ isOn: Bool, _ one: Int, _ two: Int
+    ) -> (Bool, Int) {
+        let incrementing = value > 0
+        var remaining = abs(value)
+        var nextIsOn = isOn
+        var nextPosition = position
+
+        while remaining > 0 {
+            let previousPosition = nextPosition
+            nextPosition = incrementing ? nextPosition + remaining : nextPosition - remaining
+            let (currentLimit, oppositeLimit) = getLimits(isOn: nextIsOn)
+            let exceedsLimit = nextPosition > currentLimit || nextPosition < 1
+            if !exceedsLimit {
+                return (nextIsOn, nextPosition)
+            }
+
+            // Exceeds current limit
+            var amountUntilNext = 0
+            if incrementing {
+                amountUntilNext = currentLimit - previousPosition + 1
+                nextPosition = 1
+            } else {
+                amountUntilNext = previousPosition
+                nextPosition = oppositeLimit
+            }
+
+            nextIsOn = !nextIsOn
+            remaining -= amountUntilNext
         }
-        return nextPosition
+
+        return (nextIsOn, nextPosition)
+    }
+
+    private func getLimits(isOn: Bool) -> (Int, Int) {
+        let one = self.one ?? DefaultSettings.XDAYS_INT
+        let two = self.two ?? DefaultSettings.XDAYS_INT
+        return isOn ? (one, two) : (two, one)
     }
 
     private var _daysRange: ClosedRange<Int> {

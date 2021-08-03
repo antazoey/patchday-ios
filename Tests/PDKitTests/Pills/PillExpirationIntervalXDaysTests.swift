@@ -264,6 +264,33 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         XCTAssertEqual(5, xDays.position)
     }
 
+    func testIncrement_whenUsesNumberOfDaysParameter_incrementsNumberOfDays() {
+        let xDays = PillExpirationIntervalXDays("5-5-off-4")
+        xDays.incrementDayPosition(numberOfDays: 1)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(5, xDays.position)
+        xDays.incrementDayPosition(numberOfDays: 1)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(1, xDays.position)
+        xDays.incrementDayPosition(numberOfDays: 2)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(3, xDays.position)
+    }
+
+    func testIncrement_whenIncrementingAcrossBoundaries_isExpected() {
+        let xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.incrementDayPosition(numberOfDays: 17)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(3, xDays.position)
+    }
+
+    func testIncrement_whenGivenZero_isExpected() {
+        let xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.incrementDayPosition(numberOfDays: 0)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(4, xDays.position)
+    }
+
     func testDecrementDaysPosition_whenDoesNotHaveDayOne_doesNotDecrement() {
         let xDays = PillExpirationIntervalXDays("")
         xDays.decrementDayPosition()
@@ -330,6 +357,25 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         xDays.decrementDayPosition()
         XCTAssertFalse(xDays.isOn!)
         XCTAssertEqual(4, xDays.position)
+    }
+
+    func testDecrement_whenUsesNumberOfDaysParameter_decrementsNumberOfDays() {
+        let xDays = PillExpirationIntervalXDays("5-5-off-5")
+        xDays.decrementDayPosition(numberOfDays: 4)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(1, xDays.position)
+    }
+
+    func testDecrement_whenOffAndDecrementingAcrossBoundaries_isExpected() {
+        var xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.decrementDayPosition(numberOfDays: 13)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(4, xDays.position)
+
+        xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.decrementDayPosition(numberOfDays: 10)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(2, xDays.position)
     }
 
     private func assertAllNil(_ xDays: PillExpirationIntervalXDays) {

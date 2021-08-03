@@ -8,13 +8,28 @@ public class DateFactory: NSObject {
 
     private static var calendar = Calendar.current
 
-    public static func createTodayDate(at time: Time, now: NowProtocol?=nil) -> Date? {
-        let now = now?.now ?? Date()
-        return createDate(on: now, at: time)
+    /// Create a date at midnight of the given the date.
+    public static func createMidnight(of date: Date?=nil, now: NowProtocol?=nil) -> Date? {
+        createDate(date, now: now)
     }
 
-    /// Creates a new Date from given Date at the given Time.
-    public static func createDate(on date: Date, at time: Time) -> Date? {
+    /// Creates a date with the given `hour` and the rest of the components the same as the given `date`.
+    public static func createDate(
+        _ date: Date?=nil, hour: Int=0, minute: Int=0, second: Int=0, now: NowProtocol?=nil
+    ) -> Date? {
+        let date = date ?? now?.now ?? Date()
+        return calendar.date(bySettingHour: hour, minute: minute, second: second, of: date)
+    }
+
+    /// Create a date today at the given `time`.
+    public static func createTodayDate(at time: Time, now: NowProtocol?=nil) -> Date? {
+        createDate(at: time)
+    }
+
+    /// Creates a new Date from given Date at the given Time (defaults to now).
+    public static func createDate(on date: Date?=nil, at time: Time?=nil, now: NowProtocol?=nil) -> Date? {
+        let date = date ?? now?.now ?? Date()
+        let time = time ?? date
         let components = DateComponents(
             calendar: calendar,
             timeZone: calendar.timeZone,
@@ -28,29 +43,38 @@ public class DateFactory: NSObject {
         return calendar.date(from: components)
     }
 
-    /// Create a Date by adding days from right now.
-    public static func createDate(daysFromNow: Int, now: NowProtocol?=nil) -> Date? {
-        createDate(at: Date(), daysFromToday: daysFromNow, now: now)
+    /// Creates a Date at the given time calculated by adding days to the fromDate (defaults to now).
+    public static func createDate(
+        daysFrom: Int=0, fromDate: Date?=nil, at time: Time?=nil, now: NowProtocol?=nil
+    ) -> Date? {
+        var component = DateComponents()
+        component.day = daysFrom
+        let date = createDateFromAdd(daysFrom, component, fromDate, now)
+        return createDate(on: date, at: time, now: now)
     }
 
-    /// Creates a Date at the given time calculated by adding days from today.
+    /// Creates a Date at the given time calculated by adding hours to the fromDate (defaults to now).
     public static func createDate(
-        at time: Time, daysFromToday: Int, now: NowProtocol?=nil
+        hoursFrom: Int=0, fromDate: Date?=nil, now: NowProtocol?=nil
     ) -> Date? {
-        var componentsToAdd = DateComponents()
-        componentsToAdd.day = daysFromToday
-        let now = now?.now ?? Date()
-        if let newDate = calendar.date(byAdding: componentsToAdd, to: now) {
-            return createDate(on: newDate, at: time)
-        }
-        return nil
+        var component = DateComponents()
+        component.hour = hoursFrom
+        return createDateFromAdd(hoursFrom, component, fromDate, now)
+    }
+
+    /// Creates a Date at the given time calculated by adding minutes to the fromDate (defaults to now).
+    public static func createDate(
+        minutesFrom: Int=0, fromDate: Date?=nil, now: NowProtocol?=nil
+    ) -> Date? {
+        var component = DateComponents()
+        component.minute = minutesFrom
+        return createDateFromAdd(minutesFrom, component, fromDate, now)
     }
 
     public static func createDate(byAddingMonths months: Int, to date: Date) -> Date? {
         calendar.date(byAdding: .month, value: months, to: date)
     }
 
-    /// Gives the future date from the given one based on the given interval string.
     public static func createDate(byAddingHours hours: Int, to date: Date) -> Date? {
         calendar.date(byAdding: .hour, value: hours, to: date)
     }
@@ -101,20 +125,31 @@ public class DateFactory: NSObject {
         return range[1] == newDate ? interval : -interval
     }
 
+    // TODO: Figure out if this method needs to be like this and can't just be
+    // simpler. Also, does this even work???
     public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
         guard let eightPM = createEightPM(of: date) else { return nil }
         return createDayBefore(eightPM)
     }
 
+    /// Create a date that is the Unix start date.
     public static func createDefaultDate() -> Date {
         Date(timeIntervalSince1970: 0)
     }
 
     private static func createEightPM(of date: Date) -> Date? {
-        calendar.date(bySettingHour: 20, minute: 0, second: 0, of: date)
+        createDate(date, hour: 20)
     }
 
     private static func createDayBefore(_ date: Date) -> Date? {
         calendar.date(byAdding: .day, value: -1, to: date)
+    }
+
+    private static func createDateFromAdd(
+        _ unitsFrom: Int, _ component: DateComponents, _ fromDate: Date?, _ now: NowProtocol?=nil
+    ) -> Date? {
+        let fromDate = fromDate ?? now?.now ?? Date()
+        guard let newDate = calendar.date(byAdding: component, to: fromDate) else { return nil }
+        return createDate(on: newDate)
     }
 }

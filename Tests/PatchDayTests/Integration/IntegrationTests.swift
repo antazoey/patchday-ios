@@ -311,13 +311,10 @@ class IntegrationTests: XCTestCase {
 #endif
 
     private func fastForwardDayForXDaysSchedule(
-        day: Int, _ pillSchedule: PillSchedule, _ dependencies: MockDependencies, _ newIndex: Index
+        day: Int, hour: Int, _ pillSchedule: PillSchedule, _ dependencies: MockDependencies, _ newIndex: Index
     ) -> PillDetailViewModel? {
-        guard let tomorrow = DateFactory.createDate(daysFromNow: day) else {
-            XCTFail("Unable to create tomorrow date.")
-            return nil
-        }
-        now.now = tomorrow
+        let next = TestDateFactory.createTestDate(daysFrom: day, hoursFrom: hour)
+        now.now = next
         pillSchedule._now = now
         for swallowable in pillSchedule.all {
             let pill = swallowable as! Pill

@@ -58,10 +58,10 @@ public class PDDateFormatter {
     private static func dateWord(from date: Date) -> String? {
         if calendar.isDateInToday(date) {
             return todayString
-        } else if let yesterdayAtThisTime = DateFactory.createDate(daysFromNow: -1),
+        } else if let yesterdayAtThisTime = DateFactory.createDate(daysFrom: -1),
             calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
             return yesterdayString
-        } else if let tomorrowAtThisTime = DateFactory.createDate(daysFromNow: 1),
+        } else if let tomorrowAtThisTime = DateFactory.createDate(daysFrom: 1),
             calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
             return tomorrowString
         }

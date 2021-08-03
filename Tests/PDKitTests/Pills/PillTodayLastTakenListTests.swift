@@ -86,12 +86,12 @@ class PillLastTakenListTests: XCTestCase {
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
         let actual = lastTakens.undoLast()
 
-        guard let actualtime = actual else {
+        guard let actualTime = actual else {
             XCTFail("actual should not be nil")
             return
         }
 
-        PDAssertEquiv(testTimeOne, actualtime)
+        PDAssertEquiv(testTimeOne, actualTime)
     }
 
     func testUndoLast_maintainsCorrectTimesAndTimeStringAfter() {

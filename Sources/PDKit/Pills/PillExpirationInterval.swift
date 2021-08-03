@@ -132,7 +132,7 @@ public class PillExpirationInterval {
             if let xDays = _xDays {
                 xDays.isOn = newValue
             } else {
-                var xDays = PillExpirationIntervalXDays()
+                let xDays = PillExpirationIntervalXDays()
                 xDays.isOn = newValue
                 _xDays = xDays
             }
@@ -166,27 +166,38 @@ public class PillExpirationInterval {
         }
     }
 
-    public func incrementXDays() {
+    public func incrementXDays(days: Int=1) {
         guard value == .XDaysOnXDaysOff else { return }
         if let xDays = _xDays {
             if xDays.isOn == nil {
                 xDays.startPositioning()
             }
-            xDays.incrementDayPosition()
+            xDays.incrementDayPosition(numberOfDays: days)
         } else {
-            let days = DefaultPillAttributes.XDAYS_INT
+            let dayLimit = DefaultPillAttributes.XDAYS_INT
 
-            // Start at 2 because we are incrementing now.
-            let defaultXDays = "\(days)-\(days)-on-2"
+            // Start at +1 from beginning (like 2) because we are incrementing now.
+            let position = "\(days + 1)"
+            let defaultXDays = "\(dayLimit)-\(dayLimit)-on-\(position)"
             _xDays = PillExpirationIntervalXDays(defaultXDays)
         }
     }
 
-    public func decrementXDays() {
+    public func decrementXDays(days: Int=1) {
         guard value == .XDaysOnXDaysOff else { return }
-        guard let xDays = _xDays else { return }
-        guard xDays.isOn != nil else { return }
-        xDays.decrementDayPosition()
+        if let xDays = _xDays {
+            xDays.isOn = xDays.isOn == nil ? true : xDays.isOn
+            xDays.position = xDays.position ?? 1
+            xDays.decrementDayPosition(numberOfDays: days)
+        } else {
+            let dayLimit = DefaultPillAttributes.XDAYS_INT
+
+            // Start at beginning (assumning they were supposed to be at second spot):
+            // They'd only get here if they did not adjust the days position or take
+            // the pill since switching the expiration interval.
+            let defaultXDays = "\(dayLimit)-\(dayLimit)-on-\(days)"
+            _xDays = PillExpirationIntervalXDays(defaultXDays)
+        }
     }
 
     /// All of the available PillExpirationIntervalSetting enum values.

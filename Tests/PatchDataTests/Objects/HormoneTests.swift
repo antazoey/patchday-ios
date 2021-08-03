@@ -452,10 +452,7 @@ class HormoneTests: XCTestCase {
             XCTFail("Was unable to create actual date")
             return
         }
-        guard let expected = Calendar.current.date(byAdding: .hour, value: hours, to: now) else {
-            XCTFail("Was unable to create expected date")
-            return
-        }
+        let expected = TestDateFactory.createTestDate(hoursFrom: hours)
         PDAssertEquiv(expected, actual)
     }
 }

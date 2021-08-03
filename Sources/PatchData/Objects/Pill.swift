@@ -116,7 +116,8 @@ public class Pill: Swallowable {
     }
 
     public var isNew: Bool {
-        !isCreated && untaken
+        guard let lastTaken = lastTaken else { return false }
+        return !isCreated && lastTaken.isDefault()
     }
 
     public var isDone: Bool {
@@ -164,11 +165,6 @@ public class Pill: Swallowable {
 
         lastTaken = now
         appendLastTaken()
-
-        // Increment XDays position if done for the day.
-        if expirationInterval.value == .XDaysOnXDaysOff && isDone {
-            incrementXDaysPosition()
-        }
     }
 
     public func unswallow() {
@@ -191,7 +187,7 @@ public class Pill: Swallowable {
     }
 
     public func awaken() {
-        guard !untaken else {
+        guard let lastTaken = lastTaken, !lastTaken.isDefault(), lastTaken < now else {
             pillData.attributes.timesTakenToday = ""
             return
         }
@@ -200,19 +196,11 @@ public class Pill: Swallowable {
             lastWakeUp = now
             pillData.attributes.timesTakenToday = ""
 
-            // Don't increment days position if we took the pill yesterday
-            // because this is the official first day of the off schedule
-            if !xDaysIsOn,
-               let lastTaken = lastTaken,
-               !lastTaken.isInYesterday(now: _now) {
-                tprint(lastTaken)
-                incrementXDaysPosition()
+            let daysToIncrement = Int(ceil(now.timeIntervalSince(lastTaken)/(60 * 60 * 24)))
+            if daysToIncrement > 0 {
+                incrementXDaysPosition(daysToIncrement)
             }
         }
-    }
-
-    private var untaken: Bool {
-        lastTaken as Date? == nil || lastTaken == DateFactory.createDefaultDate()
     }
 
     private var untakenToday: Bool {
@@ -247,18 +235,18 @@ public class Pill: Swallowable {
         if _now.isInYesterday(lastTaken) {
             return tomorrowAtTimeOne
         } else if isDone {
-            return getTimeOne(daysFromNow: 2)
+            return getTimeOne(daysFrom: 2)
         }
         return nextDueTimeForEveryDaySchedule
     }
 
     private var tomorrowAtTimeOne: Date? {
-        getTimeOne(daysFromNow: 1)
+        getTimeOne(daysFrom: 1)
     }
 
-    private func getTimeOne(daysFromNow: Int) -> Date? {
+    private func getTimeOne(daysFrom: Int) -> Date? {
         guard times.count >= 1 else { return nil }
-        return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow, now: _now)
+        return DateFactory.createDate(daysFrom: daysFrom, at: times[0], now: _now)
     }
 
     private func beginningOfDueMonthAtTimeOne(lastTaken: Date) -> Date? {
@@ -369,14 +357,14 @@ public class Pill: Swallowable {
             }
 
             // Has completed the current on-cycle
-            return getTimeOne(daysFromNow: offSpan + 1)
+            return getTimeOne(daysFrom: offSpan + 1)
         }
 
         // Is during off-cycle
-        return getTimeOne(daysFromNow: (offSpan + 1) - pos)
+        return getTimeOne(daysFrom: (offSpan + 1) - pos)
     }
 
-    private func incrementXDaysPosition() {
-        expirationInterval.incrementXDays()
+    private func incrementXDaysPosition(_ days: Int) {
+        expirationInterval.incrementXDays(days: days)
     }
 }

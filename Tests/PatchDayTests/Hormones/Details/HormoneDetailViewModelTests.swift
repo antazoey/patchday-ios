@@ -264,27 +264,17 @@ class HormoneDetailViewModelTests: XCTestCase {
     func testAutoPickedDate_whenUsingStaticExpirationTimes_returnsExpectedDate() {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         hormones.useStaticExpirationTime = true
-        guard let testDate = DateFactory.createDate(byAddingHours: -40, to: Date()) else {
-            XCTFail("Could not create testDate")
-            return
-        }
+        let testDate = TestDateFactory.createTestDate(hoursFrom: -40)
         hormone.expiration = testDate
-        let now = PDNow()
         let actual = viewModel.autoPickedDate
-        guard let expected = DateFactory.createDate(on: now.now, at: testDate) else {
-            XCTFail("Could not create expected date")
-            return
-        }
+        let expected = TestDateFactory.createTestDate(at: testDate)
         PDAssertEquiv(expected, actual)
     }
 
     func testAutoPickedDate_whenUsingDynamicExpirationTimes_returnsExpectedDate() {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         hormones.useStaticExpirationTime = false
-        guard let testDate = DateFactory.createDate(byAddingHours: -2, to: Date()) else {
-            XCTFail("Could not create testDate")
-            return
-        }
+        let testDate = TestDateFactory.createTestDate(hoursFrom: -2)
         hormone.expiration = testDate
         let now = PDNow()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies, now)

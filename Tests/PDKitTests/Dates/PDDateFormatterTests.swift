@@ -8,6 +8,7 @@ import Foundation
 
 @testable
 import PDKit
+import PDTest
 
 class PDDateFormatterTests: XCTestCase {
 
@@ -137,7 +138,7 @@ class PDDateFormatterTests: XCTestCase {
 
     func testConvertTimesToCommaSeparatedString_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
-        let testDate = Calendar.current.date(bySettingHour: 12, minute: 51, second: 30, of: Date())!
+        let testDate = TestDateFactory.createTestDate(hour: 12, minute: 51, second: 30)
         let actual = PDDateFormatter.convertTimesToCommaSeparatedString([testDate])
         XCTAssertEqual("12:51:30", actual)
     }

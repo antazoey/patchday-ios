@@ -392,11 +392,7 @@ class PillScheduleTests: XCTestCase {
 
     /// Integration test with Pill.
     public func testSwallow_worksAfterCallingAwaken() {
-        guard let initialLastTaken = DateFactory.createDate(daysFromNow: -1) else {
-            XCTFail("Unable to create initial last taken")
-            return
-        }
-
+        let initialLastTaken = TestDateFactory.createTestDate(daysFrom: -1)
         let initialPillAttributes = PillAttributes(
             name: "Test Pill",
             expirationIntervalSetting: .EveryDay,
@@ -405,7 +401,7 @@ class PillScheduleTests: XCTestCase {
             notify: false,
             lastTaken: initialLastTaken,
             timesTakenToday: "12:00:00,12:00:01",
-            lastWakeUp: DateFactory.createDate(daysFromNow: -1),
+            lastWakeUp: DateFactory.createDate(daysFrom: -1),
             isCreated: true
         )
         let pillData = PillStruct(UUID(), initialPillAttributes)
