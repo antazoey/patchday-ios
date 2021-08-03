@@ -387,7 +387,7 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testTrySelectSite_whenHormoneHasDateAndNoneSelected_doesNotSelectNow() {
-        hormone.date = DateFactory.createDate(daysFromNow: -1)!
+        hormone.date = DateFactory.createDate(daysFrom: -1)!
         hormone.hasDate = true
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
@@ -402,7 +402,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.subscriptIndexReturnValue = site
-        viewModel.selections.date = DateFactory.createDate(daysFromNow: -8)
+        viewModel.selections.date = DateFactory.createDate(daysFrom: -8)
         viewModel.trySelectSite(at: 3)
         let actual = viewModel.selections.date!
         PDAssertNotNow(actual)

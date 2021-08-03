@@ -60,9 +60,9 @@ class IntegrationTests: XCTestCase {
             XCTFail("Hormone count does not match delivery method")
             return
         }
-        sdk.hormones.setDate(by: ids[0], with: DateFactory.createDate(daysFromNow: -20)!)
-        sdk.hormones.setDate(by: ids[1], with: DateFactory.createDate(daysFromNow: -20)!)
-        sdk.hormones.setDate(by: ids[2], with: DateFactory.createDate(daysFromNow: -20)!)
+        sdk.hormones.setDate(by: ids[0], with: DateFactory.createDate(daysFrom: -20)!)
+        sdk.hormones.setDate(by: ids[1], with: DateFactory.createDate(daysFrom: -20)!)
+        sdk.hormones.setDate(by: ids[2], with: DateFactory.createDate(daysFrom: -20)!)
         badge.reflect()
 
         XCTAssertEqual(3, sdk.hormones.totalExpired)
@@ -170,7 +170,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 1, pillSchedule, dependencies, newIndex
+            day: 1, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -185,7 +185,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 2, pillSchedule, dependencies, newIndex
+            day: 2, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -200,7 +200,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 3, pillSchedule, dependencies, newIndex
+            day: 3, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -217,7 +217,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 4, pillSchedule, dependencies, newIndex
+            day: 4, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -231,7 +231,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 5, pillSchedule, dependencies, newIndex
+            day: 5, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -245,7 +245,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
-            day: 6, pillSchedule, dependencies, newIndex
+            day: 6, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
@@ -259,7 +259,7 @@ class IntegrationTests: XCTestCase {
 
         // Fast forward to next day
         guard fastForwardDayForXDaysSchedule(
-            day: 7, pillSchedule, dependencies, newIndex
+            day: 7, hour: 0, pillSchedule, dependencies, newIndex
         ) != nil else {
             return
         }
