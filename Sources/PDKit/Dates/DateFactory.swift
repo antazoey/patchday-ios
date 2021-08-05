@@ -23,7 +23,7 @@ public class DateFactory: NSObject {
 
     /// Create a date today at the given `time`.
     public static func createTodayDate(at time: Time, now: NowProtocol?=nil) -> Date? {
-        createDate(at: time)
+        createDate(at: time, now: now)
     }
 
     /// Creates a new Date from given Date at the given Time (defaults to now).
@@ -113,22 +113,20 @@ public class DateFactory: NSObject {
 
     /// Creates a time interval by adding the given hours to the given date.
     public static func createTimeInterval(
-        fromAddingHours hours: Int, to date: Date
+        fromAddingHours hours: Int, to date: Date, now: NowProtocol?=nil
     ) -> TimeInterval? {
         guard !date.isDefault() else { return nil }
         guard let newDate = createDate(byAddingHours: hours, to: date) else { return nil }
 
         // Find start and end between date and now (handling negative hours)
-        var range = [Date(), newDate]
+        var range = [now?.now ?? Date(), newDate]
         range.sort()
         let interval = DateInterval(start: range[0], end: range[1]).duration
         return range[1] == newDate ? interval : -interval
     }
 
-    // TODO: Figure out if this method needs to be like this and can't just be
-    // simpler. Also, does this even work???
-    public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
-        guard let eightPM = createEightPM(of: date) else { return nil }
+    public static func createDateBeforeAtEightPM(of date: Date, now: NowProtocol?=nil) -> Date? {
+        guard let eightPM = createEightPM(of: date, now: now) else { return nil }
         return createDayBefore(eightPM)
     }
 
@@ -137,8 +135,8 @@ public class DateFactory: NSObject {
         Date(timeIntervalSince1970: 0)
     }
 
-    private static func createEightPM(of date: Date) -> Date? {
-        createDate(date, hour: 20)
+    private static func createEightPM(of date: Date, now: NowProtocol?=nil) -> Date? {
+        createDate(date, hour: 20, now: now)
     }
 
     private static func createDayBefore(_ date: Date) -> Date? {
@@ -150,6 +148,6 @@ public class DateFactory: NSObject {
     ) -> Date? {
         let fromDate = fromDate ?? now?.now ?? Date()
         guard let newDate = calendar.date(byAdding: component, to: fromDate) else { return nil }
-        return createDate(on: newDate)
+        return createDate(on: newDate, now: now)
     }
 }

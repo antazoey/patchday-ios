@@ -98,7 +98,7 @@ public class Pill: Swallowable {
 
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
-        guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
+        guard wasTaken else { return nil }
         guard let expirationEnumValue = expirationInterval.value else { return nil }
         switch expirationEnumValue {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
@@ -188,7 +188,7 @@ public class Pill: Swallowable {
     }
 
     public func awaken() {
-        guard let lastTaken = lastTaken, !lastTaken.isDefault(), lastTaken < now else {
+        guard let lastTaken = lastTakenDate, lastTaken < now else {
             pillData.attributes.timesTakenToday = ""
             return
         }
@@ -253,7 +253,7 @@ public class Pill: Swallowable {
     private func beginningOfDueMonthAtTimeOne(lastTaken: Date) -> Date? {
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let nextMonth = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken) {
-            return DateFactory.createDate(on: nextMonth, at: nextTime)
+            return DateFactory.createDate(on: nextMonth, at: nextTime, now: _now)
         }
         return nil
     }
@@ -274,7 +274,7 @@ public class Pill: Swallowable {
 
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let month = Calendar.current.date(bySetting: .day, value: startDay, of: lastTaken) {
-            return DateFactory.createDate(on: month, at: nextTime)
+            return DateFactory.createDate(on: month, at: nextTime, now: _now)
         }
         return nil
     }
@@ -318,6 +318,17 @@ public class Pill: Swallowable {
             return DateFactory.createTodayDate(at: time, now: _now)
         }
         return tomorrowAtTimeOne
+    }
+
+    private var lastTakenDate: Date? {
+        guard let lastTaken = lastTaken else { return nil }
+        guard !lastTaken.isDefault() else { return nil }
+        return lastTaken
+    }
+
+    private var wasTaken: Bool {
+        guard let lastTaken = lastTaken else { return false }
+        return !lastTaken.isDefault()
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
