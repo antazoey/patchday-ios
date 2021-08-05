@@ -116,8 +116,7 @@ public class Pill: Swallowable {
     }
 
     public var isNew: Bool {
-        guard let lastTaken = lastTaken else { return false }
-        return !isCreated && lastTaken.isDefault()
+        !isCreated
     }
 
     public var isDone: Bool {
@@ -152,6 +151,8 @@ public class Pill: Swallowable {
 
     public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
+        // Only swallow a pill that has "woke up" today.
+        awaken()
 
         if expirationInterval.usesXDays, let isOn = expirationInterval.xDaysIsOn, !isOn {
             return
@@ -191,15 +192,15 @@ public class Pill: Swallowable {
             pillData.attributes.timesTakenToday = ""
             return
         }
+        guard untakenToday && !wokeUpToday else { return }
 
-        if untakenToday && !wokeUpToday {
-            lastWakeUp = now
+        lastWakeUp = now
+        if untakenToday {
             pillData.attributes.timesTakenToday = ""
-
-            let daysToIncrement = Int(ceil(now.timeIntervalSince(lastTaken)/(60 * 60 * 24)))
-            if daysToIncrement > 0 {
-                incrementXDaysPosition(daysToIncrement)
-            }
+        }
+        let daysToIncrement = now.daysSince(lastTaken)
+        if daysToIncrement > 0 {
+            incrementXDaysPosition(daysToIncrement)
         }
     }
 

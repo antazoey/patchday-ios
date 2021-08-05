@@ -49,27 +49,19 @@ class DateExtensionTests: XCTestCase {
     }
 
     func testDayValue() {
-        let defaultDate = DateFactory.createDefaultDate()
-        let actual = defaultDate.dayValue()
-        let expected = 31
-        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(31, TestDateFactory.defaultDate.dayValue())
     }
 
     func testIsWithinMinutes_returnsTrueWhenGivenDateThatIsWithinGivenMinutes() {
-        let d1 = Date()
-        let d2 = Date()
-        XCTAssertTrue(d1.isWithin(minutes: 1, of: d2))
+        XCTAssertTrue(Date().isWithin(minutes: 1, of: Date()))
     }
 
     func testIsWithinMinutes_returnsFalseWhenDateIsNotWithinGivenMinutes() {
-        let d1 = Date()
-        let d3 = DateFactory.createDefaultDate()
-        XCTAssertFalse(d1.isWithin(minutes: 100, of: d3))
+        XCTAssertFalse(Date().isWithin(minutes: 100, of: TestDateFactory.defaultDate))
     }
 
     func testIsWithinMinutes_whenDatesAreSameAndGivenZeroMinutes_returnsTrue() {
-        let d1 = Date()
-        XCTAssertTrue(d1.isWithin(minutes: 0, of: d1))
+        XCTAssertTrue(Date().isWithin(minutes: 0, of: Date()))
     }
 
     func testIsInPast_whenGivenDateThatIsInPast_returnsTrue() {

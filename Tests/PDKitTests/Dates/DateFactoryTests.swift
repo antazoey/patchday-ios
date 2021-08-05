@@ -22,7 +22,7 @@ class DateFactoryTests: XCTestCase {
 
     func testCreateDate_atTimeDaysFromNow_returnsExpectedDate() {
         let now = MockNow()
-        now.now = DateFactory.createDate(byAddingHours: 1, to: DateFactory.createDefaultDate())!
+        now.now = DateFactory.createDate(byAddingHours: 1, to: TestDateFactory.defaultDate)!
         let days = 5
         let midnight = TestDateFactory.createTestDate(hour: 19, now: now)
         let expected = midnight.addingTimeInterval(TimeInterval(days * 86400))
