@@ -440,11 +440,12 @@ class HormoneTests: XCTestCase {
     }
 
     func testCreateExpirationDate_returnsExpectedDate() {
+        let now = MockNow()
+        now.now = testDateThatIsNow
         let testDate = Date()
         let hormone = createEmptyHormone()
         let interval = ExpirationIntervalUD(.EveryTwoWeeks)
-        let now = testDateThatIsNow
-        hormone.date = now
+        hormone.date = testDateThatIsNow
         hormone.expirationInterval = interval
 
         let hours = interval.hours
@@ -452,7 +453,7 @@ class HormoneTests: XCTestCase {
             XCTFail("Was unable to create actual date")
             return
         }
-        let expected = TestDateFactory.createTestDate(hoursFrom: hours)
+        let expected = TestDateFactory.createTestDate(hoursFrom: hours, now: now)
         PDAssertEquiv(expected, actual)
     }
 }

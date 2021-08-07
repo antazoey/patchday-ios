@@ -600,6 +600,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let newTime = createTestTime(23, 59, 59, times[0])
+        viewModel.selectTime(newTime, 1)
         let expectedTimes = [times[0], newTime, times[2]]
         let expected = PDDateFormatter.convertTimesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)

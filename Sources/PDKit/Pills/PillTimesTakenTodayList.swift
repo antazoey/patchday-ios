@@ -30,7 +30,7 @@ public class PillTimesTakenTodayList {
     }
 
     public subscript(_ index: Index) -> Time {
-        _times[index]
+        _times.tryGet(at: index) ?? DateFactory.createDefaultDate()
     }
 
     /// Remove the last time from the list and optionally return the new last.

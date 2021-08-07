@@ -151,19 +151,11 @@ public class Pill: Swallowable {
 
     public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
-        // Only swallow a pill that has "woke up" today.
-        awaken()
-
         if expirationInterval.usesXDays, let isOn = expirationInterval.xDaysIsOn, !isOn {
             return
         }
 
-        if lastTaken == nil
-            && expirationInterval.value == .XDaysOnXDaysOff
-            && pillData.attributes.expirationInterval.xDaysIsOn == nil {
-            pillData.attributes.expirationInterval.startPositioning()
-        }
-
+        awaken()
         lastTaken = now
         appendLastTaken()
     }
@@ -188,20 +180,20 @@ public class Pill: Swallowable {
     }
 
     public func awaken() {
-        guard let lastTaken = lastTakenDate, lastTaken < now else {
-            pillData.attributes.timesTakenToday = ""
-            return
+        if expirationInterval.usesXDays, expirationInterval.xDaysIsOn == nil {
+            expirationInterval.startPositioning()
         }
-        guard untakenToday && !wokeUpToday else { return }
 
+        guard !wokeUpToday else { return }
+        pillData.attributes.timesTakenToday = ""
         lastWakeUp = now
-        if untakenToday {
-            pillData.attributes.timesTakenToday = ""
+
+        var daysToIncrement = 1
+        if let lastTaken = lastTaken {
+            daysToIncrement = now.daysSince(lastTaken)
         }
-        let daysToIncrement = now.daysSince(lastTaken)
-        if daysToIncrement > 0 {
-            incrementXDaysPosition(daysToIncrement)
-        }
+        guard daysToIncrement > 0 else { return }
+        incrementXDaysPosition(daysToIncrement)
     }
 
     private var untakenToday: Bool {

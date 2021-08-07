@@ -132,7 +132,7 @@ class IntegrationTests: XCTestCase {
 
         // Initial details viewModel
         let newIndex = expectedCount - 1
-        var detailsViewModel: PillDetailViewModel? = PillDetailViewModel(
+        let detailsViewModel = PillDetailViewModel(
             newIndex, dependencies: dependencies, now: now
         )
 
@@ -146,118 +146,92 @@ class IntegrationTests: XCTestCase {
             XCTFail("Unable to select .XDaysOnXDaysOff")
             return
         }
-        detailsViewModel!.selectExpirationInterval(indexToSelect)
-        XCTAssertEqual(.XDaysOnXDaysOff, detailsViewModel!.expirationInterval)
-        XCTAssertEqual("Days on:", detailsViewModel!.daysOneLabelText)
-        XCTAssertEqual("Days off:", detailsViewModel!.daysTwoLabelText)
+        detailsViewModel.selectExpirationInterval(indexToSelect)
+        XCTAssertEqual(.XDaysOnXDaysOff, detailsViewModel.expirationInterval)
+        XCTAssertEqual("Days on:", detailsViewModel.daysOneLabelText)
+        XCTAssertEqual("Days off:", detailsViewModel.daysTwoLabelText)
 
         // Select 3 days on and 3 days off
-        detailsViewModel!.selectFromDaysPicker(2, daysNumber: 1)
-        detailsViewModel!.selectFromDaysPicker(2, daysNumber: 2)
-        XCTAssertEqual("3", detailsViewModel!.daysOn)
-        XCTAssertEqual("3", detailsViewModel!.daysOff)
-        detailsViewModel!.save()
+        detailsViewModel.selectFromDaysPicker(2, daysNumber: 1)
+        detailsViewModel.selectFromDaysPicker(2, daysNumber: 2)
+        XCTAssertEqual("3", detailsViewModel.daysOn)
+        XCTAssertEqual("3", detailsViewModel.daysOff)
+        detailsViewModel.save()
 
-        // ********
-        // Day 1 - On
-        // ********
+        // MARK: - Day 1, On
+        XCTAssertEqual("Current position: 1 of 3 (on)", detailsViewModel.daysPositionText)
         listViewModel.takePill(at: newIndex)
+        XCTAssertEqual("Current position: 1 of 3 (on)", detailsViewModel.daysPositionText)
+        XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Check that the current position is reflected in the view model
-        detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
-        XCTAssertEqual("Current position: 2 of 3 (on)", detailsViewModel!.daysPositionText)
-        XCTAssertEqual(1, detailsViewModel!.pill!.timesTakenToday)
-
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 1, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // ********
-        // Day 2 - On
-        // ********
+        // MARK: - Day 2, On
         listViewModel.takePill(at: newIndex)
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 3 of 3 (on)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 2, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // ********
-        // Day 3 - On
-        // ********
+        // MARK: - Day 3, On
         listViewModel.takePill(at: newIndex)
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 1 of 3 (off)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 3, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // IMPORTANT NOTE: - After the last take, it updates to the first off-day.
-        // However, it goes to the end of the following calendar day.
-
-        // ********
-        // Day 4 - Off
-        // ********
+        // MARK: - Day 4, Off
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 1 of 3 (off)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 4, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // ********
-        // Day 5 - Off
-        // ********
+        // MARK: - Day 5, Off
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 2 of 3 (off)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 5, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // ********
-        // Day 6 - Off
-        // ********
+        // MARK: - Day 6, Off
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 3 of 3 (off)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard var detailsViewModel = fastForwardDayForXDaysSchedule(
             day: 6, hour: 0, pillSchedule, dependencies, newIndex
         ) else {
             return
         }
 
-        // ********
-        // Day 7 - Off
-        // ********
+        // MARK: - Day 7, Off
         detailsViewModel = PillDetailViewModel(newIndex, dependencies: dependencies, now: now)
         XCTAssertEqual("Current position: 3 of 3 (off)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
 
-        // Fast forward to next day
         guard fastForwardDayForXDaysSchedule(
             day: 7, hour: 0, pillSchedule, dependencies, newIndex
         ) != nil else {
@@ -313,8 +287,7 @@ class IntegrationTests: XCTestCase {
     private func fastForwardDayForXDaysSchedule(
         day: Int, hour: Int, _ pillSchedule: PillSchedule, _ dependencies: MockDependencies, _ newIndex: Index
     ) -> PillDetailViewModel? {
-        let next = TestDateFactory.createTestDate(daysFrom: day, hoursFrom: hour)
-        now.now = next
+        now.now = TestDateFactory.createTestDate(daysFrom: day, hoursFrom: hour)
         pillSchedule._now = now
         for swallowable in pillSchedule.all {
             let pill = swallowable as! Pill
@@ -327,12 +300,12 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(0, detailsViewModel.pill!.timesTakenToday)
 
         let isOn = [4, 5, 6].contains(day) ? "off" : "on"
-        var expectedPosition = day + 1
-        if expectedPosition > 3 {
-            expectedPosition = (day + 2) % 3
+        var day = day
+        if day > 3 {
+            day = (day + 1) % 3
         }
 
-        let expected = "Current position: \(expectedPosition) of 3 (\(isOn))"
+        let expected = "Current position: \(day) of 3 (\(isOn))"
         let actual = detailsViewModel.daysPositionText
         if expected != actual {
             XCTFail("\(expected) not equal to \(actual)")
