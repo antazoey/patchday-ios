@@ -7,10 +7,11 @@
 import Foundation
 
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class PillAttributesTests: XCTestCase {
+class PillAttributesTests: PDTest {
 
     func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
         let attributes = PillAttributes(

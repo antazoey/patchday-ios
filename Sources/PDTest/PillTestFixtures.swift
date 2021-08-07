@@ -38,8 +38,17 @@ public class PillTestFixtures {
             XCTFail("XDays position is not initialized.", file: file, line: line)
             return
         }
-        XCTAssertEqual(expectedBool, isOn, file: file, line: line)
-        XCTAssertEqual(expectedPosition,position, file: file, line: line)
+
+        let failIsOnMessage = expectedBool ? "XDays is NOT on" : "XDays is on"
+        let failPositionMessage = "Expected position \(expectedPosition); actually at \(position)."
+
+        if expectedBool != isOn {
+            XCTFail(failIsOnMessage, file: file, line: line)
+        }
+
+        if expectedPosition != position {
+            XCTFail(failPositionMessage, file: file, line: line)
+        }
     }
 
     public static func assertNilPosition(

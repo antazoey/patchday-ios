@@ -17,7 +17,27 @@ import PatchDay
 // swiftlint:disable function_body_length
 class PillXDaysIntegrationTests {
 
-    #if targetEnvironment(simulator)
+    var tests: [PillXDaysIntegrationTest] {
+        [
+            PillXDaysIntegrationTest(daysOne: 2, daysTwo: 2)
+        ]
+    }
+
+    func run(file: StaticString = #filePath, line: UInt = #line) {
+        #if targetEnvironment(simulator)
+        for test in tests {
+            test.setUp()
+            test.run(file: file, line: line)
+        }
+        #endif
+    }
+}
+
+class PillXDaysIntegrationTest {
+
+    private let daysOne: Int
+    private let daysTwo: Int
+
     private let now = MockNow()
     private var sdk = PatchData()
     private let dependencies = MockDependencies()
@@ -28,30 +48,9 @@ class PillXDaysIntegrationTests {
     private var alertFactory: AlertFactory!
     private var detailViewModel: PillDetailViewModel!
 
-    var tests: [(StaticString, UInt) -> Void] {
-        [
-            oncePerDayIn2DaysOn2DaysOff
-        ]
-    }
-
-    var pillSchedule: PillSchedule {
-        dependencies.sdk!.pills as! PillSchedule
-    }
-
-    var pillsViewModel: PillsViewModel {
-        PillsViewModel(
-            pillsTableView: tableView,
-            alertFactory: alertFactory,
-            table: mockPillsTable,
-            dependencies: dependencies
-        )
-    }
-
-    func run(file: StaticString = #filePath, line: UInt = #line) {
-        for test in tests {
-            setUp()
-            test(file, line)
-        }
+    init(daysOne: Int, daysTwo: Int) {
+        self.daysOne = daysOne
+        self.daysTwo = daysTwo
     }
 
     func setUp() {
@@ -67,32 +66,22 @@ class PillXDaysIntegrationTests {
         setDetailViewModel()
     }
 
-    // MARK: - Test timeaday=1, dayOne=2, dayTwo=2
-
-    func oncePerDayIn2DaysOn2DaysOff(file: StaticString = #filePath, line: UInt = #line) {
+    func run(file: StaticString = #filePath, line: UInt = #line) {
         detailViewModel.setTimesaday(1)
-
-        let dayOne = 2
-        let dayTwo = 2
-        selectXDays(dayOne: dayOne, dayTwo: dayTwo)
-
-        takeAndAssert(expectedPositionText: "Current position: 1 of 2 (on)")
-        fastForward(hours: 24, dayOne: dayOne, dayTwo: dayTwo)
-        takeAndAssert(expectedPositionText: "Current position: 2 of 2 (on)")
-        fastForward(hours: 24 * 2, dayOne: dayOne, dayTwo: dayTwo)
-        assertPositionText(expected: "Current position: 1 of 2 (off)")
-        fastForward(hours: 24 * 3, dayOne: dayOne, dayTwo: dayTwo)
-        assertPositionText(expected: "Current position: 2 of 2 (off)")
-        fastForward(hours: 24 * 4, dayOne: dayOne, dayTwo: dayTwo)
-        takeAndAssert(expectedPositionText: "Current position: 1 of 2 (on)")
+        selectXDays()
+        takeAndAssert(expectedPositionText: "Current position: 1 of 2 (on)", file: file, line: line)
+        fastForward(hours: 24, file: file, line: line)
+        takeAndAssert(expectedPositionText: "Current position: 2 of 2 (on)", file: file, line: line)
+        fastForward(hours: 24 * 2, file: file, line: line)
+        assertPositionText(expected: "Current position: 1 of 2 (off)", file: file, line: line)
+        fastForward(hours: 24 * 3)
+        assertPositionText(expected: "Current position: 2 of 2 (off)", file: file, line: line)
+        fastForward(hours: 24 * 4, file: file, line: line)
+        takeAndAssert(expectedPositionText: "Current position: 1 of 2 (on)", file: file, line: line)
     }
 
-    private func setDetailViewModel() {
-        detailViewModel = PillDetailViewModel(newPillIndex, dependencies: dependencies, now: now)
-    }
-
-    private func fastForward(hours: Int, dayOne: Int, dayTwo: Int) {
-        now.now = TestDateFactory.createTestDate(hoursFrom: hours)
+    private func fastForward(hours: Int, file: StaticString = #filePath, line: UInt = #line) {
+        now.now = TestDateFactory.createTestDate(hoursFrom: hours, file: file, line: line)
         pillSchedule._now = now
         for swallowable in pillSchedule.all {
             let pill = swallowable as! Pill
@@ -100,31 +89,35 @@ class PillXDaysIntegrationTests {
         }
         sdk.pills.awaken()
         setDetailViewModel()
-        XCTAssertEqual(0, detailViewModel.pill!.timesTakenToday)
+        XCTAssertEqual(0, detailViewModel.pill!.timesTakenToday, file: file, line: line)
+        let days = hours / 24
         let (expectedPosition, expectedIsOn) = getNextPosition(
-            daysFromNow: hours / 24, dayOneLimit: dayOne, dayTwoLimit: dayTwo
+            daysFromNow: days, dayOneLimit: dayOne, dayTwoLimit: dayTwo, file: file, line: line
         )
         let isOnString = expectedIsOn ? "on" : "off"
-        let max = [true: dayOne, false: dayTwo][expectedIsOn]!
+        let max = [true: self.dayOne, false: self.dayTwo][expectedIsOn]!
         let expected = "Current position: \(expectedPosition) of \(max) (\(isOnString))"
+        tprint(expected)
         let actual = detailViewModel.daysPositionText
         if expected != actual {
-            XCTFail("\(expected) not equal to \(actual)")
+            XCTFail("\(expected) not equal to \(actual)", file: file, line: line)
             return
         }
     }
 
     private func getNextPosition(
-        daysFromNow: Int, dayOneLimit: Int, dayTwoLimit: Int
+        daysFromNow: Int,
+        file: StaticString = #filePath,
+        line: UInt = #line
     ) -> (Index, Bool) {
         let defaultReturn = (1, true)
         if daysFromNow < 1 {
-            XCTFail("daysFromNow should be positive.")
+            XCTFail("daysFromNow should be positive.", file: file, line: line)
             return defaultReturn
         }
         var position = 1
         var isOn = true
-        let getMax = [true: dayOneLimit, false: dayTwoLimit]
+        let getMax = [true: daysOne, false: daysTwo]
         for i in 1...daysFromNow {
             guard let max = getMax[isOn] else {
                 XCTFail("Unhandled boolean value in getMax")
@@ -139,44 +132,56 @@ class PillXDaysIntegrationTests {
         return (position, isOn)
     }
 
-    private func selectXDays(dayOne: Int, dayTwo: Int) {
-        detailViewModel.selectExpirationInterval(getXDaysOptionIndex())
-        XCTAssertEqual(.XDaysOnXDaysOff, detailViewModel.expirationInterval)
-        XCTAssertEqual("Days on:", detailViewModel.daysOneLabelText)
-        XCTAssertEqual("Days off:", detailViewModel.daysTwoLabelText)
+    private func setDetailViewModel() {
+        detailViewModel = PillDetailViewModel(newPillIndex, dependencies: dependencies, now: now)
+    }
 
-        detailViewModel.selectFromDaysPicker(dayOne - 1, daysNumber: 1)
-        detailViewModel.selectFromDaysPicker(dayTwo - 1, daysNumber: 2)
-        XCTAssertEqual("\(dayOne)", detailViewModel.daysOn)
-        XCTAssertEqual("\(dayTwo)", detailViewModel.daysOff)
+    private func selectXDays(file: StaticString = #filePath, line: UInt = #line) {
+        detailViewModel.selectExpirationInterval(getXDaysOptionIndex(file: file, line: line))
+        XCTAssertEqual(.XDaysOnXDaysOff, detailViewModel.expirationInterval, file: file, line: line)
+        XCTAssertEqual("Days on:", detailViewModel.daysOneLabelText, file: file, line: line)
+        XCTAssertEqual("Days off:", detailViewModel.daysTwoLabelText, file: file, line: line)
+
+        detailViewModel.selectFromDaysPicker(daysOne - 1, daysNumber: 1)
+        detailViewModel.selectFromDaysPicker(daysTwo - 1, daysNumber: 2)
+        XCTAssertEqual("\(daysOne)", detailViewModel.daysOn, file: file, line: line)
+        XCTAssertEqual("\(daysTwo)", detailViewModel.daysOff, file: file, line: line)
         detailViewModel.save()
     }
 
-    private func getXDaysOptionIndex() -> Index {
+    private func getXDaysOptionIndex(file: StaticString = #filePath, line: UInt = #line) -> Index {
         let intervalOptions = PillStrings.Intervals.all
         guard let indexToSelect = intervalOptions.firstIndex(
             where: { $0 == PillStrings.Intervals.XDaysOnXDaysOff }
         ) else {
-            XCTFail("Unable to select .XDaysOnXDaysOff")
+            XCTFail("Unable to select .XDaysOnXDaysOff", file: file, line: line)
             return -1
         }
         return indexToSelect
     }
 
-    private func takeAndAssert(expectedPositionText: String) {
-        XCTAssertEqual(expectedPositionText, detailViewModel.daysPositionText)
-        take()
-        XCTAssertEqual(expectedPositionText, detailViewModel.daysPositionText)
+    private func takeAndAssert(
+        expectedPositionText: String, file: StaticString = #filePath, line: UInt = #line
+    ) {
+        let actual = detailViewModel.daysPositionText
+        XCTAssertEqual(expectedPositionText, actual, file: file, line: line)
+        take(file: file, line: line)
+        XCTAssertEqual(expectedPositionText, actual, file: file, line: line)
     }
 
-    private func take(timesTodaySoFar: Int = 1) {
+    private func take(
+        timesTodaySoFar: Int = 1, file: StaticString = #filePath, line: UInt = #line
+    ) {
         pillsViewModel.takePill(at: newPillIndex)
-        XCTAssertEqual(timesTodaySoFar, detailViewModel.pill!.timesTakenToday)
+        let actual = detailViewModel.pill!.timesTakenToday
+        XCTAssertEqual(timesTodaySoFar, actual, file: file, line: line)
     }
 
-    private func assertPositionText(expected: String) {
-        XCTAssertEqual(expected, detailViewModel.daysPositionText)
+    private func assertPositionText(
+        expected: String, file: StaticString = #filePath, line: UInt = #line
+    ) {
+        XCTAssertEqual(expected, detailViewModel.daysPositionText, file: file, line: line)
     }
-    #endif
 }
+
 // swiftlint:enable function_body_length

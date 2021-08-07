@@ -1441,7 +1441,21 @@ public class PillTests: XCTestCase {
         PillTestFixtures.assertPosition(2, false, pill.expirationInterval)
     }
 
-    func testAwaken_whenXDaysAndNotWokeUpOrTakenOffSecondDay_incrementsXDays() {
+    func testAwaken_whenXDaysAndNotWokeUpOrTakenOffPenultimateDay_incrementsXDays() {
+        let yesterday = TestDateFactory.createYesterday()
+        let attributes = createPillAttributesForAwakenXDaysTest(
+            lastWakeUp: yesterday,
+            lastTaken: TestDateFactory.createTestDate(byAddingHours: -24, to: yesterday),
+            position: "off-2",
+            daysOne: 3,
+            daysTwo: 3
+        )
+        let pill = createPill(attributes)
+        pill.awaken()
+        PillTestFixtures.assertPosition(3, false, pill.expirationInterval)
+    }
+
+    func testAwaken_whenXDaysAndNotWokeUpOrTakenAndOffLastDay_incrementsXDays() {
         let yesterday = TestDateFactory.createYesterday()
         let attributes = createPillAttributesForAwakenXDaysTest(
             lastWakeUp: yesterday,
@@ -1453,16 +1467,19 @@ public class PillTests: XCTestCase {
         PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
     }
 
-    func testAwaken_whenXDaysOffAndsNeedsToWakeUp_incrementsXDays() {
-        let yesterday = TestDateFactory.createYesterday()
+    func testAwaken_whenLastWokeUpFourDaysAgo_incrementsExpectedTimes() {
+        let today = TestDateFactory.createTestDate(hour: 6)
+        let fourDaysAgo = TestDateFactory.createTestDate(byAddingHours: -24 * 4, to: today)
         let attributes = createPillAttributesForAwakenXDaysTest(
-            lastWakeUp: yesterday,
-            lastTaken: TestDateFactory.createTestDate(byAddingHours: -24, to: yesterday),
-            position: "off-1"
+            lastWakeUp: fourDaysAgo,
+            lastTaken: TestDateFactory.createTestDate(byAddingHours: -24, to: fourDaysAgo),
+            position: "off-2",
+            daysOne: 3,
+            daysTwo: 3
         )
         let pill = createPill(attributes)
         pill.awaken()
-        PillTestFixtures.assertPosition(2, false, pill.expirationInterval)
+        PillTestFixtures.assertPosition(3, true, pill.expirationInterval)
     }
 
     private func createPill(_ attributes: PillAttributes, _ now: NowProtocol?=nil) -> Pill {
@@ -1495,9 +1512,13 @@ public class PillTests: XCTestCase {
     }
 
     private func createPillAttributesForAwakenXDaysTest(
-        lastWakeUp: Date?=nil, lastTaken: Date?=nil, position: String="on-1"
+        lastWakeUp: Date?=nil,
+        lastTaken: Date?=nil,
+        position: String="on-1",
+        daysOne: Int=2,
+        daysTwo: Int=2
     ) -> PillAttributes {
-        let attributes = createXDaysOnXDaysOffAttributes(daysOne: 2, daysTwo: 2)
+        let attributes = createXDaysOnXDaysOffAttributes(daysOne: daysOne, daysTwo: daysTwo)
         attributes.timesTakenToday = "12:00:00,01:10:10"
 
         // Parametized

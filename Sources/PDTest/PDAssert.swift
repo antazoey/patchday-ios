@@ -63,7 +63,7 @@ public func PDAssertDefault(_ actual: Date, file: StaticString = #filePath, line
     let evaluation = equiv(DateFactory.createDefaultDate(), actual)
     let formattedActual = PDDateFormatter.formatDate(actual)
     let failMessage = equivFailMessage("<default-date>", formattedActual)
-    XCTAssertTrue(evaluation, failMessage, file: file, line: line)
+    XCTAssertTrue(evaluation, failMessage, file: file, line: line   )   
 }
 
 /// Assert that the given date is not equivalent to now (.nanosecond granularity).
@@ -81,7 +81,7 @@ public func PDAssertSameTime(
     let evaluation = sameTime(expected, actual)
     let formattedExpected = PDDateFormatter.formatTime(expected)
     let formattedActual = PDDateFormatter.formatTime(actual)
-    let failMessage = "\(formattedExpected) != \(formattedActual)"
+    let failMessage = "\(formattedExpected) is not same time as \(formattedActual)"
     XCTAssertTrue(evaluation, failMessage, file: file, line: line)
 }
 
@@ -92,7 +92,7 @@ public func PDAssertDifferentTime(
     let evaluation = sameTime(expected, actual)
     let formattedExpected = PDDateFormatter.formatTime(expected)
     let formattedActual = PDDateFormatter.formatTime(actual)
-    let failMessage = "\(formattedExpected) == \(formattedActual)"
+    let failMessage = "\(formattedExpected) does equal \(formattedActual)"
     XCTAssertFalse(evaluation, failMessage, file: file, line: line)
 }
 
@@ -100,22 +100,17 @@ public func PDAssertDifferentTime(
 public func PDAssertSingle<T>(
     _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
-    let failMessage = "The array does not have only 1 item in it"
-    XCTAssertEqual(1, collection.count, failMessage, file: file, line: line)
+    XCTAssertEqual(1, collection.count, getSingleCountFailureMessage(), file: file, line: line)
 }
 
 /// Assert that an array has a single, specific item.
 public func PDAssertSingle<T: Equatable>(
     _ expected: T, _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
-    let countFailMessage = "The array does not have only 1 item in it"
-    XCTAssertEqual(1, collection.count, countFailMessage, file: file, line: line)
-
-    if collection.count < 1 {
-        XCTFail(countFailMessage, file: file, line: line)
-        return
+    let failMessage = getSingleCountFailureMessage()
+    if 1 != collection.count {
+        XCTFail(failMessage, file: file, line: line)
     }
-
     XCTAssertEqual(expected, collection[0], file: file, line: line)
 }
 
@@ -123,8 +118,9 @@ public func PDAssertSingle<T: Equatable>(
 public func PDAssertEmpty<T>(
     _ collection: [T], file: StaticString = #filePath, line: UInt = #line
 ) {
-    let failMessage = "The array is not empty"
-    XCTAssertEqual(0, collection.count, failMessage, file: file, line: line)
+    if 0 != collection.count {
+        XCTFail("The array is not empty")
+    }
 }
 
 // MARK: Internal / Private Helpers
@@ -149,9 +145,13 @@ public func sameTime(_ lhs: Date, _ rhs: Date) -> Bool {
 }
 
 private func equivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) !~= \(actual)"
+    "\(expected) is not equivalent to \(actual)."
 }
 
 private func notEquivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) ~= \(actual)."
+    "\(expected) is eqivalent to \(actual)."
+}
+
+private func getSingleCountFailureMessage() -> String {
+    "The array has more than 1 item in it."
 }

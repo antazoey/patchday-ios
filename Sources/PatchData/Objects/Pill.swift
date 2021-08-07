@@ -184,15 +184,10 @@ public class Pill: Swallowable {
         if expirationInterval.usesXDays, expirationInterval.xDaysIsOn == nil {
             expirationInterval.startPositioning()
         }
-
         guard !wokeUpToday else { return }
         pillData.attributes.timesTakenToday = ""
+        let daysToIncrement = now.daysSince(lastWakeUp)
         lastWakeUp = now
-
-        var daysToIncrement = 1
-        if let lastTaken = lastTaken {
-            daysToIncrement = now.daysSince(lastTaken)
-        }
         guard daysToIncrement > 0 else { return }
         incrementXDaysPosition(daysToIncrement)
     }
