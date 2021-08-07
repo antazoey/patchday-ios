@@ -128,6 +128,7 @@ public class Pill: Swallowable {
     }
 
     public func set(attributes: PillAttributes) {
+        awaken()
         pillData.attributes.update(attributes)
 
         // This method should be called at the end of the pill creation cycle

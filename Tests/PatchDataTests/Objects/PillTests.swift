@@ -990,6 +990,7 @@ public class PillTests: XCTestCase {
         startAttributes.timesTakenToday = "12:00:00,12:10:10"
         startAttributes.expirationInterval.value = testExpInterval
         startAttributes.expirationInterval.daysOne = 4
+        startAttributes.lastWakeUp = Date()
         let pill = createPill(startAttributes)
         let newAttributes = PillAttributes()
         newAttributes.reset()
@@ -1003,6 +1004,15 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(2, pill.timesTakenToday)
         XCTAssertEqual(testExpInterval, pill.expirationIntervalSetting)
         XCTAssertEqual(testXDays, pill.expirationInterval.xDaysValue)
+    }
+
+    func testSet_whenNotYetWokeUp_resetTimesTakenToday() {
+        let startAttributes = PillAttributes()
+        startAttributes.timesTakenToday = "12:00:00,12:10:10"
+        let newAttributes = PillAttributes()
+        let pill = createPill(startAttributes)
+        pill.set(attributes: newAttributes)
+        XCTAssertEqual(0, pill.timesTakenToday)
     }
 
     func testSet_whenPillHasZeroTimes_setsToDefault() {
@@ -1119,7 +1129,7 @@ public class PillTests: XCTestCase {
         attributes.lastWakeUp = Date()
         let pill = createPill(attributes)
         pill.swallow()
-        assertPosition(actual: pill, expectedPosition: 1, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
     }
 
     func testSwallow_whenLastTakenIsNilAndUsingXDaysOnXDaysOffAndPositioningHasStarted_doesNotResetXDaysPositioning() {
@@ -1132,7 +1142,7 @@ public class PillTests: XCTestCase {
         attributes.lastWakeUp = Date()
         let pill = createPill(attributes)
         pill.swallow()
-        assertPosition(actual: pill, expectedPosition: 4, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(4, true, pill.expirationInterval)
     }
 
     func testSwallow_whenLastTakenIsNilAndNotUsingXDaysOnXDaysOff_doesNotStartXDaysPositioning() {
@@ -1144,7 +1154,7 @@ public class PillTests: XCTestCase {
         attributes.timesTakenToday = ""
         let pill = createPill(attributes)
         pill.swallow()
-        assertPosition(actual: pill, expectedPosition: nil, expectedOnPosition: nil)
+        PillTestFixtures.assertNilPosition(pill.expirationInterval)
     }
 
     func testUnswallow_whenTakenZeroTimesToday_doesNothing() {
@@ -1231,7 +1241,7 @@ public class PillTests: XCTestCase {
         attributes.lastTaken = Date()
         let pill = createPill(attributes)
         pill.unswallow()
-        assertPosition(actual: pill, expectedPosition: 6, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(6, true, pill.expirationInterval)
     }
 
     func testUnswallow_whenOffAtPositionEqualToOne_unswallows() {
@@ -1255,7 +1265,7 @@ public class PillTests: XCTestCase {
         attributes.lastTaken = Date()
         let pill = createPill(attributes)
         pill.unswallow()
-        assertPosition(actual: pill, expectedPosition: 5, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(5, true, pill.expirationInterval)
     }
 
     func testUnswallow_whenXDaysOnAtFirstPosition_resetToOffPositionAtLastPosition() {
@@ -1267,7 +1277,7 @@ public class PillTests: XCTestCase {
         attributes.lastTaken = Date()
         let pill = createPill(attributes)
         pill.unswallow()
-        assertPosition(actual: pill, expectedPosition: 5, expectedOnPosition: false)
+        PillTestFixtures.assertPosition(5, false, pill.expirationInterval)
     }
 
     func testUnswallow_whenXDaysOn_unswallows() {
@@ -1291,7 +1301,7 @@ public class PillTests: XCTestCase {
         attributes.lastTaken = Date()
         let pill = createPill(attributes)
         pill.unswallow()
-        assertPosition(actual: pill, expectedPosition: 3, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(3, true, pill.expirationInterval)
     }
 
     func testAwaken_whenAlreadyWokeUpToday_doesNotClear() {
@@ -1361,7 +1371,7 @@ public class PillTests: XCTestCase {
         attributes.lastTaken = TestDateFactory.createYesterday()
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: nil, expectedOnPosition: nil)
+        PillTestFixtures.assertNilPosition(pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndNotWokeUpOrTakenOnFirstDay_incrementsXDays() {
@@ -1374,7 +1384,7 @@ public class PillTests: XCTestCase {
         )
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 2, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(2, true, pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndWokeUpAndNotTakenOnFirstDay_doesNotIncrementXDays() {
@@ -1387,7 +1397,7 @@ public class PillTests: XCTestCase {
         )
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 1, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndNotWokeUpButTakenOnFirstDay_doesNotIncrementXDays() {
@@ -1402,7 +1412,7 @@ public class PillTests: XCTestCase {
         )
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 1, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndNotWokeUpOrTakenOnSecondDay_incrementsXDays() {
@@ -1415,7 +1425,7 @@ public class PillTests: XCTestCase {
         )
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 1, expectedOnPosition: false)
+        PillTestFixtures.assertPosition(1, false, pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndNotWokeUpOrTakenOffFirstDay_incrementsXDays() {
@@ -1428,20 +1438,31 @@ public class PillTests: XCTestCase {
         )
         let pill = createPill(attributes, now)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 2, expectedOnPosition: false)
+        PillTestFixtures.assertPosition(2, false, pill.expirationInterval)
     }
 
     func testAwaken_whenXDaysAndNotWokeUpOrTakenOffSecondDay_incrementsXDays() {
-        let now = MockNow()
-        now.now = TestDateFactory.createTestDate(hour: 5)
+        let yesterday = TestDateFactory.createYesterday()
         let attributes = createPillAttributesForAwakenXDaysTest(
-            lastWakeUp: TestDateFactory.createYesterday(),
-            lastTaken: TestDateFactory.createYesterday(),
+            lastWakeUp: yesterday,
+            lastTaken: TestDateFactory.createTestDate(byAddingHours: -24, to: yesterday),
             position: "off-2"
         )
-        let pill = createPill(attributes, now)
+        let pill = createPill(attributes)
         pill.awaken()
-        assertPosition(actual: pill, expectedPosition: 1, expectedOnPosition: true)
+        PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
+    }
+
+    func testAwaken_whenXDaysOffAndsNeedsToWakeUp_incrementsXDays() {
+        let yesterday = TestDateFactory.createYesterday()
+        let attributes = createPillAttributesForAwakenXDaysTest(
+            lastWakeUp: yesterday,
+            lastTaken: TestDateFactory.createTestDate(byAddingHours: -24, to: yesterday),
+            position: "off-1"
+        )
+        let pill = createPill(attributes)
+        pill.awaken()
+        PillTestFixtures.assertPosition(2, false, pill.expirationInterval)
     }
 
     private func createPill(_ attributes: PillAttributes, _ now: NowProtocol?=nil) -> Pill {
@@ -1504,7 +1525,7 @@ public class PillTests: XCTestCase {
     private func createXDaysOnXDaysOffAttributes(
         daysOne: Int?=nil, daysTwo: Int?=nil, isOn: Bool?=nil, daysPosition: Int?=nil
     ) -> PillAttributes {
-        TestPillAttributesFactory.createForXDaysOnXDaysOff(
+        PillTestFixtures.createAttributesForXDaysOnXDaysOff(
             daysOne: daysOne, daysTwo: daysTwo, isOn: isOn, daysPosition: daysPosition
         )
     }
@@ -1629,17 +1650,5 @@ public class PillTests: XCTestCase {
             index += 1
         }
         return -1
-    }
-
-    private func assertPosition(
-        actual: Pill,
-        expectedPosition: Int?,
-        expectedOnPosition: Bool?,
-        line: UInt = #line
-    ) {
-        let actualPosition = actual.expirationInterval.xDaysPosition
-        let actualIsOn = actual.expirationInterval.xDaysIsOn
-        XCTAssertEqual(expectedPosition, actualPosition)
-        XCTAssertEqual(expectedOnPosition, actualIsOn)
     }
 }

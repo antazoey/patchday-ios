@@ -174,7 +174,7 @@ public class TestDateFactory {
         if let situation = situation {
             duringSituation = " \(situation)"
         }
-        XCTFail("Failed to create \(dateVariable)\(duringSituation)")
+        XCTFail("Failed to create \(dateVariable)\(duringSituation)", file: file, line: line)
         return defaultDate
     }
 }

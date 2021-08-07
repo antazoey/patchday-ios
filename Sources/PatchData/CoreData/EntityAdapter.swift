@@ -171,6 +171,11 @@ class EntityAdapter {
         // We assume that if we a pill got created previously that it is fully created.
         pill.isCreated = true
 
+        // Do this so that we don't remove someone's timesTakenToday if they have any.
+        if pill.lastWakeUp == nil {
+            pill.lastWakeUp = pill.lastTaken
+        }
+
         if let intervalString = pill.expirationInterval {
             // Set values after post-migration, in case that happens.
             let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)

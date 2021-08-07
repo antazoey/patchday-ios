@@ -258,7 +258,8 @@
 		9D8A986323D3BAFE004E20FE /* UserDefaultsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986223D3BAFE004E20FE /* UserDefaultsProtocol.swift */; };
 		9D8A986523D95941004E20FE /* PillTestsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986423D95941004E20FE /* PillTestsUtil.swift */; };
 		9D8AF51726B8A82E0037BFAA /* TestDateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51626B8A82E0037BFAA /* TestDateFactory.swift */; };
-		9D8AF51926BB6F050037BFAA /* TestPillAttributesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51826BB6F050037BFAA /* TestPillAttributesFactory.swift */; };
+		9D8AF51926BB6F050037BFAA /* PillTestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51826BB6F050037BFAA /* PillTestFixtures.swift */; };
+		9D8AF51D26BF0B8B0037BFAA /* PillXDaysIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51A26BF0B270037BFAA /* PillXDaysIntegrationTests.swift */; };
 		9D8F45D0248B324A00F2C39A /* SiteDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45CF248B324A00F2C39A /* SiteDetailViewModelTests.swift */; };
 		9D8F45D4248BED7700F2C39A /* SiteImageRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45D3248BED7700F2C39A /* SiteImageRecorderTests.swift */; };
 		9D8F45D62495473500F2C39A /* HormoneValueTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45D52495473500F2C39A /* HormoneValueTypeTests.swift */; };
@@ -759,7 +760,8 @@
 		9D8A986223D3BAFE004E20FE /* UserDefaultsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsProtocol.swift; sourceTree = "<group>"; };
 		9D8A986423D95941004E20FE /* PillTestsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTestsUtil.swift; sourceTree = "<group>"; };
 		9D8AF51626B8A82E0037BFAA /* TestDateFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDateFactory.swift; sourceTree = "<group>"; };
-		9D8AF51826BB6F050037BFAA /* TestPillAttributesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPillAttributesFactory.swift; sourceTree = "<group>"; };
+		9D8AF51826BB6F050037BFAA /* PillTestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTestFixtures.swift; sourceTree = "<group>"; };
+		9D8AF51A26BF0B270037BFAA /* PillXDaysIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillXDaysIntegrationTests.swift; sourceTree = "<group>"; };
 		9D8F45CF248B324A00F2C39A /* SiteDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailViewModelTests.swift; sourceTree = "<group>"; };
 		9D8F45D3248BED7700F2C39A /* SiteImageRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageRecorderTests.swift; sourceTree = "<group>"; };
 		9D8F45D52495473500F2C39A /* HormoneValueTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneValueTypeTests.swift; sourceTree = "<group>"; };
@@ -1669,7 +1671,7 @@
 				9D8A981423C573B3004E20FE /* Info.plist */,
 				9D1908F5247029E800E95244 /* PDAssert.swift */,
 				9D8AF51626B8A82E0037BFAA /* TestDateFactory.swift */,
-				9D8AF51826BB6F050037BFAA /* TestPillAttributesFactory.swift */,
+				9D8AF51826BB6F050037BFAA /* PillTestFixtures.swift */,
 			);
 			name = PDTest;
 			path = Sources/PDTest;
@@ -1858,6 +1860,7 @@
 			isa = PBXGroup;
 			children = (
 				9D9C5FF2247AE4FD00B3DA6A /* IntegrationTests.swift */,
+				9D8AF51A26BF0B270037BFAA /* PillXDaysIntegrationTests.swift */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
@@ -2625,6 +2628,7 @@
 				9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */,
 				9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */,
 				9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */,
+				9D8AF51D26BF0B8B0037BFAA /* PillXDaysIntegrationTests.swift in Sources */,
 				9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
 				9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */,
@@ -2683,7 +2687,7 @@
 				9D7888A3255870D100DC0F6D /* MockSitesTable.swift in Sources */,
 				9D8A982223C57499004E20FE /* MockEntity.swift in Sources */,
 				9D6187BE26437F0800B284CF /* MockSettingsPicker.swift in Sources */,
-				9D8AF51926BB6F050037BFAA /* TestPillAttributesFactory.swift in Sources */,
+				9D8AF51926BB6F050037BFAA /* PillTestFixtures.swift in Sources */,
 				9D1908EA2468388B00E95244 /* MockNav.swift in Sources */,
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
