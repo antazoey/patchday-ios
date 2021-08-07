@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillNotificationActionHandlerTests: XCTestCase {
+class PillNotificationActionHandlerTests: PDTestCase {
 
     private var mockPill = MockPill()
     private var pills = MockPillSchedule()

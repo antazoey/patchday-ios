@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchData
 
-class HormoneTests: XCTestCase {
+class HormoneTests: PDTestCase {
 
     let testId = UUID()
     let testDateThatIsNow = Date()

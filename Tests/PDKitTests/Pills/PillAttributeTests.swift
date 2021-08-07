@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PDKit
 
-class PillAttributesTests: PDTest {
+class PillAttributesTests: PDTestCase {
 
     func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
         let attributes = PillAttributes(

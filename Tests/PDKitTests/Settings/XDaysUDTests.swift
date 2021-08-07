@@ -7,12 +7,12 @@
 //
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class XDaysUDTests: XCTestCase {
+class XDaysUDTests: PDTestCase {
     func testDays_returnsExpectedValue() {
         let xDays = XDaysUD("23")
         let actual = xDays.days

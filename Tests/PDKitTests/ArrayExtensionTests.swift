@@ -4,12 +4,12 @@
 //
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class ArrayExtensionTests: XCTestCase {
+class ArrayExtensionTests: PDTestCase {
 
     func testTryGet_whenIndexOutOfRange_returnsNil() {
         let intList = [1, 2, 3]

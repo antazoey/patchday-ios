@@ -12,7 +12,7 @@ import PDTest
 @testable
 import PatchData
 
-class HormoneScheduleTests: XCTestCase {
+class HormoneScheduleTests: PDTestCase {
 
     private var mockSharer: MockHormoneDataSharer!
     private var mockStore: MockHormoneStore!

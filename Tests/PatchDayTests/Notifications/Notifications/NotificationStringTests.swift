@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class NotificationStringTests: XCTestCase {
+class NotificationStringTests: PDTestCase {
 
     func testInit_whenPatchesAndExpired_hasCorrectProperties() {
         let hormone = MockHormone()

@@ -12,7 +12,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillDetailViewModelTests: XCTestCase {
+class PillDetailViewModelTests: PDTestCase {
 
     private var dependencies: MockDependencies! = nil
 

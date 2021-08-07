@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PDKit
 
-class PillExpirationIntervalTests: XCTestCase {
+class PillExpirationIntervalTests: PDTestCase {
 
     func testInit_initsValue() {
         let interval = PillExpirationInterval(.EveryDay)

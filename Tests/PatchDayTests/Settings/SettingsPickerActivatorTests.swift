@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsPickerActivatorTests: XCTestCase {
+class SettingsPickerActivatorTests: PDTestCase {
 
     func testGetSettingFromButtonRestorationId_whenIsDeliveryMethodButtton_returnsDeliveryMethodSetting() {
         let button = SettingsPickerActivator()

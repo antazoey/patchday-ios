@@ -11,7 +11,7 @@ import XCTest
 import PDKit
 import PDTest
 
-class DateExtensionTests: XCTestCase {
+class DateExtensionTests: PDTestCase {
 
     // Note: If you run these tests at like midnight, you might get weird results.
     // For example, the tests may assume it can add seconds to the current time and have it still be today.

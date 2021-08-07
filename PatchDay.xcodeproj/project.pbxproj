@@ -231,7 +231,7 @@
 		9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A981C23C57448004E20FE /* PDMocking.swift */; };
 		9D8A981F23C57473004E20FE /* MockHormoneDataSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A981E23C57473004E20FE /* MockHormoneDataSharer.swift */; };
 		9D8A982223C57499004E20FE /* MockEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982123C57499004E20FE /* MockEntity.swift */; };
-		9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982323C574B0004E20FE /* MockPatchData.swift */; };
+		9D8A982423C574B0004E20FE /* MockCoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982323C574B0004E20FE /* MockCoreDataStackWrapper.swift */; };
 		9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */; };
 		9D8A982A23C7EED0004E20FE /* HormoneStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982923C7EED0004E20FE /* HormoneStoring.swift */; };
 		9D8A982C23C7EEDA004E20FE /* PillStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982B23C7EEDA004E20FE /* PillStoring.swift */; };
@@ -260,9 +260,8 @@
 		9D8AF51726B8A82E0037BFAA /* TestDateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51626B8A82E0037BFAA /* TestDateFactory.swift */; };
 		9D8AF51926BB6F050037BFAA /* PillTestFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51826BB6F050037BFAA /* PillTestFixtures.swift */; };
 		9D8AF51D26BF0B8B0037BFAA /* PillXDaysIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51A26BF0B270037BFAA /* PillXDaysIntegrationTests.swift */; };
-		9D8AF51F26BF30C00037BFAA /* SynchronousTestRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF51E26BF30C00037BFAA /* SynchronousTestRunner.swift */; };
-		9D8AF52126BF30FA0037BFAA /* PDIntegrationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF52026BF30FA0037BFAA /* PDIntegrationTest.swift */; };
-		9D8AF52526BF33310037BFAA /* PDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF52426BF33310037BFAA /* PDTest.swift */; };
+		9D8AF52126BF30FA0037BFAA /* PDIntegrationTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF52026BF30FA0037BFAA /* PDIntegrationTestCase.swift */; };
+		9D8AF52526BF33310037BFAA /* PDTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AF52426BF33310037BFAA /* PDTestCase.swift */; };
 		9D8F45D0248B324A00F2C39A /* SiteDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45CF248B324A00F2C39A /* SiteDetailViewModelTests.swift */; };
 		9D8F45D4248BED7700F2C39A /* SiteImageRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45D3248BED7700F2C39A /* SiteImageRecorderTests.swift */; };
 		9D8F45D62495473500F2C39A /* HormoneValueTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45D52495473500F2C39A /* HormoneValueTypeTests.swift */; };
@@ -738,7 +737,7 @@
 		9D8A981C23C57448004E20FE /* PDMocking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDMocking.swift; sourceTree = "<group>"; };
 		9D8A981E23C57473004E20FE /* MockHormoneDataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneDataSharer.swift; sourceTree = "<group>"; };
 		9D8A982123C57499004E20FE /* MockEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEntity.swift; sourceTree = "<group>"; };
-		9D8A982323C574B0004E20FE /* MockPatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPatchData.swift; sourceTree = "<group>"; };
+		9D8A982323C574B0004E20FE /* MockCoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataStackWrapper.swift; sourceTree = "<group>"; };
 		9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaultsWriter.swift; sourceTree = "<group>"; };
 		9D8A982923C7EED0004E20FE /* HormoneStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStoring.swift; sourceTree = "<group>"; };
 		9D8A982B23C7EEDA004E20FE /* PillStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStoring.swift; sourceTree = "<group>"; };
@@ -765,9 +764,8 @@
 		9D8AF51626B8A82E0037BFAA /* TestDateFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDateFactory.swift; sourceTree = "<group>"; };
 		9D8AF51826BB6F050037BFAA /* PillTestFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTestFixtures.swift; sourceTree = "<group>"; };
 		9D8AF51A26BF0B270037BFAA /* PillXDaysIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillXDaysIntegrationTests.swift; sourceTree = "<group>"; };
-		9D8AF51E26BF30C00037BFAA /* SynchronousTestRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronousTestRunner.swift; sourceTree = "<group>"; };
-		9D8AF52026BF30FA0037BFAA /* PDIntegrationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDIntegrationTest.swift; sourceTree = "<group>"; };
-		9D8AF52426BF33310037BFAA /* PDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTest.swift; sourceTree = "<group>"; };
+		9D8AF52026BF30FA0037BFAA /* PDIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDIntegrationTestCase.swift; sourceTree = "<group>"; };
+		9D8AF52426BF33310037BFAA /* PDTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTestCase.swift; sourceTree = "<group>"; };
 		9D8F45CF248B324A00F2C39A /* SiteDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailViewModelTests.swift; sourceTree = "<group>"; };
 		9D8F45D3248BED7700F2C39A /* SiteImageRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageRecorderTests.swift; sourceTree = "<group>"; };
 		9D8F45D52495473500F2C39A /* HormoneValueTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneValueTypeTests.swift; sourceTree = "<group>"; };
@@ -1672,7 +1670,6 @@
 			isa = PBXGroup;
 			children = (
 				9D8AF52326BF33030037BFAA /* XCTest+PDTest */,
-				9D8AF52226BF310C0037BFAA /* Integration */,
 				9D8A981C23C57448004E20FE /* PDMocking.swift */,
 				9D8A981B23C5742E004E20FE /* Mocks */,
 				9D8A981323C573B3004E20FE /* PDTest.h */,
@@ -1706,7 +1703,7 @@
 			children = (
 				9D8A983323C7F89B004E20FE /* MockStores */,
 				9D8A982123C57499004E20FE /* MockEntity.swift */,
-				9D8A982323C574B0004E20FE /* MockPatchData.swift */,
+				9D8A982323C574B0004E20FE /* MockCoreDataStackWrapper.swift */,
 			);
 			path = MockCoreData;
 			sourceTree = "<group>";
@@ -1803,19 +1800,11 @@
 			path = DataSharing;
 			sourceTree = "<group>";
 		};
-		9D8AF52226BF310C0037BFAA /* Integration */ = {
-			isa = PBXGroup;
-			children = (
-				9D8AF52026BF30FA0037BFAA /* PDIntegrationTest.swift */,
-			);
-			path = Integration;
-			sourceTree = "<group>";
-		};
 		9D8AF52326BF33030037BFAA /* XCTest+PDTest */ = {
 			isa = PBXGroup;
 			children = (
-				9D8AF51E26BF30C00037BFAA /* SynchronousTestRunner.swift */,
-				9D8AF52426BF33310037BFAA /* PDTest.swift */,
+				9D8AF52426BF33310037BFAA /* PDTestCase.swift */,
+				9D8AF52026BF30FA0037BFAA /* PDIntegrationTestCase.swift */,
 			);
 			path = "XCTest+PDTest";
 			sourceTree = "<group>";
@@ -2691,8 +2680,7 @@
 				9DB1E39C2651F6F100EA1F0D /* MockSettingsPickerIndexer.swift in Sources */,
 				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
 				9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */,
-				9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */,
-				9D8AF51F26BF30C00037BFAA /* SynchronousTestRunner.swift in Sources */,
+				9D8A982423C574B0004E20FE /* MockCoreDataStackWrapper.swift in Sources */,
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,
 				9D78877C2553993200DC0F6D /* MockSiteImageRecorder.swift in Sources */,
 				9D8A985123D160EB004E20FE /* MockPill.swift in Sources */,
@@ -2713,10 +2701,10 @@
 				9D7888A3255870D100DC0F6D /* MockSitesTable.swift in Sources */,
 				9D8A982223C57499004E20FE /* MockEntity.swift in Sources */,
 				9D6187BE26437F0800B284CF /* MockSettingsPicker.swift in Sources */,
-				9D8AF52126BF30FA0037BFAA /* PDIntegrationTest.swift in Sources */,
+				9D8AF52126BF30FA0037BFAA /* PDIntegrationTestCase.swift in Sources */,
 				9D8AF51926BB6F050037BFAA /* PillTestFixtures.swift in Sources */,
 				9D1908EA2468388B00E95244 /* MockNav.swift in Sources */,
-				9D8AF52526BF33310037BFAA /* PDTest.swift in Sources */,
+				9D8AF52526BF33310037BFAA /* PDTestCase.swift in Sources */,
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
 				9D6E9AD624562155003BBCC9 /* MockNotificationCenter.swift in Sources */,

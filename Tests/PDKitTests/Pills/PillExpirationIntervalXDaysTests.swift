@@ -5,12 +5,12 @@
 //  Created by Juliya Smith on 2/9/21.
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class PillIExpirationIntervalXDaysTests: XCTestCase {
+class PillIExpirationIntervalXDaysTests: PDTestCase {
 
     func testInit_whenGivenTwoValues_returnsObjectWithExpectedProperties() {
         let xDays = PillExpirationIntervalXDays("5-8")

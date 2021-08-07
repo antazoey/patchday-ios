@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class TabReflectorTests: XCTestCase {
+class TabReflectorTests: PDTestCase {
 
     private let sdk = MockSDK()
     private let hormonesViewController = UIViewController()

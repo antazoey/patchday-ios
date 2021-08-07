@@ -13,7 +13,7 @@ import XCTest
 import PDKit
 import PDTest
 
-class PillLastTakenListTests: XCTestCase {
+class PillLastTakenListTests: PDTestCase {
     private let testTimeOne = Time()
 
     private var testTimeTwo: Time {

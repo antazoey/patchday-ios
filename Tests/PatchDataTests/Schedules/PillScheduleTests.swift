@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchData
 
-class PillScheduleTests: XCTestCase {
+class PillScheduleTests: PDTestCase {
 
     private var mockStore: MockPillStore!
     private var mockDataSharer: MockPillDataSharer!

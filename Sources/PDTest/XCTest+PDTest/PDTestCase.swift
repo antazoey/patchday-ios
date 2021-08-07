@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 import PDKit
 
-open class PDTest: XCTestCase {
+open class PDTestCase: XCTestCase {
 
     open func beforeEach() {}
 

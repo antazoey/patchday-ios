@@ -13,45 +13,8 @@ import PatchData
 import PatchDay
 
 // swiftlint:disable function_body_length
-class IntegrationTests: XCTestCase {
-
-    #if targetEnvironment(simulator)
-    private let dummyViewController = UIViewController()
-    private var sdk = PatchData()
-
-    override func setUp() {
-        sdk.resetAll()
-    }
-
-    func beforeEach() {
-        sdk.resetAll()
-    }
-
-    // MARK: - ADD INTEGRATION TESTS HERE
-
-    var tests: [() -> Void] {
-        [
-            whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate,
-            whenChangingHormoneBadge_updatesCorrectly,
-            whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity
-        ]
-    }
-
-    // MARK: - Synchronous Test Runner
-
-    func test_runAll() {
-//        for test in tests {
-//            beforeEach()
-//            test()
-//        }
-
-        let xDaysTests = PillXDaysIntegrationTests()
-        xDaysTests.run()
-    }
-
-    // MARK: - Integration Test Implementations
-
-    func whenChangingHormoneBadge_updatesCorrectly() {
+class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
+    func test() {
         let badge = PDBadge(sdk: sdk)
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })
@@ -59,9 +22,9 @@ class IntegrationTests: XCTestCase {
             XCTFail("Hormone count does not match delivery method")
             return
         }
-        sdk.hormones.setDate(by: ids[0], with: DateFactory.createDate(daysFrom: -20)!)
-        sdk.hormones.setDate(by: ids[1], with: DateFactory.createDate(daysFrom: -20)!)
-        sdk.hormones.setDate(by: ids[2], with: DateFactory.createDate(daysFrom: -20)!)
+        sdk.hormones.setDate(by: ids[0], with: TestDateFactory.createTestDate(daysFrom: -20))
+        sdk.hormones.setDate(by: ids[1], with: TestDateFactory.createTestDate(daysFrom: -20))
+        sdk.hormones.setDate(by: ids[2], with: TestDateFactory.createTestDate(daysFrom: -20))
         badge.reflect()
 
         XCTAssertEqual(3, sdk.hormones.totalExpired)
@@ -73,8 +36,10 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(2, sdk.hormones.totalExpired)
         XCTAssertEqual(2, badge.value)
     }
+}
 
-    func whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity() {
+class WhenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity: PDIntegrationTestCase {
+    func test() {
         let tabs = TabReflector(
             tabBarController: UITabBarController(),
             viewControllers: [UIViewController()],
@@ -105,8 +70,10 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(3, sdk.hormones.count)
         XCTAssertEqual(3, sdk.settings.quantity.rawValue)
     }
+}
 
-    func whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate() {
+class WhenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate: PDIntegrationTestCase {
+    func test() {
         guard let hormone = sdk.hormones[0] else {
             XCTFail("This test required a hormone.")
             return
@@ -136,7 +103,7 @@ class IntegrationTests: XCTestCase {
             now: now
         )
 
-        hormonesViewModel.handleRowTapped(at: 0, dummyViewController) {}
+        hormonesViewModel.handleRowTapped(at: 0, UIViewController()) {}
         guard let hormoneAfterTest = sdk.hormones[hormone.id] else {
             XCTFail("Hormone somehow disappeared during test.")
             return
@@ -148,6 +115,5 @@ class IntegrationTests: XCTestCase {
         let actual = hormoneAfterTest.date
         PDAssertNotEquiv(testDate, actual)
     }
-    #endif
 }
 // swiftlint:enable function_body_length

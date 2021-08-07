@@ -7,12 +7,12 @@
 //
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class MaxStringTests: XCTestCase {
+class MaxStringTests: PDTestCase {
     public func testCanSet_whenNotExceedingMax_returnsCanReplaceAsTrue() {
         let current = "12"
         let max = 3

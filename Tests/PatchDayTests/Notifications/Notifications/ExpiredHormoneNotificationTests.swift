@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class ExpiredHormoneNotificationTests: XCTestCase {
+class ExpiredHormoneNotificationTests: PDTestCase {
 
     private let _name = "Dat Ass Cheek"
     private let _oldName = "Dat Tummy"

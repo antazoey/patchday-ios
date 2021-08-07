@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SiteCellViewModelTests: XCTestCase {
+class SiteCellViewModelTests: PDTestCase {
     func testSiteNameText_whenSiteIsNull_returnsNewSite() {
         var props = SiteCellProperties(row: 0)
         props.site = nil

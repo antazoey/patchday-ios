@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillsViewModelTests: XCTestCase {
+class PillsViewModelTests: PDTestCase {
 
     private let tableView = UITableView()
     private let testPill = MockPill()

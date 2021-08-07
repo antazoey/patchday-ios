@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillCellViewModelTests: XCTestCase {
+class PillCellViewModelTests: PDTestCase {
 
     func testTimesQuotientTests_returnsExpectedText() {
         let pill = MockPill()

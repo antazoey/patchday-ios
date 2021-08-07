@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class DeliveryMethodMutationAlertTests: XCTestCase {
+class DeliveryMethodMutationAlertTests: PDTestCase {
     func testContinue_setsDeliveryMethod() {
         let mockSdk = MockSDK()
         let tabs = MockTabs()

@@ -10,7 +10,7 @@ import PDTest
 @testable
 import PDKit
 
-class DateFactoryTests: XCTestCase {
+class DateFactoryTests: PDTestCase {
 
     func testCreateDate_onDateAtTime_returnsExpectedDate() {
         let date = Date(timeIntervalSince1970: 999998888)

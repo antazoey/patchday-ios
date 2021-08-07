@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchData
 
-class UserDefaultsWriteHandlerTests: XCTestCase {
+class UserDefaultsWriteHandlerTests: PDTestCase {
 
     private var mockUserDefaults: MockUserDefaults!
     private var mockDataSharer: MockUserDefaults!

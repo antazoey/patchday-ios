@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class TestHormoneSelectionState: XCTestCase {
+class TestHormoneSelectionState: PDTestCase {
     func testHasSelections_whenDateIsDefault_returnsFalse() {
         var selections = HormoneSelectionState()
         selections.date = DateFactory.createDefaultDate()

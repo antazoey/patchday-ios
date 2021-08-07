@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsViewModelTests: XCTestCase {
+class SettingsViewModelTests: PDTestCase {
 
     private let dependencies = MockDependencies()
     private let helper = SettingsTestHelper()

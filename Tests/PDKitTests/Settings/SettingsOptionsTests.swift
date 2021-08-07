@@ -5,12 +5,12 @@
 //  Created by Juliya Smith on 6/14/20.
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class SettingsOptionsTests: XCTestCase {
+class SettingsOptionsTests: PDTestCase {
 
     func testGetExpirationInterval_whenGivenOnceDaily_returnsExpectedInterval() {
         let actual = SettingsOptions.getExpirationInterval(for: SettingsOptions.OnceDaily)

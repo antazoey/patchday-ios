@@ -21,7 +21,7 @@ extension MockUserDefaults {
     }
 }
 
-class UserDefaultsWriterTests: XCTestCase {
+class UserDefaultsWriterTests: PDTestCase {
 
     private let defaults = MockUserDefaults()
     private let numOfHandlers = 2  // baseDefaults + dataSharer

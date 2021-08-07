@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormoneDetailViewModelTests: XCTestCase {
+class HormoneDetailViewModelTests: PDTestCase {
 
     private var dependencies: MockDependencies!
     private var alertFactory: MockAlertFactory!

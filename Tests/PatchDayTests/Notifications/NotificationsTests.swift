@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class NotificationsTests: XCTestCase {
+class NotificationsTests: PDTestCase {
 
     private let mockHormones: [Hormonal] = [MockHormone(), MockHormone(), MockHormone(), MockHormone()]
     private let mockNotification = MockNotification()

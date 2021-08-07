@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillCellActionAlertTests: XCTestCase {
+class PillCellActionAlertTests: PDTestCase {
 
     private let testDaysOneValue = "5"
     private let testDaysTwoValue = "7"

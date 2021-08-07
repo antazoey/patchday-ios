@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 import PDTest
 
-class PDDateFormatterTests: XCTestCase {
+class PDDateFormatterTests: PDTestCase {
 
     private var formatter: DateFormatter!
 

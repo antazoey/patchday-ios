@@ -12,7 +12,7 @@ import PDTest
 @testable
 import PDKit
 
-class ChangeHormoneCommandTests: PDTest {
+class ChangeHormoneCommandTests: PDTestCase {
 
     private let testId = UUID()
     private var hormones: MockHormoneSchedule!

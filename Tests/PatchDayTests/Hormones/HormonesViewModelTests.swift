@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormonesViewModelTests: XCTestCase {
+class HormonesViewModelTests: PDTestCase {
 
     private let table = UITableView()
     private let style = UIUserInterfaceStyle.dark

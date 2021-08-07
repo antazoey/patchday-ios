@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchData
 
-public class PillTests: XCTestCase {
+public class PillTests: PDTestCase {
 
     var januaryFirst: Date {
         getDateFromDefault(hours: 12)
@@ -1393,21 +1393,6 @@ public class PillTests: XCTestCase {
         let attributes = createPillAttributesForAwakenXDaysTest(
             lastWakeUp: Date(),
             lastTaken: TestDateFactory.createYesterday(),
-            position: "on-1"
-        )
-        let pill = createPill(attributes, now)
-        pill.awaken()
-        PillTestFixtures.assertPosition(1, true, pill.expirationInterval)
-    }
-
-    func testAwaken_whenXDaysAndNotWokeUpButTakenOnFirstDay_doesNotIncrementXDays() {
-        // This is because `.swallow()` wakes-up the pill before swallowing.
-        // There is a now way a Pill would need to wake-up again if it was already swallowed.
-        let now = MockNow()
-        now.now = TestDateFactory.createTestDate(hour: 5)
-        let attributes = createPillAttributesForAwakenXDaysTest(
-            lastWakeUp: TestDateFactory.createYesterday(),
-            lastTaken: Date(),
             position: "on-1"
         )
         let pill = createPill(attributes, now)

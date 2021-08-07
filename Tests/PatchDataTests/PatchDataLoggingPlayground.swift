@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchData
 
-class LoggingPlayground: XCTestCase {
+class LoggingPlayground: PDTestCase {
 
     func logHormone() {
         var data = HormoneStruct(UUID())

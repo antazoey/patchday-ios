@@ -4,13 +4,13 @@
 //
 //  Created by Juliya Smith on 9/4/20.
 
-import XCTest
 import Foundation
-
+import XCTest
+import PDTest
 @testable
 import PDKit
 
-class DateIntegrationTests: XCTestCase {
+class DateIntegrationTests: PDTestCase {
 
     func testInternalTimes_string() {
         let timeString = "12:51:30"
