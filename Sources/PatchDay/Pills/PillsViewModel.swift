@@ -20,7 +20,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     }
 
     init(
-        pillsTableView: UITableView,
         alertFactory: AlertProducing? = nil,
         table: PillsTableProtocol,
         dependencies: DependenciesProtocol,

@@ -20,14 +20,6 @@ class PillsViewModelTests: PDTestCase {
     private let table = MockPillsTable()
     private let cell = MockPillCell()
 
-    private func createViewModel() -> PillsViewModel {
-        (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
-        table.subscriptReturnValue = cell
-        return PillsViewModel(
-            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
-        )
-    }
-
     func testPills_returnsPillsFromSdk() {
         let viewModel = createViewModel()
         let pills = viewModel.pills!
@@ -38,9 +30,7 @@ class PillsViewModelTests: PDTestCase {
     func testPillsCount_whenNoSdk_returnsZero() {
         let deps = MockDependencies()
         deps.sdk = nil
-        let viewModel = PillsViewModel(
-            pillsTableView: self.tableView, alertFactory: alerts, table: table, dependencies: deps
-        )
+        let viewModel = createViewModel()
         XCTAssertEqual(0, viewModel.pillsCount)
     }
 
@@ -71,9 +61,7 @@ class PillsViewModelTests: PDTestCase {
     func testEnabled_whenNilSdk_returnsTrue() {
         let deps = MockDependencies()
         deps.sdk = nil
-        let viewModel = PillsViewModel(
-            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
-        )
+        let viewModel = PillsViewModel(alertFactory: alerts, table: table, dependencies: deps)
         XCTAssertTrue(viewModel.enabled)
     }
 
@@ -513,5 +501,11 @@ class PillsViewModelTests: PDTestCase {
         let viewController = UIViewController()
         viewModel.goToPillDetails(pillIndex: 5, pillsViewController: viewController)
         PDAssertEmpty(nav.goToPillDetailsCallArgs)
+    }
+
+    private func createViewModel() -> PillsViewModel {
+        (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
+        table.subscriptReturnValue = cell
+        return PillsViewModel(alertFactory: alerts, table: table, dependencies: deps)
     }
 }

@@ -15,6 +15,7 @@ let testRunner = DispatchQueue(label: "com.pdtest.pd-integration-test.test-runne
 open class PDIntegrationTestCase: PDTestCase {
 
     public let dependencies = MockDependencies()
+    public let now = MockNow()
 
     public var sdk: PatchDataSDK {
         if let sdk = dependencies.sdk {
@@ -25,17 +26,17 @@ open class PDIntegrationTestCase: PDTestCase {
         return mockSDK
     }
 
-    public override func setUp() {
+    open override func setUp() {
         dependencies.sdk?.resetAll()
     }
 
-    public override func beforeEach() {
+    open override func beforeEach() {
         dependencies.sdk?.resetAll()
     }
 
     public override func invokeTest() {
+        // Only run tests serially and using the simulator.
         #if targetEnvironment(simulator)
-        // Force tests to run serially.
         DispatchQueue.main.async {
             testRunner.async { super.invokeTest() }
         }

@@ -108,7 +108,6 @@ class WhenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefau
 
 class WhenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate: PDIntegrationTestCase {
 
-    let now = PDNow()
     let style = UIUserInterfaceStyle.dark
     let notifications = MockNotifications()
     let alerts = MockAlertFactory()
