@@ -25,6 +25,7 @@ public class MockPill: Swallowable {
     public var timesTakenTodayList = PillTimesTakenTodayList()
     public var lastWakeUp = Date()
     public var isCreated = true
+    public var wokeUpToday = false
 
     public init() { }
 

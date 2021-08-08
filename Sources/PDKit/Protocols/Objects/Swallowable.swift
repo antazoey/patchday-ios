@@ -62,6 +62,9 @@ public protocol Swallowable {
     /// If you are done taking this pill today.
     var isDone: Bool { get }
 
+    /// Whether the pill has woken up today or not.
+    var wokeUpToday: Bool { get }
+
     /// Set this pill's attributes using the given DTO.
     func set(attributes: PillAttributes)
 

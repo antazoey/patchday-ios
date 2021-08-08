@@ -9,7 +9,9 @@ import PDKit
 
 public class MockDependencies: DependenciesProtocol {
 
-    public init() {}
+    public init(sdk: PatchDataSDK?=nil) {
+        self.sdk = sdk ?? MockSDK()
+    }
 
     public var sdk: PatchDataSDK? = MockSDK()
     public var tabs: TabReflective? = MockTabs()

@@ -700,7 +700,20 @@ class PillDetailViewModelTests: PDTestCase {
         PDAssertSingle(viewModel.times)
     }
 
-    func testSetTimesaday_whenDecreasingAndTimesPreviouslySelected_addsNewTime() {
+    func testSetTimesaday_whenDecreasingAndTimesPreviouslySelected_removesTime() {
+        let pill = setupPill()
+        let times = [Time(), Time()]
+        pill.times = times
+        let previousSelectedTimes = [Time(), Time()]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
+            previousSelectedTimes
+        )
+        viewModel.setTimesaday(1)
+        PDAssertSingle(viewModel.times)
+    }
+
+    func testSetTimesaday_whenDecreasingByTwo_removesTimes() {
         let pill = setupPill()
         let times = [Time(), Time()]
         pill.times = times

@@ -28,7 +28,7 @@ class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
     }
 
     private func getIDs() -> [UUID] {
-        let ids = self.sdk.hormones.all.map({ $0.id })
+        let ids = sdk.hormones.all.map({ $0.id })
         if ids.count < 3 {
             XCTFail("Hormone count does not match delivery method")
             return []
@@ -38,7 +38,11 @@ class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
 
     private func setDate(idIndex: Index, ids: [UUID]) {
         let testDate = TestDateFactory.createTestDate(daysFrom: -20)
-        sdk.hormones.setDate(by: ids[idIndex], with: testDate)
+        guard let pillId = ids.tryGet(at: idIndex) else {
+            XCTFail("No hormone ID at index \(idIndex)")
+            return
+        }
+        sdk.hormones.setDate(by: pillId, with: testDate)
     }
 
     private func assertBadgeValue(expected: Int, badge: PDBadge) {

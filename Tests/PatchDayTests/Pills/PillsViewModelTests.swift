@@ -28,7 +28,6 @@ class PillsViewModelTests: PDTestCase {
     }
 
     func testPillsCount_whenNoSdk_returnsZero() {
-        let deps = MockDependencies()
         deps.sdk = nil
         let viewModel = createViewModel()
         XCTAssertEqual(0, viewModel.pillsCount)
@@ -504,7 +503,9 @@ class PillsViewModelTests: PDTestCase {
     }
 
     private func createViewModel() -> PillsViewModel {
-        (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
+        if let deps = deps.sdk?.pills as? MockPillSchedule {
+            deps.all = [testPill]
+        }
         table.subscriptReturnValue = cell
         return PillsViewModel(alertFactory: alerts, table: table, dependencies: deps)
     }

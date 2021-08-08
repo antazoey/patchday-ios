@@ -192,16 +192,16 @@ public class Pill: Swallowable {
         incrementXDaysPosition(daysToIncrement)
     }
 
+    public var wokeUpToday: Bool {
+        lastWakeUp.isInToday(now: _now)
+    }
+
     private var untakenToday: Bool {
         guard let lastDate = lastTaken as Date? else {
             return true
         }
 
         return !lastDate.isInToday(now: _now) || timesTakenToday == 0
-    }
-
-    private var wokeUpToday: Bool {
-        lastWakeUp.isInToday(now: _now)
     }
 
     private var xDaysIsOn: Bool {
