@@ -49,8 +49,9 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         self.daysOne = daysOne
         self.daysTwo = daysTwo
         self.daysGap = daysGap
+        dependencies.sdk = PatchData()
         alertFactory = AlertFactory(sdk: sdk, tabs: dependencies.tabs)
-        let table = PillsTable(tableView, pills: sdk.pills)
+        let table = MockPillsTable()
         pillsViewModel = PillsViewModel(
             alertFactory: alertFactory,
             table: table,

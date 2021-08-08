@@ -673,6 +673,22 @@ class PillDetailViewModelTests: PDTestCase {
         )
         viewModel.setTimesaday(3)
         XCTAssertEqual(3, viewModel.times.count)
+        PDAssertSameTime(previousSelectedTimes[1], viewModel.times[2])
+    }
+
+    func testSetTimesaday_whenIncreasingByTwoAndTimesPreviouslySelected_addsNewTime() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let previousSelectedTimes = [Time(), Time()]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
+            previousSelectedTimes
+        )
+        viewModel.setTimesaday(4)
+        XCTAssertEqual(4, viewModel.times.count)
+        PDAssertSameTime(previousSelectedTimes[1], viewModel.times[2])
+        PDAssertSameTime(previousSelectedTimes[1], viewModel.times[3])
     }
 
     func testSetTimesaday_whenDecreasingAndNoTimeSelected_removesTime() {

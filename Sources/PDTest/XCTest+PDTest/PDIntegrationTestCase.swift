@@ -37,8 +37,8 @@ open class PDIntegrationTestCase: PDTestCase {
     public override func invokeTest() {
         // Only run tests serially and using the simulator.
         #if targetEnvironment(simulator)
-        DispatchQueue.main.async {
-            testRunner.async { super.invokeTest() }
+        testRunner.sync {
+            super.invokeTest()
         }
         #endif
     }

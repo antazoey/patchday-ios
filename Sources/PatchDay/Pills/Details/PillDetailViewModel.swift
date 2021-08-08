@@ -193,8 +193,16 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         var timesCopy = times
         if timesaday > self.timesaday {
             // Set new times to have latest time
+            var lastTime = Time()
             for i in self.timesaday..<timesaday {
-                timesCopy.append(times[i-1])
+                if let time = times.tryGet(at: i - 1) {
+                    lastTime = time
+                    timesCopy.append(time)
+                } else {
+                    let timeCopy = DateFactory.createDate(byAddingSeconds: 0, to: lastTime)
+                        ?? now?.now ?? Time()
+                    timesCopy.append(timeCopy)
+                }
             }
         } else {
             for _ in timesaday..<self.timesaday {
