@@ -39,6 +39,75 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         "currentDay=\(currentDay)"
     }
 
+    func testGetPosition() {
+        daysOne = 3
+        daysTwo = 4
+        assertExpectedPosition((1, 3, true), getPosition(daysAfterStart: 0))
+        assertExpectedPosition((2, 3, true), getPosition(daysAfterStart: 1))
+        assertExpectedPosition((3, 3, true), getPosition(daysAfterStart: 2))
+        assertExpectedPosition((1, 4, false), getPosition(daysAfterStart: 3))
+        assertExpectedPosition((2, 4, false), getPosition(daysAfterStart: 4))
+        assertExpectedPosition((3, 4, false), getPosition(daysAfterStart: 5))
+        assertExpectedPosition((4, 4, false), getPosition(daysAfterStart: 6))
+        assertExpectedPosition((1, 3, true), getPosition(daysAfterStart: 7))
+        daysOne = 0
+        daysTwo = 0
+    }
+
+    private func assertExpectedPosition(_ actual: (Int, Int, Bool), _ expected: (Int, Int, Bool)) {
+        XCTAssertEqual(expected.0, actual.0, "Do not have equal positions")
+        XCTAssertEqual(expected.1, actual.1, "Do not have equal limits")
+        XCTAssertEqual(expected.2, actual.2, "Do not have equal isOns")
+    }
+
+    func testExpectedText_whenOnAtFirst_returnsExpectedText() {
+        let expected = "Current position: 1 of 5 (on)"
+        let actual = createExpectedText(position: 1, max: 5, isOn: true)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOnInMiddle_returnsExpectedText() {
+        let expected = "Current position: 3 of 5 (on)"
+        let actual = createExpectedText(position: 3, max: 5, isOn: true)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOnAtPenultimate_returnsExpectedText() {
+        let expected = "Current position: 4 of 5 (on)"
+        let actual = createExpectedText(position: 4, max: 5, isOn: true)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOnAtLast_returnsExpectedText() {
+        let expected = "Current position: 5 of 5 (on)"
+        let actual = createExpectedText(position: 5, max: 5, isOn: true)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOffAtFirst_returnsExpectedText() {
+        let expected = "Current position: 1 of 5 (off)"
+        let actual = createExpectedText(position: 1, max: 5, isOn: false)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOffInMiddle_returnsExpectedText() {
+        let expected = "Current position: 3 of 5 (off)"
+        let actual = createExpectedText(position: 3, max: 5, isOn: false)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOffAtPenultimate_returnsExpectedText() {
+        let expected = "Current position: 4 of 5 (off)"
+        let actual = createExpectedText(position: 4, max: 5, isOn: false)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpectedText_whenOffAtLast_returnsExpectedText() {
+        let expected = "Current position: 5 of 5 (off)"
+        let actual = createExpectedText(position: 5, max: 5, isOn: false)
+        XCTAssertEqual(expected, actual)
+    }
+
     func runTest(
         timesaday: Int,
         daysOne: Int,
@@ -209,21 +278,21 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (Index, Int, Bool) {
-        let defaultReturn = (-1, -1, true)
         if daysAfterStart < 0 {
             fail("daysFromNow should be positive.", file: file, line: line)
-            return defaultReturn
+            return (-1, -1, true)
         }
-        var position = 1
+        var position = 0
         var isOn = true
         let getMax = [true: daysOne, false: daysTwo]
-        var max = -1
-        for i in 0...daysAfterStart {
-            max = getMax[isOn] ?? -1
-            position = i + 1
+        var max = daysOne
+        for _ in 0...daysAfterStart {
+            position += 1
+            max = getMax[isOn]!
             if position > max {
                 position = 1
                 isOn = !isOn
+                max = getMax[isOn]!
             }
         }
         return (position, max, isOn)
@@ -250,7 +319,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
     ) where T:Equatable {
         let message = failMessage == ""
             ? currentDayLogString
-            : "\(failMessage) - \(currentDayLogString)"
+            : combineMessages(failMessage, _messageTwo: currentDayLogString)
         XCTAssertEqual(expected, actual, message, file: file, line: line)
     }
 
@@ -268,6 +337,10 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        XCTFail("\(message) - \(currentDayLogString)", file: file, line: line)
+        XCTFail(combineMessages(message, _messageTwo: currentDayLogString), file: file, line: line)
+    }
+
+    private func combineMessages(_ messageOne: String, _messageTwo: String) -> String {
+        "\(messageOne); \(_messageTwo)"
     }
 }

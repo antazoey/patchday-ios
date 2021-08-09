@@ -16,7 +16,11 @@ import PatchDay
 
 class PillXDaysIntegrationTests: PillXDaysIntegrationTestCase {
 
-    func testXDaysPillSchedule_whenTimesadayOneDaysOneTwoDaysTwoTwoAndDaysGapOne() {
+    func testXDaysPillSchedule_simple() {
         runTest(timesaday: 1, daysOne: 2, daysTwo: 2, daysGap: 1)
+    }
+
+    func testXDaysPillSchedule_complicated() {
+        runTest(timesaday: 2, daysOne: 4, daysTwo: 5, daysGap: 2)
     }
 }
