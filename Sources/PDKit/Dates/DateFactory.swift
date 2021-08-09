@@ -13,7 +13,7 @@ public class DateFactory: NSObject {
         createDate(date, now: now)
     }
 
-    /// Creates a date with the given `hour` and the rest of the components the same as the given `date`.
+    /// Create a date with the given `hour` and the rest of the components the same as the given `date`.
     public static func createDate(
         _ date: Date?=nil, hour: Int=0, minute: Int=0, second: Int=0, now: NowProtocol?=nil
     ) -> Date? {
@@ -26,7 +26,7 @@ public class DateFactory: NSObject {
         createDate(at: time, now: now)
     }
 
-    /// Creates a new Date from given Date at the given Time (defaults to now).
+    /// Create a new Date from given Date at the given Time (defaults to now).
     public static func createDate(on date: Date?=nil, at time: Time?=nil, now: NowProtocol?=nil) -> Date? {
         let date = date ?? now?.now ?? Date()
         let time = time ?? date
@@ -43,7 +43,7 @@ public class DateFactory: NSObject {
         return calendar.date(from: components)
     }
 
-    /// Creates a Date at the given time calculated by adding days to the fromDate (defaults to now).
+    /// Create a Date at the given time calculated by adding days to the fromDate (defaults to now).
     public static func createDate(
         daysFrom: Int=0, fromDate: Date?=nil, at time: Time?=nil, now: NowProtocol?=nil
     ) -> Date? {
@@ -53,7 +53,7 @@ public class DateFactory: NSObject {
         return createDate(on: date, at: time, now: now)
     }
 
-    /// Creates a Date at the given time calculated by adding hours to the fromDate (defaults to now).
+    /// Create a Date at the given time calculated by adding hours to the fromDate (defaults to now).
     public static func createDate(
         hoursFrom: Int=0, fromDate: Date?=nil, now: NowProtocol?=nil
     ) -> Date? {
@@ -62,7 +62,7 @@ public class DateFactory: NSObject {
         return createDateFromAdd(hoursFrom, component, fromDate, now)
     }
 
-    /// Creates a Date at the given time calculated by adding minutes to the fromDate (defaults to now).
+    /// Create a Date at the given time calculated by adding minutes to the fromDate (defaults to now).
     public static func createDate(
         minutesFrom: Int=0, fromDate: Date?=nil, now: NowProtocol?=nil
     ) -> Date? {
@@ -111,7 +111,7 @@ public class DateFactory: NSObject {
         return timesWithSameDate.sorted()
     }
 
-    /// Creates a time interval by adding the given hours to the given date.
+    /// Create a time interval by adding the given hours to the given date.
     public static func createTimeInterval(
         fromAddingHours hours: Int, to date: Date, now: NowProtocol?=nil
     ) -> TimeInterval? {
