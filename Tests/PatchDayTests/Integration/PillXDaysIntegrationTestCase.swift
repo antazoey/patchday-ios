@@ -35,6 +35,10 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         sdk.pills as! PillSchedule
     }
 
+    private var currentDayLogString: String {
+        "currentDay=\(currentDay)"
+    }
+
     func runTest(
         timesaday: Int,
         daysOne: Int,
@@ -56,7 +60,13 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         }
     }
 
-    func setUpTest(timesaday: Int, daysOne: Int, daysTwo: Int, daysGap: Int) {
+    func setUpTest(
+        timesaday: Int,
+        daysOne: Int,
+        daysTwo: Int,
+        daysGap: Int, file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         self.timesaday = timesaday
         self.daysOne = daysOne
         self.daysTwo = daysTwo
@@ -73,26 +83,31 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         let failMessage = "Failed during test setup"
 
         // Create new pill for tests
-        XCTAssertEqual(newPillIndex, sdk.pills.count, failMessage)
+        assertEqual(newPillIndex, sdk.pills.count, failMessage, file: file, line: line)
         pillsViewModel.goToNewPillDetails(pillsViewController: viewController)
-        XCTAssertEqual(newPillIndex + 1, sdk.pills.count, failMessage)
+        assertEqual(newPillIndex + 1, sdk.pills.count, failMessage, file: file, line: line)
 
         setDetailViewModel()
 
         detailViewModel.setTimesaday(self.timesaday)
-        selectXDays(failMessage: failMessage)
+        selectXDays(failMessage: failMessage, file: file, line: line)
     }
 
-    private func selectXDays(failMessage: String) {
+    private func selectXDays(
+        failMessage: String, file: StaticString = #filePath, line: UInt = #line
+    ) {
         detailViewModel.selectExpirationInterval(getXDaysOptionIndex(failMessage: failMessage))
-        XCTAssertEqual(.XDaysOnXDaysOff, detailViewModel.expirationInterval, failMessage)
-        XCTAssertEqual("Days on:", detailViewModel.daysOneLabelText, failMessage)
-        XCTAssertEqual("Days off:", detailViewModel.daysTwoLabelText, failMessage)
+        let actualInterval = detailViewModel.expirationInterval
+        let actualDaysOneText = detailViewModel.daysOneLabelText
+        let actualDaysTwoText = detailViewModel.daysTwoLabelText
+        assertEqual(.XDaysOnXDaysOff, actualInterval, failMessage, file: file, line: line)
+        assertEqual("Days on:", actualDaysOneText, failMessage, file: file, line: line)
+        assertEqual("Days off:", actualDaysTwoText, failMessage, file: file, line: line)
 
         detailViewModel.selectFromDaysPicker(daysOne - 1, daysNumber: 1)
         detailViewModel.selectFromDaysPicker(daysTwo - 1, daysNumber: 2)
-        XCTAssertEqual("\(daysOne)", detailViewModel.daysOn, failMessage)
-        XCTAssertEqual("\(daysTwo)", detailViewModel.daysOff, failMessage)
+        assertEqual("\(daysOne)", detailViewModel.daysOn, failMessage, file: file, line: line)
+        assertEqual("\(daysTwo)", detailViewModel.daysOff, failMessage, file: file, line: line)
         detailViewModel.save()
     }
 
@@ -103,31 +118,33 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         guard let indexToSelect = intervalOptions.firstIndex(
             where: { $0 == PillStrings.Intervals.XDaysOnXDaysOff }
         ) else {
-            XCTFail("Unable to select .XDaysOnXDaysOff - \(failMessage)", file: file, line: line)
+            fail("Unable to select .XDaysOnXDaysOff - \(failMessage)", file: file, line: line)
             return -1
         }
         return indexToSelect
     }
 
-    private func takeAndAssert(expectedPositionText: String, file: StaticString = #filePath, line: UInt = #line) {
+    private func takeAndAssert(
+        expectedPositionText: String, file: StaticString = #filePath, line: UInt = #line
+    ) {
         let actual = detailViewModel.daysPositionText
         let expected = expectedPositionText
-        XCTAssertEqual(expected, actual, "beforeTake, day=\(currentDay)", file: file, line: line)
+        assertEqual(expected, actual, "beforeTake", file: file, line: line)
         take(file: file, line: line)
-        XCTAssertEqual(expected, actual, "afterTake, day=\(currentDay)", file: file, line: line)
+        assertEqual(expected, actual, "afterTake", file: file, line: line)
     }
 
     private func take(file: StaticString = #filePath, line: UInt = #line) {
         pillsViewModel.takePill(at: newPillIndex)
         setDetailViewModel()
         guard let pill = detailViewModel.pill else {
-            XCTFail("Pill is nil")
+            fail("Pill is nil")
             return
         }
         let actual = pill.timesTakenToday
         let expected = pill.expirationInterval.xDaysIsOn! ? 1 : 0
         let message = "Pill was not taken expected number of times"
-        XCTAssertEqual(expected, actual, message, file: file, line: line)
+        assertEqual(expected, actual, message, file: file, line: line)
     }
 
     private func fastForward(days: Int, file: StaticString = #filePath, line: UInt = #line) {
@@ -136,14 +153,14 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         setDetailViewModel()
 
         guard let pill = detailViewModel.pill else {
-            XCTFail("Pill is nil")
+            fail("Pill is nil")
             return
         }
 
         if days > 0, pill.timesTakenToday != 0 {
             let prefix = "Pill did not awaken correctly"
             let timesTakenString = "timesTakenToday still \(pill.timesTakenToday)"
-            XCTFail("\(prefix); \(timesTakenString); currentDay \(currentDay)")
+            fail("\(prefix); \(timesTakenString)")
             return
         }
         let (expectedPosition, expectedMax, expectedIsOn) = getPosition(
@@ -153,7 +170,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
             position: expectedPosition, max: expectedMax, isOn: expectedIsOn
         )
         let actual = detailViewModel.daysPositionText
-        XCTAssertEqual(expected, actual, file: file, line: line)
+        assertEqual(expected, actual, file: file, line: line)
     }
 
     private func setAllPillsNow(
@@ -165,7 +182,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         pills._now = now
         for swallowable in pills.all {
             guard let pill = swallowable as? Pill else {
-                XCTFail("Not of type Pill.")
+                fail("Not of type Pill.", file: file, line: line)
                 return
             }
             pill._now = now
@@ -178,7 +195,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
     private func verifyPillNotWokeUp(file: StaticString = #filePath, line: UInt = #line) {
         for pill in pills.all {
             let failMessage = "pill woke up today when it should have reset"
-            XCTAssertFalse(pill.wokeUpToday, failMessage, file: file, line: line)
+            assertFalse(pill.wokeUpToday, failMessage, file: file, line: line)
         }
     }
 
@@ -194,7 +211,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
     ) -> (Index, Int, Bool) {
         let defaultReturn = (-1, -1, true)
         if daysAfterStart < 0 {
-            XCTFail("daysFromNow should be positive.", file: file, line: line)
+            fail("daysFromNow should be positive.", file: file, line: line)
             return defaultReturn
         }
         var position = 1
@@ -220,8 +237,37 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
     private func assertPositionText(
         expected: String, file: StaticString = #filePath, line: UInt = #line
     ) {
-        let failMessage = "day=\(currentDay)"
         let actual = detailViewModel.daysPositionText
-        XCTAssertEqual(expected, actual, failMessage, file: file, line: line)
+        assertEqual(expected, actual)
+    }
+
+    private func assertEqual<T>(
+        _ expected: T?,
+        _ actual: T?,
+        _ failMessage: String="",
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) where T:Equatable {
+        let message = failMessage == ""
+            ? currentDayLogString
+            : "\(failMessage) - \(currentDayLogString)"
+        XCTAssertEqual(expected, actual, message, file: file, line: line)
+    }
+
+    private func assertFalse(
+        _ actual: Bool,
+        _ failMessage: String="",
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        XCTAssertFalse(actual, currentDayLogString, file: file, line: line)
+    }
+
+    private func fail(
+        _ message: String,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        XCTFail("\(message) - \(currentDayLogString)", file: file, line: line)
     }
 }
