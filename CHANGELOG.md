@@ -1,6 +1,10 @@
 # Changelog
 
-# 3.6.2 (unreleased)
+# 3.7.0 (unreleased)
+
+Changed
+
+- Fixes that make the Pill "X-Days-On, X-Dayss-Off" schedules actually work.
 
 Fixed
 
