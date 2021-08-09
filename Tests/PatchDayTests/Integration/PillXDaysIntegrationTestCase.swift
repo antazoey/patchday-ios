@@ -108,6 +108,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// Call this from `test()` methods for `TestCase` classes that inherit from this one.
     func runTest(
         timesaday: Int,
         daysOne: Int,
@@ -123,6 +124,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
                 daysAfterStart: self.daysGap * i, file: file, line: line
             )
             let expected = createExpectedText(position: position, max: max, isOn: isOn)
+            tprint("Pill X-Days integration test - Day \(i); expected=\(expected)")
             takeAndAssert(expectedPositionText: expected, file: file, line: line)
             fastForward(days: self.daysGap * (i + 1), file: file, line: line)
             currentDay += 1
