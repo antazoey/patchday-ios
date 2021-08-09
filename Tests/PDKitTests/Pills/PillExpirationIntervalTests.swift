@@ -195,6 +195,18 @@ class PillExpirationIntervalTests: PDTestCase {
         PillTestFixtures.assertNilPosition(interval)
     }
 
+    func testXDaysIsOn_whenNotUsingXDaysOnXDaysOffAndHasComplexXDaysValue_doesNotSet() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "10-10-on-1")
+        interval.xDaysIsOn = true
+        PillTestFixtures.assertNilPosition(interval)
+    }
+
+    func testXDaysIsOn_whenXDaysIsNil_sets() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: nil)
+        interval.xDaysIsOn = true
+        XCTAssertTrue(interval.xDaysIsOn ?? false)
+    }
+
     func testXDaysPosition_whenNotUsingXDays_returnsNil() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff)
         XCTAssertNil(interval.xDaysPosition)

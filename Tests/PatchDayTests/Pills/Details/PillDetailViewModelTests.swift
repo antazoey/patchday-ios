@@ -563,7 +563,7 @@ class PillDetailViewModelTests: PDTestCase {
         let times = [
             createTestTime(12, 9, 9, now),
             createTestTime(10, 10, 10, now),
-            createTestTime(11, 11, 11, now),
+            createTestTime(11, 11, 11, now)
         ]
         let pill = setupPill()
         pill.times = times

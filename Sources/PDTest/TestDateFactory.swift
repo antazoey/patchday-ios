@@ -16,7 +16,8 @@ public class TestDateFactory {
         DateFactory.createDefaultDate()
     }
 
-    /// Attempts to create midnight. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create midnight.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestMidnight(
         date: Date?=nil, now: NowProtocol?=nil, file: StaticString=#filePath, line: UInt=#line
     ) -> Date {
@@ -27,7 +28,8 @@ public class TestDateFactory {
         return midnight
     }
 
-    /// Attempts to create the date with the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create the date with the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         hour: Int=0,
         minute: Int=0,
@@ -46,7 +48,8 @@ public class TestDateFactory {
         return testDate
     }
 
-    /// Attempts to create a date exactly yesterday. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date exactly yesterday.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createYesterday(
         file: StaticString=#filePath, line: UInt=#line
     ) -> Date {
@@ -56,7 +59,8 @@ public class TestDateFactory {
         return yesterday
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         daysFrom days: Int=0,
         hoursFrom hours: Int=0,
@@ -76,7 +80,8 @@ public class TestDateFactory {
         return date
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         on onDate: Date?=nil,
         at atDate: Time?=nil,
@@ -92,7 +97,8 @@ public class TestDateFactory {
         return testDate
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         byAddingMonths months: Int,
         to date: Date?=nil,
@@ -107,7 +113,8 @@ public class TestDateFactory {
         return testDate
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         byAddingHours hours: Int,
         to date: Date?=nil,
@@ -122,7 +129,8 @@ public class TestDateFactory {
         return testDate
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         byAddingMinutes minutes: Int,
         to date: Date?=nil,
@@ -137,7 +145,8 @@ public class TestDateFactory {
         return testDate
     }
 
-    /// Attempts to create a date using the specified parameters. If it fails, calls `XCTFail()` and returns the default date.
+    /// Attempts to create a date using the specified parameters.
+    /// If it fails, calls `XCTFail()` and returns the default date.
     public static func createTestDate(
         byAddingSeconds seconds: Int,
         to date: Date?=nil,

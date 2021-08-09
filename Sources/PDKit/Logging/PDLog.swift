@@ -13,7 +13,7 @@ public enum PDLogLevels {
 
 #if DEBUG
 /// Print something that is easy to find in the logs.  Use for debugging purposes only.
-/// WARN: Do not commit changes when used in production code.
+/// WARN: Do not commit changes when used in production code.   
 public func tdprint(_ date: Date?=nil) {
     var message: String?
     if let date = date {

@@ -12,6 +12,7 @@ import PatchData
 @testable
 import PatchDay
 
+// swiftlint:disable type_name
 class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
     func test() {
         sdk.settings.setDeliveryMethod(to: .Patches)
@@ -168,3 +169,4 @@ class WhenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate: PDIntegr
         changeAction()
     }
 }
+// swiftlint:enable type_name

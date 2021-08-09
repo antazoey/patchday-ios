@@ -63,7 +63,7 @@ public func PDAssertDefault(_ actual: Date, file: StaticString = #filePath, line
     let evaluation = equiv(DateFactory.createDefaultDate(), actual)
     let formattedActual = PDDateFormatter.formatDate(actual)
     let failMessage = equivFailMessage("<default-date>", formattedActual)
-    XCTAssertTrue(evaluation, failMessage, file: file, line: line   )   
+    XCTAssertTrue(evaluation, failMessage, file: file, line: line)
 }
 
 /// Assert that the given date is not equivalent to now (.nanosecond granularity).

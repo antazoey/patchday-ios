@@ -318,7 +318,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         _ failMessage: String="",
         file: StaticString = #filePath,
         line: UInt = #line
-    ) where T:Equatable {
+    ) where T: Equatable {
         let message = failMessage == ""
             ? currentDayLogString
             : combineMessages(failMessage, _messageTwo: currentDayLogString)
@@ -328,8 +328,8 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
     private func assertFalse(
         _ actual: Bool,
         _ failMessage: String="",
-        file: StaticString = #filePath,
-        line: UInt = #line
+        file: StaticString=#filePath,
+        line: UInt=#line
     ) {
         XCTAssertFalse(actual, currentDayLogString, file: file, line: line)
     }
