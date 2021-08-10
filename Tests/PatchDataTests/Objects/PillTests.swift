@@ -160,6 +160,15 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(.LastXDays, actual.value)
     }
 
+    func testIsCreated_getsAndSetsValueInAttributes() {
+        let attributes = PillAttributes()
+        attributes.isCreated = false
+        let pill = createPill(attributes)
+        XCTAssertFalse(pill.isCreated)
+        pill.isCreated = true
+        XCTAssertTrue(pill.isCreated)
+    }
+
     func testTimes_whenNilInAttributes_returnsNil() {
         let attributes = PillAttributes()
         attributes.times = nil
@@ -297,6 +306,17 @@ public class PillTests: PDTestCase {
         attributes.expirationInterval.daysOne = 12
         let pill = createPill(attributes)
         XCTAssertNil(pill.expirationInterval.xDaysValue)
+    }
+
+    func testLastWakeUp_getsAndSetsValueFromAttributes() {
+        let startTestDate = TestDateFactory.createTestDate(hour: 3, minute: 20, second: 33)
+        let attributes = PillAttributes()
+        attributes.lastWakeUp = startTestDate
+        let pill = createPill(attributes)
+        XCTAssertEqual(startTestDate, pill.lastWakeUp)
+        let newTestDate = TestDateFactory.createTestDate(hour: 2, minute: 2, second: 4)
+        pill.lastWakeUp = newTestDate
+        XCTAssertEqual(newTestDate, pill.lastWakeUp)
     }
 
     func testDue_whenEveryDayAndNotYetTaken_returnsTodayAtTimeOne() {
@@ -1243,18 +1263,6 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(1, pill.timesTakenToday)
     }
 
-    func testUnswallow_whenOffAtPositionEqualToOne_resetToOnAtLastPosition() {
-        let attributes = createXDaysOnXDaysOffAttributes(
-            daysOne: 6, daysTwo: 5, isOn: false, daysPosition: 1
-        )
-        attributes.times = "12:00:00,01:10:10"
-        attributes.timesTakenToday = "12:00:00"
-        attributes.lastTaken = Date()
-        let pill = createPill(attributes)
-        pill.unswallow()
-        PillTestFixtures.assertPosition(6, true, pill.expirationInterval)
-    }
-
     func testUnswallow_whenOffAtPositionEqualToOne_unswallows() {
         let attributes = createXDaysOnXDaysOffAttributes(
             daysOne: 2, daysTwo: 2, isOn: false, daysPosition: 1
@@ -1265,31 +1273,7 @@ public class PillTests: PDTestCase {
         let pill = createPill(attributes)
         pill.unswallow()
         XCTAssertEqual(0, pill.timesTakenToday)
-    }
-
-    func testUnswallow_whenXDaysOn_resetsToPositionBefore() {
-        let attributes = createXDaysOnXDaysOffAttributes(
-            daysOne: 6, daysTwo: 5, isOn: true, daysPosition: 6
-        )
-        attributes.times = "12:00:00,01:10:10"
-        attributes.timesTakenToday = "12:00:00"
-        attributes.lastTaken = Date()
-        let pill = createPill(attributes)
-        pill.unswallow()
-        PillTestFixtures.assertPosition(5, true, pill.expirationInterval)
-    }
-
-    func testUnswallow_whenXDaysOnAtFirstPosition_resetToOffPositionAtLastPosition() {
-        let attributes = createXDaysOnXDaysOffAttributes(
-            daysOne: 6, daysTwo: 5, isOn: true, daysPosition: 1
-        )
-        attributes.times = "12:00:00,01:10:10"
-        attributes.timesTakenToday = "12:00:00"
-        attributes.lastTaken = Date()
-        let pill = createPill(attributes)
-        pill.unswallow()
-        PillTestFixtures.assertPosition(5, false, pill.expirationInterval)
-    }
+    }   
 
     func testUnswallow_whenXDaysOn_unswallows() {
         let attributes = createXDaysOnXDaysOffAttributes(

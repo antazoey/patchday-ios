@@ -170,10 +170,6 @@ public class Pill: Swallowable {
             return
         }   
 
-        if expirationInterval.usesXDays, timesTakenTodayList.count == 1 {
-            expirationInterval.decrementXDays()
-        }
-
         let timesTakenToday = timesTakenTodayList
         let newLastTaken = timesTakenToday.undoLast() ?? DateFactory.createDefaultDate()
         pillData.attributes.lastTaken = newLastTaken
