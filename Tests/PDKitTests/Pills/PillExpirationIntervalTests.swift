@@ -312,45 +312,6 @@ class PillExpirationIntervalTests: PDTestCase {
         PillTestFixtures.assertPosition(3, true, interval)
     }
 
-    func testDecrementXDays_whenXDaysOnXDaysOffAndStartedAlready_decrements() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
-        interval.decrementXDays()
-        PillTestFixtures.assertPosition(1, true, interval)
-    }
-
-    func testDecrementXDays_whenXDaysOnXDaysOffAndStartedAlreadyAndGivenTwo_incrementsTwo() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-3")
-        interval.decrementXDays(days: 2)
-        PillTestFixtures.assertPosition(1, true, interval)
-    }
-
-    func testDecrementXDays_whenNotXDaysOnXDaysOff_doesNothing() {
-        let interval = PillExpirationInterval(.FirstXDays, xDays: "5")
-        interval.decrementXDays()
-        PillTestFixtures.assertNilPosition(interval)
-    }
-
-    func testDecrementXDays_whenXDaysOnXDaysOffAndNotYetStarted_decrementsToLastOffDay() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-6")
-        interval.decrementXDays()
-        PillTestFixtures.assertPosition(6, false, interval)
-    }
-
-    func testDecrementXDays_whenXDaysOnXDaysOffAndNotYetStartedAndDecrementingByTwo_decrementsToSecondToLastOffDay() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-6")
-        interval.decrementXDays(days: 2)
-        PillTestFixtures.assertPosition(5, false, interval)
-    }
-
-    func testDecrementXDays_whenJustSwitchedToXDaysOnXDaysOff_setsToFirstDay() {
-        // Is this the best thing to do here?  I did this assuming when they switched schedules,
-        // they also wanted to undo their take, so it is like no effect here.
-        let interval = PillExpirationInterval(.EveryDay)
-        interval.value = .XDaysOnXDaysOff
-        interval.decrementXDays()
-        PillTestFixtures.assertPosition(1, true, interval)
-    }
-
     func testOptions_containsAllOptions() {
         // WAIT: If this test did not compile for you, that means you are adding a new interval.
         // I just want to remind you to make sure to also add that interval to the static list

@@ -139,11 +139,6 @@ public class PillExpirationIntervalXDays {
         changePosition(by: numberOfDays)
     }
 
-    /// Move backwards in position.
-    public func decrementDayPosition(numberOfDays: Int=1) {
-        changePosition(by: -numberOfDays)
-    }
-
     private func changePosition(by: Int) {
         guard let one = one else { return }
         guard let two = two else { return }
