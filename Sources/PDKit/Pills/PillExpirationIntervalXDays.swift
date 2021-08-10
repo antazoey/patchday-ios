@@ -158,6 +158,8 @@ public class PillExpirationIntervalXDays {
     private func getNextPosition(
         _ value: Int, _ position: Int, _ isOn: Bool, _ one: Int, _ two: Int
     ) -> (Bool, Int) {
+        guard one > 0 else { return (false, -1) }
+        guard two > 0 else { return (false, -1) }
         let incrementing = value > 0
         var remaining = abs(value)
         var nextIsOn = isOn
