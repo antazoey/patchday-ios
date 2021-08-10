@@ -193,23 +193,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard timesaday <= MAX_PILL_TIMES_PER_DAY else { return }
         guard timesaday > 0 else { return }
         guard timesaday != self.timesaday else { return }
-        var timesCopy = times
-        if timesaday > self.timesaday {
-            // Set new times to have latest time
-            var lastTime = now?.now ?? Time()
-            for i in self.timesaday..<timesaday {
-                if let time = times.tryGet(at: i - 1) {
-                    lastTime = time
-                    timesCopy.append(time)
-                } else {
-                    timesCopy.append(copyTime(lastTime))
-                }
-            }
-        } else {
-            for _ in timesaday..<self.timesaday {
-                timesCopy.removeLast()
-            }
-        }
+        let timesCopy = copyTimes(upTo: timesaday)
         let newTimeString = PDDateFormatter.convertTimesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
     }
@@ -468,7 +452,24 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         return positions
     }
 
-    private func copyTime(_ time: Time) -> Time {
-        DateFactory.createDate(byAddingSeconds: 0, to: time) ?? now?.now ?? Time()
+    private func copyTimes(upTo timesaday: Int) -> [Time] {
+        var timesCopy = times
+        if timesaday > self.timesaday {
+            // Set new times to have latest time
+            var lastTime = now?.now ?? Time()
+            for i in self.timesaday..<timesaday {
+                if let time = times.tryGet(at: i - 1) {
+                    lastTime = time
+                    timesCopy.append(time)
+                } else {
+                    timesCopy.append(lastTime)
+                }
+            }
+        } else {
+            for _ in timesaday..<self.timesaday {
+                timesCopy.removeLast()
+            }
+        }
+        return timesCopy
     }
 }

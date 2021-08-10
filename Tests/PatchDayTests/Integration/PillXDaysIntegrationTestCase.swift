@@ -318,7 +318,7 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
         _ failMessage: String="",
         file: StaticString = #filePath,
         line: UInt = #line
-    ) where T: Equatable {
+    ) where T:Equatable {
         let message = failMessage == ""
             ? currentDayLogString
             : combineMessages(failMessage, _messageTwo: currentDayLogString)

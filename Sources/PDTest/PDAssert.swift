@@ -145,11 +145,11 @@ public func sameTime(_ lhs: Date, _ rhs: Date) -> Bool {
 }
 
 private func equivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) is not equivalent to \(actual)."
+    "\(actual) is not equivalent to \(expected)."
 }
 
 private func notEquivFailMessage(_ expected: Any, _ actual: Any) -> String {
-    "\(expected) is eqivalent to \(actual)."
+    "\(actual) is eqivalent to \(expected)."
 }
 
 private func getSingleCountFailureMessage() -> String {

@@ -181,8 +181,8 @@ public class Pill: Swallowable {
 
         // Everything that is day-sensitive, put here.
         pillData.attributes.timesTakenToday = ""
-        lastWakeUp = now
         let daysToIncrement = now.daysSince(lastWakeUp)
+        lastWakeUp = now
         guard daysToIncrement > 0 else { return }
         incrementXDaysPosition(daysToIncrement)
     }
