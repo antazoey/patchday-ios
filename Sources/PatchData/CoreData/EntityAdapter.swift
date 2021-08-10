@@ -167,11 +167,10 @@ class EntityAdapter {
     }
 
     private static func migratePill(_ pill: MOPill) {
-
-        // We assume if a pill was created previously, that means it's fully created.
+        // We assume if a pill was created previously, it's fully created.
         pill.isCreated = true
 
-        // Do this so that we don't remove someone's `ftimesTakenToday` if they have any.
+        // Preventing `timesTakenToday` from mistakenly clearing during upgrade.
         if pill.lastWakeUp == nil {
             pill.lastWakeUp = pill.lastTaken
         }
