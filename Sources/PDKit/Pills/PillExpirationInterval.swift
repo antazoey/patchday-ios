@@ -157,7 +157,7 @@ public class PillExpirationInterval {
     public func startPositioning() {
         guard usesXDays else { return }
         if let xDays = _xDays {
-            guard xDays.isOn == nil && xDays.position == nil else { return }
+            guard xDays.isOn == nil || xDays.position == nil else { return }
             xDays.startPositioning()
         } else {
             defaultInitXDays()

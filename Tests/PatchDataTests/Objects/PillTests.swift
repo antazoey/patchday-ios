@@ -1207,9 +1207,9 @@ public class PillTests: PDTestCase {
 
     func testUnswallow_whenLastLastTakenNotToday_resetsToDateInToday() {
         let attributes = PillAttributes()
-        let lastTaken = Date()
+        let yesterday = DateFactory.createDate(byAddingHours: 24, to: Date())
         attributes.timesTakenToday = "12:00:00,01:10:10"
-        attributes.lastTaken = lastTaken
+        attributes.lastTaken = yesterday
         let pill = createPill(attributes)
         pill.unswallow()
 
@@ -1292,7 +1292,7 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(0, pill.timesTakenToday)
     }
 
-    func testUnswallow_andMoreTimesToUntakeYetForTheDay_doesNotDecrementPosition() {
+    func testUnswallow_whenMoreTimesToUntakeYetForTheDay_doesNotDecrementPosition() {
         let attributes = createXDaysOnXDaysOffAttributes(
             daysOne: 6, daysTwo: 5, isOn: true, daysPosition: 3
         )
