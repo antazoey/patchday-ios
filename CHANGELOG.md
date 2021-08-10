@@ -5,6 +5,7 @@
 Changed
 
 - Fixes that make the Pill "X-Days-On, X-Dayss-Off" schedules actually work.
+    Now, Pills' X-Days positions do not increment when you "take" a Pill but instead increment daily on their own.
 
 Fixed
 
