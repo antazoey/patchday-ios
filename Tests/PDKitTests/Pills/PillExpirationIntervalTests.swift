@@ -7,10 +7,11 @@
 import Foundation
 
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class PillExpirationIntervalTests: XCTestCase {
+class PillExpirationIntervalTests: PDTestCase {
 
     func testInit_initsValue() {
         let interval = PillExpirationInterval(.EveryDay)
@@ -47,12 +48,12 @@ class PillExpirationIntervalTests: XCTestCase {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-8-off-7")
         assertDaysOne(5, interval)
         assertDaysTwo(8, interval)
-        assertPosition(7, false, interval)
+        PillTestFixtures.assertPosition(7, false, interval)
     }
 
     func testInit_whenGivenUnstartedXDays_returnsNilForExpectedProperties() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-8")
-        assertNilPosition(interval)
+        PillTestFixtures.assertNilPosition(interval)
     }
 
     func testInit_whenGivenLegacyFirst10Days_migrates() {
@@ -191,7 +192,19 @@ class PillExpirationIntervalTests: XCTestCase {
     func testXDaysIsOn_whenNotUsingXDaysOnXDaysOff_doesNotSet() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "10")
         interval.xDaysIsOn = true
-        assertNilPosition(interval)
+        PillTestFixtures.assertNilPosition(interval)
+    }
+
+    func testXDaysIsOn_whenNotUsingXDaysOnXDaysOffAndHasComplexXDaysValue_doesNotSet() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "10-10-on-1")
+        interval.xDaysIsOn = true
+        PillTestFixtures.assertNilPosition(interval)
+    }
+
+    func testXDaysIsOn_whenXDaysIsNil_sets() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: nil)
+        interval.xDaysIsOn = true
+        XCTAssertTrue(interval.xDaysIsOn ?? false)
     }
 
     func testXDaysPosition_whenNotUsingXDays_returnsNil() {
@@ -202,62 +215,76 @@ class PillExpirationIntervalTests: XCTestCase {
     func testXDaysPosition_whenNotUsingXDaysOnXDaysOff_doesNotSet() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "10")
         interval.xDaysPosition = 4
-        assertNilPosition(interval)
+        PillTestFixtures.assertNilPosition(interval)
     }
 
     func testXDaysPosition_whenUsingXDaysOnXDaysOff_sets() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "10-10-on-3")
         interval.xDaysPosition = 4
-        assertPosition(4, true, interval)
-    }
-
-    func testXDaysIsOnAndPosition_whenUsingXDaysAndSet_returnsExpectedValue() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-1")
-        assertPosition(1, true, interval)
+        PillTestFixtures.assertPosition(4, true, interval)
     }
 
     func testStartPositioning_whenNotUsingXDays_doesNotStart() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
         interval.value = .EveryDay
         interval.startPositioning()
-        assertNilPosition(interval)
+        PillTestFixtures.assertNilPosition(interval)
     }
 
     func testStartPositioning_whenUsingXDays_starts() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
         interval.startPositioning()
-        assertPosition(1, true, interval)
+        PillTestFixtures.assertPosition(1, true, interval)
     }
 
     func testStartPositioning_whenXDaysIsNil_initsAndStarts() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff)
         interval.startPositioning()
-        assertPosition(1, true, interval)
+        PillTestFixtures.assertPosition(1, true, interval)
     }
 
     func testIncrementXDays_whenXDaysOnXDaysOffAndStartedAlready_increments() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
         interval.incrementXDays()
-        assertPosition(3, true, interval)
+        PillTestFixtures.assertPosition(3, true, interval)
+    }
+
+    func testIncrementXDays_whenXDaysOnXDaysOffAndStartedAlreadyAndGivenTwo_incrementsTwo() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
+        interval.incrementXDays(days: 2)
+        PillTestFixtures.assertPosition(4, true, interval)
     }
 
     func testIncrementXDays_whenNotXDaysOnXDaysOff_doesNothing() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5")
         interval.incrementXDays()
-        assertNilPosition(interval)
+        PillTestFixtures.assertNilPosition(interval)
     }
 
     func testIncrementXDays_whenXDaysOnXDaysOffAndNotYetStarted_initsAndIncrements() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
         interval.incrementXDays()
-        assertPosition(2, true, interval)
+        PillTestFixtures.assertPosition(2, true, interval)
+    }
+
+    func testIncrementXDays_whenXDaysOnXDaysOffAndNotYetStartedAndGivenTwo_initsAndIncrementsTwo() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
+        interval.incrementXDays(days: 2)
+        PillTestFixtures.assertPosition(3, true, interval)
     }
 
     func testIncrementXDays_whenJustSwitchedToXDaysOnXDaysOff_increments() {
         let interval = PillExpirationInterval(.EveryDay)
         interval.value = .XDaysOnXDaysOff
         interval.incrementXDays()
-        assertPosition(2, true, interval)
+        PillTestFixtures.assertPosition(2, true, interval)
+    }
+
+    func testIncrementXDays_whenJustSwitchedToXDaysOnXDaysOffAndGivenTwo_incrementsTwo() {
+        let interval = PillExpirationInterval(.EveryDay)
+        interval.value = .XDaysOnXDaysOff
+        interval.incrementXDays(days: 2)
+        PillTestFixtures.assertPosition(3, true, interval)
     }
 
     func testOptions_containsAllOptions() {
@@ -299,24 +326,5 @@ class PillExpirationIntervalTests: XCTestCase {
     func assertNilDaysTwo(_ interval: PillExpirationInterval) {
         XCTAssertNil(interval.daysTwo)
         XCTAssertNil(interval.daysOff)
-    }
-
-    func assertPosition(
-        _ expectedPos: Int, _ expectedBool: Bool, _ interval: PillExpirationInterval
-    ) {
-        if interval.xDaysIsOn == nil {
-            XCTFail("XDays position is not turned on.")
-            return
-        } else if interval.xDaysPosition == nil {
-            XCTFail("XDays position is not initialized.")
-            return
-        }
-        XCTAssertEqual(expectedBool, interval.xDaysIsOn)
-        XCTAssertEqual(expectedPos, interval.xDaysPosition!)
-    }
-
-    func assertNilPosition(_ interval: PillExpirationInterval) {
-        XCTAssertNil(interval.xDaysIsOn)
-        XCTAssertNil(interval.xDaysPosition)
     }
 }

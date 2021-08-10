@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class ExpiredHormoneOvernightNotificationTests: XCTestCase {
+class ExpiredHormoneOvernightNotificationTests: PDTestCase {
 
     private static var testHandlerCallCount = 0
     private let _testHandler: (Double, String) -> Void = { _, _ in testHandlerCallCount += 1}

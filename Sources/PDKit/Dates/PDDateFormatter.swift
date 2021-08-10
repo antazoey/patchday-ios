@@ -8,24 +8,25 @@ import Foundation
 
 public class PDDateFormatter {
 
+    private static var calendar = Calendar.current
     private static let localizationComment = "The word 'today' displayed on a button."
     public static var todayString: String = NSLocalizedString("Today", comment: localizationComment)
     public static var yesterdayString = NSLocalizedString("Yesterday", comment: localizationComment)
     public static var tomorrowString = NSLocalizedString("Tomorrow", comment: localizationComment)
-    private static var calendar = Calendar.current
 
-    /// Gives String for the given Time.
+    /// Create a formatted time string.
     public static func formatTime(_ time: Time) -> String {
         let formatter = DateFormatterFactory.createTimeFormatter()
         return formatter.string(from: time)
     }
 
+    /// Create a formatted internal time string, used for `pill.times` and `pill.timesTakenToday`.
     public static func formatInternalTime(_ time: Time) -> String {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
         return formatter.string(from: time)
     }
 
-    /// Gives String for the given Date.
+    /// Create a formatted date string.
     public static func formatDate(_ date: Date, useWords: Bool=true) -> String {
         if useWords, let word = dateWord(from: date) {
             return getWordedDateString(from: date, word: word)
@@ -57,10 +58,10 @@ public class PDDateFormatter {
     private static func dateWord(from date: Date) -> String? {
         if calendar.isDateInToday(date) {
             return todayString
-        } else if let yesterdayAtThisTime = DateFactory.createDate(daysFromNow: -1),
+        } else if let yesterdayAtThisTime = DateFactory.createDate(daysFrom: -1),
             calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
             return yesterdayString
-        } else if let tomorrowAtThisTime = DateFactory.createDate(daysFromNow: 1),
+        } else if let tomorrowAtThisTime = DateFactory.createDate(daysFrom: 1),
             calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
             return tomorrowString
         }

@@ -99,6 +99,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
             self.tabs?.reflectHormones()
             self.badge?.reflect()
             self.notifications?.requestExpiredHormoneNotification(for: hormone)
+            self.widget?.set()
         }
         alerts.createHormoneActions(
             hormone.siteName,

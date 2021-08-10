@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SiteDetailViewModelTests: XCTestCase {
+class SiteDetailViewModelTests: PDTestCase {
 
     private var dependencies: MockDependencies! = nil
     private var siteImagePicker: SiteImagePicker! = nil

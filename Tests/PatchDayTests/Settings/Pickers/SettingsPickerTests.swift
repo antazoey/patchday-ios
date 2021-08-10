@@ -15,7 +15,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsPickerTests: XCTestCase {
+class SettingsPickerTests: PDTestCase {
 
     func testSetActivator_setsSaveTitleForSelectedState() {
         let picker = SettingsPicker()

@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormonesTableTests: XCTestCase {
+class HormonesTableTests: PDTestCase {
     func testApplyTheme_appliesExpectedColors() {
         let view = UITableView()
         let table = HormonesTable(view, MockSDK(), .dark)

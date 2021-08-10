@@ -14,6 +14,10 @@ public class PillExpirationIntervalXDays {
     public var position: Int?
     public var isOn: Bool?
 
+    public convenience init() {
+        self.init(DefaultPillAttributes.XDAYS_STRING)
+    }
+
     public init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
         let daysResult = PillExpirationIntervalXDays.parseMultipleDays(daysList)
@@ -100,39 +104,85 @@ public class PillExpirationIntervalXDays {
         }
     }
 
-    /// The string value of the second days property; only applies to `.XDaysOnXDaysOff`.
-    public var daysOff: String? {
-        guard let days = two else { return nil }
-        return String(days)
-    }
-
     /// The string value of the first days property; only applies to expiration intervals that use X days.
     public var daysOn: String? {
         guard let days = one else { return nil }
         return String(days)
     }
 
-    /// The supported range for any days value, 1-25.
+    /// The string value of the second days property; only applies to `.XDaysOnXDaysOff`.
+    public var daysOff: String? {
+        guard let days = two else { return nil }
+        return String(days)
+    }
+
+    /// The supported range for any days value, `1-25`.
     public static var daysRange: ClosedRange<Int> {
         1...EXPIRATION_INTERVAL_DAYS_LAST_INTEGER
     }
 
+    /// Initialize the positioning.
     public func startPositioning() {
         isOn = true
         position = 1
     }
 
-    public func incrementDayPosition() {
+    /// Move forward in position.
+    public func incrementDayPosition(numberOfDays: Int=1) {
+        changePosition(by: numberOfDays)
+    }
+
+    private func changePosition(by: Int) {
         guard let one = one else { return }
         guard let two = two else { return }
         guard let isOnValue = isOn else { return }
         guard let pos = position else { return }
-        var nextPosition = pos + 1
-        if nextPosition < 1 || nextPosition > (isOnValue ? one : two) {
-            nextPosition = 1
-        }
+        let (nextIsOn, nextPosition) = getNextPosition(by, pos, isOnValue, one, two)
         position = nextPosition
-        isOn = nextPosition < pos ? !isOnValue : isOn
+        isOn = nextIsOn
+    }
+
+    // Pass in negative numbers to decrement.
+    private func getNextPosition(
+        _ value: Int, _ position: Int, _ isOn: Bool, _ one: Int, _ two: Int
+    ) -> (Bool, Int) {
+        guard one > 0 else { return (false, -1) }
+        guard two > 0 else { return (false, -1) }
+        let incrementing = value > 0
+        var remaining = abs(value)
+        var nextIsOn = isOn
+        var nextPosition = position
+
+        while remaining > 0 {
+            let previousPosition = nextPosition
+            nextPosition = incrementing ? nextPosition + remaining : nextPosition - remaining
+            let (currentLimit, oppositeLimit) = getLimits(isOn: nextIsOn)
+            let exceedsLimit = nextPosition > currentLimit || nextPosition < 1
+            if !exceedsLimit {
+                return (nextIsOn, nextPosition)
+            }
+
+            // Exceeds current limit
+            var amountUntilNext = 0
+            if incrementing {
+                amountUntilNext = currentLimit - previousPosition + 1
+                nextPosition = 1
+            } else {
+                amountUntilNext = previousPosition
+                nextPosition = oppositeLimit
+            }
+
+            nextIsOn = !nextIsOn
+            remaining -= amountUntilNext
+        }
+
+        return (nextIsOn, nextPosition)
+    }
+
+    private func getLimits(isOn: Bool) -> (Int, Int) {
+        let one = self.one ?? DefaultSettings.XDAYS_INT
+        let two = self.two ?? DefaultSettings.XDAYS_INT
+        return isOn ? (one, two) : (two, one)
     }
 
     private var _daysRange: ClosedRange<Int> {

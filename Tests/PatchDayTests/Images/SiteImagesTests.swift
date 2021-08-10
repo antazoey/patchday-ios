@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SiteImagesTests: XCTestCase {
+class SiteImagesTests: PDTestCase {
 
     func testSubsript_forUnsitedPatch() {
         let hormone = MockHormone()

@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchData
 
-class PillScheduleTests: XCTestCase {
+class PillScheduleTests: PDTestCase {
 
     private var mockStore: MockPillStore!
     private var mockDataSharer: MockPillDataSharer!
@@ -176,6 +176,12 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [newPill]))
     }
 
+    public func testInsertNew_setsIsCreatedToFalse() {
+        setUpPills(insertPillFactory: { () in self.newPill })
+        let newPill = pills.insertNew(onSuccess: nil)
+        XCTAssertFalse(newPill?.isCreated ?? true)
+    }
+
     public func testInsertNew_whenStoreReturnsPills_callsCompletion() {
         setUpPills(insertPillFactory: { () in self.newPill })
         var wasCalled = false
@@ -290,10 +296,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingExpirationIntervalDataByIndex_updatesPill() {
-        let attributes = PillAttributes()
-        attributes.expirationInterval.value = .XDaysOnXDaysOff
-        attributes.expirationInterval.daysOne = 5
-        attributes.expirationInterval.daysTwo = 5
+        let attributes = PillTestFixtures.createAttributesForXDaysOnXDaysOff(daysOne: 5, daysTwo: 5)
         setUpThreePills()
         pills.set(at: 0, with: attributes)
         let pill = pills[0] as! MockPill
@@ -386,11 +389,7 @@ class PillScheduleTests: XCTestCase {
 
     /// Integration test with Pill.
     public func testSwallow_worksAfterCallingAwaken() {
-        guard let initialLastTaken = DateFactory.createDate(daysFromNow: -1) else {
-            XCTFail("Unable to create initial last taken")
-            return
-        }
-
+        let initialLastTaken = TestDateFactory.createTestDate(daysFrom: -1)
         let initialPillAttributes = PillAttributes(
             name: "Test Pill",
             expirationIntervalSetting: .EveryDay,
@@ -398,7 +397,9 @@ class PillScheduleTests: XCTestCase {
             times: "12:00:00,12:00:01",
             notify: false,
             lastTaken: initialLastTaken,
-            timesTakenToday: "12:00:00,12:00:01"
+            timesTakenToday: "12:00:00,12:00:01",
+            lastWakeUp: DateFactory.createDate(daysFrom: -1),
+            isCreated: true
         )
         let pillData = PillStruct(UUID(), initialPillAttributes)
         let testPill = Pill(pillData: pillData)

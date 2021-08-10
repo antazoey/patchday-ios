@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchData
 
-class SiteScheduleTests: XCTestCase {
+class SiteScheduleTests: PDTestCase {
 
     private var mockStore: MockSiteStore!
     private var mockSettings: MockUserDefaultsWriter!

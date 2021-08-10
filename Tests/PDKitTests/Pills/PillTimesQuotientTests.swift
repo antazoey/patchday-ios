@@ -7,12 +7,12 @@
 //
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class PillTimesQuotientTests: XCTestCase {
+class PillTimesQuotientTests: PDTestCase {
     func testToString_zeroOne_returnsExpectedString() {
         let quotient = PillTimesQuotient(timesTakenToday: 0, timesaday: 1)
         let expected = "0 of 1"

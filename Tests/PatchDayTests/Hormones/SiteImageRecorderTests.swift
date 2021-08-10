@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SiteImageRecorderTests: XCTestCase {
+class SiteImageRecorderTests: PDTestCase {
 
     func testCurrentAndPush_whenNoHistory_returnsNil() {
         let recorder = SiteImageRecorder(0)

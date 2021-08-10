@@ -5,12 +5,12 @@
 //  Created by Juliya Smith on 2/9/21.
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class PillIExpirationIntervalXDaysTests: XCTestCase {
+class PillIExpirationIntervalXDaysTests: PDTestCase {
 
     func testInit_whenGivenTwoValues_returnsObjectWithExpectedProperties() {
         let xDays = PillExpirationIntervalXDays("5-8")
@@ -247,6 +247,33 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         xDays.incrementDayPosition()
         XCTAssertFalse(xDays.isOn!)
         XCTAssertEqual(5, xDays.position)
+    }
+
+    func testIncrement_whenUsesNumberOfDaysParameter_incrementsNumberOfDays() {
+        let xDays = PillExpirationIntervalXDays("5-5-off-4")
+        xDays.incrementDayPosition(numberOfDays: 1)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(5, xDays.position)
+        xDays.incrementDayPosition(numberOfDays: 1)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(1, xDays.position)
+        xDays.incrementDayPosition(numberOfDays: 2)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(3, xDays.position)
+    }
+
+    func testIncrement_whenIncrementingAcrossBoundaries_isExpected() {
+        let xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.incrementDayPosition(numberOfDays: 17)
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(3, xDays.position)
+    }
+
+    func testIncrement_whenGivenZero_isExpected() {
+        let xDays = PillExpirationIntervalXDays("5-8-on-4")
+        xDays.incrementDayPosition(numberOfDays: 0)
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(4, xDays.position)
     }
 
     private func assertAllNil(_ xDays: PillExpirationIntervalXDays) {

@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsControlsTests: XCTestCase {
+class SettingsControlsTests: PDTestCase {
 
     private let helper = SettingsTestHelper()
 

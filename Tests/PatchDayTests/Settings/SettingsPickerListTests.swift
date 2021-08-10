@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsPickerListTests: XCTestCase {
+class SettingsPickerListTests: PDTestCase {
     private let quantityPicker = MockSettingsPicker()
     private let deliveryMethodPicker = MockSettingsPicker()
     private let expirationIntervalPicker = MockSettingsPicker()

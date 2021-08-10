@@ -85,6 +85,12 @@ class EntityAdapter {
         if let days = pillData.attributes.expirationInterval.xDaysValue {
             pill.xDays = days
         }
+        if let lastWakeUp = pillData.attributes.lastWakeUp as NSDate?, lastWakeUp != pill.lastWakeUp {
+            pill.lastWakeUp = lastWakeUp
+        }
+        if let isCreated = pillData.attributes.isCreated as Bool?, isCreated != pill.isCreated {
+            pill.isCreated = isCreated
+        }
     }
 
     // MARK: - Sites
@@ -154,11 +160,21 @@ class EntityAdapter {
             times: pill.times,
             notify: pill.notify,
             lastTaken: pill.lastTaken as Date?,
-            timesTakenToday: pill.timesTakenTodayList
+            timesTakenToday: pill.timesTakenTodayList,
+            lastWakeUp: pill.lastWakeUp as Date?,
+            isCreated: pill.isCreated
         )
     }
 
     private static func migratePill(_ pill: MOPill) {
+        // We assume if a pill was created previously, it's fully created.
+        pill.isCreated = true
+
+        // Preventing `timesTakenToday` from mistakenly clearing during upgrade.
+        if pill.lastWakeUp == nil {
+            pill.lastWakeUp = pill.lastTaken
+        }
+
         if let intervalString = pill.expirationInterval {
             // Set values after post-migration, in case that happens.
             let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)

@@ -129,7 +129,13 @@ public class PillExpirationInterval {
             return _xDays?.isOn
         }
         set {
-            _xDays?.isOn = newValue
+            if let xDays = _xDays {
+                xDays.isOn = newValue
+            } else {
+                let xDays = PillExpirationIntervalXDays()
+                xDays.isOn = newValue
+                _xDays = xDays
+            }
         }
     }
 
@@ -146,28 +152,22 @@ public class PillExpirationInterval {
     public func startPositioning() {
         guard usesXDays else { return }
         if let xDays = _xDays {
+            guard xDays.isOn == nil || xDays.position == nil else { return }
             xDays.startPositioning()
         } else {
-            let def = DefaultPillAttributes.XDAYS_INT
-            let xDays = PillExpirationIntervalXDays("\(def)-\(def)")
-            xDays.startPositioning()
-            _xDays = xDays
+            defaultInitXDays()
         }
     }
 
-    public func incrementXDays() {
+    public func incrementXDays(days: Int=1) {
         guard value == .XDaysOnXDaysOff else { return }
         if let xDays = _xDays {
             if xDays.isOn == nil {
                 xDays.startPositioning()
             }
-            xDays.incrementDayPosition()
+            xDays.incrementDayPosition(numberOfDays: days)
         } else {
-            let days = DefaultPillAttributes.XDAYS_INT
-
-            // Start at 2 because we are incrementing now.
-            let defaultXDays = "\(days)-\(days)-on-2"
-            _xDays = PillExpirationIntervalXDays(defaultXDays)
+            defaultInitXDays(startPosition: days + 1)
         }
     }
 
@@ -196,5 +196,11 @@ public class PillExpirationInterval {
     public var usesXDays: Bool {
         guard let value = self._value else { return false }
         return _xDaysIntervals.contains(value)
+    }
+
+    private func defaultInitXDays(startPosition: Int=1) {
+        let dayLimit = DefaultPillAttributes.XDAYS_INT
+        let defaultXDays = "\(dayLimit)-\(dayLimit)-on-\(startPosition)"
+        _xDays = PillExpirationIntervalXDays(defaultXDays)
     }
 }

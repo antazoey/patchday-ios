@@ -11,7 +11,7 @@ import XCTest
 import PDKit
 import PDTest
 
-class SiteImageDeterminationParametersTests: XCTestCase {
+class SiteImageDeterminationParametersTests: PDTestCase {
 
     func testInit_whenUsingHormoneWithImageId_setsImageIdToImageId() {
         let hormone = MockHormone()

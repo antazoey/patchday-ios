@@ -11,12 +11,24 @@ public enum PDLogLevels {
     case NONE
 }
 
+#if DEBUG
+/// Print something that is easy to find in the logs.  Use for debugging purposes only.
+/// WARN: Do not commit changes when used in production code.   
+public func tdprint(_ date: Date?=nil) {
+    var message: String?
+    if let date = date {
+        message = PDDateFormatter.formatDate(date)
+    }
+    tprint(message)
+}
+
 /// Print something that is easy to find in the logs.  Use for debugging purposes only. Do not commit usages.
 public func tprint(_ msg: Any?) {
     print("\n\n____TEST____\n")
     print(msg ?? "nil")
     print("\n____TEST____\n\n")
 }
+#endif
 
 /// Set to `LogLevel.DEBUG` to turn on loggers.
 public var PDLogLevel = PDLogLevels.NONE

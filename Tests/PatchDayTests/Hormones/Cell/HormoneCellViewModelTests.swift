@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormoneCellViewModelTests: XCTestCase {
+class HormoneCellViewModelTests: PDTestCase {
 
     func getMockSDK(_ hormoneArray: [Hormonal]?=nil) -> MockSDK {
         let sdk = MockSDK()

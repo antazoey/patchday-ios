@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class SitesViewModelTests: XCTestCase {
+class SitesViewModelTests: PDTestCase {
 
     func testInit_callsReloadContext() {
         let table = MockSitesTable()

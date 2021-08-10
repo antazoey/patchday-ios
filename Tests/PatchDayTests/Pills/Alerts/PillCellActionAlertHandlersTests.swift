@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchDay
 
-class PillCellActionAlertHandlersTests: XCTestCase {
+class PillCellActionAlertHandlersTests: PDTestCase {
     func testGoToDetails_callsExpectedHookFromInit() {
         var navCalled = false
         var takeCalled = false

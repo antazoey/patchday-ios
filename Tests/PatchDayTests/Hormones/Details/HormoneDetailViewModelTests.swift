@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormoneDetailViewModelTests: XCTestCase {
+class HormoneDetailViewModelTests: PDTestCase {
 
     private var dependencies: MockDependencies!
     private var alertFactory: MockAlertFactory!
@@ -264,27 +264,17 @@ class HormoneDetailViewModelTests: XCTestCase {
     func testAutoPickedDate_whenUsingStaticExpirationTimes_returnsExpectedDate() {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         hormones.useStaticExpirationTime = true
-        guard let testDate = DateFactory.createDate(byAddingHours: -40, to: Date()) else {
-            XCTFail("Could not create testDate")
-            return
-        }
+        let testDate = TestDateFactory.createTestDate(hoursFrom: -40)
         hormone.expiration = testDate
-        let now = PDNow()
         let actual = viewModel.autoPickedDate
-        guard let expected = DateFactory.createDate(on: now.now, at: testDate) else {
-            XCTFail("Could not create expected date")
-            return
-        }
+        let expected = TestDateFactory.createTestDate(at: testDate)
         PDAssertEquiv(expected, actual)
     }
 
     func testAutoPickedDate_whenUsingDynamicExpirationTimes_returnsExpectedDate() {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         hormones.useStaticExpirationTime = false
-        guard let testDate = DateFactory.createDate(byAddingHours: -2, to: Date()) else {
-            XCTFail("Could not create testDate")
-            return
-        }
+        let testDate = TestDateFactory.createTestDate(hoursFrom: -2)
         hormone.expiration = testDate
         let now = PDNow()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies, now)
@@ -397,7 +387,7 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testTrySelectSite_whenHormoneHasDateAndNoneSelected_doesNotSelectNow() {
-        hormone.date = DateFactory.createDate(daysFromNow: -1)!
+        hormone.date = DateFactory.createDate(daysFrom: -1)!
         hormone.hasDate = true
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
@@ -412,7 +402,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.subscriptIndexReturnValue = site
-        viewModel.selections.date = DateFactory.createDate(daysFromNow: -8)
+        viewModel.selections.date = DateFactory.createDate(daysFrom: -8)
         viewModel.trySelectSite(at: 3)
         let actual = viewModel.selections.date!
         PDAssertNotNow(actual)

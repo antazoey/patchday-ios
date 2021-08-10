@@ -10,23 +10,26 @@ import PDTest
 @testable
 import PDKit
 
-class DateFactoryTests: XCTestCase {
+class DateFactoryTests: PDTestCase {
 
     func testCreateDate_onDateAtTime_returnsExpectedDate() {
         let date = Date(timeIntervalSince1970: 999998888)
-        let expected = Calendar.current.date(bySettingHour: 3, minute: 0, second: 0, of: date)!
-        let threeAM = Calendar.current.date(bySettingHour: 3, minute: 0, second: 0, of: Date())!
+        let expected = TestDateFactory.createTestDate(hour: 3, date: date)
+        let threeAM = TestDateFactory.createTestDate(hour: 3)
         let actual = DateFactory.createDate(on: date, at: threeAM)
         XCTAssertEqual(expected, actual)
     }
 
     func testCreateDate_atTimeDaysFromNow_returnsExpectedDate() {
         let now = MockNow()
-        now.now = DateFactory.createDate(byAddingHours: 1, to: DateFactory.createDefaultDate())!
+        now.now = DateFactory.createDate(byAddingHours: 1, to: TestDateFactory.defaultDate)!
         let days = 5
-        let midnight = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: now.now)!
+        let midnight = TestDateFactory.createTestDate(hour: 19, now: now)
         let expected = midnight.addingTimeInterval(TimeInterval(days * 86400))
-        let actual = DateFactory.createDate(at: midnight, daysFromToday: Int(days), now: now)!
+        guard let actual = DateFactory.createDate(daysFrom: Int(days), at: midnight, now: now) else {
+            XCTFail("Actual was nil")
+            return
+        }
         XCTAssertEqual(expected, actual)
     }
 
@@ -34,7 +37,7 @@ class DateFactoryTests: XCTestCase {
         let expected = Date(timeIntervalSinceNow: 10800)
 
         guard let actual = DateFactory.createDate(byAddingHours: 3, to: Date()) else {
-            XCTFail("Was unable to create date")
+            XCTFail("Actual was nil")
             return
         }
 
@@ -44,7 +47,7 @@ class DateFactoryTests: XCTestCase {
     func testCreateDate_byAddingMinutesToDate_returnsExpectedDate() {
         let expected = Date(timeIntervalSinceNow: 10800)
         guard let actual = DateFactory.createDate(byAddingMinutes: 180, to: Date()) else {
-            XCTFail("Was unable to create date")
+            XCTFail("Actual was nil")
             return
         }
         PDAssertEquiv(expected, actual)
@@ -63,7 +66,7 @@ class DateFactoryTests: XCTestCase {
     func testCreateTimeInterval_returnsExpectedTimeInterval() {
         let expected = 18000.0
         guard let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date()) else {
-            XCTFail("Was unable to create date")
+            XCTFail("Actual was nil")
             return
         }
         PDAssertEquiv(expected, actual)
@@ -72,7 +75,7 @@ class DateFactoryTests: XCTestCase {
     func testCreateTimeInterval_whenGivenNegativeHours_returnsExpectedTimeInterval() {
         let expected = -18000.0
         guard let actual = DateFactory.createTimeInterval(fromAddingHours: -5, to: Date()) else {
-            XCTFail("Was unable to create date")
+            XCTFail("Actual was nil")
             return
         }
         PDAssertEquiv(expected, actual)
@@ -95,24 +98,11 @@ class DateFactoryTests: XCTestCase {
 
     /// Tests a PDTest test method
     public func testSameTime() {
-        let time = Date()
-        guard let d1 = DateFactory.createDate(at: time, daysFromToday: 5) else {
-            XCTFail("Unable to create test date one")
-            return
-        }
-        guard let d2 = DateFactory.createDate(at: time, daysFromToday: -9) else {
-            XCTFail("Unable to create test date two")
-            return
-        }
-        PDAssertSameTime(d1, d2)
-        guard let d3 = DateFactory.createDate(byAddingMinutes: 12, to: time) else {
-            XCTFail("Unable to create test date three")
-            return
-        }
-        guard let d4 = DateFactory.createDate(byAddingMinutes: -19, to: time) else {
-            XCTFail("Unable to create test date four")
-            return
-        }
-        PDAssertDifferentTime(d3, d4)
+        let dateOne = TestDateFactory.createTestDate(daysFrom: 5)
+        let dateTwo = TestDateFactory.createTestDate(daysFrom: -9)
+        PDAssertSameTime(dateOne, dateTwo)
+        let dateThree = TestDateFactory.createTestDate(minutesFrom: 12)
+        let dateFour = TestDateFactory.createTestDate(minutesFrom: -19)
+        PDAssertDifferentTime(dateThree, dateFour)
     }
 }

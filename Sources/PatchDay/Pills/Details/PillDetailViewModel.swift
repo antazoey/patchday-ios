@@ -9,7 +9,6 @@ import PDKit
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDetailViewModelProtocol {
 
     private let _index: Index
-    var pill: Swallowable? { sdk?.pills[index] }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
     var selections = PillAttributes()
     private let now: NowProtocol?
@@ -32,6 +31,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             badge: dependencies.badge,
             widget: dependencies.widget
         )
+    }
+
+    var pill: Swallowable? {
+        sdk?.pills[index]
     }
 
     var index: Index {
@@ -190,17 +193,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard timesaday <= MAX_PILL_TIMES_PER_DAY else { return }
         guard timesaday > 0 else { return }
         guard timesaday != self.timesaday else { return }
-        var timesCopy = times
-        if timesaday > self.timesaday {
-            // Set new times to have latest time
-            for i in self.timesaday..<timesaday {
-                timesCopy.append(times[i-1])
-            }
-        } else {
-            for _ in timesaday..<self.timesaday {
-                timesCopy.removeLast()
-            }
-        }
+        let timesCopy = copyTimes(upTo: timesaday)
         let newTimeString = PDDateFormatter.convertTimesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
     }
@@ -230,7 +223,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
         let discard: () -> Void = {
             self.selections.reset()
-            if let pill = self.pill, pill.name == PillStrings.NewPill {
+            if let pill = self.pill, pill.isNew {
                 self.sdk?.pills.delete(at: self.index)
             }
             self.nav?.pop(source: viewController)
@@ -341,8 +334,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     private var wereChanges: Bool {
         guard let pill = pill else { return false }
-        return selections.anyAttributeExists(exclusions: pill.attributes)
-            || pill.name == PillStrings.NewPill
+        let changesMade = selections.anyAttributeExists(exclusions: pill.attributes)
+        return changesMade || pill.isNew
     }
 
     private var startIndexForPosition: Int {
@@ -457,5 +450,26 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             positions.append(getDaysOffPositionText(i))
         }
         return positions
+    }
+
+    private func copyTimes(upTo timesaday: Int) -> [Time] {
+        var timesCopy = times
+        if timesaday > self.timesaday {
+            // Set new times to have latest time
+            var lastTime = now?.now ?? Time()
+            for i in self.timesaday..<timesaday {
+                if let time = times.tryGet(at: i - 1) {
+                    lastTime = time
+                    timesCopy.append(time)
+                } else {
+                    timesCopy.append(lastTime)
+                }
+            }
+        } else {
+            for _ in timesaday..<self.timesaday {
+                timesCopy.removeLast()
+            }
+        }
+        return timesCopy
     }
 }

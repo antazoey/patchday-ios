@@ -1,5 +1,19 @@
 # Changelog
 
+# 3.7.0 (unreleased)
+
+Changed
+
+- Fixes that make the Pill "X-Days-On, X-Dayss-Off" schedules actually work.
+
+Fixed
+
+- Bug where a Pill's X-Days "Off" position would NOT increment, causing a perpetually increasing due date.
+- Bug where the widget would not update immediately after taking a hormone or changing a pill.
+- Bug where you were still able to add new pills when Pills were globally disabled.
+- Bug where if you kept the name of your pill as "New Pill", it would always prompt you for Unsaved Changes
+    when editing the details of the pill and delete the pill if you said to discard changes.
+
 # 3.6.1
 
 Changed

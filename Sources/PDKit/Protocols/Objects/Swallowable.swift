@@ -23,6 +23,9 @@ public protocol Swallowable {
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
     var expirationIntervalSetting: PillExpirationIntervalSetting { get }
 
+    /// Whether the pill is fully created and done having its settings set.
+    var isCreated: Bool { get set }
+
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }
 
@@ -41,6 +44,9 @@ public protocol Swallowable {
     /// The times taken today as a list of times.
     var timesTakenTodayList: PillTimesTakenTodayList { get }
 
+    /// The time the pill last "woke up".
+    var lastWakeUp: Date { get }
+
     /// The number of times you took this pill today.
     var timesTakenToday: Int { get }
 
@@ -53,11 +59,11 @@ public protocol Swallowable {
     /// Whether you never took this pill before.
     var isNew: Bool { get }
 
-    /// Whether the pill was ever given a name.
-    var hasName: Bool { get }
-
     /// If you are done taking this pill today.
     var isDone: Bool { get }
+
+    /// Whether the pill has woken up today or not.
+    var wokeUpToday: Bool { get }
 
     /// Set this pill's attributes using the given DTO.
     func set(attributes: PillAttributes)

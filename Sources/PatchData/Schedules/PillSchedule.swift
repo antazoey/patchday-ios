@@ -83,6 +83,10 @@ public class PillSchedule: NSObject, PillScheduling {
         store.pushLocalChangesToManagedContext([pill], doSave: true)
         onSuccess?()
         shareData()
+
+        // Not done being created until set() called.
+        pill.isCreated = false
+
         return pill
     }
 

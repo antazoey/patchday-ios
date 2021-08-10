@@ -20,7 +20,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     }
 
     init(
-        pillsTableView: UITableView,
         alertFactory: AlertProducing? = nil,
         table: PillsTableProtocol,
         dependencies: DependenciesProtocol,
@@ -66,6 +65,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
         self.tabs?.reflectPills()
+        self.widget?.set()
     }
 
     func deletePill(at index: IndexPath) {

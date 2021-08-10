@@ -18,6 +18,8 @@ public class MOPill: NSManagedObject {
     @NSManaged var times: String?
     @NSManaged var id: UUID?
     @NSManaged var timesTakenTodayList: String?
+    @NSManaged var lastWakeUp: NSDate?
+    @NSManaged var isCreated: Bool
 
     // Deprecated - only for migration
     @NSManaged var timesaday: Int16

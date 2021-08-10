@@ -97,8 +97,10 @@ public class PatchData: NSObject, PatchDataSDK {
                 xDays: "",
                 times: "12:00:00,2:00:00",
                 notify: false,
-                lastTaken: DateFactory.createDate(daysFromNow: -1),
-                timesTakenToday: "12:02:02,2:03:05"
+                lastTaken: DateFactory.createDate(daysFrom: -1),
+                timesTakenToday: "12:02:02,2:03:05",
+                lastWakeUp: DateFactory.createDate(daysFrom: -1),
+                isCreated: true
             )
             pills.set(at: 0, with: attributes)
             PDCli.clearWakeUpFlag()
@@ -125,15 +127,15 @@ public class PatchData: NSObject, PatchDataSDK {
             let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
             hormones.setDate(at: 0, with: date!)
 
-            let attrs = PillAttributes()
+            let attributes = PillAttributes()
             let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-            attrs.expirationInterval.value = .EveryDay
-            attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
-            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
-            attrs.notify = true
-            attrs.timesTakenToday = ""
-            attrs.name = "Notification Test"
-            pills.set(at: 0, with: attrs)
+            attributes.expirationInterval.value = .EveryDay
+            attributes.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
+            attributes.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+            attributes.notify = true
+            attributes.timesTakenToday = ""
+            attributes.name = "Notification Test"
+            pills.set(at: 0, with: attributes)
         }
         #endif
         self.init(

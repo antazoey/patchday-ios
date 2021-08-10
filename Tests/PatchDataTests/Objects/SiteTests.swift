@@ -13,7 +13,7 @@ import PDTest
 @testable
 import PatchData
 
-class SiteTests: XCTestCase {
+class SiteTests: PDTestCase {
 
     func createSite(data: SiteStruct? = nil) -> Site {
         let siteData = data ?? SiteStruct(UUID())

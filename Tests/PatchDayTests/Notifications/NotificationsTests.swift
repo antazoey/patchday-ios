@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class NotificationsTests: XCTestCase {
+class NotificationsTests: PDTestCase {
 
     private let mockHormones: [Hormonal] = [MockHormone(), MockHormone(), MockHormone(), MockHormone()]
     private let mockNotification = MockNotification()
@@ -342,10 +342,8 @@ class NotificationsTests: XCTestCase {
         let hormone = createTestHormone()
         hormone.expiration = Date()
         hormone.expiresOvernight = true
-        let cal = Calendar.current
-        let eight = cal.date(bySettingHour: 20, minute: 0, second: 0, of: hormone.expiration!)
-        let eightYesterday = cal.date(byAdding: .day, value: -1, to: eight!)
-
+        let yesterday = TestDateFactory.createYesterday()
+        let eightYesterday = TestDateFactory.createTestDate(hour: 20, date: yesterday)
         notifications.requestOvernightExpirationNotification(for: hormone)
         XCTAssertEqual(eightYesterday, factory.createOvernightExpiredHormoneNotificationCallArgs[0])
         XCTAssertEqual(1, mockNotification.requestCallCount)

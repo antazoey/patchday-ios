@@ -4,12 +4,12 @@
 //
 
 import Foundation
-
 import XCTest
+import PDTest
 @testable
 import PDKit
 
-class ExpirationIntervalUDTests: XCTestCase {
+class ExpirationIntervalUDTests: PDTestCase {
 
     func testValue_whenInitWithOnceDailyKey_returnsOnceDaily() {
         let rawValue = ExpirationIntervalUD.getRawValue(for: .OnceDaily)

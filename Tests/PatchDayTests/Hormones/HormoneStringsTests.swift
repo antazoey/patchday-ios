@@ -10,7 +10,7 @@ import PDTest
 @testable
 import PatchDay
 
-class HormoneStringsTests: XCTestCase {
+class HormoneStringsTests: PDTestCase {
 
     private let expiredDate = Date(timeIntervalSinceNow: -86000)
     private let healthyDate = Date(timeIntervalSinceNow: 86400)

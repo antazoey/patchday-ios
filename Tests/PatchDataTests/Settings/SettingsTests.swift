@@ -10,7 +10,7 @@ import PDTest
 @testable
 import PatchData
 
-class SettingsTests: XCTestCase {
+class SettingsTests: PDTestCase {
 
     private let mockSettingsWriter = MockUserDefaultsWriter()
     private let mockHormones = MockHormoneSchedule()

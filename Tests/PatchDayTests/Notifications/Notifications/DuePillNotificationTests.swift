@@ -11,7 +11,7 @@ import PDTest
 @testable
 import PatchDay
 
-class DuePillNotificationTests: XCTestCase {
+class DuePillNotificationTests: PDTestCase {
 
     private static var testHandlerCallArgs: [(Double, String)] = []
     private let _testHandler: (Double, String) -> Void = {
