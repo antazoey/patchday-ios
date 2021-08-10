@@ -196,15 +196,13 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         var timesCopy = times
         if timesaday > self.timesaday {
             // Set new times to have latest time
-            var lastTime = Time()
+            var lastTime = now?.now ?? Time()
             for i in self.timesaday..<timesaday {
                 if let time = times.tryGet(at: i - 1) {
                     lastTime = time
                     timesCopy.append(time)
                 } else {
-                    let timeCopy = DateFactory.createDate(byAddingSeconds: 0, to: lastTime)
-                        ?? now?.now ?? Time()
-                    timesCopy.append(timeCopy)
+                    timesCopy.append(copyTime(lastTime))
                 }
             }
         } else {
@@ -468,5 +466,9 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             positions.append(getDaysOffPositionText(i))
         }
         return positions
+    }
+
+    private func copyTime(_ time: Time) -> Time {
+        DateFactory.createDate(byAddingSeconds: 0, to: time) ?? now?.now ?? Time()
     }
 }
