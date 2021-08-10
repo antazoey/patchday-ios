@@ -116,13 +116,6 @@ public class PillExpirationIntervalXDays {
         return String(days)
     }
 
-    /// `True` if X Days position is more than `1` and in the Off position.
-    public var offMoreThanOneDay: Bool {
-        guard let isOn = isOn else { return false }
-        guard let position = position else { return false }
-        return !isOn && position > 1
-    }
-
     /// The supported range for any days value, `1-25`.
     public static var daysRange: ClosedRange<Int> {
         1...EXPIRATION_INTERVAL_DAYS_LAST_INTEGER

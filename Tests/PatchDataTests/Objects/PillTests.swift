@@ -1251,30 +1251,6 @@ public class PillTests: PDTestCase {
         }
     }
 
-    func testUnswallow_whenOffAtPositionGreaterThanOne_doesNothing() {
-        let attributes = createXDaysOnXDaysOffAttributes(
-            daysOne: 5, daysTwo: 5, isOn: false, daysPosition: 2
-        )
-        attributes.times = "12:00:00,01:10:10"
-        attributes.timesTakenToday = "12:00:00"  // taken 1 time
-        attributes.lastTaken = Date()
-        let pill = createPill(attributes)
-        pill.unswallow()
-        XCTAssertEqual(1, pill.timesTakenToday)
-    }
-
-    func testUnswallow_whenOffAtPositionEqualToOne_unswallows() {
-        let attributes = createXDaysOnXDaysOffAttributes(
-            daysOne: 2, daysTwo: 2, isOn: false, daysPosition: 1
-        )
-        attributes.times = "12:00:00,01:10:10"
-        attributes.timesTakenToday = "12:00:00"
-        attributes.lastTaken = Date()
-        let pill = createPill(attributes)
-        pill.unswallow()
-        XCTAssertEqual(0, pill.timesTakenToday)
-    }   
-
     func testUnswallow_whenXDaysOn_unswallows() {
         let attributes = createXDaysOnXDaysOffAttributes(
             daysOne: 6, daysTwo: 5, isOn: true, daysPosition: 1

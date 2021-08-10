@@ -224,31 +224,6 @@ class PillExpirationIntervalTests: PDTestCase {
         PillTestFixtures.assertPosition(4, true, interval)
     }
 
-    func testXDaysOffMoreThanOneDay_whenNotUsingXDaysOnXDaysOff_returnsFalse() {
-        let interval = PillExpirationInterval(.EveryDay)
-        XCTAssertFalse(interval.xDaysOffMoreThanOneDay)
-    }
-
-    func testXDaysOffMoreThanOneDay_whenOn_returnsFalse() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-13-on-4")
-        XCTAssertFalse(interval.xDaysOffMoreThanOneDay)
-    }
-
-    func testXDaysOffMoreThanOneDay_whenOffAtFirstPosition_returnsFalse() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-13-off-1")
-        XCTAssertFalse(interval.xDaysOffMoreThanOneDay)
-    }
-
-    func testXDaysOffMoreThanOneDay_whenOffAtPositionGreaterThanFirst_returnsTrue() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-13-off-2")
-        XCTAssertTrue(interval.xDaysOffMoreThanOneDay)
-    }
-
-    func testXDaysIsOnAndPosition_whenUsingXDaysAndSet_returnsExpectedValue() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-1")
-        PillTestFixtures.assertPosition(1, true, interval)
-    }
-
     func testStartPositioning_whenNotUsingXDays_doesNotStart() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
         interval.value = .EveryDay

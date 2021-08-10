@@ -37,7 +37,6 @@ class PillCellActionAlert: PDAlert {
     private var undoTakeAction: UIAlertAction? {
         guard pill.timesTakenToday >= 1 else { return nil }
         guard pill.lastTaken != nil else { return nil }
-        guard !pill.expirationInterval.xDaysOffMoreThanOneDay else { return nil }
         let title = NSLocalizedString("Undo Take", comment: "Notification button string")
         return UIAlertAction(title: title, style: .default) {
             _ in self.handlers.undoTakePill()

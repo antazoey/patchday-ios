@@ -165,11 +165,6 @@ public class Pill: Swallowable {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
 
-        // Don't allow unswallowing if in off-sposition and did not just recently take.
-        if expirationInterval.xDaysOffMoreThanOneDay {
-            return
-        }   
-
         let timesTakenToday = timesTakenTodayList
         let newLastTaken = timesTakenToday.undoLast() ?? DateFactory.createDefaultDate()
         pillData.attributes.lastTaken = newLastTaken

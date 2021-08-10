@@ -149,11 +149,6 @@ public class PillExpirationInterval {
         }
     }
 
-    public var xDaysOffMoreThanOneDay: Bool {
-        guard usesXDays else { return false }
-        return _xDays?.offMoreThanOneDay ?? false
-    }
-
     public func startPositioning() {
         guard usesXDays else { return }
         if let xDays = _xDays {

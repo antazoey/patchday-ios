@@ -18,21 +18,6 @@ class PillCellActionAlertTests: PDTestCase {
     private let testDaysOneValue = "5"
     private let testDaysTwoValue = "7"
 
-    func testPresent_whenPillInXDaysOffPositionGreaterThanOne_doesNotHaveUndoTakeAction() {
-        var mockPill = createPillTakenToday()
-        mockPill = setPillAsXDaysOnXDaysOff(mockPill, daysPosition: 3, isOn: false)
-        let handlers = PillCellActionHandlers(
-            goToDetails: {}, takePill: {}, undoTakePill: {}
-        )
-        let alert = PillCellActionAlert(pill: mockPill, handlers: handlers)
-
-        alert.present()
-
-        let actual = alert.alert.actions
-        let expected = ["Edit", "Cancel", "Take"]
-        assertHasActions(expected, actual)
-    }
-
     func testPresent_whenPillInXDaysOffPositionEqualToOneAndTakenToday_doesHaveUndoTakeAction() {
         var mockPill = createPillTakenToday()
         mockPill = setPillAsXDaysOnXDaysOff(createPillTakenToday(), daysPosition: 1, isOn: false)

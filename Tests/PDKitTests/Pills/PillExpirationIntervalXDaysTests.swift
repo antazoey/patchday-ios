@@ -181,21 +181,6 @@ class PillIExpirationIntervalXDaysTests: PDTestCase {
         assertPosition(1, true, xDays)
     }
 
-    func testOffMoreThanOneDay_whenOn_returnsFalse() {
-        let xDays = PillExpirationIntervalXDays("5-13-on-4")
-        XCTAssertFalse(xDays.offMoreThanOneDay)
-    }
-
-    func testOffMoreThanOneDay_whenOffAtFirstPosition_returnsFalse() {
-        let xDays = PillExpirationIntervalXDays("5-13-off-1")
-        XCTAssertFalse(xDays.offMoreThanOneDay)
-    }
-
-    func testOffMoreThanOneDay_whenOffAtPositionGreaterThanFirst_returnsTrue() {
-        let xDays = PillExpirationIntervalXDays("5-13-off-2")
-        XCTAssertTrue(xDays.offMoreThanOneDay)
-    }
-
     func testStartPositioning_setsExpectedProperties() {
         let xDays = PillExpirationIntervalXDays("5-13")
         xDays.startPositioning()

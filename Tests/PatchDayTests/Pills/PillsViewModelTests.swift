@@ -407,20 +407,6 @@ class PillsViewModelTests: PDTestCase {
         XCTAssertEqual(0, params.index)
     }
 
-    func testPresentPillActions_whenPillXDaysInOffPositionGreaterThanOne_doesNothing() {
-        testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-0ff-3")
-        let viewModel = createViewModel()
-        viewModel.presentPillActions(
-            at: 0,
-            viewController: UIViewController(),
-            reloadViews: {}
-        )
-        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
-        handlers.undoTakePill()
-        let pills = viewModel.sdk?.pills as! MockPillSchedule
-        XCTAssertEqual(0, pills.unswallowCallArgs.count)
-    }
-
     func testPresentPillActions_whenPillXDaysInOffPositionEqualToOne_unswallows() {
         testPill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-7-0ff-1")
         let viewModel = createViewModel()
