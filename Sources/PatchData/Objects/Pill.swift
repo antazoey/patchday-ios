@@ -172,13 +172,17 @@ public class Pill: Swallowable {
     }
 
     public func awaken() {
+        // Everything that needs to happen before other actions can happen, put here.
         if expirationInterval.usesXDays, expirationInterval.xDaysIsOn == nil {
             expirationInterval.startPositioning()
         }
+
         guard !wokeUpToday else { return }
+
+        // Everything that is day-sensitive, put here.
         pillData.attributes.timesTakenToday = ""
-        let daysToIncrement = now.daysSince(lastWakeUp)
         lastWakeUp = now
+        let daysToIncrement = now.daysSince(lastWakeUp)
         guard daysToIncrement > 0 else { return }
         incrementXDaysPosition(daysToIncrement)
     }
