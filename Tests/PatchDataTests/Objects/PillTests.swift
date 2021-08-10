@@ -1006,13 +1006,24 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(testXDays, pill.expirationInterval.xDaysValue)
     }
 
-    func testSet_whenNotYetWokeUp_resetTimesTakenToday() {
+    func testSet_whenNotYetWokeUp_resetsTimesTakenToday() {
         let startAttributes = PillAttributes()
         startAttributes.timesTakenToday = "12:00:00,12:10:10"
+        startAttributes.lastWakeUp = TestDateFactory.createYesterday()
         let newAttributes = PillAttributes()
         let pill = createPill(startAttributes)
         pill.set(attributes: newAttributes)
         XCTAssertEqual(0, pill.timesTakenToday)
+    }
+
+    func testSet_whenNotYetWokeUp_setsLastWakeUp() {
+        let startAttributes = PillAttributes()
+        startAttributes.timesTakenToday = "12:00:00,12:10:10"
+        startAttributes.lastWakeUp = TestDateFactory.createYesterday()
+        let newAttributes = PillAttributes()
+        let pill = createPill(startAttributes)
+        pill.set(attributes: newAttributes)
+        PDAssertNow(pill.lastWakeUp)
     }
 
     func testSet_whenPillHasZeroTimes_setsToDefault() {

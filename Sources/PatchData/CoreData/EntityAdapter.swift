@@ -171,7 +171,7 @@ class EntityAdapter {
         // We assume if a pill was created previously, that means it's fully created.
         pill.isCreated = true
 
-        // Do this so that we don't remove someone's `timesTakenToday` if they have any.
+        // Do this so that we don't remove someone's `ftimesTakenToday` if they have any.
         if pill.lastWakeUp == nil {
             pill.lastWakeUp = pill.lastTaken
         }

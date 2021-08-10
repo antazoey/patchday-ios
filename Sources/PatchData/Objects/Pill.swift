@@ -165,10 +165,10 @@ public class Pill: Swallowable {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
 
-        // Don't allow unswallowing if on off position and did not just recently take.
+        // Don't allow unswallowing if in off-sposition and did not just recently take.
         if expirationInterval.xDaysOffMoreThanOneDay {
             return
-        }
+        }   
 
         if expirationInterval.usesXDays, timesTakenTodayList.count == 1 {
             expirationInterval.decrementXDays()
