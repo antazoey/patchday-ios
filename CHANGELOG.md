@@ -1,6 +1,6 @@
 # Changelog
 
-# 3.7.0 (unreleased)
+# 3.7.0
 
 Changed
 
