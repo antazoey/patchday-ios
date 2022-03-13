@@ -5,26 +5,25 @@ technique for transdermal patches. PatchDay also supports Pills, Injection-based
 and Gel-based HRT. To learn more about how to set up the app, visit the 
 [Support Site](https://patchdayhrt.com).
 
-## Targets
+## Build Targets
 
 ### PatchDay
 
-- The main app target, the target that gets archived for production.
+- The main app and front-end.
 
 ### Embedded libraries / widgets
 
-* [PatchData](./Sources/PatchData/) - the PatchDay backend Core Data proxy.
-* [PDKit](./Sources/PDKit/) - shared PatchDay app tools.
-* [NextHormoneWidget](./Sources/NextHormoneWidget/) - Displays when next the hormone is due as a widget.
+* [PatchData](./Sources/PatchData/) - a [Core-Data](https://developer.apple.com/documentation/coredata) client.
+* [PDKit](./Sources/PDKit/) - shared utilities.
+* [NextHormoneWidget](./Sources/NextHormoneWidget/) - A widget for displaying when to take the next dose.
 
-## Schemes
+## Build Schemes
 
 ### Notifications Test
 
 Use this scheme to initialize the app with hormones that are about to expire. 
 You can use this target to verify notification-based behavior. 
 Run the target and then minimize the app and wait for notificaitons to appear. 
-The hormone notification occurs in a few seconds but the pill notification takes until the start of the next minute.
 
 See [Contributing](./CONTRIBUTING.md) to learn more about testing.
 
@@ -34,10 +33,8 @@ The debug target includes additional logging.
 
 ## Building
 
-Do
+You can build using the `make` command or via your IDE.
 
 ```bash
 make build
 ```
-
-Or build the PatchDay target using your IDE.
