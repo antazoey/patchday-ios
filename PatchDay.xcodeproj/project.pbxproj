@@ -2359,9 +2359,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B49A4A5520DB2D4C00F24FC0 /* Build configuration list for PBXNativeTarget "PDKit" */;
 			buildPhases = (
+				B49A4A3B20DB2D4C00F24FC0 /* Headers */,
 				B49A4A3920DB2D4C00F24FC0 /* Sources */,
 				B49A4A3A20DB2D4C00F24FC0 /* Frameworks */,
-				B49A4A3B20DB2D4C00F24FC0 /* Headers */,
 				B49A4A3C20DB2D4C00F24FC0 /* Resources */,
 			);
 			buildRules = (
