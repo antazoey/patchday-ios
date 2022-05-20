@@ -110,9 +110,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - Actions
 
     @objc func editTapped() {
-        let props = createBarItemProps()
-        switchNavItems(barItemEditProps: props)
-        viewModel.toggleEdit(props.isEditing)
+        switchNavItems()
     }
 
     @objc func insertTapped() {
@@ -122,9 +120,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func resetTapped() {
         loadTitle()
         viewModel.resetSites()
-        sitesTableView.isEditing = false
-        sitesTableView.reloadData()
-        viewModel.table.reloadCells()
+        switchNavItems()
     }
 
     // MARK: - Private
@@ -139,12 +135,14 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
         )
     }
 
-    private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {
+    private func switchNavItems() {
         guard var barItems = navigationItem.rightBarButtonItems else { return }
         guard barItems.count >= 2 else { return }
+        let props = createBarItemProps()
         barItems[0] = SiteViewFactory.createItemFromActionState(props)
         barItems[1].title = props.oppositeActionTitle
         navigationItem.rightBarButtonItems = barItems
+        viewModel.toggleEdit(props.isEditing)
     }
 
     private func loadBarButtons() {
