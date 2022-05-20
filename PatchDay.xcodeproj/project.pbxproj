@@ -992,7 +992,7 @@
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				3397CD00CED93151B889E905 /* Images */,
-				B480EE4221CC79DD002C2238 /* Views */,
+				B480EE4221CC79DD002C2238 /* BaseViews */,
 				B480EE4521CC7A09002C2238 /* Hormones */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
 				3397C45AFE80B6E86213E63C /* Pills */,
@@ -2126,7 +2126,7 @@
 			path = ManagedObjects;
 			sourceTree = "<group>";
 		};
-		B480EE4221CC79DD002C2238 /* Views */ = {
+		B480EE4221CC79DD002C2238 /* BaseViews */ = {
 			isa = PBXGroup;
 			children = (
 				3397CDDC25322F027DE45D6A /* PDViewFactory.swift */,
@@ -2134,7 +2134,7 @@
 				3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */,
 				3397CB4BB5AA9C4FB0948A47 /* UIKit+PatchDay.swift */,
 			);
-			path = Views;
+			path = BaseViews;
 			sourceTree = "<group>";
 		};
 		B480EE4521CC7A09002C2238 /* Hormones */ = {
