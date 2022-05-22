@@ -41,6 +41,9 @@ class SiteCell: TableCell, SiteCellProtocol {
     }
 
     private func loadOrderDependentViews() {
+        if let order = viewModel?.order {
+            self.accessibilityIdentifier = "SiteCell_\(order)"
+        }
         if let orderText = viewModel?.orderText {
             orderLabel.text = orderText
         }

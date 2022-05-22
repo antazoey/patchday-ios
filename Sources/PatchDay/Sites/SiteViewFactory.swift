@@ -25,20 +25,22 @@ class SiteViewFactory {
     }
 
     static func createInsertItem(insert: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
-        let insertItem = UIBarButtonItem(
+        let item = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonItem.SystemItem.add,
             target: sitesViewController,
             action: insert
         )
-        insertItem.tintColor = PDColors[.NewItem]
-        insertItem.title = nil
-        return insertItem
+        item.tintColor = PDColors[.NewItem]
+        item.title = nil
+        item.accessibilityIdentifier = "insertNewSiteButton"
+        return item
     }
 
     static func createEditItem(edit: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
         let item = PDViewFactory.createTextBarButtonItem(ActionStrings.Edit)
         item.target = sitesViewController
         item.action = edit
+        item.accessibilityIdentifier = "editSitesButton"
         return item
     }
 
@@ -48,6 +50,7 @@ class SiteViewFactory {
         item.target = sitesViewController
         item.action = reset
         item.image = nil
+        item.accessibilityIdentifier = "resetSitesButton"
         return item
     }
 

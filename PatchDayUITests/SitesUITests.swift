@@ -26,10 +26,14 @@ class SitesUITests: XCTestCase {
           alert.buttons["Dismiss"].tap()
           return true
         }
-        tabs = XCUIApplication().tabBars
-        
+        tabs = app.tabBars
+
         // Start on Sites view
         tabs.buttons["Sites"].tap()
+    }
+    
+    var table: XCUIElementQuery {
+        app.tables.matching(.table, identifier: "sitesTableView")
     }
     
     func testTitle_isSites() throws {
@@ -37,7 +41,7 @@ class SitesUITests: XCTestCase {
     }
 
     func testCellCount_reflectsDeliveryMethod() throws {
-        XCTAssertEqual(4, app.tables.matching(.table, identifier: "sitesTableView").cells.count)
+        XCTAssertEqual(4, table.cells.count)
         
         // Go to Patches and tap Settings gear button.
         tabs.buttons["Patches"].tap()
@@ -54,10 +58,22 @@ class SitesUITests: XCTestCase {
         
         // Go back to Sites and make sure the sites count has adjusted.
         tabs.buttons["Sites"].tap()
-        XCTAssertEqual(6, app.tables.matching(.table, identifier: "sitesTableView").cells.count)
+        XCTAssertEqual(6, table.cells.count)
     }
     
     func testTable_whenAddingRemovingAndResetting_reflectsUpdates() throws {
+        // Tap new site button should bring up a fresh details page.
+        app.buttons["insertNewSiteButton"].tap()
+        XCTAssert(app.staticTexts["New Site"].exists)
+        app.buttons["Type"].tap()
         
+        // Change the site name from `"New Site"` to `"TEST_SITE"`
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: "New Site".count)
+        app.textFields.element.typeText("\(deleteString)TEST_SITE")
+        
+        // Save and wait for new site cell to appear
+        app.buttons["Save"].tap()
+        _ = app.wait(for: .unknown, timeout: 5)
+        XCTAssertEqual(5, table.cells.count)
     }
 }
