@@ -74,6 +74,8 @@
 		3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C49932A88441EDBC9663 /* HormonesTable.swift */; };
 		3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3FEA855E6D94AB288AD /* AlertStrings.swift */; };
 		3397CF6F00932FC00BF11B79 /* SiteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDD5E1C3F60EAEEFE82B /* SiteDetailViewController.swift */; };
+		84A62491283AAC0500D59CD7 /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A62490283AAC0500D59CD7 /* PatchDayUITests.swift */; };
+		84A62493283AAC0500D59CD7 /* PatchDayUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A62492283AAC0500D59CD7 /* PatchDayUITestsLaunchTests.swift */; };
 		9D003E9A23231E880070C964 /* PDObjectified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9923231E880070C964 /* PDObjectified.swift */; };
 		9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9E232878CE0070C964 /* PatchDataSDK.swift */; };
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
@@ -359,6 +361,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		84A62494283AAC0500D59CD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 137330E81E22BA3E0048F91E;
+			remoteInfo = PatchDay;
+		};
 		9D4D05F3256F61D20037A2E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
@@ -594,6 +603,9 @@
 		3397CF930A5E66090BFA9C71 /* TabReflective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabReflective.swift; sourceTree = "<group>"; };
 		3397CFBE9BB2F360BA64E42E /* EntitiesSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesSaver.swift; sourceTree = "<group>"; };
 		3397CFFF305F5543E4A156A3 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
+		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A62490283AAC0500D59CD7 /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
+		84A62492283AAC0500D59CD7 /* PatchDayUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9D003E9923231E880070C964 /* PDObjectified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectified.swift; sourceTree = "<group>"; };
 		9D003E9E232878CE0070C964 /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
@@ -874,6 +886,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84A6248B283AAC0500D59CD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D69B1D7256C7B2200213E79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -959,6 +978,7 @@
 				9D8A981223C573B3004E20FE /* PDTest */,
 				9D6E9AEF2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1DF256C7B2200213E79 /* NextHormoneWidget */,
+				84A6248F283AAC0500D59CD7 /* PatchDayUITests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -975,6 +995,7 @@
 				9D8A981123C573B3004E20FE /* PDTest.framework */,
 				9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */,
 				9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */,
+				84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1205,6 +1226,15 @@
 				3397CA5E6F3ED61A66763E14 /* UINavigationController+PatchDay.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		84A6248F283AAC0500D59CD7 /* PatchDayUITests */ = {
+			isa = PBXGroup;
+			children = (
+				84A62490283AAC0500D59CD7 /* PatchDayUITests.swift */,
+				84A62492283AAC0500D59CD7 /* PatchDayUITestsLaunchTests.swift */,
+			);
+			path = PatchDayUITests;
 			sourceTree = "<group>";
 		};
 		9D003EA52331D7290070C964 /* Strings */ = {
@@ -2238,6 +2268,24 @@
 			productReference = 137330E91E22BA3E0048F91E /* PatchDay.app */;
 			productType = "com.apple.product-type.application";
 		};
+		84A6248D283AAC0500D59CD7 /* PatchDayUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84A62498283AAC0500D59CD7 /* Build configuration list for PBXNativeTarget "PatchDayUITests" */;
+			buildPhases = (
+				84A6248A283AAC0500D59CD7 /* Sources */,
+				84A6248B283AAC0500D59CD7 /* Frameworks */,
+				84A6248C283AAC0500D59CD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84A62495283AAC0500D59CD7 /* PBXTargetDependency */,
+			);
+			name = PatchDayUITests;
+			productName = PatchDayUITests;
+			productReference = 84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		9D69B1D9256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "NextHormoneWidget" */;
@@ -2379,7 +2427,7 @@
 		137330E11E22BA3E0048F91E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Juliya Smith";
 				TargetAttributes = {
@@ -2397,6 +2445,10 @@
 								enabled = 0;
 							};
 						};
+					};
+					84A6248D283AAC0500D59CD7 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = 137330E81E22BA3E0048F91E;
 					};
 					9D69B1D9256C7B2200213E79 = {
 						CreatedOnToolsVersion = 12.2;
@@ -2462,6 +2514,7 @@
 				9D8A981023C573B3004E20FE /* PDTest */,
 				9D6E9AED2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1D9256C7B2200213E79 /* NextHormoneWidget */,
+				84A6248D283AAC0500D59CD7 /* PatchDayUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2475,6 +2528,13 @@
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				3397C48DA7DB4EB8DD595319 /* SettingsAndSites.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A6248C283AAC0500D59CD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2612,6 +2672,15 @@
 				3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */,
 				3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */,
 				3397C39300E0DC7A3FF82DE8 /* UINavigationController+PatchDay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A6248A283AAC0500D59CD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A62493283AAC0500D59CD7 /* PatchDayUITestsLaunchTests.swift in Sources */,
+				84A62491283AAC0500D59CD7 /* PatchDayUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2912,6 +2981,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		84A62495283AAC0500D59CD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 137330E81E22BA3E0048F91E /* PatchDay */;
+			targetProxy = 84A62494283AAC0500D59CD7 /* PBXContainerItemProxy */;
+		};
 		9D4D05F4256F61D20037A2E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
@@ -3175,6 +3249,53 @@
 			};
 			name = Release;
 		};
+		84A62496283AAC0500D59CD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDayUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PatchDay;
+			};
+			name = Debug;
+		};
+		84A62497283AAC0500D59CD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDayUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PatchDay;
+			};
+			name = Release;
+		};
 		9D69B1EC256C7B2400213E79 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3253,7 +3374,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3283,7 +3404,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3388,7 +3509,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3415,7 +3536,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3517,7 +3638,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3546,7 +3667,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3652,6 +3773,15 @@
 			buildConfigurations = (
 				137331121E22BA3E0048F91E /* Debug */,
 				137331131E22BA3E0048F91E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84A62498283AAC0500D59CD7 /* Build configuration list for PBXNativeTarget "PatchDayUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84A62496283AAC0500D59CD7 /* Debug */,
+				84A62497283AAC0500D59CD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

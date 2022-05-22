@@ -52,6 +52,16 @@
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84A6248D283AAC0500D59CD7"
+               BuildableName = "PatchDayUITests.xctest"
+               BlueprintName = "PatchDayUITests"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
