@@ -275,7 +275,7 @@ class SitesViewModelTests: PDTestCase {
         let callArgs = sites.insertNewCallArgs
         PDAssertSingle(callArgs)
         XCTAssertEqual(SiteStrings.NewSite, callArgs[0].0)
-        XCTAssertNil(callArgs[0].1)
+        XCTAssertNotNil(callArgs[0].1)
     }
 
     func testToggleEdit_whenEditing_callsToggleEditWithTrue() {

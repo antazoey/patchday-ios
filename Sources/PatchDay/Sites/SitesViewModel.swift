@@ -80,8 +80,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
     }
 
     func handleSiteInsert(sitesViewController: UIViewController) {
-        if let site = sdk?.sites.insertNew(name: SiteStrings.NewSite, onSuccess: nil) {
-            goToSiteDetails(siteIndex: site.order, sitesViewController: sitesViewController)
+        sdk?.sites.insertNew(name: SiteStrings.NewSite) {
+            site in
+            self.goToSiteDetails(siteIndex: site.order, sitesViewController: sitesViewController)
         }
     }
 

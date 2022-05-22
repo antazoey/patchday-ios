@@ -27,15 +27,16 @@ class SitesUITests: XCTestCase {
           return true
         }
         tabs = XCUIApplication().tabBars
+        
+        // Start on Sites view
+        tabs.buttons["Sites"].tap()
     }
     
-    func testTitle() throws {
-        tabs.buttons["Sites"].tap()
+    func testTitle_isSites() throws {
         XCTAssert(app.staticTexts["Sites"].exists)
     }
 
-    func testCellCount() throws {
-        tabs.buttons["Sites"].tap()
+    func testCellCount_reflectsDeliveryMethod() throws {
         XCTAssertEqual(4, app.tables.matching(.table, identifier: "sitesTableView").cells.count)
         
         // Go to Patches and tap Settings gear button.
@@ -54,5 +55,9 @@ class SitesUITests: XCTestCase {
         // Go back to Sites and make sure the sites count has adjusted.
         tabs.buttons["Sites"].tap()
         XCTAssertEqual(6, app.tables.matching(.table, identifier: "sitesTableView").cells.count)
+    }
+    
+    func testTable_whenAddingRemovingAndResetting_reflectsUpdates() throws {
+        
     }
 }

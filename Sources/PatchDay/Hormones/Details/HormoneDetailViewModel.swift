@@ -194,10 +194,10 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         guard newSiteName.count > 0 else { return }
         guard let alertFactory = alertFactory else { return }
         let handlers = NewSiteAlertActionHandler {
-            let newSite = self.sdk?.sites.insertNew(name: newSiteName) {
-                self.handleInterfaceUpdatesFromNewSite()
+            self.sdk?.sites.insertNew(name: newSiteName) {
+                newSite in self.handleInterfaceUpdatesFromNewSite()
+                self.selections.site = newSite
             }
-            self.selections.site = newSite ?? self.selections.site
         }
         let alert = alertFactory.createNewSiteAlert(handlers)
         alert.present()

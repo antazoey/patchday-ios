@@ -29,10 +29,15 @@ public class MockSiteSchedule: SiteScheduling {
         reloadContextCallCount += 1
     }
 
-    public var insertNewCallArgs: [(String, (() -> Void)?)] = []
+    public var insertNewCallArgs: [(String, ((Bodily) -> Void)?)] = []
     public var insertNewReturnValue: Bodily?
-    public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {
+    public func insertNew(name: String, onSuccess: ((Bodily) -> Void)?) -> Bodily? {
         insertNewCallArgs.append((name, onSuccess))
+        
+        if let mockNewSite = insertNewReturnValue, let callback = onSuccess {
+            callback(mockNewSite)
+        }
+        
         return insertNewReturnValue
     }
 

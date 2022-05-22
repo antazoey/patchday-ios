@@ -28,7 +28,7 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
 
     /// Insert a new site into the schedule.
     @discardableResult
-    func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily?
+    func insertNew(name: String, onSuccess: ((Bodily) -> Void)?) -> Bodily?
 
     /// Get the site at the given index.
     subscript(index: Index) -> Bodily? { get }
