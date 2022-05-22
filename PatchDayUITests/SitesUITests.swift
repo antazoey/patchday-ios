@@ -9,7 +9,7 @@
 import XCTest
 import PDKit
 
-class PatchDayUITests: XCTestCase {
+class SitesUITests: XCTestCase {
 
     var app: XCUIApplication!
     var tabs: XCUIElementQuery!

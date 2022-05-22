@@ -12,13 +12,13 @@ import PDKit
 
 class PillIExpirationIntervalXDaysTests: PDTestCase {
 
-    func testInit_whenGivenTwoValues_returnsObjectWithExpectedProperties() {
+    func testInit_whenGivenTwoValues() {
         let xDays = PillExpirationIntervalXDays("5-8")
         assertOneIsEqual(expected: 5, xDays)
         assertTwoIsEqual(expected: 8, xDays)
     }
 
-    func testInit_whenGivenAStartedSchedule_returnsExpectedProperties() {
+    func testInit_whenGivenAStartedSchedule() {
         let xDays = PillExpirationIntervalXDays("5-8-on-3")
         assertOneIsEqual(expected: 5, xDays)
         assertTwoIsEqual(expected: 8, xDays)
@@ -262,14 +262,14 @@ class PillIExpirationIntervalXDaysTests: PDTestCase {
         XCTAssertEqual(3, xDays.position)
     }
 
-    func testIncrement_whenIncrementingAcrossBoundaries_isExpected() {
+    func testIncrement_whenIncrementingAcrossBoundaries() {
         let xDays = PillExpirationIntervalXDays("5-8-on-4")
         xDays.incrementDayPosition(numberOfDays: 17)
         XCTAssertFalse(xDays.isOn!)
         XCTAssertEqual(3, xDays.position)
     }
 
-    func testIncrement_whenGivenZero_isExpected() {
+    func testIncrement_whenGivenZero() {
         let xDays = PillExpirationIntervalXDays("5-8-on-4")
         xDays.incrementDayPosition(numberOfDays: 0)
         XCTAssertTrue(xDays.isOn!)

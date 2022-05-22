@@ -110,7 +110,7 @@ class PillLastTakenListTests: PDTestCase {
         XCTAssertEqual(2, lastTakens.count)
     }
 
-    func testCombineWith_returnsExpectedString() {
+    func testCombineWith() {
         let lastTakens = PillTimesTakenTodayList(timeString: testTimeOneString)
         let actual = lastTakens.combineWith(testTimeTwo)
         XCTAssertEqual("\(testTimeOneString),\(testTimeTwoString)", actual)
@@ -130,13 +130,13 @@ class PillLastTakenListTests: PDTestCase {
         PDAssertEquiv(testTimeTwo, lastTakens.asList[1])
     }
 
-    func testCombineWith_whenInitWithNil_returnsExpectedString() {
+    func testCombineWith_whenInitWithNil() {
         let lastTakens = PillTimesTakenTodayList(timeString: nil)
         let actual = lastTakens.combineWith(testTimeOne)
         XCTAssertEqual("\(testTimeOneString)", actual)
     }
 
-    func testCombineWith_whenInitWithEmptyString_returnsExpectedString() {
+    func testCombineWith_whenInitWithEmptyString() {
         let lastTakens = PillTimesTakenTodayList(timeString: "")
         let actual = lastTakens.combineWith(testTimeOne)
         XCTAssertEqual("\(testTimeOneString)", actual)

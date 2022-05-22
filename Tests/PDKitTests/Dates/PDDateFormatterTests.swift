@@ -18,25 +18,25 @@ class PDDateFormatterTests: PDTestCase {
         formatter = DateFormatter()
     }
 
-    func testFormatTime_returnsExpectedString() {
+    func testFormatTime() {
         let expected = "7:46 AM"
         let actual = PDDateFormatter.formatTime(Date(timeIntervalSince1970: 1000000))
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatInternalTime_returnsExpectedString() {
+    func testFormatInternalTime() {
         let expected = "07:46:40"
         let actual = PDDateFormatter.formatInternalTime(Date(timeIntervalSince1970: 1000000))
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
+    func testFormatDate_whenNotTodayYesterdayOrTomorrow() {
         let expected = "Monday, January 12, 7:46 AM"
         let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDate_whenToday_returnsExpectedString() {
+    func testFormatDate_whenToday() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let now = Date()
         let expected = "Today, " + formatter.string(from: now)
@@ -51,7 +51,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertFalse(actual.contains("Today"))
     }
 
-    func testFormatDate_whenYesterday_returnsExpectedString() {
+    func testFormatDate_whenYesterday() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: -86499, since: Date())
         let expected = "Yesterday, " + formatter.string(from: yesterday)
@@ -66,7 +66,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertFalse(actual.contains("Yesterday"))
     }
 
-    func testFormatDate_whenTomorrow_returnsExpecteDstring() {
+    func testFormatDate_whenTomorrow() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
@@ -74,20 +74,20 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDate_whenTomorrowAndUseWordsIsFalse_returnsExpecteDstring() {
+    func testFormatDate_whenTomorrowAndUseWordsIsFalse() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let actual = PDDateFormatter.formatDate(yesterday, useWords: false)
         XCTAssertFalse(actual.contains("Tomorrow"))
     }
 
-    func testFormatDay_whenNotToday_returnsExpectedString() {
+    func testFormatDay_whenNotToday() {
         let expected = "Monday, 7:46 AM"
         let actual = PDDateFormatter.formatDay(Date(timeIntervalSince1970: 1000000))
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDay_whenToday_returnsExpectedString() {
+    func testFormatDay_whenToday() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let now = Date()
         let expected = "Today, " + formatter.string(from: now)
@@ -95,7 +95,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDay_whenYesterday_returnsExpectedString() {
+    func testFormatDay_whenYesterday() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: -86499, since: Date())
         let expected = "Yesterday, " + formatter.string(from: yesterday)
@@ -103,7 +103,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDay_whenTomorrow_returnsExpectedString() {
+    func testFormatDay_whenTomorrow() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
@@ -111,7 +111,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertTimesToCommaSeparatedString_whenGivenSingleDate_returnsExpectedString() {
+    func testConvertTimesToCommaSeparatedString_whenGivenSingleDate() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let date = Date()
         let expected = formatter.string(from: date)
@@ -119,7 +119,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertTimesToCommaSeparatedString_whenGivenMultipleDates_returnsExpectedString() {
+    func testConvertTimesToCommaSeparatedString_whenGivenMultipleDates() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let dateOne = Date()
         let dateTwo = DateFactory.createDate(byAddingHours: -3, to: dateOne)
@@ -136,7 +136,7 @@ class PDDateFormatterTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertTimesToCommaSeparatedString_returnsExpectedString() {
+    func testConvertTimesToCommaSeparatedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let testDate = TestDateFactory.createTestDate(hour: 12, minute: 51, second: 30)
         let actual = PDDateFormatter.convertTimesToCommaSeparatedString([testDate])

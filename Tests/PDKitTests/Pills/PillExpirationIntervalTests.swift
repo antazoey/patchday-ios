@@ -109,7 +109,7 @@ class PillExpirationIntervalTests: PDTestCase {
         XCTAssertNil(interval.xDaysValue)
     }
 
-    func testXDaysValue_whenUsingXDays_returnsExpectedValue() {
+    func testXDaysValue_whenUsingXDays() {
         let interval = PillExpirationInterval(.FirstXDays)
         interval.daysOne = 3
         XCTAssertEqual("3", interval.xDaysValue)
