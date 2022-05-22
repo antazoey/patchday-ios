@@ -134,4 +134,17 @@ class SitesUITests: XCTestCase {
         XCTAssert(app.staticTexts["3."].exists)
         XCTAssert(app.staticTexts["4."].exists)
     }
+    
+    func testDeleteWhileEditting() {
+        app.buttons["Edit"].tap()
+        app.buttons["Delete Left Glute"].tap()
+        app.buttons["Delete"].tap()
+        app.buttons["Delete Right Abdomen"].tap()
+        app.buttons["Delete"].tap()
+        app.buttons["Done"].tap()
+        
+        XCTAssertEqual(2, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+    }
 }
