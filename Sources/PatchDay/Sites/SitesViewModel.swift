@@ -57,6 +57,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
     func resetSites() {
         guard let sites = sdk?.sites else { return }
         sites.reset()
+        table.reloadCells()
     }
 
     func reorderSites(sourceRow: Index, destinationRow: Index) {

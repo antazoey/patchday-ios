@@ -23,14 +23,26 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
     var isEditing: Bool { table.isEditing }
 
     func reloadCells() {
+        sites?.reloadContext()
         table.performBatchUpdates({
             table.isEditing = false
-            let range = 0..<(sites?.count ?? 0)
-            let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) }
-            )
+            let endSiteIndex = (sites?.count ?? 1) - 1
+            let endCellIndex = cellCount - 1
+            
+            // Handle case where user deletes cell and then resets in same session
+            if endCellIndex < endSiteIndex {
+                let insertRange = (endCellIndex + 1)...endSiteIndex
+                let indexPaths = insertRange.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
+                table.insertRows(at: indexPaths, with: .none)
+            }
+            
+            let range = 0...endSiteIndex
+            let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
             table.reloadRows(at: indexPathsToReload, with: .automatic)
-            correctCellProperties(startIndex: 0)
-        }, completion: nil)
+        }) {
+            _ in
+            self.correctCellProperties(startIndex: 0)
+        }
     }
 
     subscript(index: Index) -> SiteCellProtocol {

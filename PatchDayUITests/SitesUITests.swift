@@ -54,9 +54,15 @@ class SitesUITests: XCTestCase {
         _ = app.wait(for: .unknown, timeout: 2.5)
     }
     
-    func deleteSite(_ index: Int) {
+    func deleteSiteFromSwipe(_ index: Int) {
         cellAt(index).swipeLeft()
         _ = app.wait(for: .unknown, timeout: 1)
+    }
+    
+    func deleteSiteFromEdit(_ siteName: String) {
+        // NOTE: Should be editting if you are calling this method.
+        app.buttons["Delete \(siteName)"].tap()
+        app.buttons["Delete"].tap()
     }
     
     func cellAt(_ index: Int) -> XCUIElement {
@@ -93,14 +99,24 @@ class SitesUITests: XCTestCase {
     }
     
     func testDeleteCellFromSwipe_deletesCell() {
-        deleteSite(1)
+        deleteSiteFromSwipe(1)
         XCTAssertEqual(3, table.cells.count)
         
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
         XCTAssert(app.staticTexts["3."].exists)
         
-        deleteSite(0)
+        deleteSiteFromSwipe(0)
+        XCTAssertEqual(2, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+    }
+    
+    func testDeleteFromEdittingButtons() {
+        app.buttons["Edit"].tap()
+        deleteSiteFromEdit("Left Glute")
+        deleteSiteFromEdit("Right Abdomen")
+
         XCTAssertEqual(2, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
@@ -108,8 +124,8 @@ class SitesUITests: XCTestCase {
     
     func testAddsAndDeletes() {
         // Integration test
-        deleteSite(2)
-        deleteSite(0)
+        deleteSiteFromSwipe(2)
+        deleteSiteFromSwipe(0)
         XCTAssertEqual(2, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
@@ -122,8 +138,8 @@ class SitesUITests: XCTestCase {
     }
     
     func testReset() {
-        deleteSite(2)
-        deleteSite(0)
+        deleteSiteFromSwipe(2)
+        deleteSiteFromSwipe(0)
         addSite(1)
         app.buttons["Edit"].tap()
         app.buttons["Reset"].tap()
@@ -135,16 +151,14 @@ class SitesUITests: XCTestCase {
         XCTAssert(app.staticTexts["4."].exists)
     }
     
-    func testDeleteWhileEditting() {
+    func testResetAfterDelete() {
         app.buttons["Edit"].tap()
-        app.buttons["Delete Left Glute"].tap()
-        app.buttons["Delete"].tap()
-        app.buttons["Delete Right Abdomen"].tap()
-        app.buttons["Delete"].tap()
-        app.buttons["Done"].tap()
-        
-        XCTAssertEqual(2, table.cells.count)
+        deleteSiteFromEdit("Left Glute")
+        app.buttons["Reset"].tap()
+        XCTAssertEqual(4, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
+        XCTAssert(app.staticTexts["3."].exists)
+        XCTAssert(app.staticTexts["4."].exists)
     }
 }

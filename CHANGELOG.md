@@ -1,11 +1,12 @@
 # Changelog
 
-# 3.8.0
+# 3.8.0 (unreleased)
 
 Fixed
 
 - Issue where Sites View title would not appear.
 - Issue causing you to only be able to delete one site cell at a time when in Editting mode.
+- Issue causing site cells to get unordered when deleting and resetting in the same editting session.
 
 # 3.7.0
 
