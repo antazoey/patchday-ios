@@ -29,7 +29,7 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
             let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) }
             )
             table.reloadRows(at: indexPathsToReload, with: .automatic)
-            resetCellColors(startIndex: 0)
+            correctCellProperties(startIndex: 0)
         }, completion: nil)
     }
 
@@ -48,14 +48,15 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
     }
 
     func deleteCell(indexPath: IndexPath) {
-        table.beginUpdates()
         table.deleteRows(at: [indexPath], with: .fade)
-        table.reloadData()
         guard indexPath.row < cellCount else { return }
-        resetCellColors(startIndex: indexPath.row)
-        table.endUpdates()
+        correctCellProperties(startIndex: indexPath.row)
+        if !table.isEditing {
+            // Only reload when not in editting mode
+            self.reloadCells()
+        }
     }
-
+    
     private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
         var props = SiteCellProperties(row: siteIndex)
         guard let sites = sites else { return props }
@@ -68,7 +69,7 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
         return props
     }
 
-    private func resetCellColors(startIndex: Index) {
+    private func correctCellProperties(startIndex: Index) {
         for i in startIndex..<cellCount {
             let nextIndexPath = IndexPath(row: i, section: 0)
             var cell = self[nextIndexPath.row]

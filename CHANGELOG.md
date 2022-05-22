@@ -5,6 +5,7 @@
 Fixed
 
 - Issue where Sites View title would not appear.
+- Issue causing you to only be able to delete one site cell at a time when in Editting mode.
 
 # 3.7.0
 

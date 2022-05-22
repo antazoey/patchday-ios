@@ -328,18 +328,6 @@ class SitesViewModelTests: PDTestCase {
         PDAssertSingle(index, callArgs)
     }
 
-    func testDeleteSite_reloadsTable() {
-        let table = MockSitesTable()
-        table.isEditing = false
-        let dep = MockDependencies()
-
-        let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
-        let index = IndexPath(row: 1, section: 0)
-        viewModel.deleteSite(at: index)
-
-        XCTAssertEqual(1, table.reloadCellsCallCount)
-    }
-
     @objc func mockInsert() { }
     @objc func mockEdit() { }
     func testCreateBarButtonItems_createsInsertButton() {
