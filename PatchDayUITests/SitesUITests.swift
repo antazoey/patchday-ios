@@ -36,44 +36,102 @@ class SitesUITests: XCTestCase {
         app.tables.matching(.table, identifier: "sitesTableView")
     }
     
+    func changeDeliveryMethod(_ deliveryMethod: String) {
+        tabs.buttons["Patches"].tap()
+        app.buttons["settingsGearButton"].tap()
+        app.buttons["deliveryMethodButton"].tap()
+        app.pickerWheels.element.adjust(toPickerWheelValue: deliveryMethod)
+        app.buttons["deliveryMethodButton"].tap()  // Save
+        tabs.buttons["Sites"].tap()
+    }
+    
+    func addSite(_ index: Int) {
+        app.buttons["insertNewSiteButton"].tap()
+        app.buttons["Type"].tap()
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: "New Site".count)
+        app.textFields.element.typeText("\(deleteString)TEST_SITE_\(index)")
+        app.buttons["Save"].tap()
+        _ = app.wait(for: .unknown, timeout: 2.5)
+    }
+    
+    func deleteSite(_ index: Int) {
+        cellAt(index).swipeLeft()
+        _ = app.wait(for: .unknown, timeout: 1)
+    }
+    
+    func cellAt(_ index: Int) -> XCUIElement {
+        app.cells["SiteCell_\(index)"]
+    }
+    
     func testTitle_isSites() throws {
         XCTAssert(app.staticTexts["Sites"].exists)
     }
 
-    func testCellCount_reflectsDeliveryMethod() throws {
+    func testCellCount_whenPatches() throws {
         XCTAssertEqual(4, table.cells.count)
-        
-        // Go to Patches and tap Settings gear button.
-        tabs.buttons["Patches"].tap()
-        app.buttons["settingsGearButton"].tap()
-        XCTAssert(app.staticTexts["Settings"].exists)
-        XCTAssert(app.staticTexts["Delivery method:"].exists)
-        
-        // The default setting should be set to Patches.
-        // Change it to Injections.
-        XCTAssert(app.staticTexts["Patches"].exists)
-        app.buttons["deliveryMethodButton"].tap()
-        app.pickerWheels.element.adjust(toPickerWheelValue: "Injections")
-        app.buttons["deliveryMethodButton"].tap()  // Save
-        
-        // Go back to Sites and make sure the sites count has adjusted.
-        tabs.buttons["Sites"].tap()
+    }
+      
+    func testCellCount_whenInjections() throws {
+        changeDeliveryMethod("Injections")
         XCTAssertEqual(6, table.cells.count)
     }
     
-    func testTable_whenAddingRemovingAndResetting_reflectsUpdates() throws {
-        // Tap new site button should bring up a fresh details page.
+    func testNewSite_hasExpectedTitle() throws {
         app.buttons["insertNewSiteButton"].tap()
         XCTAssert(app.staticTexts["New Site"].exists)
-        app.buttons["Type"].tap()
-        
-        // Change the site name from `"New Site"` to `"TEST_SITE"`
-        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: "New Site".count)
-        app.textFields.element.typeText("\(deleteString)TEST_SITE")
-        
-        // Save and wait for new site cell to appear
-        app.buttons["Save"].tap()
-        _ = app.wait(for: .unknown, timeout: 5)
+    }
+    
+    func testNewSite_addsCell() throws {
+        addSite(4)
         XCTAssertEqual(5, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+        XCTAssert(app.staticTexts["3."].exists)
+        XCTAssert(app.staticTexts["4."].exists)
+        XCTAssert(app.staticTexts["5."].exists)
+        XCTAssertFalse(app.staticTexts["6."].exists)
+    }
+    
+    func testDeleteCellFromSwipe_deletesCell() {
+        deleteSite(1)
+        XCTAssertEqual(3, table.cells.count)
+        
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+        XCTAssert(app.staticTexts["3."].exists)
+        
+        deleteSite(0)
+        XCTAssertEqual(2, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+    }
+    
+    func testAddsAndDeletes() {
+        // Integration test
+        deleteSite(2)
+        deleteSite(0)
+        XCTAssertEqual(2, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+        
+        addSite(1)
+        XCTAssertEqual(3, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+        XCTAssert(app.staticTexts["3."].exists)
+    }
+    
+    func testReset() {
+        deleteSite(2)
+        deleteSite(0)
+        addSite(1)
+        app.buttons["Edit"].tap()
+        app.buttons["Reset"].tap()
+        
+        XCTAssertEqual(4, table.cells.count)
+        XCTAssert(app.staticTexts["1."].exists)
+        XCTAssert(app.staticTexts["2."].exists)
+        XCTAssert(app.staticTexts["3."].exists)
+        XCTAssert(app.staticTexts["4."].exists)
     }
 }
