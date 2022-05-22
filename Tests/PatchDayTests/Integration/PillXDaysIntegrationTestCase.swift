@@ -124,7 +124,6 @@ class PillXDaysIntegrationTestCase: PDIntegrationTestCase {
                 daysAfterStart: self.daysGap * i, file: file, line: line
             )
             let expected = createExpectedText(position: position, max: max, isOn: isOn)
-            tprint("Pill X-Days integration test - Day \(i); expected=\(expected)")
             takeAndAssert(expectedPositionText: expected, file: file, line: line)
             fastForward(days: self.daysGap * (i + 1), file: file, line: line)
             currentDay += 1

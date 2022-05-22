@@ -14,16 +14,16 @@ public enum PDLogLevels {
 #if DEBUG
 /// Print something that is easy to find in the logs.  Use for debugging purposes only.
 /// WARN: Do not commit changes when used in production code.   
-public func tdprint(_ date: Date?=nil) {
+public func DEBUG_DATE_PRINT(date: Date?=nil) {
     var message: String?
     if let date = date {
         message = PDDateFormatter.formatDate(date)
     }
-    tprint(message)
+    DEBUG_PRINT(message)
 }
 
 /// Print something that is easy to find in the logs.  Use for debugging purposes only. Do not commit usages.
-public func tprint(_ msg: Any?) {
+public func DEBUG_PRINT(_ msg: Any?) {
     print("\n\n____TEST____\n")
     print(msg ?? "nil")
     print("\n____TEST____\n\n")
