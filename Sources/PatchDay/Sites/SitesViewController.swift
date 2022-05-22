@@ -155,6 +155,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func loadTitle() {
+        // Set to empty string first to fix issue where title does not show up.
+        title = ""
         title = PDTitleStrings.SitesTitle
     }
 

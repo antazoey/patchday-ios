@@ -1,5 +1,11 @@
 # Changelog
 
+# 3.8.0
+
+Fixed
+
+- Issue where Sites View title would not appear.
+
 # 3.7.0
 
 Changed
