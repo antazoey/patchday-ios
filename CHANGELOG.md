@@ -7,6 +7,7 @@ Fixed
 - Issue where Sites View title would not appear.
 - Issue causing you to only be able to delete one site cell at a time when in Editting mode.
 - Issue causing site cells to get unordered when deleting and resetting in the same editting session.
+- Issue where re-ordering sites would unnecessarily change the next site index.
 
 # 3.7.0
 

@@ -9,6 +9,12 @@ I recommend to just use Xcode. However, AppCode may also work and have some desi
 Use [SwiftLint](https://github.com/realm/SwiftLint). Follow the install instructions - make sure `swiftlint` is in 
 your path.
 
+**NOTE**: If you get a fatal error regarding `sourcekitd`, try the following command:
+
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
+
 To check lint errors, do:
 
 ```bash

@@ -116,6 +116,7 @@ class SitesUITests: XCTestCase {
         app.buttons["Edit"].tap()
         deleteSiteFromEdit("Left Glute")
         deleteSiteFromEdit("Right Abdomen")
+        app.buttons["Done"].tap()
 
         XCTAssertEqual(2, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)

@@ -21,7 +21,7 @@ class SiteCellViewModel: SiteCellViewModelProtocol {
         }
         return SiteStrings.NewSite
     }
-    
+
     var order: Int? {
         return props.site?.order
     }

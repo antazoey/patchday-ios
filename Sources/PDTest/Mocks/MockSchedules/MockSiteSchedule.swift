@@ -33,11 +33,11 @@ public class MockSiteSchedule: SiteScheduling {
     public var insertNewReturnValue: Bodily?
     public func insertNew(name: String, onSuccess: ((Bodily) -> Void)?) -> Bodily? {
         insertNewCallArgs.append((name, onSuccess))
-        
+
         if let mockNewSite = insertNewReturnValue, let callback = onSuccess {
             callback(mockNewSite)
         }
-        
+
         return insertNewReturnValue
     }
 
