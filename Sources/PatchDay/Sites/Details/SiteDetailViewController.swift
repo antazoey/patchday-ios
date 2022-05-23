@@ -87,32 +87,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return sb?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
     }
 
-    private func initWithSiteIndex(
-        _ index: Index, imageParams: SiteImageDeterminationParameters
-    ) -> SiteDetailViewController {
-        let relatedViews = SiteImagePickerRelatedViews(
-            getPicker: { self.imagePicker },
-            getImageView: { self.siteImageView },
-            getSaveButton: { self.saveButton }
-        )
-        let params = SiteDetailViewModelConstructorParams(index, imageParams, relatedViews)
-        return initWithParams(params)
-    }
-
-    private func initWithParams(
-        _ params: SiteDetailViewModelConstructorParams
-    ) -> SiteDetailViewController {
-        let viewModel = SiteDetailViewModel(params)
-        return initWithViewModel(viewModel)
-    }
-
-    private func initWithViewModel(
-        _ viewModel: SiteDetailViewModelProtocol
-    ) -> SiteDetailViewController {
-        self.viewModel = viewModel
-        return self
-    }
-
     // MARK: - Actions
 
     @IBAction func doneButtonTapped(_ sender: Any) {
@@ -247,6 +221,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
+    
+    @objc func back() {
+        checkForUnsavedChanges()
+    }
 
     // MARK: - Private
 
@@ -279,9 +257,31 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = newButton
     }
+    
+    private func initWithSiteIndex(
+        _ index: Index, imageParams: SiteImageDeterminationParameters
+    ) -> SiteDetailViewController {
+        let relatedViews = SiteImagePickerRelatedViews(
+            getPicker: { self.imagePicker },
+            getImageView: { self.siteImageView },
+            getSaveButton: { self.saveButton }
+        )
+        let params = SiteDetailViewModelConstructorParams(index, imageParams, relatedViews)
+        return initWithParams(params)
+    }
 
-    @objc func back() {
-        checkForUnsavedChanges()
+    private func initWithParams(
+        _ params: SiteDetailViewModelConstructorParams
+    ) -> SiteDetailViewController {
+        let viewModel = SiteDetailViewModel(params)
+        return initWithViewModel(viewModel)
+    }
+
+    private func initWithViewModel(
+        _ viewModel: SiteDetailViewModelProtocol
+    ) -> SiteDetailViewController {
+        self.viewModel = viewModel
+        return self
     }
 
     private func checkForUnsavedChanges() {
