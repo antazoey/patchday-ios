@@ -2,6 +2,10 @@
 
 # 3.8.0 (unreleased)
 
+Changed
+
+- Target iOS 15.4
+
 Fixed
 
 - Issue where Sites View title would not appear.
