@@ -74,6 +74,14 @@ public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
 
+    public func selectImage(row: Int) {
+        _props.selectedImageIndex = row
+        if let imageView = _props.views?.getImageView() {
+            imageView.image = getImage(at: row)
+            didSelectImage = true
+        }
+    }
+
     public func openPicker(completion: @escaping () -> Void) {
         showPicker {
             completion()

@@ -31,7 +31,7 @@ class SiteDetailViewModelTests: PDTestCase {
     private func createImagePicker(selectedSiteIndex: Int=0) -> SiteImagePicker {
         let props = SiteImagePickerProperties(
             selectedSiteIndex: selectedSiteIndex,
-            imageChoices: [UIImage()],
+            imageChoices: SiteImages.patchImages,
             views: relatedViews,
             selectedImageIndex: 0
         )
@@ -50,22 +50,23 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func createViewModel(index: Index=0, sitePicker: SiteImagePicker?=nil) -> SiteDetailViewModel {
+        if dependencies == nil {
+            setupSite()
+        }
         siteImagePicker = sitePicker ?? createImagePicker()
         return SiteDetailViewModel(index, siteImagePicker, dependencies)
     }
 
     func testInitInitsPicker() {
-        setupSite()
         let viewModel = createViewModel()
         XCTAssertNotNil(viewModel.imagePicker)
     }
 
     func testInitSelectsCorrectStartIndexOfSiteImagePicker() {
-        setupSite()
-        let imgParams = SiteImageDeterminationParameters(
+        let imageParameters = SiteImageDeterminationParameters(
             imageId: SiteStrings.LeftQuad, deliveryMethod: .Injections
         )
-        let ctorParams = SiteDetailViewModelConstructorParams(0, imgParams, relatedViews)
+        let ctorParams = SiteDetailViewModelConstructorParams(0, imageParameters, relatedViews)
         let viewModel = SiteDetailViewModel(ctorParams)
         let expected = SiteImages.injectionImages.firstIndex {
             $0.accessibilityIdentifier == SiteStrings.LeftQuad
@@ -74,11 +75,16 @@ class SiteDetailViewModelTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testSiteNameOptions_includesCustomSites() {
+        let viewModel = createViewModel()
+        XCTAssert(viewModel.siteNameOptions.contains("Neck"))
+    }
+
     func testSiteNamePickerStartIndex_whenNoNameSelected_returnsIndexOfSiteSiteName() {
         let site = setupSite()
         site.name = "Neck"  // index 2
         let viewModel = createViewModel()
-        XCTAssertEqual(2, viewModel.siteNamePickerStartIndex)
+        XCTAssertEqual(6, viewModel.siteNamePickerStartIndex)
     }
 
     func testSiteNamePickerStartIndex_whenNameSelected_returnsIndexOfSelected() {
@@ -86,7 +92,7 @@ class SiteDetailViewModelTests: PDTestCase {
         site.name = "Neck"  // index 2
         let viewModel = createViewModel()
         viewModel.selections.selectedSiteName = "Left Butt"  // index 1
-        XCTAssertEqual(1, viewModel.siteNamePickerStartIndex)
+        XCTAssertEqual(2, viewModel.siteNamePickerStartIndex)
     }
 
     func testSiteImage_returnsExpectedImage() {
@@ -97,8 +103,46 @@ class SiteDetailViewModelTests: PDTestCase {
         XCTAssertEqual(SiteImages.arms, viewModel.siteImage)
     }
 
+    func testSelectSite_selectsSite() {
+        let viewModel = createViewModel()
+        viewModel.selectSite(SiteStrings.LeftGlute)
+        XCTAssertEqual(viewModel.selections.selectedSiteName, SiteStrings.LeftGlute)
+    }
+
+    func testSelectSite_whenSelectingTheExistingSite_doesNotChangeSiteImage() {
+        let site = setupSite()
+        let picker = createImagePicker()
+        site.imageId = "Custom"
+        picker.selectImage(row: 4)
+        site.name = SiteStrings.LeftGlute
+        let viewModel = createViewModel()
+        viewModel.selectSite(SiteStrings.LeftGlute)
+        XCTAssertEqual(4, picker.selectedRow)
+    }
+
+    func testSelectSite_whenSelectingNewExistingSite_selectsSiteImage() {
+        let site = setupSite()
+        let picker = createImagePicker()
+        site.imageId = "Custom"
+        picker.selectImage(row: 4)
+        site.name = "Custom"
+        let viewModel = createViewModel()
+        viewModel.selectSite(SiteStrings.LeftGlute)
+        XCTAssertEqual(imageView.image, SiteImages.patchLeftGlute)
+    }
+
+    func testSelectSite_whenSelectingUnknownSite_usesCustomDefaultImage() {
+        let site = setupSite()
+        let picker = createImagePicker()
+        site.imageId = SiteStrings.LeftGlute
+        picker.selectImage(row: 0)
+        site.name = SiteStrings.LeftGlute
+        let viewModel = createViewModel()
+        viewModel.selectSite("Custom")
+        XCTAssertEqual(imageView.image, SiteImages.customPatch)
+    }
+
     func testHandleSave_whenImageDoesNotExist_doesNotSave() {
-        setupSite()
         let viewModel = createViewModel()
         siteImagePicker._props.selectedImageIndex = 50
         viewModel.selections.selectedSiteName = nil
@@ -123,7 +167,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleSave_whenGivenNil_doesNotSave() {
-        setupSite()
         let viewModel = createViewModel()
         viewModel.selections.selectedSiteName = nil
         viewModel.handleSave(siteDetailViewController: UIViewController())
@@ -135,7 +178,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleSave_whenIndexOutOfRange_doesNotSave() {
-        setupSite()
         let viewModel = createViewModel(index: 5)
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
         sites.all = []
@@ -148,7 +190,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleSave_whenGivenNameAndSiteIndexExists_savesByRenaming() {
-        setupSite()
         let viewModel = createViewModel()
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
         sites.all = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
@@ -162,7 +203,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleSave_whenGivenNameAndSiteIndexEqualsCount_savesByInsertingNew() {
-        setupSite()
         let viewModel = createViewModel(index: 5)
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
         sites.all = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
@@ -176,7 +216,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleSave_resetsSelections() {
-        setupSite()
         let viewModel = createViewModel(index: 0)
         viewModel.selections.selectedSiteName = "TEST SITE NAME"
         viewModel.handleSave(siteDetailViewController: UIViewController())
@@ -200,7 +239,6 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testHandleIfUnsaved_whenNoSelections_stillPops() {
-        setupSite()
         let viewModel = createViewModel(index: 0)
         let viewController = UIViewController()
         viewModel.handleIfUnsaved(viewController)
@@ -209,10 +247,11 @@ class SiteDetailViewModelTests: PDTestCase {
     }
 
     func testGetAttributedSiteName_hasExpectedName() {
-        setupSite()
         let viewModel = createViewModel(index: 5)
-        XCTAssertEqual("Right Butt", viewModel.getAttributedSiteName(at: 0)!.string)
-        XCTAssertEqual("Left Butt", viewModel.getAttributedSiteName(at: 1)!.string)
-        XCTAssertEqual("Neck", viewModel.getAttributedSiteName(at: 2)!.string)
+        XCTAssertEqual("Arms", viewModel.getAttributedSiteName(at: 0)!.string)
+        XCTAssertEqual("Left Abdomen", viewModel.getAttributedSiteName(at: 1)!.string)
+
+        let neckIndex = viewModel.siteNameOptions.tryGetIndex(item: "Neck")!
+        XCTAssertEqual("Neck", viewModel.getAttributedSiteName(at: neckIndex)!.string)
     }
 }

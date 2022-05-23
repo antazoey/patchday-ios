@@ -191,7 +191,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel.sitesCount
+        viewModel.siteNameOptions.count
     }
 
     func pickerView(
@@ -202,10 +202,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         viewModel.getAttributedSiteName(at: row)
     }
 
+    /// Called when selecting a site name.
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard let name = viewModel.getSiteName(at: row) else { return }
         self.nameText.text = name
-        viewModel.selections.selectedSiteName = name
+        viewModel.selectSite(name)
     }
 
     @objc func closeNamePicker() {
@@ -221,7 +222,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
-    
+
     @objc func back() {
         checkForUnsavedChanges()
     }
@@ -257,7 +258,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = newButton
     }
-    
+
     private func initWithSiteIndex(
         _ index: Index, imageParams: SiteImageDeterminationParameters
     ) -> SiteDetailViewController {

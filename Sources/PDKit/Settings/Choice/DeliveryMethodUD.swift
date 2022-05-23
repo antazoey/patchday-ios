@@ -30,6 +30,10 @@ public class DeliveryMethodUD: ChoiceSetting<DeliveryMethod, String>, KeyStorabl
         self.choices = SettingsOptions.deliveryMethods
     }
 
+    public static var all: [DeliveryMethod] {
+        [.Patches, .Injections, .Gel]
+    }
+
     public override var value: DeliveryMethod {
         switch rawValue {
             case DeliveryMethodUD.PatchesKey: return .Patches

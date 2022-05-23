@@ -18,7 +18,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     private let now: NowProtocol
     var hormoneId: UUID?  // Determined after PatchData SDK available
     lazy var selections = HormoneSelectionState()
-    let handleInterfaceUpdatesFromNewSite: () -> Void
+    let newSiteUIHook: () -> Void
 
     init(
         _ hormoneIndex: Index,
@@ -27,7 +27,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         _ dependencies: DependenciesProtocol,
         _ now: NowProtocol?=nil
     ) {
-        self.handleInterfaceUpdatesFromNewSite = newSiteHandler
+        self.newSiteUIHook = newSiteHandler
         self.alertFactory = alertFactory
         self.now = now ?? PDNow()
         super.init(
@@ -42,7 +42,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     }
 
     init(_ hormoneIndex: Index, _ newSiteHandler: @escaping () -> Void) {
-        self.handleInterfaceUpdatesFromNewSite = newSiteHandler
+        self.newSiteUIHook = newSiteHandler
         self.now = PDNow()
         super.init()
         if let sdk = self.sdk, self.alertFactory == nil {
@@ -195,7 +195,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         guard let alertFactory = alertFactory else { return }
         let handlers = NewSiteAlertActionHandler {
             self.sdk?.sites.insertNew(name: newSiteName) {
-                newSite in self.handleInterfaceUpdatesFromNewSite()
+                newSite in self.newSiteUIHook()
                 self.selections.site = newSite
             }
         }
