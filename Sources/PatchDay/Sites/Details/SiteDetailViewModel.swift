@@ -89,7 +89,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
         )
         return SiteImages[params]
     }
-    
+
     func selectSite(_ siteName: String) {
         guard siteName != selections.selectedSiteName else { return }
         selections.selectedSiteName = siteName

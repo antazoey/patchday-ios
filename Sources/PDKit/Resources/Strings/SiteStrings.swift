@@ -71,7 +71,7 @@ public class SiteStrings {
     }
 
     public static var gels: [String] { [Arms] }
-    
+
     public static var all: [String] {
         Array(Set(patches + injections + gels))
     }
