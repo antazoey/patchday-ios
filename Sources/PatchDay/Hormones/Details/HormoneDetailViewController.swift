@@ -144,7 +144,7 @@ class HormoneDetailViewController: UIViewController,
             viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
         }
     }
-    
+
     func _closeSiteTextField() {
         typeSiteButton.setTitle(ActionStrings._Type)
         selectSiteTextField.endEditing(true)
