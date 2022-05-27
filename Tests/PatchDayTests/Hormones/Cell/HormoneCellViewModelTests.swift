@@ -96,11 +96,11 @@ class HormoneCellViewModelTests: PDTestCase {
         XCTAssertNil(viewModel.moonIcon)
     }
 
-    func testBadgeId_returnsExpectedId() {
+    func testCellId_returnsExpectedId() {
         let sdk = getMockSDK([])
         let viewModel = HormoneCellViewModel(cellIndex: 23, sdk: sdk, isPad: false)
-        let expected = "23"
-        let actual = viewModel.badgeId
+        let expected = "HormoneCell_23"
+        let actual = viewModel.cellId
         XCTAssertEqual(expected, actual)
     }
 

@@ -74,7 +74,10 @@
 		3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C49932A88441EDBC9663 /* HormonesTable.swift */; };
 		3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3FEA855E6D94AB288AD /* AlertStrings.swift */; };
 		3397CF6F00932FC00BF11B79 /* SiteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDD5E1C3F60EAEEFE82B /* SiteDetailViewController.swift */; };
-		84A62491283AAC0500D59CD7 /* SitesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A62490283AAC0500D59CD7 /* SitesUITests.swift */; };
+		847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */; };
+		847678FC283C1948004E6A7E /* PDUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678FB283C1948004E6A7E /* PDUITest.swift */; };
+		84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */ = {isa = PBXBuildFile; fileRef = 84A62490283AAC0500D59CD7 /* PatchDayUITests */; };
+		84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E25E2841958100256A18 /* SitesUITests.swift */; };
 		9D003E9A23231E880070C964 /* PDObjectified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9923231E880070C964 /* PDObjectified.swift */; };
 		9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9E232878CE0070C964 /* PatchDataSDK.swift */; };
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
@@ -602,8 +605,11 @@
 		3397CF930A5E66090BFA9C71 /* TabReflective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabReflective.swift; sourceTree = "<group>"; };
 		3397CFBE9BB2F360BA64E42E /* EntitiesSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesSaver.swift; sourceTree = "<group>"; };
 		3397CFFF305F5543E4A156A3 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
+		847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDetailUITest.swift; sourceTree = "<group>"; };
+		847678FB283C1948004E6A7E /* PDUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUITest.swift; sourceTree = "<group>"; };
 		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		84A62490283AAC0500D59CD7 /* SitesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
+		84A62490283AAC0500D59CD7 /* PatchDayUITests */ = {isa = PBXFileReference; lastKnownFileType = text; name = PatchDayUITests; path = ../../Tests/Tests/PatchDayUITests; sourceTree = "<group>"; };
+		84B4E25E2841958100256A18 /* SitesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
 		9D003E9923231E880070C964 /* PDObjectified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectified.swift; sourceTree = "<group>"; };
 		9D003E9E232878CE0070C964 /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
@@ -1229,9 +1235,12 @@
 		84A6248F283AAC0500D59CD7 /* PatchDayUITests */ = {
 			isa = PBXGroup;
 			children = (
-				84A62490283AAC0500D59CD7 /* SitesUITests.swift */,
+				84B4E25E2841958100256A18 /* SitesUITests.swift */,
+				847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */,
+				847678FB283C1948004E6A7E /* PDUITest.swift */,
 			);
-			path = PatchDayUITests;
+			name = PatchDayUITests;
+			path = Tests/PatchDayUITests;
 			sourceTree = "<group>";
 		};
 		9D003EA52331D7290070C964 /* Strings */ = {
@@ -1481,6 +1490,7 @@
 		9D69B1DF256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXGroup;
 			children = (
+				84A62490283AAC0500D59CD7 /* PatchDayUITests */,
 				9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */,
 				9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */,
 				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
@@ -2676,7 +2686,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84A62491283AAC0500D59CD7 /* SitesUITests.swift in Sources */,
+				84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */,
+				847678FC283C1948004E6A7E /* PDUITest.swift in Sources */,
+				84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */,
+				847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

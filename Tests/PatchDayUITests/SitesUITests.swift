@@ -9,26 +9,10 @@
 import XCTest
 import PDKit
 
-class SitesUITests: XCTestCase {
-
-    var app: XCUIApplication!
-    var tabs: XCUIElementQuery!
-
+class SitesUITests: PDUITest {
+    
     override func setUpWithError() throws {
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-        
-        app = XCUIApplication()
-        app.launchArguments.append("--nuke-storage")
-        app.launch()
-        addUIInterruptionMonitor(withDescription: "Disclaimer") {
-          (alert) -> Bool in
-          alert.buttons["Dismiss"].tap()
-          return true
-        }
-        tabs = app.tabBars
-
-        // Start on Sites view
+        try super.setUpWithError()
         tabs.buttons["Sites"].tap()
     }
     

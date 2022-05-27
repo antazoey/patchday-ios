@@ -43,8 +43,8 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         return nil
     }
 
-    var badgeId: String {
-        String(cellIndex)
+    var cellId: String {
+        "HormoneCell_\(cellIndex)"
     }
 
     var backgroundColor: UIColor {

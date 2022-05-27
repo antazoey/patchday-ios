@@ -11,7 +11,7 @@ public protocol HormoneCellViewModelProtocol {
     var hormone: Hormonal? { get }
     var shouldShowHormone: Bool { get }
     var moonIcon: UIIcon? { get }
-    var badgeId: String { get }
+    var cellId: String { get }
     var backgroundColor: UIColor { get }
     var badgeType: PDBadgeButtonType { get }
     var badgeValue: String? { get }

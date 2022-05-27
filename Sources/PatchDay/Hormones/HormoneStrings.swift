@@ -27,7 +27,7 @@ public class HormoneStrings {
     }
 
     private static func createPatchViewStrings(_ patch: Hormonal) -> HormoneViewStrings {
-        HormoneViewStrings(Exp, DateAndTimeApplied, _Site)
+        HormoneViewStrings(Expiration, DateAndTimeApplied, _Site)
     }
 
     private static func createInjectionViewStrings(_ injection: Hormonal) -> HormoneViewStrings {
@@ -38,8 +38,8 @@ public class HormoneStrings {
         HormoneViewStrings(Next, DateAndTimeApplied, _Site)
     }
 
-    private static var Exp: String {
-        NSLocalizedString("Exp:", comment: c1)
+    private static var Expiration: String {
+        NSLocalizedString("Expiration:", comment: c1)
     }
 
     private static var Count: String {
