@@ -250,6 +250,12 @@ class HormoneDetailViewController: UIViewController,
     }
 
     private func loadSiteControls() {
+        if !sitePicker.isHidden {
+            // Don't load site controls if picker is already open.
+            // This indicates the user has opened the picker, navigated away, and then returned.
+            return
+        }
+
         if let viewModel = viewModel {
             selectSiteTextField.text = viewModel.selectSiteStartText
         }

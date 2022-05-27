@@ -55,14 +55,24 @@ class HormoneDetailUITests: PDUITest {
 
     func testSelectSite() throws {
         openSitePicker()
+        app.pickerWheels.element.adjust(toPickerWheelValue: "Left Glute")
         XCTAssert(app.staticTexts["Done"].waitForExistence(timeout: 2))
         XCTAssertFalse(app.staticTexts["Type"].exists)
+        app.buttons["Done"].tap()
+        XCTAssertEqual("Left Glute", "\(app.textFields["selectHormoneSiteTextField"].value!)")
     }
 
     func testOpenSitePicker_whenNavigateAwayAndBack_looksTheSame() throws {
         openSitePicker()
+        app.pickerWheels.element.adjust(toPickerWheelValue: "Left Glute")
+
+        // Navigate away and then back
         tabs.buttons["Sites"].tap()
         tabs.buttons["Patches"].tap()
+
+        // Things should still be in the "editting site" state.
         XCTAssertFalse(app.datePickers["hormoneDatePicker"].isEnabled)
+        XCTAssertEqual("Left Glute", "\(app.textFields["selectHormoneSiteTextField"].value!)")
+        XCTAssert(app.staticTexts["Done"].waitForExistence(timeout: 1))
     }
 }
