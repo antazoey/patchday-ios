@@ -65,6 +65,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
         sdk.sites.reorder(at: sourceRow, to: destinationRow)
         if sourceRow == sdk.sites.nextIndex {
             sdk.settings.setSiteIndex(to: destinationRow)
+        } else if destinationRow == sdk.sites.nextIndex {
+            sdk.settings.setSiteIndex(to: sourceRow)
         }
         table.reloadData()
     }

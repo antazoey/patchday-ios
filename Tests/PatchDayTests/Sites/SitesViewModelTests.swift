@@ -161,12 +161,27 @@ class SitesViewModelTests: PDTestCase {
         (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1
         let settings = dependencies.sdk!.settings as! MockSettings
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
-        viewModel.reorderSites(sourceRow: 1, destinationRow: 3)
+        let source = 1
+        let destination = 3
+        viewModel.reorderSites(sourceRow: source, destinationRow: destination)
         let actualDest = settings.setSiteIndexCallArgs[0]
-        XCTAssertEqual(3, actualDest)
+        XCTAssertEqual(destination, actualDest)
     }
 
-    func testReorderSites_whenSourceIsNotNextIndex_doesNotUpdateSiteIndex() {
+    func testReorderSites_whenDestinationIsNextIndex_updatesSiteIndexToSource() {
+        let table = MockSitesTable()
+        let dependencies = MockDependencies()
+        (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1
+        let settings = dependencies.sdk!.settings as! MockSettings
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
+        let source = 3
+        let destination = 1
+        viewModel.reorderSites(sourceRow: source, destinationRow: destination)
+        let actualDest = settings.setSiteIndexCallArgs[0]
+        XCTAssertEqual(source, actualDest)
+    }
+
+    func testReorderSites_whenNeitherSourceNorDesinationIsNextIndex_doesNotUpdateSiteIndex() {
         let table = MockSitesTable()
         let dependencies = MockDependencies()
         (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1

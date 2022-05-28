@@ -363,7 +363,7 @@
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Nqe-WM-3MV"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <color key="textColor" name="Button"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -427,7 +427,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pills" id="Jvz-nd-goC">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="1FO-8Q-44h">
+                        <barButtonItem key="leftBarButtonItem" id="1FO-8Q-44h">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="W32-B2-O5G">
                                 <rect key="frame" x="16" y="6.5" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -758,26 +758,20 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days on 1/12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpp-Ro-ozU">
-                                                        <rect key="frame" x="5" y="0.0" width="319" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="BDR-JX-XLJ"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="5" y="0.0" width="289" height="50"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4u1-fA-09L">
-                                                        <rect key="frame" x="324" y="0.0" width="1" height="50"/>
+                                                        <rect key="frame" x="294" y="0.0" width="1" height="50"/>
                                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="1" id="Srp-PE-uUW"/>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eWG-By-QKa">
-                                                        <rect key="frame" x="325" y="0.0" width="50" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" priority="999" constant="50" id="4ZB-cm-UBO"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="295" y="0.0" width="80" height="50"/>
                                                         <state key="normal" title="Set"/>
                                                         <connections>
                                                             <action selector="daysPositionButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Paz-Jg-Nat"/>
@@ -1039,6 +1033,7 @@
                                         <constraints>
                                             <constraint firstItem="1wA-kW-Ajl" firstAttribute="width" secondItem="iyr-SE-MH9" secondAttribute="width" id="Ejg-mA-Cvh"/>
                                             <constraint firstItem="Oy6-jv-i7L" firstAttribute="width" secondItem="iyr-SE-MH9" secondAttribute="width" id="FtT-vE-7uX"/>
+                                            <constraint firstItem="Oy6-jv-i7L" firstAttribute="leading" secondItem="eWG-By-QKa" secondAttribute="leading" constant="50" id="jhR-Te-Vty"/>
                                             <constraint firstItem="1wA-kW-Ajl" firstAttribute="leading" secondItem="dX2-Ji-Hpr" secondAttribute="leading" constant="20" id="xkM-6j-NKQ"/>
                                         </constraints>
                                     </stackView>

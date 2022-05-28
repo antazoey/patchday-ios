@@ -58,7 +58,6 @@ class HormoneCell: TableCell, HormoneCellProtocol {
     }
 
     private func attachToModel() {
-        guard let viewModel = viewModel else { return }
         loadDateLabel()
         loadBadge()
         selectionStyle = .default

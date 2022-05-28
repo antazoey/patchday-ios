@@ -78,6 +78,7 @@
 		847678FC283C1948004E6A7E /* PDUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678FB283C1948004E6A7E /* PDUITest.swift */; };
 		84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */ = {isa = PBXBuildFile; fileRef = 84A62490283AAC0500D59CD7 /* PatchDayUITests */; };
 		84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E25E2841958100256A18 /* SitesUITests.swift */; };
+		84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E26028419CF000256A18 /* SiteDetailUITests.swift */; };
 		9D003E9A23231E880070C964 /* PDObjectified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9923231E880070C964 /* PDObjectified.swift */; };
 		9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9E232878CE0070C964 /* PatchDataSDK.swift */; };
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
@@ -610,6 +611,7 @@
 		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A62490283AAC0500D59CD7 /* PatchDayUITests */ = {isa = PBXFileReference; lastKnownFileType = text; name = PatchDayUITests; path = ../../Tests/Tests/PatchDayUITests; sourceTree = "<group>"; };
 		84B4E25E2841958100256A18 /* SitesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
+		84B4E26028419CF000256A18 /* SiteDetailUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailUITests.swift; sourceTree = "<group>"; };
 		9D003E9923231E880070C964 /* PDObjectified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectified.swift; sourceTree = "<group>"; };
 		9D003E9E232878CE0070C964 /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
@@ -1238,6 +1240,7 @@
 				84B4E25E2841958100256A18 /* SitesUITests.swift */,
 				847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */,
 				847678FB283C1948004E6A7E /* PDUITest.swift */,
+				84B4E26028419CF000256A18 /* SiteDetailUITests.swift */,
 			);
 			name = PatchDayUITests;
 			path = Tests/PatchDayUITests;
@@ -2687,6 +2690,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */,
+				84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */,
 				847678FC283C1948004E6A7E /* PDUITest.swift in Sources */,
 				84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */,
 				847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */,

@@ -74,7 +74,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return
         }
         loadName()
-        loadImage()
+        self.siteImageView.image = viewModel.siteImage
         loadSave()
         applyTheme()
     }
@@ -173,7 +173,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if nameText.text == "" {
             nameText.text = SiteStrings.NewSite
         }
-        loadImage()
+        showSiteImage()
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeSiteTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
@@ -300,16 +300,12 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         namePicker.isHidden = true
     }
 
-    private func loadImage() {
-        showSiteImage(viewModel.siteImage)
-    }
-
-    private func showSiteImage(_ image: UIImage?) {
+    private func showSiteImage() {
         UIView.transition(
             with: siteImageView,
             duration: 0.5,
             options: .transitionCrossDissolve,
-            animations: { self.siteImageView.image = image },
+            animations: { self.siteImageView.image = self.viewModel.siteImage },
             completion: nil
         )
     }

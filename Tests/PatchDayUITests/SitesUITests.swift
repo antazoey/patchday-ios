@@ -66,11 +66,6 @@ class SitesUITests: PDUITest {
         XCTAssertEqual(6, table.cells.count)
     }
 
-    func testNewSite_hasExpectedTitle() throws {
-        app.buttons["insertNewSiteButton"].tap()
-        XCTAssert(app.staticTexts["New Site"].exists)
-    }
-
     func testNewSite_addsCell() throws {
         addSite(4)
         XCTAssertEqual(5, table.cells.count)
