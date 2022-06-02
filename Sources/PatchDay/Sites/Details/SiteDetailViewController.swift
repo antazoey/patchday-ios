@@ -63,6 +63,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         super.viewDidAppear(animated)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        closeSiteTextField()  // Mostly to help emulator 
+    }
+
     @objc func willEnterForeground() {
         guard viewModel.siteName != nil else {
             // Remove outdated observer
@@ -295,7 +299,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadName() {
-        nameText.text = viewModel.siteName
+        nameText.text = viewModel.selections.selectedSiteName ?? viewModel.siteName
         nameText.autocapitalizationType = .words
         nameText.borderStyle = .none
         nameText.restorationIdentifier = SiteDetailConstants.SelectId

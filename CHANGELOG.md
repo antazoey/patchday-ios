@@ -14,7 +14,7 @@ Fixed
 - Issue causing you to only be able to delete one site cell at a time when in Editting mode.
 - Issue causing site cells to get unordered when deleting and resetting in the same editting session.
 - Issue where re-ordering sites would unnecessarily change the next site index.
-- Issue where site image would not up-date when changing site names to known sites.
+- Issue where site image would not update when changing site names to known sites.
 - Issue where controls became disabled if opening the Site picker in the Hormone Detail view, navigating away,
   and then returning.
 
