@@ -1,5 +1,5 @@
 //
-//  PatchDayUITests.swift
+//  SitesUITests.swift
 //  PatchDayUITests
 //
 //  Created by Juliya Smith on 5/22/22.
@@ -77,7 +77,7 @@ class SitesUITests: PDUITest {
         XCTAssertFalse(app.staticTexts["6."].exists)
     }
 
-    func testDeleteCellFromSwipe_deletesCell() {
+    func testDeleteCellFromSwipe_deletesCell() throws {
         deleteSiteFromSwipe(1)
         XCTAssertEqual(3, table.cells.count)
 
@@ -91,7 +91,7 @@ class SitesUITests: PDUITest {
         XCTAssert(app.staticTexts["2."].exists)
     }
 
-    func testDeleteFromEdittingButtons() {
+    func testDeleteFromEdittingButtons() throws {
         app.buttons["Edit"].tap()
         deleteSiteFromEdit("Left Glute")
         deleteSiteFromEdit("Right Abdomen")
@@ -102,7 +102,7 @@ class SitesUITests: PDUITest {
         XCTAssert(app.staticTexts["2."].exists)
     }
 
-    func testAddsAndDeletes() {
+    func testAddsAndDeletes() throws {
         // Integration test
         deleteSiteFromSwipe(2)
         deleteSiteFromSwipe(0)
@@ -117,7 +117,7 @@ class SitesUITests: PDUITest {
         XCTAssert(app.staticTexts["3."].exists)
     }
 
-    func testReset() {
+    func testReset() throws {
         deleteSiteFromSwipe(2)
         deleteSiteFromSwipe(0)
         addSite(1)
@@ -131,7 +131,7 @@ class SitesUITests: PDUITest {
         XCTAssert(app.staticTexts["4."].exists)
     }
 
-    func testResetAfterDelete() {
+    func testResetAfterDelete() throws {
         app.buttons["Edit"].tap()
         deleteSiteFromEdit("Left Glute")
         app.buttons["Reset"].tap()

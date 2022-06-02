@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 import PDKit
 
-class SitesDetailsUITests: PDUITest {
+class SiteDetailUITests: PDUITest {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -50,11 +50,11 @@ class SitesDetailsUITests: PDUITest {
             .tap()
     }
 
-    func testTitle() {
+    func testTitle() throws {
         XCTAssert(app.staticTexts["New Site"].exists)
     }
 
-    func testWhileTypingSiteName_cannotOpenSiteImagePicker() {
+    func testWhileTypingSiteName_cannotOpenSiteImagePicker() throws {
         XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
         app.buttons["Type"].tap()
         XCTAssertFalse(app.buttons["siteImageButton"].isEnabled)
@@ -62,7 +62,7 @@ class SitesDetailsUITests: PDUITest {
         XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
     }
 
-    func testWhilePickingSiteName_cannotOpenSiteImagePicker() {
+    func testWhilePickingSiteName_cannotOpenSiteImagePicker() throws {
         XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
         openNamePicker()
         XCTAssertFalse(app.buttons["siteImageButton"].isEnabled)

@@ -76,6 +76,10 @@
 		3397CF6F00932FC00BF11B79 /* SiteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDD5E1C3F60EAEEFE82B /* SiteDetailViewController.swift */; };
 		847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */; };
 		847678FC283C1948004E6A7E /* PDUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678FB283C1948004E6A7E /* PDUITest.swift */; };
+		84991BD828497247001C4B8D /* PillDetailUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BD728497247001C4B8D /* PillDetailUITest.swift */; };
+		84991BDA2849730A001C4B8D /* PillsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BD92849730A001C4B8D /* PillsUITest.swift */; };
+		84991BDC28497514001C4B8D /* HormonesUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BDB28497514001C4B8D /* HormonesUITest.swift */; };
+		84991BDE28497551001C4B8D /* SettingsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BDD28497551001C4B8D /* SettingsUITest.swift */; };
 		84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */ = {isa = PBXBuildFile; fileRef = 84A62490283AAC0500D59CD7 /* PatchDayUITests */; };
 		84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E25E2841958100256A18 /* SitesUITests.swift */; };
 		84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E26028419CF000256A18 /* SiteDetailUITests.swift */; };
@@ -608,6 +612,10 @@
 		3397CFFF305F5543E4A156A3 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
 		847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDetailUITest.swift; sourceTree = "<group>"; };
 		847678FB283C1948004E6A7E /* PDUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUITest.swift; sourceTree = "<group>"; };
+		84991BD728497247001C4B8D /* PillDetailUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDetailUITest.swift; sourceTree = "<group>"; };
+		84991BD92849730A001C4B8D /* PillsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUITest.swift; sourceTree = "<group>"; };
+		84991BDB28497514001C4B8D /* HormonesUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesUITest.swift; sourceTree = "<group>"; };
+		84991BDD28497551001C4B8D /* SettingsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
 		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A62490283AAC0500D59CD7 /* PatchDayUITests */ = {isa = PBXFileReference; lastKnownFileType = text; name = PatchDayUITests; path = ../../Tests/Tests/PatchDayUITests; sourceTree = "<group>"; };
 		84B4E25E2841958100256A18 /* SitesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
@@ -1241,6 +1249,10 @@
 				847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */,
 				847678FB283C1948004E6A7E /* PDUITest.swift */,
 				84B4E26028419CF000256A18 /* SiteDetailUITests.swift */,
+				84991BD728497247001C4B8D /* PillDetailUITest.swift */,
+				84991BD92849730A001C4B8D /* PillsUITest.swift */,
+				84991BDB28497514001C4B8D /* HormonesUITest.swift */,
+				84991BDD28497551001C4B8D /* SettingsUITest.swift */,
 			);
 			name = PatchDayUITests;
 			path = Tests/PatchDayUITests;
@@ -2689,11 +2701,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84991BDC28497514001C4B8D /* HormonesUITest.swift in Sources */,
 				84A62491283AAC0500D59CD7 /* PatchDayUITests in Sources */,
 				84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */,
+				84991BDE28497551001C4B8D /* SettingsUITest.swift in Sources */,
 				847678FC283C1948004E6A7E /* PDUITest.swift in Sources */,
 				84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */,
+				84991BDA2849730A001C4B8D /* PillsUITest.swift in Sources */,
 				847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */,
+				84991BD828497247001C4B8D /* PillDetailUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
