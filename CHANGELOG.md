@@ -6,6 +6,7 @@ Changed
 
 - Target iOS 15.4
 - Site name selection list in Site Schedule now inclues all possible site names.
+- The site image picker now is disabled while picking or typing a site name.
 
 Fixed
 

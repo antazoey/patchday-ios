@@ -147,6 +147,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // MARK: - Text field
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        imageButton.isEnabled = false
         enableSave()
         typeNameButton.setTitle(ActionStrings.Done)
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
@@ -177,6 +178,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeSiteTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
+        imageButton.isEnabled = true
     }
 
     // MARK: - Picker functions
@@ -184,6 +186,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @objc private func openPicker(_ picker: UIPickerView) {
         namePicker.selectRow(viewModel.siteNamePickerStartIndex, inComponent: 0, animated: true)
         showPicker(picker)
+        imageButton.isEnabled = false
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -221,6 +224,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         )
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.imageButton.isEnabled = true
     }
 
     @objc func back() {

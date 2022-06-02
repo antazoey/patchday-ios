@@ -19,7 +19,54 @@ class SitesDetailsUITests: PDUITest {
         app.buttons["insertNewSiteButton"].tap()
     }
 
+    func openNamePicker() {
+        app.windows
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element
+            .children(matching: .other)
+            .element(boundBy: 1)
+            .children(matching: .other)
+            .element
+            .children(matching: .textField)
+            .element
+            .tap()
+    }
+
     func testTitle() {
         XCTAssert(app.staticTexts["New Site"].exists)
+    }
+
+    func testWhileTypingSiteName_cannotOpenSiteImagePicker() {
+        XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
+        app.buttons["Type"].tap()
+        XCTAssertFalse(app.buttons["siteImageButton"].isEnabled)
+        app.buttons["Done"].tap()
+        XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
+    }
+
+    func testWhilePickingSiteName_cannotOpenSiteImagePicker() {
+        XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
+        openNamePicker()
+        XCTAssertFalse(app.buttons["siteImageButton"].isEnabled)
+        app.buttons["Done"].tap()
+        XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
     }
 }
