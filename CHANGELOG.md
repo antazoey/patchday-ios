@@ -17,6 +17,7 @@ Fixed
 - Issue where site image would not update when changing site names to known sites.
 - Issue where controls became disabled if opening the Site picker in the Hormone Detail view, navigating away,
   and then returning.
+- Issue when navigating away with open pickers in the Pill Details view would cause UI issues.
 
 # 3.7.0
 

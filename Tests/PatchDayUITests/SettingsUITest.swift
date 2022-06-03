@@ -22,4 +22,3 @@ class SettingsUITests: PDUITest {
         XCTAssert(app.staticTexts["Settings"].exists)
     }
 }
-

@@ -509,6 +509,9 @@
                                                         <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillNameTextField"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UCx-Qm-o6m">
                                                         <rect key="frame" x="324" y="0.0" width="1" height="50"/>
@@ -525,6 +528,9 @@
                                                         <state key="normal" title="Select">
                                                             <color key="titleColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="selectPillButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="selectNameTapped" destination="9mn-Be-MMV" eventType="touchUpInside" id="TpW-wf-bQj"/>
                                                         </connections>
@@ -533,6 +539,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="KMh-Hw-Kvy"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillNameStack"/>
+                                                </userDefinedRuntimeAttributes>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGT-mi-uMr">
                                                 <rect key="frame" x="0.0" y="101" width="375" height="0.0"/>
@@ -631,6 +640,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEs-dt-ycQ">
                                                         <rect key="frame" x="104.5" y="0.0" width="240.5" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="expirationIntervalTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Lb8-sV-bKS"/>
                                                         </connections>
@@ -648,6 +660,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="9cC-sL-bgy"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillScheduleStack"/>
+                                                </userDefinedRuntimeAttributes>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilc-SD-D8X">
                                                 <rect key="frame" x="0.0" y="203" width="375" height="0.0"/>

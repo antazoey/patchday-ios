@@ -89,6 +89,9 @@ public protocol PillDetailViewModelProtocol {
     /// Either the selected options, `pill.times`, or the defaul option.
     var times: [Time] { get }
 
+    var hasUnsavedChanges: Bool { get }
+    /// Returns `true` when there are unsaved selections.
+
     /// Set one of the `times` so that it can be saved.
     func selectTime(_ time: Time, _ index: Index)
 
