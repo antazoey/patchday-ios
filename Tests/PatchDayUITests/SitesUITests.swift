@@ -40,6 +40,7 @@ class SitesUITests: PDUITest {
 
     func deleteSiteFromSwipe(_ index: Int) {
         cellAt(index).swipeLeft()
+        cellAt(index).swipeLeft()
         _ = app.wait(for: .unknown, timeout: 1)
     }
 

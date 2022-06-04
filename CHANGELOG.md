@@ -1,6 +1,6 @@
 # Changelog
 
-# 3.8.0 (unreleased)
+# 3.8.0
 
 Changed
 
