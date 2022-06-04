@@ -693,6 +693,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxd-9K-fkL">
                                                         <rect key="frame" x="61" y="0.0" width="284" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillDaysOneScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="daysOneButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Gjt-Yd-1xn"/>
                                                         </connections>
@@ -737,6 +740,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0v-lE-g9f">
                                                         <rect key="frame" x="62.5" y="0.0" width="282.5" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillDaysTwoScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="daysTwoButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="4ro-Ch-LFZ"/>
                                                         </connections>

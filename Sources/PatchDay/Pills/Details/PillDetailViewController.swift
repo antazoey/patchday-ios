@@ -364,6 +364,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadExpirationIntervalDays() {
         hideOrUnhideDaysStack()
+        guard daysPicker.isHidden else { return }
         daysOneLabel.text = viewModel.daysOneLabelText
         daysOneButton.setTitle(viewModel.daysOn)
         daysTwoLabel.text = viewModel.daysTwoLabelText
