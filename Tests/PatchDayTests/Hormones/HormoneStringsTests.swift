@@ -42,20 +42,20 @@ class HormoneStringsTests: PDTestCase {
     func testCreate_whenGivenExpiredPatchs() {
         let patch = createPatch(isExpired: true)
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Exp:", actual.expirationText)
+        XCTAssertEqual("Expiration:", actual.expirationText)
     }
 
     func testCreate_whenGivenNonExpiredPatchs() {
         let patch = createPatch(isExpired: false)
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Exp:", actual.expirationText)
+        XCTAssertEqual("Expiration:", actual.expirationText)
     }
 
     func testCreate_whenGivenPatchThatIsNotExpiredButIsPastNotificationTime() {
         let patch = createHormone(isExpired: false)
         patch.isPastNotificationTime = true
         let actual = HormoneStrings.create(patch)
-        XCTAssertEqual("Exp:", actual.expirationText)
+        XCTAssertEqual("Expiration:", actual.expirationText)
     }
 
     func testCreates_whenGivenExpiredInjections() {

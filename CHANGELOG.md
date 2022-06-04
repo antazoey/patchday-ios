@@ -18,6 +18,7 @@ Fixed
 - Issue where controls became disabled if opening the Site picker in the Hormone Detail view, navigating away,
   and then returning.
 - Issue when navigating away with open pickers in the Pill Details view would cause UI issues.
+- Issue where Quantity picker in Settings view would not stay open when navigating away and back.
 
 # 3.7.0
 

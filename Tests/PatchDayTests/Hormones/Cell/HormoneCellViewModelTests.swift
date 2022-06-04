@@ -215,7 +215,7 @@ class HormoneCellViewModelTests: PDTestCase {
         hormone.isExpired = false
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Exp: \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Expiration: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
@@ -230,7 +230,7 @@ class HormoneCellViewModelTests: PDTestCase {
         hormone.isExpired = true
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Exp: \(PDDateFormatter.formatDay(expirationDate))"
+        let expected = "Expiration: \(PDDateFormatter.formatDay(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
@@ -245,7 +245,7 @@ class HormoneCellViewModelTests: PDTestCase {
         hormone.isExpired = false
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Exp: \(PDDateFormatter.formatDate(expirationDate))"
+        let expected = "Expiration: \(PDDateFormatter.formatDate(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }
@@ -260,7 +260,7 @@ class HormoneCellViewModelTests: PDTestCase {
         hormone.isExpired = true
         let sdk = getMockSDK([hormone])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = "Exp: \(PDDateFormatter.formatDate(expirationDate))"
+        let expected = "Expiration: \(PDDateFormatter.formatDate(expirationDate))"
         let actual = viewModel.dateString
         XCTAssertEqual(expected, actual)
     }

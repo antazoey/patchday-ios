@@ -21,4 +21,27 @@ class SettingsUITests: PDUITest {
     func testTitle() throws {
         XCTAssert(app.staticTexts["Settings"].exists)
     }
+
+    func testSetQuantity() throws {
+        app.buttons["settingsQuantityButton"].tap()
+        app.pickerWheels.element.adjust(toPickerWheelValue: "4")
+        app.buttons["Save"].tap()
+        XCTAssertEqual("4", app.buttons["settingsQuantityButton"].label)
+    }
+
+    func testSetQuantity_whenNavigateAwayAndBack() {
+        app.buttons["settingsQuantityButton"].tap()
+        app.pickerWheels.element.adjust(toPickerWheelValue: "4")
+
+        app.buttons["Pills"].tap()
+        app.buttons["Patches"].tap()
+
+        app.buttons["Save"].tap()
+        XCTAssertEqual("4", app.buttons["settingsQuantityButton"].label)
+    }
+
+    func testSetNotificationsMinutesBefore() {
+        app.sliders.element.adjust(toNormalizedSliderPosition: 0.75)
+        XCTAssert(app.staticTexts["94"].exists)
+    }
 }

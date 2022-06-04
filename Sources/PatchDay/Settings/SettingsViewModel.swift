@@ -68,14 +68,13 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
 
     @discardableResult
     func handleNewNotificationsMinutesValue(_ newValue: Float) -> String {
-        let newValue = newValue.rounded()
+        let newValue = Int(newValue.rounded())
         let titleString = "\(newValue)"
         guard let sdk = sdk else { return titleString }
         guard sdk.settings.notifications.value else { return titleString }
         guard newValue >= 0 else { return titleString }
         notifications?.cancelAllExpiredHormoneNotifications()
-        let newMinutesBeforeValue = Int(newValue)
-        setNotificationsMinutes(newMinutesBeforeValue)
+        setNotificationsMinutes(newValue)
         return titleString
     }
 

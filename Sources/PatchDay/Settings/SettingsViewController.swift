@@ -94,7 +94,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     @objc func willEnterForeground() {
-        quantityPicker.isHidden = true
         assignSelfAsDelegateForPickers()
         let viewModel = initViewModel()
         viewModel.reflect()

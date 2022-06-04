@@ -160,7 +160,7 @@ class SettingsViewModelTests: PDTestCase {
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.handleNewNotificationsMinutesValue(23.0)
-        let expected = "23.0"
+        let expected = "23"
         XCTAssertEqual(expected, actual)
     }
 
@@ -170,7 +170,7 @@ class SettingsViewModelTests: PDTestCase {
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.handleNewNotificationsMinutesValue(23.232352552)
-        let expected = "23.0"
+        let expected = "23"
         XCTAssertEqual(expected, actual)
     }
 

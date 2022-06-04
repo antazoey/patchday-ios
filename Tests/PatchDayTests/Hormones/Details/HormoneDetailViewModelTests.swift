@@ -346,7 +346,7 @@ class HormoneDetailViewModelTests: PDTestCase {
     func testCreateHormoneViewStrings_createsExpectedStrings() {
         let actual = viewModel.createHormoneViewStrings()!
         XCTAssertEqual("Application date and time: ", actual.dateAndTimePlacedText)
-        XCTAssertEqual("Exp:", actual.expirationText)
+        XCTAssertEqual("Expiration:", actual.expirationText)
         XCTAssertEqual("Site: ", actual.siteLabelText)
     }
 
