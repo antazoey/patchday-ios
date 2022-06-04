@@ -7,39 +7,39 @@
 import Foundation
 
 public protocol SiteDetailViewModelProtocol {
-    var selections: SiteSelectionState { get set }
     /// The current selections of the site before save.
+    var selections: SiteSelectionState { get set }
 
-    var imagePicker: SiteImagePicker? { get }
     /// The image picker delegate for changing a site's image.
+    var imagePicker: SiteImagePicker? { get }
 
-    var siteName: SiteName? { get }
     /// The name of the site.
+    var siteName: SiteName? { get }
 
-    var sitesCount: Int { get }
     /// The total number of sites there are in the `SiteSchedule`.
+    var sitesCount: Int { get }
 
-    var siteNameOptions: [SiteName] { get }
     /// Existing site names to select when editting a site.
+    var siteNameOptions: [SiteName] { get }
 
-    var siteNamePickerStartIndex: Index { get }
     /// The index to start the site name picker upon initializaiton.
+    var siteNamePickerStartIndex: Index { get }
 
-    var siteImage: UIImage { get }
     /// The current site image for the site.
+    var siteImage: UIImage { get }
 
-    func selectSite(_ siteName: String)
     /// Select a site name and image.
+    func selectSite(_ siteName: String)
 
-    func handleSave(siteDetailViewController: UIViewController)
     /// Apply changes to the site.
+    func handleSave(siteDetailViewController: UIViewController)
 
-    func handleIfUnsaved(_ viewController: UIViewController)
     /// Prompt about unsaved changes for a chance to save.
+    func handleIfUnsaved(_ viewController: UIViewController)
 
-    func getSiteName(at index: Index) -> SiteName?
     /// Get the site name at the given index.
+    func getSiteName(at index: Index) -> SiteName?
 
-    func getAttributedSiteName(at index: Index) -> NSAttributedString?
     /// Get the site name at the given index with colors and formatting.
+    func getAttributedSiteName(at index: Index) -> NSAttributedString?
 }
