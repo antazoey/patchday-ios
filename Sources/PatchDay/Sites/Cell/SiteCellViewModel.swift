@@ -22,9 +22,12 @@ class SiteCellViewModel: SiteCellViewModelProtocol {
         return SiteStrings.NewSite
     }
 
+    var order: Int? {
+        return props.site?.order
+    }
+
     var orderText: String {
-        guard let site = props.site else { return "" }
-        let order = site.order
+        guard let order = self.order else { return "" }
         return "\(order + 1)."
     }
 

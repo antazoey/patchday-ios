@@ -148,6 +148,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillStrings.Intervals.all
     }
 
+    var hasUnsavedChanges: Bool {
+        guard let pill = pill else { return false }
+        let changesMade = selections.anyAttributeExists(exclusions: pill.attributes)
+        return changesMade || pill.isNew
+    }
+
     func getStartIndexForDaysPicker(pickerNumber: Int) -> Index {
         if pickerNumber == 0 {
             return startIndexForPosition
@@ -228,7 +234,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             }
             self.nav?.pop(source: viewController)
         }
-        if wereChanges {
+        if hasUnsavedChanges {
             self.alerts?.createUnsavedAlert(
                 viewController,
                 saveAndContinueHandler: save,
@@ -330,12 +336,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         return selections.expirationInterval.xDaysPosition
             ?? pill.expirationInterval.xDaysPosition
             ?? 1
-    }
-
-    private var wereChanges: Bool {
-        guard let pill = pill else { return false }
-        let changesMade = selections.anyAttributeExists(exclusions: pill.attributes)
-        return changesMade || pill.isNew
     }
 
     private var startIndexForPosition: Int {

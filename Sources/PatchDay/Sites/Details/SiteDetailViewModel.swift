@@ -69,11 +69,8 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     var sitesCount: Int { sdk?.sites.count ?? 0 }
 
     var siteNameOptions: [SiteName] {
-        // The reason this does not include any default names is because it can be odd if
-        // just renaming the same sites that the defaults, for example, having a custom site
-        // "Right Butt" and then still have the automatic default names "Right Glute" still
-        // appear in the picker.
-        sdk?.sites.names ?? []
+        guard let sdk = sdk else { return [] }
+        return Array(Set(sdk.sites.names + SiteStrings.all)).sorted()
     }
 
     var siteNamePickerStartIndex: Index {
@@ -91,6 +88,24 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
             imageId: key, deliveryMethod: settings.deliveryMethod.value
         )
         return SiteImages[params]
+    }
+
+    func selectSite(_ siteName: String) {
+        guard siteName != selections.selectedSiteName else { return }
+        selections.selectedSiteName = siteName
+
+        guard let picker = imagePicker else { return }
+
+        for deliveryMethod in DeliveryMethodUD.all {
+            let parameters = SiteImageDeterminationParameters(
+                imageId: siteName, deliveryMethod: deliveryMethod
+            )
+            let image = SiteImages[parameters]
+            if let index = picker.options.tryGetIndex(item: image) {
+                picker.selectImage(row: index)
+                break
+            }
+        }
     }
 
     func handleSave(siteDetailViewController: UIViewController) {

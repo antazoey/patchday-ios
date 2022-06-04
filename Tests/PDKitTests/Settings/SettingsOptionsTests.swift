@@ -32,32 +32,32 @@ class SettingsOptionsTests: PDTestCase {
         XCTAssertEqual(.EveryTwoWeeks, actual)
     }
 
-    func testGetExpirationInterval_whenGivenOnceDaily_returnsExpectedString() {
+    func testGetExpirationInterval_whenGivenOnceDaily() {
         let expected = SettingsOptions.OnceDaily
         let interval = ExpirationIntervalUD(.OnceDaily)
         XCTAssertEqual(expected, SettingsOptions.getExpirationInterval(for: interval))
     }
 
-    func testGetExpirationInterval_whenGivenTwiceWeekly_returnsExpectedString() {
+    func testGetExpirationInterval_whenGivenTwiceWeekly() {
         let expected = SettingsOptions.TwiceWeekly
         let interval = ExpirationIntervalUD(.TwiceWeekly)
         XCTAssertEqual(expected, SettingsOptions.getExpirationInterval(for: interval))
     }
 
-    func testGetExpirationInterval_whenGivenOnceWeekly_returnsExpectedString() {
+    func testGetExpirationInterval_whenGivenOnceWeekly() {
         let expected = SettingsOptions.OnceWeekly
         let interval = ExpirationIntervalUD(.OnceWeekly)
         XCTAssertEqual(expected, SettingsOptions.getExpirationInterval(for: interval))
     }
 
-    func testGetExpirationInterval_whenGivenEveryTwoWeeks_returnsExpectedString() {
+    func testGetExpirationInterval_whenGivenEveryTwoWeeks() {
         let expected = SettingsOptions.OnceEveryTwoWeeks
         let interval = ExpirationIntervalUD(.EveryTwoWeeks)
         let actual = SettingsOptions.getExpirationInterval(for: interval)
         XCTAssertEqual(expected, actual)
     }
 
-    func testGetExpirationInterval_whenGivenCustom_returnsExpectedString() {
+    func testGetExpirationInterval_whenGivenCustom() {
         let testInterval = ExpirationIntervalUD(.EveryXDays)
         testInterval.xDays.rawValue = "1.5"
         XCTAssertEqual("Every 1½ Days", SettingsOptions.getExpirationInterval(for: testInterval))

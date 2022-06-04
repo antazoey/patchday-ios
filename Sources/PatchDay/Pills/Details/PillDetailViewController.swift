@@ -84,8 +84,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @objc func willEnterForeground() {
-        loadSelectNameButton()
-        disableSave()
+        setPickerButtonTargets()
+        enableSaveButton(doEnable: viewModel.hasUnsavedChanges)
         reflectPillAttributes()
         applyTheme()
     }
@@ -115,7 +115,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         selectNameButton.setTitle(ActionStrings.Select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
         if viewModel.nameIsSelected {
-            enableSave()
+            enableSaveButton()
         }
     }
 
@@ -134,7 +134,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         expirationIntervalButton.setTitle(intervalText)
         expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
         if viewModel.expirationIntervalIsSelected {
-            enableSave()
+            enableSaveButton()
         }
         loadExpirationInterval()
     }
@@ -178,7 +178,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysTwoButton.setTitle(daysOffText)
         daysTwoButton.replaceTarget(self, newAction: #selector(daysTwoButtonTapped(_:)))
         if viewModel.daysSelected {
-            enableSave()
+            enableSaveButton()
         }
         daysPositionSetButton.setTitle(
             NSLocalizedString("Set", comment: "small button text")
@@ -195,7 +195,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBAction func notificationSwitched(_ sender: Any) {
         guard let _switch = sender as? UISwitch else { return }
         viewModel.selections.notify = _switch.isOn
-        enableSave()
+        enableSaveButton()
     }
 
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
@@ -208,7 +208,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         updateTimesdayValueLabel()
         viewModel.enableOrDisable(timePickers, timeLabels)
         viewModel.setPickerTimes(timePickers)
-        enableSave()
+        enableSaveButton()
     }
 
     // MARK: - Picker functions
@@ -246,6 +246,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        enableSaveButton()
         if selectedPicker == namePicker {
             viewModel.selectName(row)
             nameTextField.text = viewModel.name
@@ -267,7 +268,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameTextField.text = nameTextField.text == "" ? PillStrings.NewPill : nameTextField.text
         selectNameButton.isEnabled = true
         viewModel.selections.name = nameTextField.text
-        enableSave()
+        enableSaveButton()
         return true
     }
 
@@ -283,7 +284,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         )
         if result.canReplace {
             viewModel.selections.name = result.updatedText
-            enableSave()
+            enableSaveButton()
         }
         return result.canReplace
     }
@@ -297,10 +298,22 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysPicker.delegate = self
     }
 
-    private func loadSelectNameButton() {
-        selectNameButton.replaceTarget(
-            self, newAction: #selector(selectNameTapped), for: .touchUpInside
-        )
+    private func setPickerButtonTargets() {
+        if namePicker.isHidden {
+            selectNameButton.replaceTarget(
+                self, newAction: #selector(selectNameTapped), for: .touchUpInside
+            )
+        } else {
+            selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))
+        }
+
+        if expirationIntervalPicker.isHidden {
+            expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
+        } else {
+            expirationIntervalButton.replaceTarget(
+                self, newAction: #selector(doneWithSelectExpirationIntervalTapped)
+            )
+        }
     }
 
     private func loadTitle() {
@@ -343,12 +356,15 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadExpirationInterval() {
-        expirationIntervalButton.setTitle(viewModel.expirationIntervalText)
+        let pickerHidden = expirationIntervalPicker.isHidden
+        let title = pickerHidden ? viewModel.expirationIntervalText : ActionStrings.Done
+        expirationIntervalButton.setTitle(title)
         loadExpirationIntervalDays()
     }
 
     private func loadExpirationIntervalDays() {
         hideOrUnhideDaysStack()
+        guard daysPicker.isHidden else { return }
         daysOneLabel.text = viewModel.daysOneLabelText
         daysOneButton.setTitle(viewModel.daysOn)
         daysTwoLabel.text = viewModel.daysTwoLabelText
@@ -517,7 +533,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @objc private func handleTimePickerDone(_ timePicker: UIDatePicker) {
-        enableSave()
+        enableSaveButton()
         let timeIndex = timePickers.firstIndex(of: timePicker) ?? 0
         let newTime = timePicker.date
         viewModel.selectTime(newTime, timeIndex)
@@ -557,12 +573,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePickerFour.preferredDatePickerStyle = .compact
     }
 
-    private func enableSave() {
-        navigationItem.rightBarButtonItem?.isEnabled = true
-    }
-
-    private func disableSave() {
-        navigationItem.rightBarButtonItem?.isEnabled = false
+    private func enableSaveButton(doEnable: Bool = true) {
+        navigationItem.rightBarButtonItem?.isEnabled = doEnable
     }
 
     private func segueToPillsVC() {

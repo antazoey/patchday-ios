@@ -11,7 +11,7 @@ public protocol HormoneDetailViewModelProtocol {
     var hormoneId: UUID? { get }
     var hormone: Hormonal? { get }
     var selections: HormoneSelectionState { get set }
-    var handleInterfaceUpdatesFromNewSite: () -> Void { get }
+    var newSiteUIHook: () -> Void { get }
     var dateSelected: Date? { get set }
     var datePickerDate: Date { get }
     var selectSiteStartText: String { get }

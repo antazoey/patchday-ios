@@ -1,6 +1,6 @@
 CMD = xcodebuild
 LINT_PATHS = Sources/ Tests/
-LINT_FLAGS = --reporter junit | tee result.xml
+LINT_FLAGS =
 TEST_BUILD = xcodebuild build-for-testing 
 TEST_FLAGS = -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.5'
 

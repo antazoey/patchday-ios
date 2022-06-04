@@ -18,6 +18,7 @@ class HormoneCell: TableCell, HormoneCellProtocol {
 
     @discardableResult
     public func configure(_ viewModel: HormoneCellViewModelProtocol) -> HormoneCellProtocol {
+        self.accessibilityIdentifier = viewModel.cellId
         self.viewModel = viewModel
         backgroundColor = UIColor.systemBackground
         return reflectHormone(at: viewModel.cellIndex).applyTheme()
@@ -73,7 +74,7 @@ class HormoneCell: TableCell, HormoneCellProtocol {
 
     private func loadBadge() {
         guard let viewModel = viewModel else { return }
-        badgeButton.restorationIdentifier = viewModel.badgeId
+        badgeButton.restorationIdentifier = viewModel.cellId
         badgeButton.type = viewModel.badgeType
         badgeButton.badgeValue = viewModel.badgeValue
         badgeButton.setNeedsDisplay()

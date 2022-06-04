@@ -23,14 +23,23 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
     var isEditing: Bool { table.isEditing }
 
     func reloadCells() {
+        sites?.reloadContext()
         table.performBatchUpdates({
             table.isEditing = false
-            let range = 0..<(sites?.count ?? 0)
-            let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) }
-            )
+            let endSiteIndex = (sites?.count ?? 1) - 1
+            let endCellIndex = cellCount - 1
+
+            // Handle case where user deletes cell and then resets in same session
+            if endCellIndex < endSiteIndex {
+                let insertRange = (endCellIndex + 1)...endSiteIndex
+                let indexPaths = insertRange.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
+                table.insertRows(at: indexPaths, with: .none)
+            }
+
+            let range = 0...endSiteIndex
+            let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
             table.reloadRows(at: indexPathsToReload, with: .automatic)
-            resetCellColors(startIndex: 0)
-        }, completion: nil)
+        }, completion: {_ in self.correctCellProperties(startIndex: 0)})
     }
 
     subscript(index: Index) -> SiteCellProtocol {
@@ -48,12 +57,13 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
     }
 
     func deleteCell(indexPath: IndexPath) {
-        table.beginUpdates()
         table.deleteRows(at: [indexPath], with: .fade)
-        table.reloadData()
         guard indexPath.row < cellCount else { return }
-        resetCellColors(startIndex: indexPath.row)
-        table.endUpdates()
+        correctCellProperties(startIndex: indexPath.row)
+        if !table.isEditing {
+            // Only reload when not in editting mode
+            self.reloadCells()
+        }
     }
 
     private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
@@ -68,7 +78,7 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
         return props
     }
 
-    private func resetCellColors(startIndex: Index) {
+    private func correctCellProperties(startIndex: Index) {
         for i in startIndex..<cellCount {
             let nextIndexPath = IndexPath(row: i, section: 0)
             var cell = self[nextIndexPath.row]

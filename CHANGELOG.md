@@ -1,5 +1,25 @@
 # Changelog
 
+# 3.8.0
+
+Changed
+
+- Target iOS 15.4
+- Site name selection list in Site Schedule now inclues all possible site names.
+- The site image picker now is disabled while picking or typing a site name.
+
+Fixed
+
+- Issue where Sites View title would not appear.
+- Issue causing you to only be able to delete one site cell at a time when in Editting mode.
+- Issue causing site cells to get unordered when deleting and resetting in the same editting session.
+- Issue where re-ordering sites would unnecessarily change the next site index.
+- Issue where site image would not update when changing site names to known sites.
+- Issue where controls became disabled if opening the Site picker in the Hormone Detail view, navigating away,
+  and then returning.
+- Issue when navigating away with open pickers in the Pill Details view would cause UI issues.
+- Issue where Quantity picker in Settings view would not stay open when navigating away and back.
+
 # 3.7.0
 
 Changed

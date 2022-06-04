@@ -13,49 +13,49 @@ import PDTest
 import PDKit
 
 class PillTimesQuotientTests: PDTestCase {
-    func testToString_zeroOne_returnsExpectedString() {
+    func testToString_zeroOne() {
         let quotient = PillTimesQuotient(timesTakenToday: 0, timesaday: 1)
         let expected = "0 of 1"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_oneOne_returnsExpectedString() {
+    func testToString_oneOne() {
         let quotient = PillTimesQuotient(timesTakenToday: 1, timesaday: 1)
         let expected = "1 of 1"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_threeFour_returnsExpectedString() {
+    func testToString_threeFour() {
         let quotient = PillTimesQuotient(timesTakenToday: 3, timesaday: 4)
         let expected = "3 of 4"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_fourFour_returnsExpectedString() {
+    func testToString_fourFour() {
         let quotient = PillTimesQuotient(timesTakenToday: 4, timesaday: 4)
         let expected = "4 of 4"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_twoOne_returnsExpectedDefaultString() {
+    func testToString_twoOne() {
         let quotient = PillTimesQuotient(timesTakenToday: 2, timesaday: 1)
         let expected = "1 of 1"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_negativeTimesTaken_returnsExpectedDefaultString() {
+    func testToString_negativeTimesTaken() {
         let quotient = PillTimesQuotient(timesTakenToday: -2, timesaday: 3)
         let expected = "0 of 3"
         let actual = quotient.toString()
         XCTAssertEqual(expected, actual)
     }
 
-    func testToString_negativeTimesaday_returnsExpectedDefaultString() {
+    func testToString_negativeTimesaday() {
         let quotient = PillTimesQuotient(timesTakenToday: 2, timesaday: -3)
         let expected = "1 of 1"
         let actual = quotient.toString()

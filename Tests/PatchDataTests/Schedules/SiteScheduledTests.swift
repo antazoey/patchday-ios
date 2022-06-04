@@ -282,11 +282,12 @@ class SiteScheduleTests: PDTestCase {
     }
 
     public func testInsertNew_whenSuccessful_callsOnSuccess() {
-        var called = false
-        let testClosure = { called = true }
+        var newSite: Bodily!
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        sites.insertNew(name: "Doesn't matter", onSuccess: testClosure)
-        XCTAssert(called)
+        sites.insertNew(name: "Doesn't matter") {
+            s in newSite = s
+        }
+        XCTAssertNotNil(newSite)
     }
 
     public func testInsertNew_whenSuccessful_saves() {
@@ -324,9 +325,10 @@ class SiteScheduleTests: PDTestCase {
     public func testInsertNew_whenUnsuccessful_doesNotCallOnSuccess() {
         mockStore.newObjectFactory = nil
         var called = false
-        let testClosure = { called = true }
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        sites.insertNew(name: "Doesn't matter", onSuccess: testClosure)
+        sites.insertNew(name: "Doesn't matter") {
+            _ in called = true
+        }
         XCTAssertFalse(called)
     }
 

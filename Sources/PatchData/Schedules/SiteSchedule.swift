@@ -83,12 +83,12 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     @discardableResult
-    public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {
+    public func insertNew(name: String, onSuccess: ((Bodily) -> Void)?) -> Bodily? {
         if var site = store.createNewSite(doSave: true) {
             site.name = name
             site.order = count
             context.append(site)
-            onSuccess?()
+            onSuccess?(site)
             save()
             return site
         }

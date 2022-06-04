@@ -143,9 +143,9 @@ class SitesViewModelTests: PDTestCase {
 
     func testReorderSites_callsReorderSites() {
         let table = MockSitesTable()
-        let dep = MockDependencies()
-        let sites = dep.sdk?.sites as! MockSiteSchedule
-        let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
+        let dependencies = MockDependencies()
+        let sites = dependencies.sdk?.sites as! MockSiteSchedule
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
         let source = 0
         let dest = 3
         viewModel.reorderSites(sourceRow: source, destinationRow: dest)
@@ -155,21 +155,46 @@ class SitesViewModelTests: PDTestCase {
         XCTAssertEqual(dest, actualDest)
     }
 
-    func testReorderSites_updatesSiteIndexToDestination() {
+    func testReorderSites_whenSourceIsNextIndex_updatesSiteIndexToDestination() {
         let table = MockSitesTable()
-        let dep = MockDependencies()
-        let settings = dep.sdk!.settings as! MockSettings
-        let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
-        let dest = 3
-        viewModel.reorderSites(sourceRow: 0, destinationRow: dest)
+        let dependencies = MockDependencies()
+        (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1
+        let settings = dependencies.sdk!.settings as! MockSettings
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
+        let source = 1
+        let destination = 3
+        viewModel.reorderSites(sourceRow: source, destinationRow: destination)
         let actualDest = settings.setSiteIndexCallArgs[0]
-        XCTAssertEqual(dest, actualDest)
+        XCTAssertEqual(destination, actualDest)
+    }
+
+    func testReorderSites_whenDestinationIsNextIndex_updatesSiteIndexToSource() {
+        let table = MockSitesTable()
+        let dependencies = MockDependencies()
+        (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1
+        let settings = dependencies.sdk!.settings as! MockSettings
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
+        let source = 3
+        let destination = 1
+        viewModel.reorderSites(sourceRow: source, destinationRow: destination)
+        let actualDest = settings.setSiteIndexCallArgs[0]
+        XCTAssertEqual(source, actualDest)
+    }
+
+    func testReorderSites_whenNeitherSourceNorDesinationIsNextIndex_doesNotUpdateSiteIndex() {
+        let table = MockSitesTable()
+        let dependencies = MockDependencies()
+        (dependencies.sdk!.sites as! MockSiteSchedule).nextIndex = 1
+        let settings = dependencies.sdk!.settings as! MockSettings
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
+        viewModel.reorderSites(sourceRow: 2, destinationRow: 3)
+        XCTAssertEqual(0, settings.setSiteIndexCallArgs.count)
     }
 
     func testReorderSites_reloadsTable() {
         let table = MockSitesTable()
-        let dep = MockDependencies()
-        let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
+        let dependencies = MockDependencies()
+        let viewModel = SitesViewModel(sitesTable: table, dependencies: dependencies)
         let dest = 3
         viewModel.reorderSites(sourceRow: 0, destinationRow: dest)
         XCTAssertEqual(1, table.reloadDataCallCount)
@@ -275,7 +300,7 @@ class SitesViewModelTests: PDTestCase {
         let callArgs = sites.insertNewCallArgs
         PDAssertSingle(callArgs)
         XCTAssertEqual(SiteStrings.NewSite, callArgs[0].0)
-        XCTAssertNil(callArgs[0].1)
+        XCTAssertNotNil(callArgs[0].1)
     }
 
     func testToggleEdit_whenEditing_callsToggleEditWithTrue() {
@@ -326,18 +351,6 @@ class SitesViewModelTests: PDTestCase {
 
         let callArgs = table.deleteCellCallArgs
         PDAssertSingle(index, callArgs)
-    }
-
-    func testDeleteSite_reloadsTable() {
-        let table = MockSitesTable()
-        table.isEditing = false
-        let dep = MockDependencies()
-
-        let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
-        let index = IndexPath(row: 1, section: 0)
-        viewModel.deleteSite(at: index)
-
-        XCTAssertEqual(1, table.reloadCellsCallCount)
     }
 
     @objc func mockInsert() { }

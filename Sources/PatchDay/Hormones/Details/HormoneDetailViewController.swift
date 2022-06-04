@@ -111,6 +111,8 @@ class HormoneDetailViewController: UIViewController,
         typeSiteButton.setTitle(ActionStrings.Done)
         let id = textField.restorationIdentifier ?? ""
         if let senderType = TextFieldButtonSenderType(rawValue: id) {
+            // The sender is either the Type button or the Site name
+            // For the type button, accept keyboard input. Else, open picker.
             handleSenderType(senderType, textFieldSender: textField)
         }
     }
@@ -135,6 +137,15 @@ class HormoneDetailViewController: UIViewController,
     @objc func closeSiteTextField() {
         guard let viewModel = viewModel else { return }
         let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
+        _closeSiteTextField()
+        if siteNameTyped.isEmpty {
+            selectSiteTextField.text = viewModel.selectSiteStartText
+        } else {
+            viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
+        }
+    }
+
+    func _closeSiteTextField() {
         typeSiteButton.setTitle(ActionStrings._Type)
         selectSiteTextField.endEditing(true)
         selectSiteTextField.isEnabled = true
@@ -143,11 +154,6 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-        if siteNameTyped.isEmpty {
-            selectSiteTextField.text = viewModel.selectSiteStartText
-        } else {
-            viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
-        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -244,6 +250,12 @@ class HormoneDetailViewController: UIViewController,
     }
 
     private func loadSiteControls() {
+        if !sitePicker.isHidden {
+            // Don't load site controls if picker is already open.
+            // This indicates the user has opened the picker, navigated away, and then returned.
+            return
+        }
+
         if let viewModel = viewModel {
             selectSiteTextField.text = viewModel.selectSiteStartText
         }
@@ -257,9 +269,16 @@ class HormoneDetailViewController: UIViewController,
     }
 
     private func loadSaveButton() {
-        let save = ActionStrings.Save
+        let buttonId = "saveHormoneButton"
+        if navigationItem.rightBarButtonItem?.accessibilityIdentifier == buttonId {
+            // Already loaded
+            return
+        }
+
+        let title = ActionStrings.Save
         let handleSave = #selector(saveButtonTapped(_:))
-        saveButton = UIBarButtonItem(title: save, style: .plain, target: self, action: handleSave)
+        saveButton = UIBarButtonItem(title: title, style: .plain, target: self, action: handleSave)
+        saveButton.accessibilityIdentifier = buttonId
         navigationItem.rightBarButtonItem = saveButton
         saveButton.isEnabled = false
     }

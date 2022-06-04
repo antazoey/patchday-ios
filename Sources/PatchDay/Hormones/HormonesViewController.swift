@@ -96,6 +96,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         let settingsButton = PDViewFactory.createIconBarButtonItem(PDIcons.settingsIcon)
         settingsButton.target = self
         settingsButton.action = #selector(settingsTapped)
+        settingsButton.accessibilityIdentifier = "settingsGearButton"
         navigationItem.rightBarButtonItems = [settingsButton]
         let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.HormonesTitle)
         navigationItem.backBarButtonItem = backItem

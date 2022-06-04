@@ -63,6 +63,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         super.viewDidAppear(animated)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        closeSiteTextField()  // Mostly to help emulator 
+    }
+
     @objc func willEnterForeground() {
         guard viewModel.siteName != nil else {
             // Remove outdated observer
@@ -74,7 +78,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return
         }
         loadName()
-        loadImage()
+        self.siteImageView.image = viewModel.siteImage
         loadSave()
         applyTheme()
     }
@@ -85,32 +89,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let id = ViewControllerIds.SiteDetail
         let sb = source.storyboard
         return sb?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
-    }
-
-    private func initWithSiteIndex(
-        _ index: Index, imageParams: SiteImageDeterminationParameters
-    ) -> SiteDetailViewController {
-        let relatedViews = SiteImagePickerRelatedViews(
-            getPicker: { self.imagePicker },
-            getImageView: { self.siteImageView },
-            getSaveButton: { self.saveButton }
-        )
-        let params = SiteDetailViewModelConstructorParams(index, imageParams, relatedViews)
-        return initWithParams(params)
-    }
-
-    private func initWithParams(
-        _ params: SiteDetailViewModelConstructorParams
-    ) -> SiteDetailViewController {
-        let viewModel = SiteDetailViewModel(params)
-        return initWithViewModel(viewModel)
-    }
-
-    private func initWithViewModel(
-        _ viewModel: SiteDetailViewModelProtocol
-    ) -> SiteDetailViewController {
-        self.viewModel = viewModel
-        return self
     }
 
     // MARK: - Actions
@@ -173,6 +151,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // MARK: - Text field
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        imageButton.isEnabled = false
         enableSave()
         typeNameButton.setTitle(ActionStrings.Done)
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
@@ -199,10 +178,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if nameText.text == "" {
             nameText.text = SiteStrings.NewSite
         }
-        loadImage()
+        showSiteImage()
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeSiteTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
+        imageButton.isEnabled = true
     }
 
     // MARK: - Picker functions
@@ -210,6 +190,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @objc private func openPicker(_ picker: UIPickerView) {
         namePicker.selectRow(viewModel.siteNamePickerStartIndex, inComponent: 0, animated: true)
         showPicker(picker)
+        imageButton.isEnabled = false
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -217,7 +198,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel.sitesCount
+        viewModel.siteNameOptions.count
     }
 
     func pickerView(
@@ -228,10 +209,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         viewModel.getAttributedSiteName(at: row)
     }
 
+    /// Called when selecting a site name.
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard let name = viewModel.getSiteName(at: row) else { return }
         self.nameText.text = name
-        viewModel.selections.selectedSiteName = name
+        viewModel.selectSite(name)
     }
 
     @objc func closeNamePicker() {
@@ -246,6 +228,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         )
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.imageButton.isEnabled = true
+    }
+
+    @objc func back() {
+        checkForUnsavedChanges()
     }
 
     // MARK: - Private
@@ -280,8 +267,30 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         navigationItem.leftBarButtonItem = newButton
     }
 
-    @objc func back() {
-        checkForUnsavedChanges()
+    private func initWithSiteIndex(
+        _ index: Index, imageParams: SiteImageDeterminationParameters
+    ) -> SiteDetailViewController {
+        let relatedViews = SiteImagePickerRelatedViews(
+            getPicker: { self.imagePicker },
+            getImageView: { self.siteImageView },
+            getSaveButton: { self.saveButton }
+        )
+        let params = SiteDetailViewModelConstructorParams(index, imageParams, relatedViews)
+        return initWithParams(params)
+    }
+
+    private func initWithParams(
+        _ params: SiteDetailViewModelConstructorParams
+    ) -> SiteDetailViewController {
+        let viewModel = SiteDetailViewModel(params)
+        return initWithViewModel(viewModel)
+    }
+
+    private func initWithViewModel(
+        _ viewModel: SiteDetailViewModelProtocol
+    ) -> SiteDetailViewController {
+        self.viewModel = viewModel
+        return self
     }
 
     private func checkForUnsavedChanges() {
@@ -290,7 +299,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadName() {
-        nameText.text = viewModel.siteName
+        nameText.text = viewModel.selections.selectedSiteName ?? viewModel.siteName
         nameText.autocapitalizationType = .words
         nameText.borderStyle = .none
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
@@ -299,16 +308,12 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         namePicker.isHidden = true
     }
 
-    private func loadImage() {
-        showSiteImage(viewModel.siteImage)
-    }
-
-    private func showSiteImage(_ image: UIImage?) {
+    private func showSiteImage() {
         UIView.transition(
             with: siteImageView,
             duration: 0.5,
             options: .transitionCrossDissolve,
-            animations: { self.siteImageView.image = image },
+            animations: { self.siteImageView.image = self.viewModel.siteImage },
             completion: nil
         )
     }

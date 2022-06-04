@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kgF-Vl-aPW">
-                                        <rect key="frame" x="8" y="35" width="359" height="611"/>
+                                        <rect key="frame" x="8" y="35" width="359" height="395"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lwe-nF-qqW">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="50"/>
@@ -60,6 +60,9 @@
                                                             <color key="titleColor" name="Text"/>
                                                             <color key="titleShadowColor" red="1" green="0.89652202889999999" blue="0.44217208829999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="deliveryMethodButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="settingButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="oBy-3W-0e3"/>
                                                         </connections>
@@ -87,11 +90,14 @@
                                                     <constraint firstAttribute="height" constant="1" id="wS8-cn-fxd"/>
                                                 </constraints>
                                             </view>
-                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajI-Up-RPe" customClass="DeliveryMethodPicker" customModule="PatchDay" customModuleProvider="target">
+                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="deliveryMethodPicker" translatesAutoresizingMaskIntoConstraints="NO" id="ajI-Up-RPe" customClass="DeliveryMethodPicker" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="51" width="359" height="180"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="ev5-LR-JHl"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="deliveryMethodPicker"/>
+                                                </userDefinedRuntimeAttributes>
                                             </pickerView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLk-5k-32E">
                                                 <rect key="frame" x="0.0" y="51" width="359" height="50"/>
@@ -199,6 +205,9 @@
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" name="Text"/>
                                                         </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="settingsQuantityButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="settingButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
                                                         </connections>
@@ -217,11 +226,11 @@
                                                     <constraint firstAttribute="height" constant="50" id="T8X-Pn-QYG"/>
                                                 </constraints>
                                             </stackView>
-                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9L4-RC-IWw" customClass="QuantityPicker" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="152" width="359" height="216"/>
+                                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9L4-RC-IWw" customClass="QuantityPicker" customModule="PatchDay" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="152" width="359" height="0.0"/>
                                             </pickerView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uM5-4U-rqT">
-                                                <rect key="frame" x="0.0" y="368" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="152" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="tintColor" red="0.80764050070000004" green="0.80764050070000004" blue="0.80764050070000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -229,7 +238,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Svj-qQ-vgv">
-                                                <rect key="frame" x="0.0" y="369" width="359" height="50"/>
+                                                <rect key="frame" x="0.0" y="153" width="359" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lock" translatesAutoresizingMaskIntoConstraints="NO" id="VKs-9J-fMN">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
@@ -283,7 +292,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xUU-gZ-927">
-                                                <rect key="frame" x="0.0" y="419" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="203" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="tintColor" red="0.80764050070000004" green="0.80764050070000004" blue="0.80764050070000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -291,7 +300,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uD-9B-lcc">
-                                                <rect key="frame" x="0.0" y="420" width="359" height="50"/>
+                                                <rect key="frame" x="0.0" y="204" width="359" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notify Icon" translatesAutoresizingMaskIntoConstraints="NO" id="hAO-8d-7s4">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
@@ -345,14 +354,14 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQC-JP-otW">
-                                                <rect key="frame" x="0.0" y="470" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="254" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="ilu-Gi-uLO"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fz5-nK-gEh">
-                                                <rect key="frame" x="0.0" y="471" width="359" height="50"/>
+                                                <rect key="frame" x="0.0" y="255" width="359" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time Icon" translatesAutoresizingMaskIntoConstraints="NO" id="sOy-rN-CTv">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="50"/>
@@ -397,7 +406,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVY-I8-lmp">
-                                                <rect key="frame" x="0.0" y="521" width="359" height="80"/>
+                                                <rect key="frame" x="0.0" y="305" width="359" height="80"/>
                                                 <subviews>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="120" translatesAutoresizingMaskIntoConstraints="NO" id="DLV-bL-uBa">
                                                         <rect key="frame" x="43" y="0.0" width="288" height="81"/>
@@ -461,7 +470,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0o-3m-Mfa">
-                                                <rect key="frame" x="0.0" y="601" width="359" height="10"/>
+                                                <rect key="frame" x="0.0" y="385" width="359" height="10"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="giu-aN-C55"/>
@@ -555,7 +564,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="siteCellReuseId" id="YaI-Qz-V3T" customClass="SiteCell" customModule="PatchDay" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="343" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YaI-Qz-V3T" id="9qY-fn-d1c">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
@@ -626,6 +635,9 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="sitesTableView"/>
+                                </userDefinedRuntimeAttributes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QTr-h5-QBW"/>
@@ -687,6 +699,9 @@
                                                         <color key="textColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="siteNameText"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d2D-XX-9tv">
                                                         <rect key="frame" x="282" y="0.0" width="1" height="45"/>
@@ -776,12 +791,21 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="iRb-ge-DIu"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="siteImagePicker"/>
+                                                </userDefinedRuntimeAttributes>
                                             </pickerView>
                                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RLa-hi-dhK">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="244"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="siteDetailsImageView"/>
+                                                </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRW-wu-aPo">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="244"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="siteImageButton"/>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="imageButtonTapped:" destination="7TT-v0-hbb" eventType="touchUpInside" id="Q5V-jN-zb5"/>
                                                 </connections>

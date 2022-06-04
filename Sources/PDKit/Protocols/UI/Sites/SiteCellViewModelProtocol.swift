@@ -8,6 +8,7 @@ import Foundation
 
 public protocol SiteCellViewModelProtocol {
     var siteNameText: String { get }
+    var order: Int? { get }
     var orderText: String { get }
     func getVisibilityBools(
         cellIsInEditMode: Bool) -> (hideNext: Bool, hideOrder: Bool, hideArrow: Bool

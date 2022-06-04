@@ -74,6 +74,14 @@
 		3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C49932A88441EDBC9663 /* HormonesTable.swift */; };
 		3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3FEA855E6D94AB288AD /* AlertStrings.swift */; };
 		3397CF6F00932FC00BF11B79 /* SiteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDD5E1C3F60EAEEFE82B /* SiteDetailViewController.swift */; };
+		847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */; };
+		847678FC283C1948004E6A7E /* PDUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847678FB283C1948004E6A7E /* PDUITest.swift */; };
+		84991BD828497247001C4B8D /* PillDetailUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BD728497247001C4B8D /* PillDetailUITest.swift */; };
+		84991BDA2849730A001C4B8D /* PillsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BD92849730A001C4B8D /* PillsUITest.swift */; };
+		84991BDC28497514001C4B8D /* HormonesUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BDB28497514001C4B8D /* HormonesUITest.swift */; };
+		84991BDE28497551001C4B8D /* SettingsUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84991BDD28497551001C4B8D /* SettingsUITest.swift */; };
+		84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E25E2841958100256A18 /* SitesUITests.swift */; };
+		84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B4E26028419CF000256A18 /* SiteDetailUITests.swift */; };
 		9D003E9A23231E880070C964 /* PDObjectified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9923231E880070C964 /* PDObjectified.swift */; };
 		9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9E232878CE0070C964 /* PatchDataSDK.swift */; };
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
@@ -359,6 +367,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		84A62494283AAC0500D59CD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 137330E81E22BA3E0048F91E;
+			remoteInfo = PatchDay;
+		};
 		9D4D05F3256F61D20037A2E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
@@ -594,6 +609,17 @@
 		3397CF930A5E66090BFA9C71 /* TabReflective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabReflective.swift; sourceTree = "<group>"; };
 		3397CFBE9BB2F360BA64E42E /* EntitiesSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntitiesSaver.swift; sourceTree = "<group>"; };
 		3397CFFF305F5543E4A156A3 /* SitesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesViewController.swift; sourceTree = "<group>"; };
+		847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailUITest.swift; sourceTree = "<group>"; };
+		847678FB283C1948004E6A7E /* PDUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDUITest.swift; sourceTree = "<group>"; };
+		84991BD728497247001C4B8D /* PillDetailUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillDetailUITest.swift; sourceTree = "<group>"; };
+		84991BD92849730A001C4B8D /* PillsUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsUITest.swift; sourceTree = "<group>"; };
+		84991BDB28497514001C4B8D /* HormonesUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormonesUITest.swift; sourceTree = "<group>"; };
+		84991BDD28497551001C4B8D /* SettingsUITest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
+		849F2392284BA67900C875A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A62490283AAC0500D59CD7 /* PatchDayUITests */ = {isa = PBXFileReference; lastKnownFileType = text; name = PatchDayUITests; path = ../../Tests/Tests/PatchDayUITests; sourceTree = "<group>"; };
+		84B4E25E2841958100256A18 /* SitesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
+		84B4E26028419CF000256A18 /* SiteDetailUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailUITests.swift; sourceTree = "<group>"; };
 		9D003E9923231E880070C964 /* PDObjectified.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectified.swift; sourceTree = "<group>"; };
 		9D003E9E232878CE0070C964 /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
@@ -834,7 +860,7 @@
 		9DE1196725FFC90000D08F97 /* TextFieldHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldHelper.swift; sourceTree = "<group>"; };
 		9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxStringTests.swift; sourceTree = "<group>"; };
 		9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageHistory.swift; sourceTree = "<group>"; };
-		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
+		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
 		9DE748382539042500282144 /* SiteCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModelTests.swift; sourceTree = "<group>"; };
 		9DE7483A2539072500282144 /* HormoneCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneCellViewModel.swift; sourceTree = "<group>"; };
 		9DE7483E2539187500282144 /* HormoneCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneCellViewModelTests.swift; sourceTree = "<group>"; };
@@ -868,6 +894,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		137330E61E22BA3E0048F91E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A6248B283AAC0500D59CD7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -959,6 +992,7 @@
 				9D8A981223C573B3004E20FE /* PDTest */,
 				9D6E9AEF2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1DF256C7B2200213E79 /* NextHormoneWidget */,
+				84A6248F283AAC0500D59CD7 /* PatchDayUITests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -975,6 +1009,7 @@
 				9D8A981123C573B3004E20FE /* PDTest.framework */,
 				9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */,
 				9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */,
+				84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -992,7 +1027,7 @@
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				3397CD00CED93151B889E905 /* Images */,
-				B480EE4221CC79DD002C2238 /* Views */,
+				B480EE4221CC79DD002C2238 /* BaseViews */,
 				B480EE4521CC7A09002C2238 /* Hormones */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
 				3397C45AFE80B6E86213E63C /* Pills */,
@@ -1205,6 +1240,22 @@
 				3397CA5E6F3ED61A66763E14 /* UINavigationController+PatchDay.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		84A6248F283AAC0500D59CD7 /* PatchDayUITests */ = {
+			isa = PBXGroup;
+			children = (
+				84B4E25E2841958100256A18 /* SitesUITests.swift */,
+				847678F9283C1933004E6A7E /* HormoneDetailUITest.swift */,
+				847678FB283C1948004E6A7E /* PDUITest.swift */,
+				84B4E26028419CF000256A18 /* SiteDetailUITests.swift */,
+				84991BD728497247001C4B8D /* PillDetailUITest.swift */,
+				84991BD92849730A001C4B8D /* PillsUITest.swift */,
+				84991BDB28497514001C4B8D /* HormonesUITest.swift */,
+				84991BDD28497551001C4B8D /* SettingsUITest.swift */,
+			);
+			name = PatchDayUITests;
+			path = Tests/PatchDayUITests;
 			sourceTree = "<group>";
 		};
 		9D003EA52331D7290070C964 /* Strings */ = {
@@ -1454,6 +1505,7 @@
 		9D69B1DF256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXGroup;
 			children = (
+				84A62490283AAC0500D59CD7 /* PatchDayUITests */,
 				9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */,
 				9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */,
 				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
@@ -2089,6 +2141,7 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
+				849F2392284BA67900C875A5 /* README.md */,
 				9D9397C5237BA8B700FDF290 /* CoreData */,
 				1335B9BA1EC7500D00DD7088 /* PatchData.swift */,
 				9D913BAA230CD5B7001FC03C /* Objects */,
@@ -2126,7 +2179,7 @@
 			path = ManagedObjects;
 			sourceTree = "<group>";
 		};
-		B480EE4221CC79DD002C2238 /* Views */ = {
+		B480EE4221CC79DD002C2238 /* BaseViews */ = {
 			isa = PBXGroup;
 			children = (
 				3397CDDC25322F027DE45D6A /* PDViewFactory.swift */,
@@ -2134,7 +2187,7 @@
 				3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */,
 				3397CB4BB5AA9C4FB0948A47 /* UIKit+PatchDay.swift */,
 			);
-			path = Views;
+			path = BaseViews;
 			sourceTree = "<group>";
 		};
 		B480EE4521CC7A09002C2238 /* Hormones */ = {
@@ -2237,6 +2290,24 @@
 			productName = PatchDay;
 			productReference = 137330E91E22BA3E0048F91E /* PatchDay.app */;
 			productType = "com.apple.product-type.application";
+		};
+		84A6248D283AAC0500D59CD7 /* PatchDayUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84A62498283AAC0500D59CD7 /* Build configuration list for PBXNativeTarget "PatchDayUITests" */;
+			buildPhases = (
+				84A6248A283AAC0500D59CD7 /* Sources */,
+				84A6248B283AAC0500D59CD7 /* Frameworks */,
+				84A6248C283AAC0500D59CD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84A62495283AAC0500D59CD7 /* PBXTargetDependency */,
+			);
+			name = PatchDayUITests;
+			productName = PatchDayUITests;
+			productReference = 84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		9D69B1D9256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXNativeTarget;
@@ -2359,9 +2430,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B49A4A5520DB2D4C00F24FC0 /* Build configuration list for PBXNativeTarget "PDKit" */;
 			buildPhases = (
+				B49A4A3B20DB2D4C00F24FC0 /* Headers */,
 				B49A4A3920DB2D4C00F24FC0 /* Sources */,
 				B49A4A3A20DB2D4C00F24FC0 /* Frameworks */,
-				B49A4A3B20DB2D4C00F24FC0 /* Headers */,
 				B49A4A3C20DB2D4C00F24FC0 /* Resources */,
 			);
 			buildRules = (
@@ -2379,7 +2450,7 @@
 		137330E11E22BA3E0048F91E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Juliya Smith";
 				TargetAttributes = {
@@ -2397,6 +2468,10 @@
 								enabled = 0;
 							};
 						};
+					};
+					84A6248D283AAC0500D59CD7 = {
+						CreatedOnToolsVersion = 13.3.1;
+						TestTargetID = 137330E81E22BA3E0048F91E;
 					};
 					9D69B1D9256C7B2200213E79 = {
 						CreatedOnToolsVersion = 12.2;
@@ -2462,6 +2537,7 @@
 				9D8A981023C573B3004E20FE /* PDTest */,
 				9D6E9AED2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1D9256C7B2200213E79 /* NextHormoneWidget */,
+				84A6248D283AAC0500D59CD7 /* PatchDayUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2475,6 +2551,13 @@
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				3397C48DA7DB4EB8DD595319 /* SettingsAndSites.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A6248C283AAC0500D59CD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2612,6 +2695,21 @@
 				3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */,
 				3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */,
 				3397C39300E0DC7A3FF82DE8 /* UINavigationController+PatchDay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84A6248A283AAC0500D59CD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84991BDC28497514001C4B8D /* HormonesUITest.swift in Sources */,
+				84B4E26128419CF000256A18 /* SiteDetailUITests.swift in Sources */,
+				84991BDE28497551001C4B8D /* SettingsUITest.swift in Sources */,
+				847678FC283C1948004E6A7E /* PDUITest.swift in Sources */,
+				84B4E25F2841958100256A18 /* SitesUITests.swift in Sources */,
+				84991BDA2849730A001C4B8D /* PillsUITest.swift in Sources */,
+				847678FA283C1933004E6A7E /* HormoneDetailUITest.swift in Sources */,
+				84991BD828497247001C4B8D /* PillDetailUITest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2912,6 +3010,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		84A62495283AAC0500D59CD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 137330E81E22BA3E0048F91E /* PatchDay */;
+			targetProxy = 84A62494283AAC0500D59CD7 /* PBXContainerItemProxy */;
+		};
 		9D4D05F4256F61D20037A2E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
@@ -3060,7 +3163,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -3115,7 +3218,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -3136,12 +3239,12 @@
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3161,17 +3264,64 @@
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		84A62496283AAC0500D59CD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDayUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PatchDay;
+			};
+			name = Debug;
+		};
+		84A62497283AAC0500D59CD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDayUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PatchDay;
 			};
 			name = Release;
 		};
@@ -3191,13 +3341,13 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
@@ -3224,13 +3374,13 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3253,7 +3403,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3283,7 +3433,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3317,7 +3467,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDTest/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3357,7 +3507,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDTest/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3388,7 +3538,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3415,7 +3565,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3447,13 +3597,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -3485,13 +3635,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3517,7 +3667,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3546,7 +3696,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3580,13 +3730,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3617,13 +3767,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7.0;
+				MARKETING_VERSION = 3.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3652,6 +3802,15 @@
 			buildConfigurations = (
 				137331121E22BA3E0048F91E /* Debug */,
 				137331131E22BA3E0048F91E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84A62498283AAC0500D59CD7 /* Build configuration list for PBXNativeTarget "PatchDayUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84A62496283AAC0500D59CD7 /* Debug */,
+				84A62497283AAC0500D59CD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

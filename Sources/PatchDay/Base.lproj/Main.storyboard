@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -46,6 +46,9 @@
                                     </view>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="QuF-JW-mey" customClass="HormoneDatePicker" customModule="PatchDay" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="17" width="339" height="216"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="hormoneDatePicker"/>
+                                        </userDefinedRuntimeAttributes>
                                     </datePicker>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHr-Tu-bAI">
                                         <rect key="frame" x="0.0" y="233" width="339" height="1"/>
@@ -145,6 +148,9 @@
                                                 <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="selectHormoneSiteTextField"/>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="openSitePicker:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="CNy-oG-uQU"/>
                                                 </connections>
@@ -172,6 +178,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="mcJ-Yf-dbd"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="hormoneSiteSelectorStack"/>
+                                        </userDefinedRuntimeAttributes>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2g-Q7-iMQ">
                                         <rect key="frame" x="0.0" y="419" width="339" height="1"/>
@@ -279,7 +288,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="pillCellReuseId" rowHeight="170" id="Rwt-n4-9qh" customClass="PillCell" customModule="PatchDay" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="375" height="170"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rwt-n4-9qh" id="IiY-0Z-0mN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
@@ -301,13 +310,13 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Taken:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I94-7z-DfX">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" name="Text"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/1" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kh-St-oZZ">
-                                                                    <rect key="frame" x="143" y="0.0" width="200" height="25"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0/1" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kh-St-oZZ">
+                                                                    <rect key="frame" x="100" y="0.0" width="243" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="rXY-b1-Pys"/>
                                                                     </constraints>
@@ -321,13 +330,13 @@
                                                             <rect key="frame" x="0.0" y="25" width="343" height="25"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Last:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD8-YQ-00g">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="25"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" name="Text"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday, 10:00 PM" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfQ-wk-dOK">
-                                                                    <rect key="frame" x="143" y="0.0" width="200" height="25"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="243" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="0kj-U1-g7b"/>
                                                                     </constraints>
@@ -341,7 +350,7 @@
                                                             <rect key="frame" x="0.0" y="50" width="343" height="25"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="25"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="xw6-TO-mFR"/>
                                                                     </constraints>
@@ -350,11 +359,11 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
-                                                                    <rect key="frame" x="143" y="0.0" width="200" height="25"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="243" height="25"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Nqe-WM-3MV"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                     <color key="textColor" name="Button"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -418,7 +427,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pills" id="Jvz-nd-goC">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="1FO-8Q-44h">
+                        <barButtonItem key="leftBarButtonItem" id="1FO-8Q-44h">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="W32-B2-O5G">
                                 <rect key="frame" x="16" y="6.5" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -500,6 +509,9 @@
                                                         <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillNameTextField"/>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UCx-Qm-o6m">
                                                         <rect key="frame" x="324" y="0.0" width="1" height="50"/>
@@ -516,6 +528,9 @@
                                                         <state key="normal" title="Select">
                                                             <color key="titleColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="selectPillButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="selectNameTapped" destination="9mn-Be-MMV" eventType="touchUpInside" id="TpW-wf-bQj"/>
                                                         </connections>
@@ -524,6 +539,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="KMh-Hw-Kvy"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillNameStack"/>
+                                                </userDefinedRuntimeAttributes>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGT-mi-uMr">
                                                 <rect key="frame" x="0.0" y="101" width="375" height="0.0"/>
@@ -622,6 +640,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEs-dt-ycQ">
                                                         <rect key="frame" x="104.5" y="0.0" width="240.5" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="expirationIntervalTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Lb8-sV-bKS"/>
                                                         </connections>
@@ -639,6 +660,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="9cC-sL-bgy"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillScheduleStack"/>
+                                                </userDefinedRuntimeAttributes>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilc-SD-D8X">
                                                 <rect key="frame" x="0.0" y="203" width="375" height="0.0"/>
@@ -669,6 +693,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxd-9K-fkL">
                                                         <rect key="frame" x="61" y="0.0" width="284" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillDaysOneScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="daysOneButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Gjt-Yd-1xn"/>
                                                         </connections>
@@ -713,6 +740,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0v-lE-g9f">
                                                         <rect key="frame" x="62.5" y="0.0" width="282.5" height="50"/>
                                                         <state key="normal" title="Button"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="pillDaysTwoScheduleButton"/>
+                                                        </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <action selector="daysTwoButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="4ro-Ch-LFZ"/>
                                                         </connections>
@@ -749,26 +779,20 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days on 1/12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpp-Ro-ozU">
-                                                        <rect key="frame" x="5" y="0.0" width="319" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="BDR-JX-XLJ"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="5" y="0.0" width="289" height="50"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4u1-fA-09L">
-                                                        <rect key="frame" x="324" y="0.0" width="1" height="50"/>
+                                                        <rect key="frame" x="294" y="0.0" width="1" height="50"/>
                                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="1" id="Srp-PE-uUW"/>
                                                         </constraints>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eWG-By-QKa">
-                                                        <rect key="frame" x="325" y="0.0" width="50" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" priority="999" constant="50" id="4ZB-cm-UBO"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="295" y="0.0" width="80" height="50"/>
                                                         <state key="normal" title="Set"/>
                                                         <connections>
                                                             <action selector="daysPositionButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Paz-Jg-Nat"/>
@@ -1030,6 +1054,7 @@
                                         <constraints>
                                             <constraint firstItem="1wA-kW-Ajl" firstAttribute="width" secondItem="iyr-SE-MH9" secondAttribute="width" id="Ejg-mA-Cvh"/>
                                             <constraint firstItem="Oy6-jv-i7L" firstAttribute="width" secondItem="iyr-SE-MH9" secondAttribute="width" id="FtT-vE-7uX"/>
+                                            <constraint firstItem="Oy6-jv-i7L" firstAttribute="leading" secondItem="eWG-By-QKa" secondAttribute="leading" constant="50" id="jhR-Te-Vty"/>
                                             <constraint firstItem="1wA-kW-Ajl" firstAttribute="leading" secondItem="dX2-Ji-Hpr" secondAttribute="leading" constant="20" id="xkM-6j-NKQ"/>
                                         </constraints>
                                     </stackView>
@@ -1133,7 +1158,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="esrtogenCellReuseId" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HormoneCellReuseId" rowHeight="160" id="oaP-a3-SJ3" customClass="HormoneCell" customModule="PatchDay" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="343" height="160"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="160"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oaP-a3-SJ3" id="JA4-OY-wJV">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>

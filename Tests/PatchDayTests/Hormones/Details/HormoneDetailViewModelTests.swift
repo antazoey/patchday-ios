@@ -346,7 +346,7 @@ class HormoneDetailViewModelTests: PDTestCase {
     func testCreateHormoneViewStrings_createsExpectedStrings() {
         let actual = viewModel.createHormoneViewStrings()!
         XCTAssertEqual("Application date and time: ", actual.dateAndTimePlacedText)
-        XCTAssertEqual("Exp:", actual.expirationText)
+        XCTAssertEqual("Expiration:", actual.expirationText)
         XCTAssertEqual("Site: ", actual.siteLabelText)
     }
 
@@ -509,7 +509,7 @@ class HormoneDetailViewModelTests: PDTestCase {
         let handlers = alertFactory.createNewSiteAlertCallArgs[0]
         handlers.handleNewSite()
         let closure = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0].1
-        closure!()
+        closure!(MockSite())
         XCTAssertEqual(1, HormoneDetailViewModelTests.handlerCallCount)
     }
 

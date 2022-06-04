@@ -24,12 +24,24 @@ class PDAlertController: UIAlertController {
     }
 
     func show(animated: Bool = true) {
+        guard let parent = currentUIWindow() else { return }
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = UIViewController()
-        window.windowLevel = UIApplication.shared.windows.last!.windowLevel + 1
+        window.windowLevel = parent.windowLevel + 1
         window.makeKeyAndVisible()
         window.rootViewController?.present(self, animated: animated, completion: nil)
         alertWindow = window
+    }
+
+    func currentUIWindow() -> UIWindow? {
+        let connectedScenes = UIApplication.shared.connectedScenes
+            .compactMap({$0 as? UIWindowScene})
+
+        let window = connectedScenes.last?
+            .windows
+            .first { $0.isKeyWindow }
+
+        return window
     }
 }
 

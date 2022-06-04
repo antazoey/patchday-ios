@@ -72,6 +72,10 @@ public class SiteStrings {
 
     public static var gels: [String] { [Arms] }
 
+    public static var all: [String] {
+        Array(Set(patches + injections + gels))
+    }
+
     public static func getSiteNames(for method: DeliveryMethod) -> [String] {
         switch method {
             case .Patches: return patches

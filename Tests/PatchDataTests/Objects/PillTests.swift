@@ -151,7 +151,7 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(.FirstXDays, actual.value)
     }
 
-    func testExpirationInterval_whenLastTwenty_returnsExpectedString() {
+    func testExpirationInterval_whenLastTwenty() {
         let attributes = PillAttributes()
         attributes.expirationInterval.value = .LastXDays
         attributes.expirationInterval.daysOne = 20
@@ -611,11 +611,12 @@ public class PillTests: PDTestCase {
 
     func testDue_whenTakenFirstTwentyDaysAndFinishedOnNineteenthDay_returnsNextDayAtTimeOne() {
         let attributes = PillAttributes()
+        let now = MockNow()
+        now.now = januaryNineteenth
+        let testTime = getFiveMinutesAgo(now: now)
         attributes.expirationInterval.value = .FirstXDays
         attributes.expirationInterval.daysOne = 20
         attributes.timesTakenToday = "12:00:00"
-        let now = MockNow()
-        let testTime = getFiveMinutesAgo(now: now)
         attributes.lastTaken = testTime
         attributes.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTime])
         let pill = createPill(attributes, now)
