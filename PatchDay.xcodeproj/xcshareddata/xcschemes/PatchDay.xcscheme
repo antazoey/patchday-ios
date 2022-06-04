@@ -20,6 +20,20 @@
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84A6248D283AAC0500D59CD7"
+               BuildableName = "PatchDayUITests.xctest"
+               BlueprintName = "PatchDayUITests"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -35,16 +49,6 @@
                BlueprintIdentifier = "9D6E9AED2456253A003BBCC9"
                BuildableName = "PatchDayTests.xctest"
                BlueprintName = "PatchDayTests"
-               ReferencedContainer = "container:PatchDay.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84A6248D283AAC0500D59CD7"
-               BuildableName = "PatchDayUITests.xctest"
-               BlueprintName = "PatchDayUITests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </TestableReference>
