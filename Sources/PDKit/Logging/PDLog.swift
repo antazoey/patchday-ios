@@ -24,9 +24,9 @@ public func DEBUG_DATE_PRINT(date: Date?=nil) {
 
 /// Print something that is easy to find in the logs.  Use for debugging purposes only. Do not commit usages.
 public func DEBUG_PRINT(_ msg: Any?) {
-    print("\n\n____TEST____\n")
+    print("\n\n____DEBUG____\n")
     print(msg ?? "nil")
-    print("\n____TEST____\n\n")
+    print("\n____DEBUG____\n\n")
 }
 #endif
 
