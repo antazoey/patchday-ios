@@ -16,7 +16,7 @@ public protocol SiteDetailViewModelProtocol {
     /// The name of the site.
     var siteName: SiteName? { get }
 
-    /// The total number of sites there are in the `SiteSchedule`.
+    /// The total number of sites in the `SiteSchedule`.
     var sitesCount: Int { get }
 
     /// Existing site names to select when editting a site.
