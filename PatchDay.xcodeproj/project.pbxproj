@@ -616,6 +616,7 @@
 		84991BD92849730A001C4B8D /* PillsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUITest.swift; sourceTree = "<group>"; };
 		84991BDB28497514001C4B8D /* HormonesUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesUITest.swift; sourceTree = "<group>"; };
 		84991BDD28497551001C4B8D /* SettingsUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITest.swift; sourceTree = "<group>"; };
+		849F2392284BA67900C875A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		84A6248E283AAC0500D59CD7 /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A62490283AAC0500D59CD7 /* PatchDayUITests */ = {isa = PBXFileReference; lastKnownFileType = text; name = PatchDayUITests; path = ../../Tests/Tests/PatchDayUITests; sourceTree = "<group>"; };
 		84B4E25E2841958100256A18 /* SitesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SitesUITests.swift; sourceTree = "<group>"; };
@@ -2141,6 +2142,7 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
+				849F2392284BA67900C875A5 /* README.md */,
 				9D9397C5237BA8B700FDF290 /* CoreData */,
 				1335B9BA1EC7500D00DD7088 /* PatchData.swift */,
 				9D913BAA230CD5B7001FC03C /* Objects */,
