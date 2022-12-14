@@ -80,6 +80,13 @@ class SiteDetailViewModelTests: PDTestCase {
         XCTAssert(viewModel.siteNameOptions.contains("Neck"))
     }
 
+    func testSiteNameOptions_excludesSitesNamedNewSite() {
+        let site = setupSite()
+        site.name = SiteStrings.NewSite
+        let viewModel = createViewModel()
+        XCTAssert(!viewModel.siteNameOptions.contains(SiteStrings.NewSite))
+    }
+
     func testSiteNamePickerStartIndex_whenNoNameSelected_returnsIndexOfSiteSiteName() {
         let site = setupSite()
         site.name = "Neck"  // index 2
@@ -244,6 +251,29 @@ class SiteDetailViewModelTests: PDTestCase {
         viewModel.handleIfUnsaved(viewController)
         let nav = viewModel.nav as! MockNav
         XCTAssertEqual(viewController, nav.popCallArgs[0])
+    }
+
+    func testHandleIfUnsaved_whenNewSiteAndNoSelections_doesNotGiveOptionToSaveAndContinue() {
+        let site = setupSite()
+        site.name = SiteStrings.NewSite
+        site.order = 5
+        let viewModel = createViewModel(index: site.order)
+        viewModel.handleIfUnsaved(UIViewController())
+        let alerts = viewModel.alerts as! MockAlertFactory
+        let saveAndContinueAction = alerts.createUnsavedAlertCallArgs[0].1
+        XCTAssertNil(saveAndContinueAction)
+    }
+
+    func testHandleIfUnsaved_whenHasSelections_doesGiveOptionToSaveAndContinue() {
+        let site = setupSite()
+        site.name = SiteStrings.NewSite
+        site.order = 5
+        let viewModel = createViewModel(index: site.order)
+        viewModel.selections.selectedSiteName = "Jessica"
+        viewModel.handleIfUnsaved(UIViewController())
+        let alerts = viewModel.alerts as! MockAlertFactory
+        let saveAndContinueAction = alerts.createUnsavedAlertCallArgs[0].1
+        XCTAssertNotNil(saveAndContinueAction)
     }
 
     func testGetAttributedSiteName_hasExpectedName() {

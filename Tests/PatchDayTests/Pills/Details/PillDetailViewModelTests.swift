@@ -825,10 +825,7 @@ class PillDetailViewModelTests: PDTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
-        if alerts.createUnsavedAlertCallArgs.count <= 0 {
-            XCTFail("Something might not be registering as change that needs to save.")
-            return
-        }
+        XCTAssert(alerts.createUnsavedAlertCallArgs.count > 0, "no changes detected.")
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         XCTAssertEqual(testViewController, callArgs.0)
@@ -842,14 +839,11 @@ class PillDetailViewModelTests: PDTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
-        if alerts.createUnsavedAlertCallArgs.count <= 0 {
-            XCTFail("Something might not be registering as change that needs to save.")
-            return
-        }
+        XCTAssert(alerts.createUnsavedAlertCallArgs.count > 0, "No changes detected.")
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         let handler = callArgs.1
-        handler()
+        handler!()
         XCTAssertEqual(pill.id, (viewModel.sdk?.pills as! MockPillSchedule).setIdCallArgs[0].0)
         XCTAssertEqual(1, returnValue.presentCallCount)
     }
@@ -861,12 +855,7 @@ class PillDetailViewModelTests: PDTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
-
-        if alerts.createUnsavedAlertCallArgs.count <= 0 {
-            XCTFail("Likely not catching something that needs to save")
-            return
-        }
-
+        XCTAssert(alerts.createUnsavedAlertCallArgs.count > 0, "No changes detected.")
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         let handler = callArgs.2
@@ -888,21 +877,11 @@ class PillDetailViewModelTests: PDTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
-
-        if alerts.createUnsavedAlertCallArgs.count <= 0 {
-            XCTFail("The alert was not created.")
-            return
-        }
-
+        XCTAssert(alerts.createUnsavedAlertCallArgs.count > 0, "Alert not created.")
         let discard = alerts.createUnsavedAlertCallArgs[0].2
         discard()
         let callArgs = pills.deleteCallArgs
-
-        if callArgs.count <= 0 {
-            XCTFail("Did not call delete.")
-            return
-        }
-
+        XCTAssert(callArgs.count > 0, "Pill not deleted.")
         let actual = callArgs[0]
         XCTAssertEqual(expectedIndex, actual)
         XCTAssertEqual(1, alerts.createUnsavedAlertReturnValue.presentCallCount)
@@ -921,10 +900,7 @@ class PillDetailViewModelTests: PDTestCase {
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
 
-        if alerts.createUnsavedAlertCallArgs.count <= 0 {
-            XCTFail("The alert was not created.")
-            return
-        }
+        XCTAssert(alerts.createUnsavedAlertCallArgs.count > 0, "Alert not created.")
 
         let discard = alerts.createUnsavedAlertCallArgs[0].2
         discard()
@@ -938,10 +914,7 @@ class PillDetailViewModelTests: PDTestCase {
         let nav = dependencies.nav as! MockNav
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
-        if nav.popCallArgs.count <= 0 {
-            XCTFail("Pill changes were falsely registered. An alert awaits a response.")
-            return
-        }
+        XCTAssert(nav.popCallArgs.count > 0, "Pill changes falsey regisetered.")
         XCTAssertEqual(testViewController, nav.popCallArgs[0])
     }
 
@@ -1037,11 +1010,10 @@ class PillDetailViewModelTests: PDTestCase {
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(5, daysNumber: 2)
-
-        if viewModel.selections.expirationInterval.xDaysValue == nil {
-            XCTFail("XDays did not properly get set; the object is uninitialized.")
-            return
-        }
+        XCTAssertNotNil(
+            viewModel.selections.expirationInterval.xDaysValue,
+            "XDays did not properly get set; the object is uninitialized."
+        )
         assertDaysTwo(6, viewModel)
     }
 

@@ -26,13 +26,6 @@ class HormoneDetailUITests: PDUITest {
         app.textFields["selectHormoneSiteTextField"].tap()
     }
 
-    func openDatePicker() {
-        let currentTime = PDDateFormatter.formatTime(Date())
-        app.datePickers["hormoneDatePicker"].tap()
-        app.datePickers["hormoneDatePicker"].buttons[currentTime].tap()
-        _ = app.wait(for: .unknown, timeout: 2.5)
-    }
-
     func getCurrentHour() -> String {
         let now = Date()
         let calendar = Calendar.current
@@ -42,15 +35,6 @@ class HormoneDetailUITests: PDUITest {
 
     func testTitle() throws {
         XCTAssert(app.staticTexts["Edit Hormone"].exists)
-    }
-
-    func testDatePicker() throws {
-        XCTAssert(app.staticTexts["..."].exists)
-        openDatePicker()
-        let hour = getCurrentHour()
-        app.datePickers.pickerWheels[hour].swipeUp()
-        app.windows.children(matching: .other).element(boundBy: 2).tap()
-        XCTAssertFalse(app.staticTexts["..."].exists)
     }
 
     func testSelectSite() throws {

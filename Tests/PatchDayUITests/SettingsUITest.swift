@@ -42,6 +42,6 @@ class SettingsUITests: PDUITest {
 
     func testSetNotificationsMinutesBefore() {
         app.sliders.element.adjust(toNormalizedSliderPosition: 0.75)
-        XCTAssert(app.staticTexts["94"].exists)
+        XCTAssert(app.staticTexts["93"].exists || app.staticTexts["94"].exists)
     }
 }

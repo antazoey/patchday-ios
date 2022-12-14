@@ -123,23 +123,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.becomeFirstResponder()
     }
 
-    /// Prevents the text field from exceededing a reasonable limit of characters.
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool {
-        let currentText = textField.text ?? ""
-        let result = TextFieldHelper.canSet(
-            currentString: currentText, replacementString: string, range: range
-        )
-        if result.canReplace {
-            viewModel.selections.selectedSiteName = result.updatedText
-            enableSave()
-        }
-        return result.canReplace
-    }
-
     @objc func saveButtonTapped(_ sender: Any) {
         // Close to save the current name in the text if changed
         // The save button is tempting to tap right away if you are quickly just changing a name
@@ -150,9 +133,31 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // MARK: - Text field
 
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        let currentText = textField.text ?? ""
+        let result = TextFieldHelper.canSet(
+            currentString: currentText, replacementString: string, range: range
+        )
+        if result.canReplace && result.updatedText != SiteStrings.NewSite {
+            viewModel.selections.selectedSiteName = result.updatedText
+            enableSave()
+        } else {
+            // Unable to allow user to name their site "New Site" because it is used
+            // as a detection mechanism for prompting for unsaved changes after creating
+            // a new site.
+            disableSave()
+
+        }
+        return result.canReplace
+    }
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         imageButton.isEnabled = false
-        enableSave()
         typeNameButton.setTitle(ActionStrings.Done)
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
             nameText.isEnabled = true
