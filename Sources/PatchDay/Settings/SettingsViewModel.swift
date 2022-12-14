@@ -63,7 +63,11 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
     }
 
     func activatePicker(_ picker: SettingsPicking) {
-        picker.isHidden ? picker.open() : close(picker)
+        if picker.isHidden {
+            picker.open()
+        } else {
+            close(picker)
+        }
     }
 
     @discardableResult

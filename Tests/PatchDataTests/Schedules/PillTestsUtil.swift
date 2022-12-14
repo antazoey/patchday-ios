@@ -40,15 +40,14 @@ class PillTestsUtil {
     }
 
     func didSave(with pills: [MockPill]) -> Bool {
-        if let lastCall = getMostRecentCallToPush() {
-            for pill in pills {
-                if !lastCall.0.contains(where: { (_ p: Swallowable) -> Bool in p.id == pill.id }) {
-                    return false
-                }
-            }
-            return lastCall.1
+        guard let lastCall = getMostRecentCallToPush() else { return false }
+
+        for pill in pills where !lastCall.0.contains(where: { (_ p: Swallowable) -> Bool in p.id == pill.id }) {
+            // If gets here, we did not save with the expected pills.
+            return false
         }
-        return false
+
+        return lastCall.1
     }
 
     func getMostRecentCallToPush() -> ([Swallowable], Bool)? {

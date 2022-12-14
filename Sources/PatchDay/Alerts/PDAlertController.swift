@@ -60,10 +60,8 @@ class PDAlert: PDAlerting {
 
     func present(actions: [UIAlertAction]) {
         if alert.actions.count == 0 {
-            for action in actions {
-                if !alert.actions.contains(action) {
-                    alert.addAction(action)
-                }
+            for action in actions where !alert.actions.contains(action) {
+                alert.addAction(action)
             }
         }
         alert.show()

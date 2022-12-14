@@ -69,4 +69,22 @@ class SiteDetailUITests: PDUITest {
         app.buttons["Done"].tap()
         XCTAssertTrue(app.buttons["siteImageButton"].isEnabled)
     }
+
+    func testWhenSelectingSiteName_cannotSave() throws {
+        // Starts off disabled because a new site's name is "New Site".
+        // The user is forced to change it.
+        XCTAssertFalse(app.buttons["Save"].isEnabled)
+
+        // Delete 1 character
+        app.buttons["Type"].tap()
+        app.textFields.element.typeText(XCUIKeyboardKey.delete.rawValue)
+
+        // After deleting a character, the Save button is enabled
+        XCTAssertTrue(app.buttons["Save"].isEnabled)
+
+        // Type back that character - the Save button should be disabled again.
+        // "New Site" is now allowed.
+        app.textFields.element.typeText("e")
+        XCTAssertFalse(app.buttons["Save"].isEnabled)
+    }
 }

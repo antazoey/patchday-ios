@@ -32,7 +32,7 @@ public protocol AlertProducing {
 
     func createUnsavedAlert(
         _ parent: UIViewController,
-        saveAndContinueHandler: @escaping () -> Void,
+        saveAndContinueHandler: (() -> Void)?,
         discardHandler: @escaping () -> Void
     ) -> PDAlerting
 

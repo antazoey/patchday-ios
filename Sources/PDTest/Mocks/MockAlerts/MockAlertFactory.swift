@@ -60,11 +60,11 @@ public class MockAlertFactory: AlertProducing {
         return createNewSiteAlertReturnValue
     }
 
-    public var createUnsavedAlertCallArgs: [(UIViewController, () -> Void, () -> Void)] = []
+    public var createUnsavedAlertCallArgs: [(UIViewController, (() -> Void)?, () -> Void)] = []
     public var createUnsavedAlertReturnValue = MockAlert()
     public func createUnsavedAlert(
         _ parent: UIViewController,
-        saveAndContinueHandler: @escaping () -> Void,
+        saveAndContinueHandler: (() -> Void)?,
         discardHandler: @escaping () -> Void
     ) -> PDAlerting {
         createUnsavedAlertCallArgs.append((parent, saveAndContinueHandler, discardHandler))

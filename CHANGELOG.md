@@ -1,5 +1,15 @@
 # Changelog
 
+# 3.8.1 (Unreleased)
+
+Changed
+
+- When creating a new site, you now have to change the name from "New Site" before it will let you save.
+
+Fixed
+
+- Issue where App always prompted you for unsaved changes when your site was named "New Site".
+
 # 3.8.0
 
 Changed

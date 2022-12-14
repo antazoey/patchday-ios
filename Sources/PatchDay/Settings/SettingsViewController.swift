@@ -183,7 +183,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - View loading and altering
 
     private func reflectNotificationSwitchInNotificationButtons() {
-        notificationsSwitch.isOn ? enableNotificationButtons() : disableNotificationButtons()
+        if notificationsSwitch.isOn {
+            enableNotificationButtons()
+        } else {
+            disableNotificationButtons()
+        }
     }
 
     private func enableNotificationButtons() {

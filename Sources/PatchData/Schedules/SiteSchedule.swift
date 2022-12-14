@@ -74,10 +74,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
         if defaultSites.count != count {
             return false
         }
-        for name in names {
-            if !defaultSites.contains(name) {
-                return false
-            }
+        for name in names where !defaultSites.contains(name) {
+            return false
         }
         return true
     }

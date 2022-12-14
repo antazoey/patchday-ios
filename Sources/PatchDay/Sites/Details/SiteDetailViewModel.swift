@@ -70,7 +70,9 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
 
     var siteNameOptions: [SiteName] {
         guard let sdk = sdk else { return [] }
-        return Array(Set(sdk.sites.names + SiteStrings.all)).sorted()
+        return Array(Set(sdk.sites.names + SiteStrings.all)).sorted().filter {
+            $0 != SiteStrings.NewSite
+        }
     }
 
     var siteNamePickerStartIndex: Index {
@@ -131,9 +133,10 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
             sdk.sites.delete(at: self.siteIndex)
         }
         if hasSelections || siteName == SiteStrings.NewSite {
+            let saveAction = selections.selectedSiteName ?? siteName == SiteStrings.NewSite ? nil : save
             self.alerts?.createUnsavedAlert(
                 viewController,
-                saveAndContinueHandler: save,
+                saveAndContinueHandler: saveAction,
                 discardHandler: discard
             ).present()
         } else {
