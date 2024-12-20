@@ -17,7 +17,7 @@ class HormoneCellActionAlert: PDAlert {
         let prefix = ActionStrings.Change
         var rest = ""
         if let name = suggestedSite {
-            rest = " to \(name)"
+            rest = "to \(name)"
         }
         return "\(prefix) \(rest)"
     }
