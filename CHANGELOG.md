@@ -9,6 +9,7 @@ Changed
 Fixed
 
 - Issue where App always prompted you for unsaved changes when your site was named "New Site".
+- Issue where there was an extra space in the "Change to" action button.
 
 # 3.8.0
 
