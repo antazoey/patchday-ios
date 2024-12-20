@@ -14,6 +14,8 @@ public class PDCli {
     private static let NotificationsTestFlag = "--notifications-test"
     private static let WakeUpTestFlag = "--wakeup-test"
 
+    private static var ProcessedArguments: [String] = CommandLine.arguments
+
     // MARK: - Arg Existence Checking
 
     public static func isDebugMode() -> Bool {
@@ -49,10 +51,10 @@ public class PDCli {
     // MARK: - Private
 
     private static func has(_ flag: String) -> Bool {
-        CommandLine.arguments.contains(flag)
+        ProcessedArguments.contains(flag)
     }
 
     private static func remove(_ flag: String) {
-        CommandLine.arguments.removeAll(where: { $0 == flag })
+        ProcessedArguments.removeAll(where: { $0 == flag })
     }
 }
