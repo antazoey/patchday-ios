@@ -32,7 +32,7 @@ class SitesUITests: PDUITest {
     func addSite(_ index: Int) {
         app.buttons["insertNewSiteButton"].tap()
         XCTAssert(app.buttons["Type"].waitForExistence(timeout: 2))
-        
+
         app.buttons["Type"].tap()
         let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: "New Site".count)
         app.textFields.element.typeText("\(deleteString)TEST_SITE_\(index)")
@@ -45,7 +45,7 @@ class SitesUITests: PDUITest {
         cellAt(index).swipeLeft()
         _ = app.wait(for: .unknown, timeout: 1)
     }
-    
+
     func tapEdit() {
         XCTAssert(app.buttons["Edit"].waitForExistence(timeout: 4))
         app.buttons["Edit"].tap()
@@ -116,12 +116,12 @@ class SitesUITests: PDUITest {
     func testAddsAndDeletes() throws {
         var count = table.cells.count
         XCTAssertLessThanOrEqual(2, count)  // Test requires at least 2.
-        
+
         // Delete two cells.
         deleteSiteFromSwipe(count - 1)
         deleteSiteFromSwipe(0)
         count -= 2
-    
+
         XCTAssertEqual(count, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
@@ -129,7 +129,7 @@ class SitesUITests: PDUITest {
         // Add a site.
         addSite(1)
         count += 1
-        
+
         XCTAssertEqual(count, table.cells.count)
         for idx in 1...count {
             XCTAssert(app.staticTexts["\(idx)."].waitForExistence(timeout: 4))

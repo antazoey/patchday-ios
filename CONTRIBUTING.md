@@ -21,7 +21,7 @@ To check lint errors, do:
 make lint
 ```
 
-`make fix` works decently for correcting some errors.
+`make lint` also fixes the errors it can.
 
 ## Testing
 
