@@ -870,6 +870,8 @@
 		9DFD8EAC2500335900E7C3A8 /* DateFormatterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterFactory.swift; sourceTree = "<group>"; };
 		9DFE2ACD26C04895002FE451 /* PDSerialTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSerialTestCase.swift; sourceTree = "<group>"; };
 		9DFE2ACF26C04EFF002FE451 /* PillXDaysIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillXDaysIntegrationTestCase.swift; sourceTree = "<group>"; };
+		A184E95B2D89C3E200215B0D /* lint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = lint.yml; sourceTree = "<group>"; };
+		A184E95E2D89C3EA00215B0D /* test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = test.yml; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B40CC9BF21CD7DA9002364BB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -976,6 +978,7 @@
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
+				A184E95D2D89C3E200215B0D /* .github */,
 				9D21797025D9F7B600FC3187 /* .gitignore */,
 				9D21797125D9F7B600FC3187 /* .swiftlint.yml */,
 				9D42114325D4AFD500087CDD /* CHANGELOG.md */,
@@ -2098,6 +2101,23 @@
 				9DFD8EAA24FFD12400E7C3A8 /* MOEntityList.swift */,
 			);
 			path = EntityLists;
+			sourceTree = "<group>";
+		};
+		A184E95C2D89C3E200215B0D /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				A184E95B2D89C3E200215B0D /* lint.yml */,
+				A184E95E2D89C3EA00215B0D /* test.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
+		A184E95D2D89C3E200215B0D /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				A184E95C2D89C3E200215B0D /* workflows */,
+			);
+			path = .github;
 			sourceTree = "<group>";
 		};
 		B40CC9A721CCE4AE002364BB /* Resources */ = {

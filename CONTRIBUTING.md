@@ -23,8 +23,6 @@ make lint
 
 `make fix` works decently for correcting some errors.
 
-Note: CircleCI will complain about certain lint errors for the project on PR builds.
-
 ## Testing
 
 ### PDTest
