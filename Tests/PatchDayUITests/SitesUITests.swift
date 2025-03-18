@@ -31,6 +31,8 @@ class SitesUITests: PDUITest {
 
     func addSite(_ index: Int) {
         app.buttons["insertNewSiteButton"].tap()
+        XCTAssert(app.buttons["Type"].waitForExistence(timeout: 2))
+        
         app.buttons["Type"].tap()
         let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: "New Site".count)
         app.textFields.element.typeText("\(deleteString)TEST_SITE_\(index)")
@@ -43,9 +45,16 @@ class SitesUITests: PDUITest {
         cellAt(index).swipeLeft()
         _ = app.wait(for: .unknown, timeout: 1)
     }
+    
+    func tapEdit() {
+        XCTAssert(app.buttons["Edit"].waitForExistence(timeout: 4))
+        app.buttons["Edit"].tap()
+        XCTAssert(app.buttons["Reset"].waitForExistence(timeout: 4))
+    }
 
     func deleteSiteFromEdit(_ siteName: String) {
         // NOTE: Should be editting if you are calling this method.
+        XCTAssert(app.buttons["Remove \(siteName)"].waitForExistence(timeout: 2))
         app.buttons["Remove \(siteName)"].tap()
         app.buttons["Delete"].tap()
     }
@@ -68,8 +77,9 @@ class SitesUITests: PDUITest {
     }
 
     func testNewSite_addsCell() throws {
-        addSite(4)
-        XCTAssertEqual(5, table.cells.count)
+        let index = table.cells.count
+        addSite(index)
+        XCTAssertEqual(index + 1, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
         XCTAssert(app.staticTexts["3."].exists)
@@ -93,7 +103,7 @@ class SitesUITests: PDUITest {
     }
 
     func testDeleteFromEdittingButtons() throws {
-        app.buttons["Edit"].tap()
+        tapEdit()
         deleteSiteFromEdit("Left Glute")
         deleteSiteFromEdit("Right Abdomen")
         app.buttons["Done"].tap()
@@ -104,18 +114,26 @@ class SitesUITests: PDUITest {
     }
 
     func testAddsAndDeletes() throws {
-        // Integration test
-        deleteSiteFromSwipe(2)
+        var count = table.cells.count
+        XCTAssertLessThanOrEqual(2, count)  // Test requires at least 2.
+        
+        // Delete two cells.
+        deleteSiteFromSwipe(count - 1)
         deleteSiteFromSwipe(0)
-        XCTAssertEqual(2, table.cells.count)
+        count -= 2
+    
+        XCTAssertEqual(count, table.cells.count)
         XCTAssert(app.staticTexts["1."].exists)
         XCTAssert(app.staticTexts["2."].exists)
 
+        // Add a site.
         addSite(1)
-        XCTAssertEqual(3, table.cells.count)
-        XCTAssert(app.staticTexts["1."].exists)
-        XCTAssert(app.staticTexts["2."].exists)
-        XCTAssert(app.staticTexts["3."].exists)
+        count += 1
+        
+        XCTAssertEqual(count, table.cells.count)
+        for idx in 1...count {
+            XCTAssert(app.staticTexts["\(idx)."].waitForExistence(timeout: 4))
+        }
     }
 
     func testReset() throws {
@@ -133,7 +151,7 @@ class SitesUITests: PDUITest {
     }
 
     func testResetAfterDelete() throws {
-        app.buttons["Edit"].tap()
+        tapEdit()
         deleteSiteFromEdit("Left Glute")
         app.buttons["Reset"].tap()
         XCTAssertEqual(4, table.cells.count)

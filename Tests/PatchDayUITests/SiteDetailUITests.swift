@@ -17,6 +17,9 @@ class SiteDetailUITests: PDUITest {
         try super.setUpWithError()
         tabs.buttons["Sites"].tap()
         app.buttons["insertNewSiteButton"].tap()
+        // Wait for us to be for sure be on the edit-site view.
+        // It uniquely has an `Image:` text by the site image.
+        XCTAssert(app.staticTexts["Image:"].waitForExistence(timeout: 5))
     }
 
     func openNamePicker() {

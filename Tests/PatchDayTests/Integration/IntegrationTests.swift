@@ -14,7 +14,7 @@ import PatchDay
 
 // swiftlint:disable type_name
 class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
-    func test() {
+    func test() async {
         sdk.settings.setDeliveryMethod(to: .Patches)
         let badge = PDBadge(sdk: sdk)
         let ids = getIDs()
@@ -23,19 +23,24 @@ class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
         setDate(idIndex: 2, ids: ids)
         badge.reflect()
 
-        // Have to delay the assertion here because it doesn't update right away.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.assertBadgeValue(expected: 3, badge: badge)
+        // Waiting because it seems to take some time to relfect in the badge.
+        do {
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+        } catch {
+            XCTFail("Sleep failed with error: \(error)")
         }
+        self.assertBadgeValue(expected: 3, badge: badge)
 
-        assertBadgeValue(expected: 3, badge: badge)
         sdk.hormones.setDate(at: 0, with: Date())
         badge.reflect()
 
-        // Have to delay the assertion here because it doesn't update right away.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.assertBadgeValue(expected: 2, badge: badge)
+        // Waiting because it seems to take some time to relfect in the badge.
+        do {
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+        } catch {
+            XCTFail("Sleep failed with error: \(error)")
         }
+        self.assertBadgeValue(expected: 2, badge: badge)
     }
 
     private func getIDs() -> [UUID] {

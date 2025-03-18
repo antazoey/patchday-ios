@@ -30,5 +30,7 @@ class PDUITest: XCTestCase {
         }
 
         tabs = app.tabBars
+        
+        XCTAssert(app.staticTexts["Patches"].waitForExistence(timeout: 5))
     }
 }

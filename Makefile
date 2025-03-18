@@ -2,7 +2,7 @@ CMD = xcodebuild
 LINT_PATHS = Sources/ Tests/
 LINT_FLAGS = --quiet --fix
 TEST_BUILD = xcodebuild build-for-testing
-TEST_FLAGS = -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3'
+TEST_FLAGS = -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3.1'
 
 build:
 	@$(CMD)
