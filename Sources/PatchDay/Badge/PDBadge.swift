@@ -17,15 +17,23 @@ public class PDBadge: PDBadgeReflective {
 
     public func reflect() {
         let newValue = sdk?.totalAlerts ?? 0
-        UIApplication.shared.applicationIconBadgeNumber = newValue
+        DispatchQueue.main.async {
+            UIApplication.shared.applicationIconBadgeNumber = newValue
+        }
         PDLog<PDBadge>().info("Badge number set to \(newValue)")
     }
 
     public func clear() {
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        DispatchQueue.main.async {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
     }
 
     public var value: Int {
-        UIApplication.shared.applicationIconBadgeNumber
+        var badgeNumber = 0
+        DispatchQueue.main.sync {
+            badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        }
+        return badgeNumber
     }
 }

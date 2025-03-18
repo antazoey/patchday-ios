@@ -19,7 +19,7 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         hormone: Hormonal,
         notifyMinutes: Double,
         currentBadgeValue: Int,
-        requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
+        requestHandler: ((_ interval: Double, _ id: String) -> Void)?=nil
     ) {
         self.hormone = hormone
         self.notificationsMinutesBefore = notifyMinutes

@@ -11,8 +11,7 @@ disabled_rules:
 opt_in_rules:
   - indentation_width 
 
-
 indentation_width:
-  severity: .warning,
-  indentationWidth: 4,
-  includeComments: true
+  severity: warning
+  indentation_width: 4
+  include_comments: true

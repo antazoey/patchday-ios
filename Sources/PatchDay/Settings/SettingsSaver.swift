@@ -60,7 +60,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         choice: DeliveryMethod, controls: SettingsControls
     ) {
         // Put view logic here that reflects the state of the delivery method in the Settings view.
-        let decline = { (_ originalMethod: DeliveryMethod, _ originalQuantity: Int) -> Void in
+        let decline = { (_ originalMethod: DeliveryMethod, _ originalQuantity: Int) in
             let originalTitle = SettingsOptions.getDeliveryMethodString(for: originalMethod)
             controls.deliveryMethodButton.setTitleForNormalAndDisabled(originalTitle)
             controls.quantityButton.setTitleForNormalAndDisabled("\(originalQuantity)")

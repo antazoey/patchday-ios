@@ -34,7 +34,7 @@ class HormoneDetailUITests: PDUITest {
     }
 
     func testTitle() throws {
-        XCTAssert(app.staticTexts["Edit Hormone"].exists)
+        XCTAssert(app.staticTexts["Edit Hormone"].waitForExistence(timeout: 2))
     }
 
     func testSelectSite() throws {

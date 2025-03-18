@@ -13,10 +13,6 @@ class PDAlertController: UIAlertController {
 
     var alertWindow: UIWindow?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         alertWindow?.isHidden = true

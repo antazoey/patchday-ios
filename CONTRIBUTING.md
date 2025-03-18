@@ -18,12 +18,10 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 To check lint errors, do:
 
 ```bash
-make lint
+swift tasks.swift lint
 ```
 
-`make fix` works decently for correcting some errors.
-
-Note: CircleCI will complain about certain lint errors for the project on PR builds.
+The `lint` command also fixes the errors it can.
 
 ## Testing
 
