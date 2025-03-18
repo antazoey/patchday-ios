@@ -870,7 +870,6 @@
 		9DFE2ACD26C04895002FE451 /* PDSerialTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSerialTestCase.swift; sourceTree = "<group>"; };
 		9DFE2ACF26C04EFF002FE451 /* PillXDaysIntegrationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillXDaysIntegrationTestCase.swift; sourceTree = "<group>"; };
 		A184E95B2D89C3E200215B0D /* lint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = lint.yml; sourceTree = "<group>"; };
-		A184E95E2D89C3EA00215B0D /* test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = test.yml; sourceTree = "<group>"; };
 		A184E95F2D8A1D6E00215B0D /* tasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tasks.swift; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2107,7 +2106,6 @@
 			isa = PBXGroup;
 			children = (
 				A184E95B2D89C3E200215B0D /* lint.yml */,
-				A184E95E2D89C3EA00215B0D /* test.yml */,
 			);
 			path = workflows;
 			sourceTree = "<group>";
