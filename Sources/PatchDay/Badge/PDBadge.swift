@@ -31,8 +31,12 @@ public class PDBadge: PDBadgeReflective {
 
     public var value: Int {
         var badgeNumber = 0
-        DispatchQueue.main.sync {
+        if Thread.isMainThread {
             badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        } else {
+            DispatchQueue.main.sync {
+                badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+            }
         }
         return badgeNumber
     }
