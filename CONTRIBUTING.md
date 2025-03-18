@@ -18,10 +18,10 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 To check lint errors, do:
 
 ```bash
-make lint
+swift tasks.swift lint
 ```
 
-`make lint` also fixes the errors it can.
+The `lint` command also fixes the errors it can.
 
 ## Testing
 

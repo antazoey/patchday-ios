@@ -15,9 +15,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
 
       - name: Install dependencies
         run: brew install swiftlint || echo "SwiftLint already installed"
 
       - name: Run SwiftLint
-        run: make lint
+        run: swift tasks.swift lint
