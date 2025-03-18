@@ -16,6 +16,7 @@ class SiteDetailUITests: PDUITest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         tabs.buttons["Sites"].tap()
+        XCTAssert(app.buttons["insertNewSiteButton"].waitForExistence(timeout: 5))
         app.buttons["insertNewSiteButton"].tap()
         // Wait for us to be for sure be on the edit-site view.
         // It uniquely has an `Image:` text by the site image.
