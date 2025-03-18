@@ -20,10 +20,10 @@ jobs:
         uses: swift-actions/setup-swift@v2
 
       - name: Test PDKit
-        run: swift tasks.swift test-pdkit
+        run: swift tasks.swift test pdkit
 
       - name: Test PatchData
-        run: swift tasks.swift test-patchdata
+        run: swift tasks.swift test patchdata
 
       - name: Test PatchDay
-        run: swift tasks.swift test-patchday
+        run: swift tasks.swift test patchday
