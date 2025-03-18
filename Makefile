@@ -1,8 +1,8 @@
 CMD = xcodebuild
 LINT_PATHS = Sources/ Tests/
-LINT_FLAGS =
-TEST_BUILD = xcodebuild build-for-testing 
-TEST_FLAGS = -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.5'
+LINT_FLAGS = --quiet --fix
+TEST_BUILD = xcodebuild build-for-testing
+TEST_FLAGS = -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3'
 
 build:
 	@$(CMD)
@@ -23,9 +23,6 @@ test-patchday: build-for-tests
 
 lint:
 	@swiftlint lint $(LINT_PATHS) $(LINT_FLAGS)
-
-fix:
-	@swiftlint fix $(LINT_PATHS)
 
 
 .PHONY: build build-for-tests test test-pdkit test-patchdata test-patchday lint autocorrect

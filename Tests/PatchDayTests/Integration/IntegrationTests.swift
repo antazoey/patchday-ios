@@ -22,10 +22,20 @@ class WhenChangingHormoneBadge_UpdatesCorrectly: PDIntegrationTestCase {
         setDate(idIndex: 1, ids: ids)
         setDate(idIndex: 2, ids: ids)
         badge.reflect()
+
+        // Have to delay the assertion here because it doesn't update right away.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.assertBadgeValue(expected: 3, badge: badge)
+        }
+
         assertBadgeValue(expected: 3, badge: badge)
         sdk.hormones.setDate(at: 0, with: Date())
         badge.reflect()
-        assertBadgeValue(expected: 2, badge: badge)
+
+        // Have to delay the assertion here because it doesn't update right away.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.assertBadgeValue(expected: 2, badge: badge)
+        }
     }
 
     private func getIDs() -> [UUID] {

@@ -174,7 +174,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     private func deleteAll() {
-        context.forEach { (_ p: Swallowable) -> Void in store.delete(p) }
+        context.forEach { (_ p: Swallowable) in store.delete(p) }
         context = []
     }
 

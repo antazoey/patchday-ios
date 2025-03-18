@@ -23,7 +23,7 @@ public class Notification {
         categoryId: String?=nil,
         setBadge: Bool=true,
         currentBadgeValue: Int?=nil,
-        requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
+        requestHandler: ((_ interval: Double, _ id: String) -> Void)?=nil
     ) {
         self.title = title
         self.body = body

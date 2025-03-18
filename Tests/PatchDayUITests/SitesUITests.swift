@@ -46,7 +46,7 @@ class SitesUITests: PDUITest {
 
     func deleteSiteFromEdit(_ siteName: String) {
         // NOTE: Should be editting if you are calling this method.
-        app.buttons["Delete \(siteName)"].tap()
+        app.buttons["Remove \(siteName)"].tap()
         app.buttons["Delete"].tap()
     }
 
