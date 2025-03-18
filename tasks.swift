@@ -2,12 +2,21 @@
 
 import Foundation
 
+// Constants
 let cmd = "xcodebuild"
 let lintPaths = "Sources/ Tests/"
 let lintFlags = "--quiet --fix"
 let testBuild = "xcodebuild build-for-testing"
-let testFlags = "-destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3.1'"
+let testFlags = "-destination 'platform=iOS Simulator,name=iPhone 16,OS=18.3.1' -quiet"
 
+// Maps option keys to the corresponding test schemes.
+let testSchemes: [String: String] = [
+    "pdkit": "PDKitTests",
+    "patchdata": "PatchDataTests",
+    "patchday": "PatchDayTests"
+]
+
+// Run a shell command (helper).
 func run(_ command: String) -> Int32 {
     print("🔹 Running: \(command)")
     let process = Process()
@@ -34,6 +43,7 @@ func run(_ command: String) -> Int32 {
     return process.terminationStatus
 }
 
+// Run a task.
 func runTask(_ taskName: String) -> Int32 {
     guard let task = tasks[taskName] else {
         print("❌ Unknown task: \(taskName). Available tasks: \(tasks.keys.joined(separator: ", "))")
@@ -42,27 +52,44 @@ func runTask(_ taskName: String) -> Int32 {
     return task()
 }
 
+// Run tests.
 func runTest(_ scheme: String) -> Int32 {
-    return runTask("build-for-tests") == 0 ? run("\(cmd) test -scheme \(scheme) \(testFlags)") : 1
+    return build(forTesting: true) == 0 ? run("\(cmd) test -scheme \(scheme) \(testFlags)") : 1
 }
 
-let tasks: [String: () -> Int32] = [
-    "build": { run(cmd) },
-    "build-for-tests": { run("\(testBuild) -scheme Tests \(testFlags)") },
+// Build PatchDay
+func build(forTesting: Bool = false) -> Int32 {
+    let buildCommand = forTesting ? "\(testBuild) -scheme Tests \(testFlags)" : cmd
+    return run(buildCommand)
+}
+
+// All tasks (commands).
+var tasks: [String: () -> Int32] = [
+    "build": {
+        let args = CommandLine.arguments.dropFirst(2) // Get arguments after `build`
+        let isTestBuild = args.contains("--test")
+        return build(forTesting: isTestBuild)
+    },
     "test": {
-        for testName in ["test-pdkit", "test-patchdata", "test-patchday"] {
-            let res = runTask(testName)
+        let args = CommandLine.arguments.dropFirst(2) // Get test names after `test`
+        let schemes = args.isEmpty ? Array(testSchemes.values) : args.compactMap { testSchemes[$0] }
+        
+        if schemes.isEmpty {
+            print("❌ Invalid test names. Available tests: \(testSchemes.keys.joined(separator: ", "))")
+            return 1
+        }
+
+        for scheme in schemes {
+            let res = runTest(scheme)
             if res != 0 { return res }
         }
         return 0
     },
-    "test-pdkit": { runTest("PDKitTests") },
-    "test-patchdata": { runTest("PatchDataTests") },
-    "test-patchday": { runTest("PatchDayTests") },
     "lint": { run("swiftlint lint \(lintPaths) \(lintFlags)") }
 ]
 
 // ~ Main ~
+
 if CommandLine.arguments.count < 2 {
     print("❌ No command provided. Available commands: \(tasks.keys.joined(separator: ", "))")
     exit(1)
