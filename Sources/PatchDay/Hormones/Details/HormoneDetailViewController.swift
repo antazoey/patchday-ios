@@ -44,7 +44,7 @@ class HormoneDetailViewController: UIViewController,
         setBackButton()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(willEnterForeground),
@@ -52,7 +52,7 @@ class HormoneDetailViewController: UIViewController,
             object: nil
         )
         willEnterForeground()
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
     }
 
     private func checkForUnsavedChanges() {

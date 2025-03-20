@@ -34,6 +34,7 @@ class PillDetailUITests: PDUITest {
 
     func changeSchedule(to option: String) {
         openSchedulePicker()
+        XCTAssert(app.pickerWheels.element.waitForExistence(timeout: 5))
         app.pickerWheels.element.adjust(toPickerWheelValue: option)
         app.staticTexts["Done"].tap()
     }
