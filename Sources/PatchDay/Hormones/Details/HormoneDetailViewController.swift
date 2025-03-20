@@ -52,7 +52,7 @@ class HormoneDetailViewController: UIViewController,
             object: nil
         )
         willEnterForeground()
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
     }
 
     private func checkForUnsavedChanges() {
