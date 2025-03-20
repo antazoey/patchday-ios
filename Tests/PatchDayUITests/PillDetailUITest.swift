@@ -28,6 +28,7 @@ class PillDetailUITests: PDUITest {
 
     func openSchedulePicker() {
         app.otherElements["pillScheduleStack"].tap()
+        _ = app.wait(for: .unknown, timeout: 1)
         app.buttons["pillScheduleButton"].tap()
         _ = app.wait(for: .unknown, timeout: 1)
     }
