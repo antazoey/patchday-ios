@@ -63,7 +63,10 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public var totalDue: Int {
-        all.reduce(0) {
+        // We don't care about pills being due if the schedule is disabled.
+        if !self.settings.pillsEnabled.rawValue { return 0 }
+
+        return all.reduce(0) {
             (count: Int, pill: Swallowable) -> Int in
             pill.isDue ? 1 + count : count
         }

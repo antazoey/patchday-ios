@@ -1,5 +1,11 @@
 # Changelog
 
+# 3.8.2
+
+Fixes
+
+- Issue where the app-badge notifications reflected due-pills even when disabled.
+
 # 3.8.1
 
 Changed

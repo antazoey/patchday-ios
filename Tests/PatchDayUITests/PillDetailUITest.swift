@@ -28,12 +28,14 @@ class PillDetailUITests: PDUITest {
 
     func openSchedulePicker() {
         app.otherElements["pillScheduleStack"].tap()
+        _ = app.wait(for: .unknown, timeout: 1)
         app.buttons["pillScheduleButton"].tap()
         _ = app.wait(for: .unknown, timeout: 1)
     }
 
     func changeSchedule(to option: String) {
         openSchedulePicker()
+        XCTAssert(app.pickerWheels.element.waitForExistence(timeout: 5))
         app.pickerWheels.element.adjust(toPickerWheelValue: option)
         app.staticTexts["Done"].tap()
     }

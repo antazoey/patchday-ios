@@ -141,6 +141,21 @@ class PillScheduleTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    public func testTotalDue_whenDisabled_returnsZero() {
+        let mockPills = util.createThreePills()
+
+        mockPills[0].isDue = true
+        mockPills[1].isDue = true
+        mockPills[2].isDue = false
+
+        setUpPills(mockPills)
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+
+        let expected = 0  // Otherwise would be 2
+        let actual = pills.totalDue
+        XCTAssertEqual(expected, actual)
+    }
+
     public func testInsertNew_whenStoreReturnsNil_doesNotIncreasePillCount() {
         setUpPills(insertPillFactory: nil)
         setUpPills()
