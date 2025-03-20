@@ -18,7 +18,6 @@ public class PillSchedule: NSObject, PillScheduling {
     private let sharer: PillDataSharing
     private let settings: SettingsManaging
     private var context: [Swallowable]
-
     public var _now: NowProtocol
 
     init(
