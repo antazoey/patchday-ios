@@ -174,9 +174,16 @@ struct HormoneDetailView: View {
         if !hormone.date.isDefault() {
             state.selectedDate = hormone.date
         }
-        state.selectedSiteName = hormone.siteName.isEmpty
-            ? (siteNames.first ?? SiteStrings.NewSite)
-            : hormone.siteName
+        let resolved = hormone.siteName
+        // `hormone.siteName` returns "New Site" when the hormone has no real
+        // site assigned, but the Picker's options are the actual configured
+        // sites — "New Site" isn't in that list, so the Picker would render
+        // empty. Fall back to the first available site name in that case.
+        if resolved.isEmpty || resolved == SiteStrings.NewSite || !siteNames.contains(resolved) {
+            state.selectedSiteName = siteNames.first ?? SiteStrings.NewSite
+        } else {
+            state.selectedSiteName = resolved
+        }
     }
 
     private func commitTypedSite() {
