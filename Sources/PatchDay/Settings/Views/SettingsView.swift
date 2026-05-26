@@ -29,8 +29,10 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section(NSLocalizedString("Schedule", comment: "")) {
-                Picker(NSLocalizedString("Delivery method", comment: ""),
-                       selection: $deliveryMethod) {
+                Picker(
+                    NSLocalizedString("Delivery method", comment: ""),
+                    selection: $deliveryMethod
+                ) {
                     ForEach(SettingsOptions.deliveryMethods, id: \.self) { Text($0).tag($0) }
                 }
                 .accessibilityIdentifier("deliveryMethodButton")
@@ -41,8 +43,10 @@ struct SettingsView: View {
                     pendingDeliveryMethod = next
                 }
 
-                Picker(NSLocalizedString("Expiration interval", comment: ""),
-                       selection: $expirationInterval) {
+                Picker(
+                    NSLocalizedString("Expiration interval", comment: ""),
+                    selection: $expirationInterval
+                ) {
                     ForEach(SettingsOptions.expirationIntervals, id: \.self) { Text($0).tag($0) }
                 }
                 .accessibilityIdentifier("expirationIntervalButton")
@@ -53,8 +57,10 @@ struct SettingsView: View {
                     settings.setExpirationInterval(to: newValue)
                 }
 
-                Picker(NSLocalizedString("Quantity", comment: ""),
-                       selection: $quantity) {
+                Picker(
+                    NSLocalizedString("Quantity", comment: ""),
+                    selection: $quantity
+                ) {
                     ForEach(SettingsOptions.quantities, id: \.self) { Text($0).tag($0) }
                 }
                 .accessibilityIdentifier("settingsQuantityButton")
@@ -72,8 +78,10 @@ struct SettingsView: View {
             .accessibilityIdentifier("settingsScheduleSection")
 
             Section(NSLocalizedString("Notifications", comment: "")) {
-                Toggle(NSLocalizedString("Notifications enabled", comment: ""),
-                       isOn: $notificationsEnabled)
+                Toggle(
+                    NSLocalizedString("Notifications enabled", comment: ""),
+                    isOn: $notificationsEnabled
+                )
                     .accessibilityIdentifier("notificationsSwitch")
                     .onChange(of: notificationsEnabled) { value in
                         container.sdk?.settings.setNotifications(to: value)
@@ -87,8 +95,9 @@ struct SettingsView: View {
                     }
 
                 if notificationsEnabled {
+                    let prefix = NSLocalizedString("Notify minutes before:", comment: "")
                     VStack(alignment: .leading) {
-                        Text("\(NSLocalizedString("Notify minutes before:", comment: "")) \(Int(notificationsMinutesBefore))")
+                        Text("\(prefix) \(Int(notificationsMinutesBefore))")
                             .font(.subheadline)
                             .accessibilityIdentifier("notificationsMinutesBeforeValueLabel")
                         Slider(
@@ -110,8 +119,10 @@ struct SettingsView: View {
             .accessibilityIdentifier("settingsNotificationsSection")
 
             Section {
-                Toggle(NSLocalizedString("Use static expiration time", comment: ""),
-                       isOn: $useStaticExpirationTime)
+                Toggle(
+                    NSLocalizedString("Use static expiration time", comment: ""),
+                    isOn: $useStaticExpirationTime
+                )
                     .accessibilityIdentifier("useStaticExpirationTimeSwitch")
                     .onChange(of: useStaticExpirationTime) { value in
                         container.sdk?.settings.setUseStaticExpirationTime(to: value)
@@ -167,13 +178,17 @@ struct SettingsView: View {
     // MARK: - Helpers
 
     private var deliveryAlertBinding: Binding<Bool> {
-        Binding(get: { pendingDeliveryMethod != nil },
-                set: { if !$0 { pendingDeliveryMethod = nil } })
+        Binding(
+            get: { pendingDeliveryMethod != nil },
+            set: { if !$0 { pendingDeliveryMethod = nil } }
+        )
     }
 
     private var quantityAlertBinding: Binding<Bool> {
-        Binding(get: { pendingQuantity != nil },
-                set: { if !$0 { pendingQuantity = nil } })
+        Binding(
+            get: { pendingQuantity != nil },
+            set: { if !$0 { pendingQuantity = nil } }
+        )
     }
 
     private func prime() {

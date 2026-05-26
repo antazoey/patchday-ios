@@ -76,7 +76,7 @@ struct PillsListView: View {
 
     private func take(at index: Index) {
         guard let pills = container.sdk?.pills,
-              let pill = pills[index] else { return }
+            let pill = pills[index] else { return }
         pills.swallow(pill.id) {
             container.notifications?.requestDuePillNotification(pill)
             container.badge?.reflect()
@@ -92,7 +92,7 @@ struct PillsListView: View {
 
     private func addNew() {
         guard let pills = container.sdk?.pills,
-              let pill = pills.insertNew(onSuccess: nil) else { return }
+            let pill = pills.insertNew(onSuccess: nil) else { return }
         guard let index = container.sdk?.pills.indexOf(pill) else { return }
         container.triggerRefresh()
         container.goToPillDetail(index)
