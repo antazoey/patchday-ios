@@ -69,10 +69,11 @@ struct SitesListView: View {
     private func moveSites(from source: IndexSet, to destination: Int) {
         guard let sdk = container.sdk, let first = source.first else { return }
         let target = destination > first ? destination - 1 : destination
+        let nextIndexBeforeMove = sdk.sites.nextIndex
         sdk.sites.reorder(at: first, to: target)
-        if first == sdk.sites.nextIndex {
+        if first == nextIndexBeforeMove {
             sdk.settings.setSiteIndex(to: target)
-        } else if target == sdk.sites.nextIndex {
+        } else if target == nextIndexBeforeMove {
             sdk.settings.setSiteIndex(to: first)
         }
         container.triggerRefresh()
