@@ -26,6 +26,9 @@ Changed
 
 Fixed
 
+- Hormones list: rows once again use the alternating background color. The SwiftUI Button wrapper was swallowing the row-background modifier; it's now applied to the row itself.
+- Hormones list: brand-new (unscheduled) hormones now correctly show the placeholder patch instead of the generic "Custom Patch" image. Caused by the v2 Core Data model defaulting the site-name-backup field to an empty string, which made every fresh hormone look like it had a site.
+- Settings: when iCloud is unavailable (signed out or restricted), the iCloud sync toggle now explains what to do ("Sign in to iCloud in the Settings app…") instead of just sitting disabled with no hint.
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
 - Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
 - Resetting the site schedule no longer crashes when there are no extra sites to delete.

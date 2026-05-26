@@ -106,7 +106,13 @@ public class Hormone: Hormonal {
 
     public var siteNameBackUp: String? {
         // Ignore backup name if there _is_ a site relationship.
-        get { siteId == nil ? hormoneData.siteNameBackUp : nil }
+        // Treat empty string as no-backup so v2-model default ("") doesn't
+        // make every fresh hormone look like it has a site.
+        get {
+            guard siteId == nil else { return nil }
+            let raw = hormoneData.siteNameBackUp
+            return raw?.isEmpty == false ? raw : nil
+        }
         set { hormoneData.siteNameBackUp = newValue }
     }
 

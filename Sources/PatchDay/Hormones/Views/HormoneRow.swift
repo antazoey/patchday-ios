@@ -59,8 +59,6 @@ struct HormoneRow: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: rowHeight)
-        .listRowInsets(EdgeInsets())
-        .listRowBackground(Color(viewModel.backgroundColor))
         .accessibilityIdentifier(viewModel.cellId)
     }
 

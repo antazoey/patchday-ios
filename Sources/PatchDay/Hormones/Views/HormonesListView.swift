@@ -49,6 +49,8 @@ struct HormonesListView: View {
                         HormoneRow(viewModel: vm)
                     }
                     .buttonStyle(.plain)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color(vm.backgroundColor))
                     .accessibilityIdentifier("HormoneCell_\(index)")
                 }
             }
