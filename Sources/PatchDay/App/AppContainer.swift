@@ -10,6 +10,7 @@
 import Foundation
 import SwiftUI
 import UIKit
+import CoreData
 import PDKit
 import PatchData
 import WidgetKit
@@ -24,6 +25,8 @@ final class AppContainer: ObservableObject {
     private(set) var notifications: NotificationScheduling?
     private(set) var badge: PDBadgeReflective?
     private(set) var widget: PDWidgetProtocol?
+    private var kvs: UbiquitousKeyValueStoring?
+    private var remoteChangeObserver: NSObjectProtocol?
 
     // MARK: - SwiftUI navigation + UI state
 
@@ -59,6 +62,62 @@ final class AppContainer: ObservableObject {
         badge.reflect()
         refreshBadges()
         WidgetCenter.shared.reloadAllTimelines()
+
+        observeRemoteCoreDataChanges()
+        observeRemoteKVSChanges()
+    }
+
+    // MARK: - Remote CloudKit / KVS observation
+
+    private func observeRemoteCoreDataChanges() {
+        remoteChangeObserver = NotificationCenter.default.addObserver(
+            forName: .NSPersistentStoreRemoteChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleRemoteCoreDataChange()
+        }
+    }
+
+    private func observeRemoteKVSChanges() {
+        let isSyncEnabled = UserDefaults.standard.bool(
+            forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
+        )
+        guard isSyncEnabled else { return }
+        let store = PDUbiquitousKVStore()
+        self.kvs = store
+        store.startObserving { [weak self] _ in
+            // KVS changes affect settings only; the schedules don't need a
+            // hard reload, but we do want widgets / notifications to refresh.
+            self?.refreshBadges()
+            self?.notifications?.cancelAllExpiredHormoneNotifications()
+            self?.notifications?.requestAllExpiredHormoneNotifications()
+            WidgetCenter.shared.reloadAllTimelines()
+            UserDefaults.standard.set(
+                Date(), forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+            )
+        }
+    }
+
+    private func handleRemoteCoreDataChange() {
+        // Drop in-memory entity caches; the schedules will refetch.
+        sdk?.hormones.reloadContext()
+        sdk?.pills.reloadContext()
+        sdk?.sites.reloadContext()
+
+        // Re-share derived widget values + reschedule notifications.
+        sdk?.hormones.shareData()
+        sdk?.pills.shareData()
+        notifications?.cancelAllExpiredHormoneNotifications()
+        notifications?.requestAllExpiredHormoneNotifications()
+        notifications?.cancelAllDuePillNotifications()
+        notifications?.requestAllDuePillNotifications()
+
+        triggerRefresh()
+        WidgetCenter.shared.reloadAllTimelines()
+        UserDefaults.standard.set(
+            Date(), forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+        )
     }
 
     // MARK: - Badge counts (drive the SwiftUI tab bar)
