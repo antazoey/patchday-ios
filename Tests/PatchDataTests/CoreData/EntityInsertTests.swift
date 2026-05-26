@@ -71,34 +71,37 @@ class EntityInsertTests: XCTestCase {
     }
 
     // MARK: - v2 model defaults
+    //
+    // String attributes intentionally have NO defaults — they're optional, so
+    // they ship nil. This matches v1 semantics and keeps `!= nil` checks in
+    // call sites (e.g., `Hormone.hasSite`) honest. Only scalar (non-optional)
+    // Swift types need defaults at insert time.
 
-    func testMOPill_newRecord_hasDefaultsAppliedFromModel() throws {
+    func testMOPill_newRecord_hasNilStrings_andScalarDefaults() throws {
         let entity = NSEntityDescription.entity(forEntityName: "Pill", in: context)!
         let pill = MOPill(entity: entity, insertInto: context)
-        // The new patchData v2 model declares defaults that Core Data applies
-        // automatically on insert before awakeFromInsert.
-        XCTAssertEqual("everyDay", pill.expirationInterval)
-        XCTAssertEqual("", pill.name)
-        XCTAssertEqual("", pill.times)
-        XCTAssertEqual("", pill.timesTakenTodayList)
-        XCTAssertEqual("", pill.xDays)
+        XCTAssertNil(pill.expirationInterval)
+        XCTAssertNil(pill.name)
+        XCTAssertNil(pill.times)
+        XCTAssertNil(pill.timesTakenTodayList)
+        XCTAssertNil(pill.xDays)
         XCTAssertEqual(false, pill.isCreated)
         XCTAssertEqual(true, pill.notify)
     }
 
-    func testMOSite_newRecord_hasDefaultsAppliedFromModel() throws {
+    func testMOSite_newRecord_hasNilStrings() throws {
         let entity = NSEntityDescription.entity(forEntityName: "Site", in: context)!
         let site = MOSite(entity: entity, insertInto: context)
-        XCTAssertEqual("", site.name)
-        XCTAssertEqual("", site.imageIdentifier)
+        XCTAssertNil(site.name)
+        XCTAssertNil(site.imageIdentifier)
         XCTAssertEqual(0, site.order)
     }
 
-    func testMOHormone_newRecord_hasDefaultsAppliedFromModel() throws {
+    func testMOHormone_newRecord_hasNilStrings() throws {
         let entity = NSEntityDescription.entity(forEntityName: "Estrogen", in: context)!
         let hormone = MOHormone(entity: entity, insertInto: context)
-        XCTAssertEqual("", hormone.siteNameBackUp)
-        XCTAssertEqual("", hormone.xDays)
+        XCTAssertNil(hormone.siteNameBackUp)
+        XCTAssertNil(hormone.xDays)
         XCTAssertNil(hormone.date)
     }
 }

@@ -56,7 +56,7 @@ class CoreDataStack: NSObject {
         migrateStoreToAppGroupIfNeeded()
         let container = NSPersistentCloudKitContainer(name: persistentContainerKey)
         let description = container.persistentStoreDescriptions.first!
-        description.url = appGroupStoreURL()
+        description.url = resolvedStoreURL()
         description.shouldMigrateStoreAutomatically = true
         description.shouldInferMappingModelAutomatically = true
         // History tracking is required for NSPersistentCloudKitContainer and
@@ -140,6 +140,16 @@ class CoreDataStack: NSObject {
     /// move to the App Group container so the path is the same regardless of
     /// whether iCloud is on, and a future widget Core Data integration can
     /// share it. Idempotent — guarded by `didMigrateStoreToAppGroup`.
+    ///
+    /// Safety guarantees:
+    ///   - If migration fails for any reason, the flag is NOT set and the
+    ///     container will fall back to loading the sandbox store
+    ///     (`resolvedStoreURL()`), so the user's data remains accessible.
+    ///   - The sandbox files are NOT deleted after a successful migration —
+    ///     they remain as a permanent fallback in case the App Group store
+    ///     ever becomes inaccessible (e.g., revoked entitlements).
+    ///   - The destination store is verified by re-opening it before the
+    ///     flag is set.
     static func migrateStoreToAppGroupIfNeeded() {
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue) {
@@ -154,25 +164,36 @@ class CoreDataStack: NSObject {
 
         let fm = FileManager.default
         guard fm.fileExists(atPath: oldURL.path) else {
-            // Nothing to migrate (fresh install).
+            // Fresh install — nothing to migrate.
+            defaults.set(true, forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue)
+            return
+        }
+        if oldURL.path == newURL.path {
+            // App Group container isn't available (mis-provisioned build).
+            // `appGroupStoreURL()` already fell back to the sandbox path.
+            // No migration needed — keep using the sandbox store in place.
             defaults.set(true, forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue)
             return
         }
         if fm.fileExists(atPath: newURL.path) {
-            // App-group store already populated — don't overwrite it.
+            // App-group store already populated by a prior partial run —
+            // trust it and don't overwrite. Flag flip records this.
             defaults.set(true, forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue)
             return
         }
 
         do {
-            // Ensure the destination directory exists.
             let parentDir = newURL.deletingLastPathComponent()
             if !fm.fileExists(atPath: parentDir.path) {
                 try fm.createDirectory(at: parentDir, withIntermediateDirectories: true)
             }
 
-            // Use the coordinator's migrate API so WAL / SHM sidecars are moved.
-            let model = NSManagedObjectModel.mergedModel(from: [Bundle(for: CoreDataStack.self)])!
+            guard let model = NSManagedObjectModel.mergedModel(
+                from: [Bundle(for: CoreDataStack.self)]
+            ) else {
+                log.error("Store migration aborted: couldn't load merged managed object model.")
+                return
+            }
             let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
             let store = try coordinator.addPersistentStore(
                 ofType: NSSQLiteStoreType,
@@ -180,27 +201,75 @@ class CoreDataStack: NSObject {
                 at: oldURL,
                 options: nil
             )
+            let beforeCounts = countEntities(in: coordinator, model: model)
             _ = try coordinator.migratePersistentStore(
                 store,
                 to: newURL,
                 options: nil,
                 withType: NSSQLiteStoreType
             )
-            // Remove the legacy files explicitly (the coordinator may leave them).
-            let legacyFiles = [
-                oldURL.path,
-                oldURL.path + "-wal",
-                oldURL.path + "-shm"
-            ]
-            for path in legacyFiles where fm.fileExists(atPath: path) {
-                try? fm.removeItem(atPath: path)
+
+            // Verify the migrated store opens and has matching record counts.
+            let verifyCoordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+            _ = try verifyCoordinator.addPersistentStore(
+                ofType: NSSQLiteStoreType,
+                configurationName: nil,
+                at: newURL,
+                options: nil
+            )
+            let afterCounts = countEntities(in: verifyCoordinator, model: model)
+            guard afterCounts == beforeCounts else {
+                log.error(
+                    "Store migration verification failed: before=\(beforeCounts) after=\(afterCounts)"
+                )
+                // Remove the bad destination so retry next launch starts clean.
+                try? fm.removeItem(at: newURL)
+                return
             }
+
             defaults.set(true, forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue)
-            log.info("Migrated Core Data store from sandbox to App Group container.")
+            log.info(
+                "Migrated Core Data store to App Group container. counts=\(afterCounts). " +
+                "Sandbox store retained at \(oldURL.path) as backup."
+            )
         } catch {
             log.error("Store-to-App-Group migration failed", error)
-            // Don't set the flag — we'll try again next launch.
+            // Don't set the flag, don't touch sandbox — we'll retry next
+            // launch. resolvedStoreURL() will return the sandbox URL in the
+            // meantime so the user keeps using their existing data.
         }
+    }
+
+    /// Returns the store URL the container should load. Falls back to the
+    /// sandbox URL if the App Group migration has not been confirmed —
+    /// otherwise a partial / failed migration would make the user's data
+    /// look gone (the container would create a fresh empty store at the
+    /// App Group path).
+    static func resolvedStoreURL() -> URL {
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue) {
+            return appGroupStoreURL()
+        }
+        if let sandbox = sandboxStoreURL(),
+            FileManager.default.fileExists(atPath: sandbox.path) {
+            return sandbox
+        }
+        return appGroupStoreURL()
+    }
+
+    private static func countEntities(
+        in coordinator: NSPersistentStoreCoordinator,
+        model: NSManagedObjectModel
+    ) -> [String: Int] {
+        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        context.persistentStoreCoordinator = coordinator
+        var counts: [String: Int] = [:]
+        for entity in model.entities {
+            guard let name = entity.name else { continue }
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: name)
+            counts[name] = (try? context.count(for: request)) ?? -1
+        }
+        return counts
     }
 
     static func appGroupStoreURL() -> URL {
