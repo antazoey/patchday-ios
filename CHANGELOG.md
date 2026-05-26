@@ -24,6 +24,7 @@ Fixed
 - `Pill.dueDateEnd` now uses the injected `NowProtocol` instead of a hard-coded `Date()`, making the LastXDays schedule deterministic in tests.
 - `Hormone.createExpirationDate(from:)` now honors the passed start date instead of silently using the hormone's own applied date.
 - Hormone / pill notification requests now cancel any existing notification first, even when the user has disabled notifications. Previously, turning off notify on a pill or globally left stale notifications in the queue.
+- `HormoneSchedule.all` sort closure no longer violates strict weak ordering (undefined behavior) when multiple hormones have the placeholder default date.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2

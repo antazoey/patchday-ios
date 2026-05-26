@@ -181,6 +181,24 @@ class HormoneScheduleTests: PDTestCase {
         XCTAssertEqual(expected.id, actual?.id)
     }
 
+    func testAll_whenMultipleHormonesHaveDefaultDate_sortIsStable() {
+        // Previously the sort closure violated strict weak ordering when two
+        // hormones both had default dates, which is undefined behavior and can
+        // trap or produce inconsistent output.
+        let mockHormones = MockHormone.createList(count: 4)
+        mockHormones[0].date = DateFactory.createDefaultDate()
+        mockHormones[1].date = Date(timeIntervalSinceNow: -1000)
+        mockHormones[2].date = DateFactory.createDefaultDate()
+        mockHormones[3].date = Date(timeIntervalSinceNow: -500)
+        setUpHormones(mockHormones)
+        let all = hormones.all
+        // Real-dated hormones come first, default-dated ones at the end.
+        XCTAssertFalse(all[0].date.isDefault())
+        XCTAssertFalse(all[1].date.isDefault())
+        XCTAssertTrue(all[2].date.isDefault())
+        XCTAssertTrue(all[3].date.isDefault())
+    }
+
     func testResetIfEmpty_ifHormonesNotEmpty_returnsCount() {
         let mockHormones = MockHormone.createList(count: 3)
         setUpHormones(mockHormones)

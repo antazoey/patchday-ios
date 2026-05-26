@@ -36,7 +36,17 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public var count: Int { all.count }
 
     public var all: [Hormonal] {
-        context.sort { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
+        // Real dates come first (oldest → newest); default (unset) dates sink
+        // to the end. Both-default elements compare equal, satisfying strict
+        // weak ordering required by `sort`.
+        context.sort { lhs, rhs in
+            let lhsIsDefault = lhs.date.isDefault()
+            let rhsIsDefault = rhs.date.isDefault()
+            if lhsIsDefault == rhsIsDefault {
+                return lhs.date < rhs.date
+            }
+            return !lhsIsDefault
+        }
         return context
     }
 
