@@ -67,7 +67,7 @@ public class PDLog<T> {
     }
 
     public func error(_ message: String, _ error: Error) {
-        printMessage("message. \(String(describing: error))", status: .ERROR)
+        printMessage("\(message). \(String(describing: error))", status: .ERROR)
     }
 
     public func error(_ error: Error) {

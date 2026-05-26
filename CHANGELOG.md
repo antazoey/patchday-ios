@@ -16,6 +16,7 @@ Fixed
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
 - Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
 - Resetting the site schedule no longer crashes when there are no extra sites to delete.
+- Error logs (two-argument `PDLog.error`) now include the original message instead of the literal string "message".
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
