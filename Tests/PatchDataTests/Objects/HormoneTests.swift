@@ -73,6 +73,16 @@ class HormoneTests: PDTestCase {
         XCTAssertEqual(hormone.siteName, hormone.siteImageId)
     }
 
+    func testGetSiteName_doesNotClearSiteImageId() {
+        // Reading should be a pure observation. Previously the getter cleared
+        // the image id whenever the persisted siteName was a real value.
+        let hormone = createEmptyHormone()
+        hormone.siteName = "Set Site"
+        hormone.siteImageId = "Custom Image"
+        _ = hormone.siteName
+        XCTAssertEqual("Custom Image", hormone.siteImageId)
+    }
+
     func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {
         let backup = "Site Name Backup"
         let data = HormoneStruct(testId, nil, nil, nil, nil, backup, nil)

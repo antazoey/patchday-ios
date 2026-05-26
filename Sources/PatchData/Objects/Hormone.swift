@@ -57,10 +57,12 @@ public class Hormone: Hormonal {
             guard let name = hormoneData.siteName, !name.isEmpty, name != SiteStrings.NewSite else {
                 return backupSiteName
             }
-            hormoneData.siteImageId = nil
             return name
         }
-        set { hormoneData.siteName = newValue }
+        set {
+            hormoneData.siteName = newValue
+            hormoneData.siteImageId = nil
+        }
     }
 
     public var siteImageId: SiteName {
