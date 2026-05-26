@@ -169,7 +169,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {
-        guard pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil else { return }
+        guard pill.timesTakenToday < pill.timesaday else { return }
         pill.swallow()
         store.pushLocalChangesToManagedContext([pill], doSave: true)
         onSuccess?()

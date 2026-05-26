@@ -402,6 +402,18 @@ class PillScheduleTests: PDTestCase {
         XCTAssertEqual(0, mockPills[1].swallowCallCount)
     }
 
+    public func testSwallow_whenCompletedAndLastTakenIsNil_doesNotSwallow() {
+        // Previously the guard short-circuited on `lastTaken == nil`, allowing
+        // a never-taken pill to be swallowed past its timesaday limit.
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = nil
+
+        pills.swallow(mockPills[1].id, onSuccess: nil)
+        XCTAssertEqual(0, mockPills[1].swallowCallCount)
+    }
+
     /// Integration test with Pill.
     public func testSwallow_worksAfterCallingAwaken() {
         let initialLastTaken = TestDateFactory.createTestDate(daysFrom: -1)

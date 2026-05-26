@@ -151,7 +151,7 @@ public class Pill: Swallowable {
     }
 
     public func swallow() {
-        guard timesTakenToday < timesaday || lastTaken == nil else { return }
+        guard timesTakenToday < timesaday else { return }
         if expirationInterval.usesXDays, let isOn = expirationInterval.xDaysIsOn, !isOn {
             return
         }
