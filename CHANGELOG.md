@@ -8,6 +8,7 @@ Changed (internal, no user-visible effect yet)
 - Core Data stack switched to `NSPersistentCloudKitContainer`. CloudKit sync is currently disabled by default (gated on an opt-in flag that ships in a later phase). The SQLite store is now in the App Group container; a one-shot migration moves any existing sandbox store on first launch.
 - Settings layer can now route writes through `NSUbiquitousKeyValueStore` for cross-device sync. Disabled by default — only takes effect once the user opts in via the iCloud toggle (Phase 5). Eight settings sync; `MentionedDisclaimer` (per-device legal acknowledgement) and `SiteIndex` (per-device rotation cursor) intentionally stay local.
 - App now reacts to CloudKit / KVS remote changes by reloading the in-memory entity caches, re-sharing widget data, rescheduling notifications, and refreshing badges. Without this, sync would happen at the data layer but the UI would look stale until restart.
+- Added a `PrivacyInfo.xcprivacy` manifest in both the app and widget targets declaring data types, no tracking, and the UserDefaults API usage reason. Required by Apple for App Store submission.
 
 Added
 

@@ -10,6 +10,8 @@
 		1340A9EE1EE771EC0003EFFA /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* Notifications.swift */; };
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
+		A1ICL00012CD0007000000F1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */; };
+		A1ICL00012CD0007000000F3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */; };
 		3397C05456061252A20D0EC4 /* HormoneDetailValueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C44F655B05A9959614A9 /* HormoneDetailValueTypes.swift */; };
 		3397C115FF936D6A9736EE74 /* SingleValueTypeKeyStorables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0B64890296742265A9E /* SingleValueTypeKeyStorables.swift */; };
 		3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C15569EB6EC92C438D45 /* PDBadge.swift */; };
@@ -450,6 +452,8 @@
 		137330F31E22BA3E0048F91E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		137330F61E22BA3E0048F91E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		137330F81E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* UserDefaultsWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriter.swift; sourceTree = "<group>"; };
@@ -878,6 +882,7 @@
 				B480EE4221CC79DD002C2238 /* BaseViews */,
 				B480EE4521CC7A09002C2238 /* Hormones */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
+				A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */,
 				3397C45AFE80B6E86213E63C /* Pills */,
 				3397CFF6B8CD884660E2BBFF /* Navigation */,
 				3397C37F978FFB434BFF4FDE /* Settings */,
@@ -1312,6 +1317,7 @@
 				9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */,
 				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
 				9D69B1E5256C7B2400213E79 /* Info.plist */,
+				A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */,
 			);
 			name = NextHormoneWidget;
 			path = Sources/NextHormoneWidget;
@@ -2393,6 +2399,7 @@
 			files = (
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
+				A1ICL00012CD0007000000F1 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2408,6 +2415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D69B1E4256C7B2400213E79 /* Assets.xcassets in Resources */,
+				A1ICL00012CD0007000000F3 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
