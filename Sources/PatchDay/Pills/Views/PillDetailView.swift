@@ -156,7 +156,13 @@ struct PillDetailView: View {
         daysOne = pill.expirationInterval.daysOne ?? DefaultPillAttributes.XDAYS_INT
         daysTwo = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.XDAYS_INT
         let parsed = pill.times
-        times = parsed.isEmpty ? [Date()] : parsed
+        if !parsed.isEmpty {
+            times = parsed
+        } else {
+            times = DateFactory.createTimesFromCommaSeparatedString(
+                DefaultPillAttributes.TIME, now: nil
+            )
+        }
     }
 
     private func save() {
