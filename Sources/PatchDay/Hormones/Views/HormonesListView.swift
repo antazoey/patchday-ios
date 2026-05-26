@@ -43,10 +43,13 @@ struct HormonesListView: View {
             ForEach(0..<SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT, id: \.self) { index in
                 if index < quantity, let sdk = container.sdk {
                     let vm = HormoneCellViewModel(cellIndex: index, sdk: sdk, isPad: container.isPad)
-                    HormoneRow(viewModel: vm)
-                        .contentShape(Rectangle())
-                        .onTapGesture { handleRowTap(at: index) }
-                        .accessibilityIdentifier("HormoneCell_\(index)")
+                    Button {
+                        handleRowTap(at: index)
+                    } label: {
+                        HormoneRow(viewModel: vm)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("HormoneCell_\(index)")
                 }
             }
             .id(container.refreshTick) // force re-evaluation after mutations

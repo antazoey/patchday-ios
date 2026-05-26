@@ -25,14 +25,15 @@ struct SitesListView: View {
     var body: some View {
         List {
             ForEach(Array(sites.enumerated()), id: \.element.id) { index, site in
-                SiteRow(site: site, isNextSite: index == nextIndex)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        if editMode == .inactive {
-                            container.goToSiteDetail(index)
-                        }
+                Button {
+                    if editMode == .inactive {
+                        container.goToSiteDetail(index)
                     }
-                    .accessibilityIdentifier("SiteCell_\(index)")
+                } label: {
+                    SiteRow(site: site, isNextSite: index == nextIndex)
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("SiteCell_\(index)")
             }
             .onMove(perform: moveSites)
             .onDelete(perform: deleteSites)
@@ -49,6 +50,12 @@ struct SitesListView: View {
                     withAnimation { editMode = editMode == .inactive ? .active : .inactive }
                 }
                 .accessibilityIdentifier("editSitesButton")
+            }
+            if editMode == .active {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(ActionStrings.Reset) { resetSites() }
+                        .accessibilityIdentifier("resetSitesButton")
+                }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: addNew) {
@@ -85,5 +92,12 @@ struct SitesListView: View {
             container.triggerRefresh()
             container.goToSiteDetail(site.order)
         }
+    }
+
+    private func resetSites() {
+        guard let sdk = container.sdk else { return }
+        sdk.sites.reset()
+        editMode = .inactive
+        container.triggerRefresh()
     }
 }

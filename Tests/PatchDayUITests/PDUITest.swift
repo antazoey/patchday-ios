@@ -2,8 +2,9 @@
 //  PDUITest.swift
 //  PatchDayUITests
 //
-//  Created by Juliya Smith on 5/23/22.
-//  Copyright © 2022 Juliya Smith. All rights reserved.
+//  Base class for SwiftUI UI tests. Launches with --nuke-storage so each
+//  test starts from a clean schedule, and dismisses the first-launch
+//  disclaimer alert before tests start interacting.
 //
 
 import Foundation
@@ -15,18 +16,29 @@ class PDUITest: XCTestCase {
     var tabs: XCUIElementQuery!
 
     override func setUpWithError() throws {
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
         app = XCUIApplication()
         app.launchArguments.append("--nuke-storage")
         app.launch()
 
-        // Dismiss disclaimer that always appears
-        addUIInterruptionMonitor(withDescription: "Disclaimer") {
-            (alert) -> Bool in
-            alert.buttons["Dismiss"].tap()
-            return true
+        // Dismiss the SwiftUI disclaimer alert that always appears on first launch
+        // after --nuke-storage. The interruption monitor handles cases where the
+        // alert is presented after the app starts.
+        addUIInterruptionMonitor(withDescription: "Disclaimer") { alert in
+            let dismiss = alert.buttons["Dismiss"]
+            if dismiss.exists {
+                dismiss.tap()
+                return true
+            }
+            return false
+        }
+
+        // Tap the app to trigger the interruption monitor in case the alert is up.
+        app.activate()
+        let dismiss = app.alerts.buttons["Dismiss"]
+        if dismiss.waitForExistence(timeout: 3) {
+            dismiss.tap()
         }
 
         tabs = app.tabBars

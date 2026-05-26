@@ -30,6 +30,14 @@ struct SiteDetailView: View {
         SiteImages.All[deliveryMethod]
     }
 
+    private var navTitle: String {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty || trimmed == SiteStrings.NewSite {
+            return SiteStrings.NewSite
+        }
+        return PDTitleStrings.EditSiteTitle
+    }
+
     var body: some View {
         Form {
             Section(NSLocalizedString("Name", comment: "")) {
@@ -43,7 +51,7 @@ struct SiteDetailView: View {
             }
             .accessibilityIdentifier("siteNameSection")
 
-            Section(NSLocalizedString("Image", comment: "")) {
+            Section(NSLocalizedString("Image:", comment: "")) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(imageChoices.indices, id: \.self) { index in
@@ -75,7 +83,7 @@ struct SiteDetailView: View {
             }
             .accessibilityIdentifier("siteImageSection")
         }
-        .navigationTitle(PDTitleStrings.EditSiteTitle)
+        .navigationTitle(navTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {

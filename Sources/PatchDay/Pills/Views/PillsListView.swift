@@ -24,18 +24,21 @@ struct PillsListView: View {
         List {
             if pillsEnabled {
                 ForEach(Array(pills.enumerated()), id: \.element.id) { index, pill in
-                    PillRow(pill: pill, onTake: { take(at: index) })
-                        .contentShape(Rectangle())
-                        .onTapGesture { container.goToPillDetail(index) }
-                        .swipeActions(edge: .trailing) {
-                            Button(role: .destructive) {
-                                deletePill(at: index)
-                            } label: {
-                                Label(ActionStrings.Delete, systemImage: "trash")
-                            }
-                            .accessibilityIdentifier("pillDeleteButton_\(index)")
+                    Button {
+                        container.goToPillDetail(index)
+                    } label: {
+                        PillRow(pill: pill, onTake: { take(at: index) })
+                    }
+                    .buttonStyle(.plain)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            deletePill(at: index)
+                        } label: {
+                            Label(ActionStrings.Delete, systemImage: "trash")
                         }
-                        .accessibilityIdentifier("PillCell_\(index)")
+                        .accessibilityIdentifier("pillDeleteButton_\(index)")
+                    }
+                    .accessibilityIdentifier("PillCell_\(index)")
                 }
                 .id(container.refreshTick)
             } else {
