@@ -4,7 +4,7 @@
 
 Changed (internal, no user-visible effect yet)
 
-- Core Data: added a new `patchData 2` model version with default values on every attribute, preparing for iCloud sync. Existing local data is unaffected — defaults apply only to newly inserted records. Managed object subclasses now self-assign a UUID id on insert as a safety net. The store-load path no longer crashes on transient failures; it logs the error and exposes it via `CoreDataStack.loadError` so future UI can surface it.
+- Core Data: added a new `patchData 2` model version preparing for iCloud sync. Optional string attributes remain default-less (`nil` when unset), matching v1 semantics — Core Data + CloudKit only requires attributes be optional OR have a default, not both. Numeric / boolean scalars keep their defaults because Swift scalars can't be `nil`. Managed object subclasses now self-assign a UUID id on insert as a safety net. The store-load path no longer crashes on transient failures; it logs the error and exposes it via `CoreDataStack.loadError` so future UI can surface it.
 - Core Data stack switched to `NSPersistentCloudKitContainer`. CloudKit sync is currently disabled by default (gated on an opt-in flag that ships in a later phase). The SQLite store is now in the App Group container; a one-shot migration moves any existing sandbox store on first launch.
 - Settings layer can now route writes through `NSUbiquitousKeyValueStore` for cross-device sync. Disabled by default — only takes effect once the user opts in via the iCloud toggle (Phase 5). Eight settings sync; `MentionedDisclaimer` (per-device legal acknowledgement) and `SiteIndex` (per-device rotation cursor) intentionally stay local.
 - App now reacts to CloudKit / KVS remote changes by reloading the in-memory entity caches, re-sharing widget data, rescheduling notifications, and refreshing badges. Without this, sync would happen at the data layer but the UI would look stale until restart.
@@ -27,7 +27,7 @@ Changed
 Fixed
 
 - Hormones list: rows once again use the alternating background color. The SwiftUI Button wrapper was swallowing the row-background modifier; it's now applied to the row itself.
-- Hormones list: brand-new (unscheduled) hormones now correctly show the placeholder patch instead of the generic "Custom Patch" image. Caused by the v2 Core Data model defaulting the site-name-backup field to an empty string, which made every fresh hormone look like it had a site.
+- Hormones list: brand-new (unscheduled) hormones now correctly show the placeholder patch instead of the generic "Custom Patch" image. The v2 Core Data model was defaulting every string attribute to `""`, which made `hasSite` lie because `siteNameBackUp != nil` returned true even when no site was set. The defaults are now removed; the `hasSite` path also now treats empty strings as no-backup as a belt-and-suspenders.
 - Settings: when iCloud is unavailable (signed out or restricted), the iCloud sync toggle now explains what to do ("Sign in to iCloud in the Settings app…") instead of just sitting disabled with no hint.
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
 - Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.

@@ -3,30 +3,30 @@
     <entity name="Estrogen" representedClassName="MOHormone" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="siteNameBackUp" optional="YES" attributeType="String" defaultValueString=""/>
-        <attribute name="xDays" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="siteNameBackUp" optional="YES" attributeType="String"/>
+        <attribute name="xDays" optional="YES" attributeType="String"/>
         <relationship name="siteRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="hormoneRelationship" inverseEntity="Site"/>
     </entity>
     <entity name="Pill" representedClassName="MOPill" syncable="YES">
-        <attribute name="expirationInterval" optional="YES" attributeType="String" defaultValueString="everyDay"/>
+        <attribute name="expirationInterval" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isCreated" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="lastTaken" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastWakeUp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notify" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="time1" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="time2" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="times" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="times" optional="YES" attributeType="String"/>
         <attribute name="timesaday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timesTakenToday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="timesTakenTodayList" optional="YES" attributeType="String" defaultValueString=""/>
-        <attribute name="xDays" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="timesTakenTodayList" optional="YES" attributeType="String"/>
+        <attribute name="xDays" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Site" representedClassName="MOSite" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="imageIdentifier" optional="YES" attributeType="String" defaultValueString=""/>
-        <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="imageIdentifier" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="hormoneRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Estrogen" inverseName="siteRelationship" inverseEntity="Estrogen"/>
     </entity>
