@@ -40,6 +40,18 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
         )
     }
 
+    public convenience init(
+        baseDefaults: UserDefaultsProtocol,
+        dataSharer: UserDefaultsProtocol
+    ) {
+        self.init(
+            baseDefaults: baseDefaults,
+            dataSharer: dataSharer,
+            kvs: NoOpUbiquitousKVStore(),
+            isSyncEnabled: { false }
+        )
+    }
+
     public init(
         baseDefaults: UserDefaultsProtocol,
         dataSharer: UserDefaultsProtocol,

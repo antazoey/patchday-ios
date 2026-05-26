@@ -114,18 +114,20 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
     }
 
     func testLoad_whenSyncEnabledAndOnlyKVSHasValue_returnsKVSValue() {
+        // XDays isn't pre-populated by MockUserDefaults, so the load
+        // falls through to the KVS branch cleanly.
         let kvs = MockUbiquitousKVStore()
-        kvs.storage[PDSetting.DeliveryMethod.rawValue] = "Patches"
+        kvs.storage[PDSetting.XDays.rawValue] = "5.0"
         let handler = createHandler(kvs: kvs, syncEnabled: true)
-        let actual: String? = handler.load(.DeliveryMethod)
-        XCTAssertEqual("Patches", actual)
+        let actual: String? = handler.load(.XDays)
+        XCTAssertEqual("5.0", actual)
     }
 
     func testLoad_whenSyncDisabled_doesNotFallBackToKVS() {
         let kvs = MockUbiquitousKVStore()
-        kvs.storage[PDSetting.DeliveryMethod.rawValue] = "Patches"
+        kvs.storage[PDSetting.XDays.rawValue] = "5.0"
         let handler = createHandler(kvs: kvs, syncEnabled: false)
-        let actual: String? = handler.load(.DeliveryMethod)
+        let actual: String? = handler.load(.XDays)
         XCTAssertNil(actual)
     }
 
