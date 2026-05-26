@@ -29,6 +29,7 @@ Fixed
 - Removed a retain cycle between `Notifications` and its pill-action handler. The handler's `requestPillNotification` closure now captures `self` weakly.
 - `PDNotificationCenter.userNotificationCenter(_:didReceive:withCompletionHandler:)` now always invokes the completion handler (previously skipped for unknown action identifiers, which Apple's contract requires).
 - New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
+- Pill detail now warns about unsaved changes and lets you discard. Discarding a freshly-added pill (created when you tapped +) cleans it up instead of leaving an empty record in the schedule.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
