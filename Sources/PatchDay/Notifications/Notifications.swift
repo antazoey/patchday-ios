@@ -56,7 +56,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels all the hormone notifications in the given indices.
     func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
-        guard begin < end else { return }
+        guard begin <= end else { return }
         var ids: [String] = []
         for i in begin...end {
             if let hormone = sdk.hormones[i] {
@@ -83,7 +83,7 @@ class Notifications: NSObject, NotificationScheduling {
     /// Requests all the hormone notifications between the given indices.
     func requestRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
         guard sdk.settings.notifications.value else { return }
-        guard begin < end else { return }
+        guard begin <= end else { return }
         cancelRangeOfExpiredHormoneNotifications(from: begin, to: end)
         for i in begin...end {
             guard let hormone = sdk.hormones[i] else { break }

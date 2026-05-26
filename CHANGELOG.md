@@ -14,6 +14,7 @@ Changed
 Fixed
 
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
+- Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
