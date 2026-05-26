@@ -26,6 +26,9 @@ class PillNotificationActionHandler: PillNotificationActionHandling {
         pills.swallow(id) {
             self.badge.reflect()
             self.requestPillNotification?(pill)
+            DispatchQueue.main.async {
+                AppContainer.shared.refreshBadges()
+            }
         }
     }
 }

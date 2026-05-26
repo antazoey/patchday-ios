@@ -31,6 +31,7 @@ Fixed
 - New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
 - Pill detail now warns about unsaved changes and lets you discard. Discarding a freshly-added pill (created when you tapped +) cleans it up instead of leaving an empty record in the schedule.
 - Switching a pill's expiration interval from an X-Days option to Every Day / Every Other Day now clears the underlying X-Days values. Previously the old values lingered in storage and reappeared if you switched back.
+- Taking a pill from a notification action now updates the Pills tab badge immediately. Previously the badge stayed stale until the next time you opened the app.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
