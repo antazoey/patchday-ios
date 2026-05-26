@@ -157,6 +157,11 @@ struct SettingsView: View {
                         )
                         showRelaunchAlert = true
                     }
+                if let helperText = iCloudUnavailableHelperText {
+                    Text(helperText)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
                 HStack {
                     Text(NSLocalizedString("iCloud account", comment: ""))
                     Spacer()
@@ -274,6 +279,23 @@ struct SettingsView: View {
         case .noAccount: return NSLocalizedString("Not signed in", comment: "")
         case .restricted: return NSLocalizedString("Restricted", comment: "")
         case .unknown: return NSLocalizedString("Checking…", comment: "")
+        }
+    }
+
+    private var iCloudUnavailableHelperText: String? {
+        switch iCloudAccountStatus {
+        case .noAccount:
+            return NSLocalizedString(
+                "Sign in to iCloud in the Settings app to enable sync.",
+                comment: ""
+            )
+        case .restricted:
+            return NSLocalizedString(
+                "iCloud is restricted on this device. Check your device's restrictions to enable sync.",
+                comment: ""
+            )
+        case .available, .unknown:
+            return nil
         }
     }
 
