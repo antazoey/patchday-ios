@@ -133,7 +133,7 @@ public class Hormone: Hormonal {
     }
 
     public func createExpirationDate(from startDate: Date) -> Date? {
-        DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: date)
+        DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: startDate)
     }
 
     private var backupSiteName: String {

@@ -466,4 +466,21 @@ class HormoneTests: PDTestCase {
         let expected = TestDateFactory.createTestDate(hoursFrom: hours, now: now)
         PDAssertEquiv(expected, actual)
     }
+
+    func testCreateExpirationDate_usesStartDateArgumentNotHormoneDate() {
+        // Regression: the function ignored its argument and used self.date.
+        let hormone = createEmptyHormone()
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
+        hormone.date = TestDateFactory.createTestDate(daysFrom: -30)
+
+        let startDate = TestDateFactory.createTestDate(hour: 12)
+        guard let actual = hormone.createExpirationDate(from: startDate) else {
+            XCTFail("Was unable to create actual date")
+            return
+        }
+        let expected = DateFactory.createExpirationDate(
+            expirationInterval: hormone.expirationInterval, to: startDate
+        )
+        PDAssertEquiv(expected!, actual)
+    }
 }
