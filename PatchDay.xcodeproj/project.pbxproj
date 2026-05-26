@@ -161,6 +161,7 @@
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
 		A1ICL00012CD0003000000C1 /* UbiquitousKeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */; };
 		A1ICL00012CD0003000000C3 /* PDUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */; };
+		A1ICL00012CD0005000000D1 /* CloudKitAccountStatusChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */; };
 		A1ICL00012CD0003000000C5 /* MockUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */; };
 		9D7F1444240C4486001577A1 /* ChoiceSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ChoiceSetting.swift */; };
 		9D7F1445240C961F001577A1 /* QuantityMutating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98C912D77BEE430431A /* QuantityMutating.swift */; };
@@ -606,6 +607,7 @@
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStoring.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUbiquitousKVStore.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAccountStatusChecker.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUbiquitousKVStore.swift; sourceTree = "<group>"; };
 		9D7F1443240C4486001577A1 /* ChoiceSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceSetting.swift; sourceTree = "<group>"; };
 		9D8A97F923B28EAA004E20FE /* EntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityStore.swift; sourceTree = "<group>"; };
@@ -1193,6 +1195,14 @@
 				A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		A1ICL00012CD0005000000D4 /* CloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */,
+			);
+			path = CloudKit;
 			sourceTree = "<group>";
 		};
 		9D22698B23750E5300828B5F /* Notifications */ = {
@@ -1970,6 +1980,7 @@
 			children = (
 				849F2392284BA67900C875A5 /* README.md */,
 				9D9397C5237BA8B700FDF290 /* CoreData */,
+				A1ICL00012CD0005000000D4 /* CloudKit */,
 				1335B9BA1EC7500D00DD7088 /* PatchData.swift */,
 				9D913BAA230CD5B7001FC03C /* Objects */,
 				138A65611F198B4D0068A972 /* Schedules */,
@@ -2600,6 +2611,7 @@
 				9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */,
 				A1ICL00012CD0003000000C3 /* PDUbiquitousKVStore.swift in Sources */,
+				A1ICL00012CD0005000000D1 /* CloudKitAccountStatusChecker.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchData.swift in Sources */,
 				9D1908D82466F66000E95244 /* PDUserDefaults.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* UserDefaultsWriter.swift in Sources */,

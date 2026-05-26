@@ -9,6 +9,7 @@
 
 import SwiftUI
 import PDKit
+import PatchData
 import WidgetKit
 
 struct SettingsView: View {
@@ -25,6 +26,11 @@ struct SettingsView: View {
     @State private var pendingDeliveryMethod: DeliveryMethod?
     @State private var pendingQuantity: Int?
     @State private var didPrime = false
+
+    @State private var iCloudSyncEnabled: Bool = false
+    @State private var iCloudAccountStatus: CloudKitAccountStatusChecker.Status = .unknown
+    @State private var lastSyncDate: Date?
+    @State private var showRelaunchAlert: Bool = false
 
     var body: some View {
         Form {
@@ -134,6 +140,45 @@ struct SettingsView: View {
                     comment: "Setting footer"
                 ))
             }
+
+            Section {
+                Toggle(
+                    NSLocalizedString("Sync with iCloud", comment: ""),
+                    isOn: $iCloudSyncEnabled
+                )
+                    .accessibilityIdentifier("iCloudSyncSwitch")
+                    .disabled(
+                        iCloudAccountStatus == .noAccount
+                            || iCloudAccountStatus == .restricted
+                    )
+                    .onChange(of: iCloudSyncEnabled) { value in
+                        UserDefaults.standard.set(
+                            value, forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
+                        )
+                        showRelaunchAlert = true
+                    }
+                HStack {
+                    Text(NSLocalizedString("iCloud account", comment: ""))
+                    Spacer()
+                    Text(accountStatusLabel)
+                        .foregroundColor(.secondary)
+                }
+                if iCloudSyncEnabled, let date = lastSyncDate {
+                    HStack {
+                        Text(NSLocalizedString("Last synced", comment: ""))
+                        Spacer()
+                        Text(date, style: .relative)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("iCloud", comment: ""))
+            } footer: {
+                Text(NSLocalizedString(
+                    "When on, your hormones, pills, sites, and most settings sync across your devices using your iCloud account. PatchDay never sees your data.",
+                    comment: "iCloud setting footer"
+                ))
+            }
         }
         .navigationTitle(PDTitleStrings.SettingsTitle)
         .navigationBarTitleDisplayMode(.inline)
@@ -173,6 +218,17 @@ struct SettingsView: View {
                 comment: ""
             ))
         }
+        .alert(
+            NSLocalizedString("Relaunch required", comment: ""),
+            isPresented: $showRelaunchAlert
+        ) {
+            Button(NSLocalizedString("OK", comment: "Button"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString(
+                "Quit and reopen PatchDay to apply the iCloud sync change.",
+                comment: ""
+            ))
+        }
         .onAppear(perform: prime)
     }
 
@@ -201,6 +257,24 @@ struct SettingsView: View {
         notificationsEnabled = settings.notifications.value
         notificationsMinutesBefore = Double(settings.notificationsMinutesBefore.value)
         useStaticExpirationTime = settings.useStaticExpirationTime.value
+        iCloudSyncEnabled = UserDefaults.standard.bool(
+            forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
+        )
+        lastSyncDate = UserDefaults.standard.object(
+            forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+        ) as? Date
+        CloudKitAccountStatusChecker().check { status in
+            iCloudAccountStatus = status
+        }
+    }
+
+    private var accountStatusLabel: String {
+        switch iCloudAccountStatus {
+        case .available: return NSLocalizedString("Signed in", comment: "")
+        case .noAccount: return NSLocalizedString("Not signed in", comment: "")
+        case .restricted: return NSLocalizedString("Restricted", comment: "")
+        case .unknown: return NSLocalizedString("Checking…", comment: "")
+        }
     }
 
     private func applyDeliveryMethod(_ method: DeliveryMethod) {

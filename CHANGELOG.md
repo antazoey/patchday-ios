@@ -9,6 +9,10 @@ Changed (internal, no user-visible effect yet)
 - Settings layer can now route writes through `NSUbiquitousKeyValueStore` for cross-device sync. Disabled by default — only takes effect once the user opts in via the iCloud toggle (Phase 5). Eight settings sync; `MentionedDisclaimer` (per-device legal acknowledgement) and `SiteIndex` (per-device rotation cursor) intentionally stay local.
 - App now reacts to CloudKit / KVS remote changes by reloading the in-memory entity caches, re-sharing widget data, rescheduling notifications, and refreshing badges. Without this, sync would happen at the data layer but the UI would look stale until restart.
 
+Added
+
+- Settings now has an **iCloud** section. Toggle "Sync with iCloud" to mirror your hormones, pills, sites, and most settings across the devices signed into your Apple ID. The toggle is disabled if you aren't signed in to iCloud or if your account is restricted. The change takes effect after a relaunch. Last-sync time and iCloud account status are shown in the same section.
+
 Changed
 
 - Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
