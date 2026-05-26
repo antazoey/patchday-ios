@@ -15,6 +15,8 @@ struct RootView: View {
     @EnvironmentObject private var container: AppContainer
     @Environment(\.scenePhase) private var scenePhase
 
+    @State private var showSetupSheet: Bool = false
+
     var body: some View {
         TabView(selection: $container.selectedTab) {
 
@@ -99,6 +101,20 @@ struct RootView: View {
                 // selection state.
                 container.refreshBadges()
             }
+        }
+        .onAppear(perform: maybePresentSetup)
+        .sheet(isPresented: $showSetupSheet) { SetupSheet() }
+    }
+
+    /// Show the SetupSheet once after install/update if either iCloud sync
+    /// or notifications is off and the user hasn't seen it yet.
+    private func maybePresentSetup() {
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: PDLocalSettingsKey.didShowICloudSetup.rawValue) { return }
+        let iCloudOff = !defaults.bool(forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue)
+        let notificationsOff = !(container.sdk?.settings.notifications.value ?? false)
+        if iCloudOff || notificationsOff {
+            showSetupSheet = true
         }
     }
 

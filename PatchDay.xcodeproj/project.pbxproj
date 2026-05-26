@@ -255,6 +255,7 @@
 		9DFD8EAD2500335900E7C3A8 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD8EAC2500335900E7C3A8 /* DateFormatterFactory.swift */; };
 		9DFE2ACE26C04895002FE451 /* PDSerialTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFE2ACD26C04895002FE451 /* PDSerialTestCase.swift */; };
 		A1C085972FC4F25500F2D82E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085952FC4F25500F2D82E /* RootView.swift */; };
+		A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000E2 /* SetupSheet.swift */; };
 		A1C085982FC4F25500F2D82E /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085912FC4F25500F2D82E /* AppContainer.swift */; };
 		A1C085992FC4F25500F2D82E /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085922FC4F25500F2D82E /* AppTab.swift */; };
 		A1C0859A2FC4F25500F2D82E /* PatchDayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085942FC4F25500F2D82E /* PatchDayApp.swift */; };
@@ -708,6 +709,7 @@
 		A1C085922FC4F25500F2D82E /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
 		A1C085942FC4F25500F2D82E /* PatchDayApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayApp.swift; sourceTree = "<group>"; };
 		A1C085952FC4F25500F2D82E /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0006000000E2 /* SetupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupSheet.swift; sourceTree = "<group>"; };
 		A1C0859C2FC4F26E00F2D82E /* HormoneDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDetailView.swift; sourceTree = "<group>"; };
 		A1C0859D2FC4F26E00F2D82E /* HormoneRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneRow.swift; sourceTree = "<group>"; };
 		A1C0859E2FC4F26E00F2D82E /* HormonesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesListView.swift; sourceTree = "<group>"; };
@@ -1897,6 +1899,7 @@
 				A1C085922FC4F25500F2D82E /* AppTab.swift */,
 				A1C085942FC4F25500F2D82E /* PatchDayApp.swift */,
 				A1C085952FC4F25500F2D82E /* RootView.swift */,
+				A1ICL00012CD0006000000E2 /* SetupSheet.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -2459,6 +2462,7 @@
 			files = (
 				9D3E4C7E22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift in Sources */,
 				A1C085972FC4F25500F2D82E /* RootView.swift in Sources */,
+				A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */,
 				A1C085982FC4F25500F2D82E /* AppContainer.swift in Sources */,
 				A1C085992FC4F25500F2D82E /* AppTab.swift in Sources */,
 				A1C0859A2FC4F25500F2D82E /* PatchDayApp.swift in Sources */,

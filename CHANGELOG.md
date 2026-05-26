@@ -12,6 +12,7 @@ Changed (internal, no user-visible effect yet)
 Added
 
 - Settings now has an **iCloud** section. Toggle "Sync with iCloud" to mirror your hormones, pills, sites, and most settings across the devices signed into your Apple ID. The toggle is disabled if you aren't signed in to iCloud or if your account is restricted. The change takes effect after a relaunch. Last-sync time and iCloud account status are shown in the same section.
+- First launch after this update shows a one-time **Set up PatchDay** sheet offering to enable iCloud sync and notifications. Both default off; the user can skip the sheet entirely. The sheet never reappears.
 
 Changed
 
