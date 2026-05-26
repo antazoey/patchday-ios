@@ -3,8 +3,17 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 11/8/20.
+//
 
 import Foundation
+
+/// Result of a hormone row tap, surfaced to the view so it can present the
+/// appropriate UI (SwiftUI confirmationDialog or navigation push) without the
+/// VM needing a UIViewController reference.
+public enum HormoneTapResult {
+    case changeOrEdit(currentSite: SiteName, suggestedSite: SiteName?, change: () -> Void, edit: () -> Void)
+    case none
+}
 
 public protocol HormonesViewModelProtocol {
 
@@ -29,6 +38,12 @@ public protocol HormonesViewModelProtocol {
     /// Present the disclaimer alert that appears on first launch.
     func presentDisclaimerAlertIfFirstLaunch()
 
+    /// True iff the disclaimer alert has not been acknowledged yet.
+    var shouldShowDisclaimer: Bool { get }
+
+    /// Mark the disclaimer as acknowledged.
+    func acknowledgeDisclaimer()
+
     /// Reflect hormone site changes in cell images.
     func updateSiteImages()
 
@@ -36,6 +51,14 @@ public protocol HormonesViewModelProtocol {
     func handleRowTapped(
         at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
     )
+
+    /// SwiftUI-friendly row tap: returns the data the view needs to present a
+    /// confirmation dialog. Navigation to detail is the caller's responsibility.
+    func handleRowTapped(at index: Index, reload: @escaping () -> Void) -> HormoneTapResult
+
+    /// Resolve a cell view model directly from the SDK without going through
+    /// the UIKit cell array. Used by SwiftUI rows.
+    func cellViewModel(at index: Index, isPad: Bool) -> HormoneCellViewModelProtocol?
 
     /// Get a Hormone cell.
     subscript(row: Index) -> HormoneCellProtocol { get }

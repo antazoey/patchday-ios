@@ -1,5 +1,21 @@
 # Changelog
 
+# Unreleased
+
+Changed
+
+- Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
+- Minimum iOS version is now 16.0 (was 15.4).
+- Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
+- Pill detail now supports the full set of options: name, notify, 1–4 times per day, expiration interval (Every Day / Every Other Day / First X Days / Last X Days / X Days On X Days Off), and the X-Days controls.
+- Site detail now includes the image picker scoped to the current delivery method.
+- Settings tab now uses native SwiftUI controls; switching delivery method or reducing quantity prompts a confirmation alert.
+
+Fixed
+
+- Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
+- Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
+
 # 3.8.2
 
 Fixes

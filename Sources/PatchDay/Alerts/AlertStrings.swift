@@ -37,7 +37,7 @@ class AlertStrings {
                 "To begin using PatchDay, tap the Gear button in the " +
                 "top right and set your Quantity, Schedule Interval, and Delivery Method." +
                 "\n\nUse this tool responsibly, and please follow prescription instructions!" +
-                "\n\nGo to www.PatchDayHRT.com to learn more.", comment: messageComment
+                "\n\nGo to https://www.antazoey.me/#patchday to learn more.", comment: messageComment
             ),
             NSLocalizedString("Support page", comment: titleComment)
         )
