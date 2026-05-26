@@ -90,6 +90,13 @@ public class PatchData: NSObject, PatchDataSDK {
             let newSiteCount = sites.reset()
             settings.reset(defaultSiteCount: newSiteCount)
             storeDataStackWrapper.nuke()
+            // Local-only iCloud/setup flags aren't reached by settings.reset.
+            // Clear them so the first-launch setup sheet reappears and the
+            // app-group migration step re-runs cleanly on the next launch.
+            let standardDefaults = UserDefaults.standard
+            for key in PDLocalSettingsKey.allCases {
+                standardDefaults.removeObject(forKey: key.rawValue)
+            }
             PDCli.clearNukeFlag()
             self.init()
             PDLogLevel = PDLogLevels.DEBUG

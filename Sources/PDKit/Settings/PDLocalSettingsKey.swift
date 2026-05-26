@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum PDLocalSettingsKey: String {
+public enum PDLocalSettingsKey: String, CaseIterable {
     case iCloudSyncEnabled
     case didShowICloudSetup
     case didMigrateStoreToAppGroup
