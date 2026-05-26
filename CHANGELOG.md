@@ -17,6 +17,7 @@ Fixed
 - Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
 - Resetting the site schedule no longer crashes when there are no extra sites to delete.
 - Error logs (two-argument `PDLog.error`) now include the original message instead of the literal string "message".
+- Deleting a site no longer risks removing unrelated sites that happen to have a nil id from the in-memory cache.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
