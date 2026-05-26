@@ -654,8 +654,8 @@ public class PillTests: PDTestCase {
     func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsFirstOfLastTwentyDaysAtTimeOne() {
         let attributes = PillAttributes()
         attributes.expirationInterval.value = .LastXDays
-        attributes.expirationInterval.daysTwo = 20
-        attributes.timesTakenToday = ""
+        attributes.expirationInterval.daysOne = 20
+        attributes.timesTakenToday = "12:00:00" // 1 taken == timesaday → finished
         let now = MockNow()
         now.now = januaryThirtyFirst
         attributes.lastTaken = januaryThirtyFirst
