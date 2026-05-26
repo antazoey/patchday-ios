@@ -206,7 +206,9 @@ struct SettingsView: View {
     private func applyDeliveryMethod(_ method: DeliveryMethod) {
         container.sdk?.settings.setDeliveryMethod(to: method)
         if let settings = container.sdk?.settings {
+            deliveryMethod = SettingsOptions.getDeliveryMethodString(for: settings.deliveryMethod.value)
             quantity = String(settings.quantity.rawValue)
+            expirationInterval = SettingsOptions.getExpirationInterval(for: settings.expirationInterval)
         }
         container.refreshBadges()
         WidgetCenter.shared.reloadAllTimelines()
