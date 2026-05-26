@@ -39,7 +39,9 @@ class Notifications: NSObject, NotificationScheduling {
             center: center,
             factory: factory
         )
-        center.pillActionHandler.requestPillNotification = self.requestDuePillNotification
+        center.pillActionHandler.requestPillNotification = { [weak self] pill in
+            self?.requestDuePillNotification(pill)
+        }
     }
 
     // MARK: - Hormone
