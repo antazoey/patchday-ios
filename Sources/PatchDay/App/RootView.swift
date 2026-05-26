@@ -94,7 +94,10 @@ struct RootView: View {
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {
-                container.triggerRefresh()
+                // Only refresh badge counts here — calling triggerRefresh would
+                // bump refreshTick and rebuild every list, losing scroll and
+                // selection state.
+                container.refreshBadges()
             }
         }
     }

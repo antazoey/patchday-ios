@@ -34,6 +34,7 @@ Fixed
 - Taking a pill from a notification action now updates the Pills tab badge immediately. Previously the badge stayed stale until the next time you opened the app.
 - Changing delivery method in Settings now also refreshes the displayed Expiration Interval picker (it could appear stale if the SDK chose a different default for the new method).
 - Notification authorization is now requested only when the system hasn't been asked yet, instead of on every app launch.
+- Returning to the app no longer rebuilds every list (which would reset scroll position and visual state). Only the tab-bar badges refresh.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
