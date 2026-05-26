@@ -16,9 +16,12 @@ extension Date {
         guard let midnightOfOtherDate = DateFactory.createMidnight(of: otherDate, now: now) else {
             return 0  // Shouldn't happen
         }
-        let difference = midnight.timeIntervalSince(midnightOfOtherDate)
-        let secondsInDay = 60.0 * 60.0 * 24.0
-        return Int(difference / secondsInDay)
+        // Use calendar-aware day counting so DST transitions (23h or 25h days)
+        // don't truncate the result.
+        let components = Calendar.current.dateComponents(
+            [.day], from: midnightOfOtherDate, to: midnight
+        )
+        return components.day ?? 0
     }
 
     public func isWithin(minutes: Int, of date: Date) -> Bool {
