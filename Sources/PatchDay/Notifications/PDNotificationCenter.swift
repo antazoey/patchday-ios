@@ -58,11 +58,11 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
+        defer { completionHandler() }
         let id = response.notification.request.identifier
         switch response.actionIdentifier {
             case DuePillNotification.actionId: pillActionHandler.handlePill(pillId: id)
             default: return
         }
-        completionHandler()
     }
 }

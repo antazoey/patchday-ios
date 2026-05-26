@@ -27,6 +27,7 @@ Fixed
 - `HormoneSchedule.all` sort closure no longer violates strict weak ordering (undefined behavior) when multiple hormones have the placeholder default date.
 - Reordering sites: the "next site" tracker is now compared against its pre-move position instead of its already-mutated post-move position, so the suggested-site arrow follows reorders correctly.
 - Removed a retain cycle between `Notifications` and its pill-action handler. The handler's `requestPillNotification` closure now captures `self` weakly.
+- `PDNotificationCenter.userNotificationCenter(_:didReceive:withCompletionHandler:)` now always invokes the completion handler (previously skipped for unknown action identifiers, which Apple's contract requires).
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
