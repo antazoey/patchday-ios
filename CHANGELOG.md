@@ -21,6 +21,7 @@ Fixed
 - Taking a pill no longer increases `timesTakenToday` past `timesaday` when the pill has never been taken before (corrupt-state guard).
 - Reading a hormone's site name no longer clears its custom site image id.
 - `Date.daysSince` now counts calendar days correctly across daylight-saving transitions (was off-by-one twice a year).
+- `Pill.dueDateEnd` now uses the injected `NowProtocol` instead of a hard-coded `Date()`, making the LastXDays schedule deterministic in tests.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
