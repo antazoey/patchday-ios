@@ -3,6 +3,7 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 4/21/19.
+//
 
 import Foundation
 import PDKit
@@ -13,24 +14,71 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
 
     private var base: UserDefaultsProtocol
     private var dataSharer: UserDefaultsProtocol
+    private var kvs: UbiquitousKeyValueStoring
+    private let isSyncEnabled: () -> Bool
+
+    /// Settings that participate in cross-device sync. `MentionedDisclaimer`
+    /// is a per-device legal acknowledgement; `SiteIndex` is a per-device
+    /// rotation cursor. Everything else is shared across the user's devices.
+    static let syncedKeys: Set<String> = [
+        PDSetting.DeliveryMethod.rawValue,
+        PDSetting.ExpirationInterval.rawValue,
+        PDSetting.XDays.rawValue,
+        PDSetting.Quantity.rawValue,
+        PDSetting.Notifications.rawValue,
+        PDSetting.NotificationsMinutesBefore.rawValue,
+        PDSetting.PillsEnabled.rawValue,
+        PDSetting.UseStaticExpirationTime.rawValue
+    ]
 
     public convenience init(dataSharer: UserDefaultsProtocol) {
-        self.init(baseDefaults: PDUserDefaults(), dataSharer: dataSharer)
+        self.init(
+            baseDefaults: PDUserDefaults(),
+            dataSharer: dataSharer,
+            kvs: NoOpUbiquitousKVStore(),
+            isSyncEnabled: { false }
+        )
     }
 
-    public init(baseDefaults: UserDefaultsProtocol, dataSharer: UserDefaultsProtocol) {
+    public init(
+        baseDefaults: UserDefaultsProtocol,
+        dataSharer: UserDefaultsProtocol,
+        kvs: UbiquitousKeyValueStoring,
+        isSyncEnabled: @escaping () -> Bool
+    ) {
         self.base = baseDefaults
         self.dataSharer = dataSharer
+        self.kvs = kvs
+        self.isSyncEnabled = isSyncEnabled
     }
 
     public func replace<T>(_ v: T, to newValue: T.RawValue) where T: KeyStorable {
-        dataSharer.set(newValue, for: v.setting.rawValue)
-        base.set(newValue, for: v.setting.rawValue)
+        let key = v.setting.rawValue
+        dataSharer.set(newValue, for: key)
+        base.set(newValue, for: key)
+        if isSyncEnabled(), Self.syncedKeys.contains(key) {
+            kvs.set(newValue, for: key)
+        }
     }
 
     public func load<T>(_ setting: PDSetting) -> T? {
-        let s1 = dataSharer.object(for: setting.rawValue) as? T
-        let s2 = base.object(for: setting.rawValue) as? T
-        return s1 ?? s2
+        let key = setting.rawValue
+        if let v = dataSharer.object(for: key) as? T { return v }
+        if let v = base.object(for: key) as? T { return v }
+        if isSyncEnabled(), Self.syncedKeys.contains(key) {
+            return kvs.object(for: key) as? T
+        }
+        return nil
+    }
+
+    /// Mirror remote KVS changes into the local stores so the in-app cache
+    /// stays consistent. Caller should subscribe to the KVS observer and
+    /// pass through the changed-keys array.
+    public func ingestKVSChanges(_ changedKeys: [String]) {
+        for key in changedKeys where Self.syncedKeys.contains(key) {
+            let value = kvs.object(for: key)
+            base.set(value, for: key)
+            dataSharer.set(value, for: key)
+        }
     }
 }

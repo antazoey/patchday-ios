@@ -159,6 +159,9 @@
 		9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CA12B098B78F4EF41902 /* ImageResizer.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
+		A1ICL00012CD0003000000C1 /* UbiquitousKeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */; };
+		A1ICL00012CD0003000000C3 /* PDUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */; };
+		A1ICL00012CD0003000000C5 /* MockUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */; };
 		9D7F1444240C4486001577A1 /* ChoiceSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ChoiceSetting.swift */; };
 		9D7F1445240C961F001577A1 /* QuantityMutating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98C912D77BEE430431A /* QuantityMutating.swift */; };
 		9D8A97F823AFCCE5004E20FE /* EntityAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9489AA2464C530A78F2 /* EntityAdapter.swift */; };
@@ -601,6 +604,9 @@
 		9D78884625585FAF00DC0F6D /* HormoneDetailViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDetailViewModelProtocol.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStoring.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUbiquitousKVStore.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUbiquitousKVStore.swift; sourceTree = "<group>"; };
 		9D7F1443240C4486001577A1 /* ChoiceSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceSetting.swift; sourceTree = "<group>"; };
 		9D8A97F923B28EAA004E20FE /* EntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityStore.swift; sourceTree = "<group>"; };
 		9D8A97FC23B28F6E004E20FE /* HormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStore.swift; sourceTree = "<group>"; };
@@ -1089,6 +1095,7 @@
 				9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */,
 				3397C0B64890296742265A9E /* SingleValueTypeKeyStorables.swift */,
 				9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */,
+				A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1183,6 +1190,7 @@
 				13C746D01ED781DD00067A67 /* UserDefaultsWriter.swift */,
 				9D9397BC2379444300FDF290 /* Settings.swift */,
 				9D1908D72466F66000E95244 /* PDUserDefaults.swift */,
+				A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1545,6 +1553,7 @@
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
 				9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */,
 				9D5EF434265B2ED800F562A8 /* MockKeyStorable.swift */,
+				A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -2526,6 +2535,7 @@
 				9D8A981F23C57473004E20FE /* MockHormoneDataSharer.swift in Sources */,
 				9D1908E82468375200E95244 /* MockNotifications.swift in Sources */,
 				9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */,
+				A1ICL00012CD0003000000C5 /* MockUbiquitousKVStore.swift in Sources */,
 				9D1908DC2466FD7D00E95244 /* MockUserDefaults.swift in Sources */,
 				9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */,
 				9D6E9AFB245633DC003BBCC9 /* MockSDK.swift in Sources */,
@@ -2589,6 +2599,7 @@
 				9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */,
 				9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */,
+				A1ICL00012CD0003000000C3 /* PDUbiquitousKVStore.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchData.swift in Sources */,
 				9D1908D82466F66000E95244 /* PDUserDefaults.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* UserDefaultsWriter.swift in Sources */,
@@ -2663,6 +2674,7 @@
 				9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */,
 				9D0CE8BD2635DE6600B3FCB7 /* PillTimesQuotient.swift in Sources */,
 				9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */,
+				A1ICL00012CD0003000000C1 /* UbiquitousKeyValueStoring.swift in Sources */,
 				9D8A985F23D3B9EC004E20FE /* PillDataSharing.swift in Sources */,
 				9D913BA022FF697F001FC03C /* Bodily.swift in Sources */,
 				9D913B7A22FF3A0B001FC03C /* UserDefaultsWriting.swift in Sources */,

@@ -53,8 +53,17 @@ public class PatchData: NSObject, PatchDataSDK {
 
         let dataSharer = DataSharer()
         let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
+        let kvs: UbiquitousKeyValueStoring = PDUbiquitousKVStore()
+        let isSyncEnabled: () -> Bool = {
+            UserDefaults.standard.bool(forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue)
+        }
         let userDefaultsWriter = UserDefaultsWriter(
-            handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
+            handler: UserDefaultsWriteHandler(
+                baseDefaults: PDUserDefaults(),
+                dataSharer: dataSharer,
+                kvs: kvs,
+                isSyncEnabled: isSyncEnabled
+            ),
             siteStore: siteStore
         )
         let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer)
