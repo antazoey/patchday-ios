@@ -252,7 +252,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             site.reset()
             store.delete(site)
         }
-        for _ in 0...deleteCount - 1 {
+        for _ in 0..<deleteCount {
             _ = context.popLast()
         }
         order()
