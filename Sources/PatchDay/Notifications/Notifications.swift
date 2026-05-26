@@ -70,8 +70,8 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        guard sdk.settings.notifications.value else { return }
         cancelExpiredHormoneNotification(for: hormone)
+        guard sdk.settings.notifications.value else { return }
         requestHormoneNotification(hormone)
     }
 
@@ -95,9 +95,9 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
+        cancelDuePillNotification(pill)
         guard pillsEnabled else { return }
         guard pill.notify else { return }
-        cancelDuePillNotification(pill)
         requestPillNotification(pill)
     }
 

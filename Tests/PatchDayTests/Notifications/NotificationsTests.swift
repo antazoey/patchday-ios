@@ -143,6 +143,16 @@ class NotificationsTests: PDTestCase {
         XCTAssertEqual(0, mockNotification.requestCallCount)
     }
 
+    func testRequestExpiredHormoneNotification_whenTurnedOffInSettings_stillCancelsExisting() {
+        let center = MockNotificationCenter()
+        let sdk = createSDK(settings: createSettings(on: false))
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let mockHormone = createTestHormone()
+        notifications.requestExpiredHormoneNotification(for: mockHormone)
+        PDAssertSingle(center.removeNotificationsCallArgs)
+    }
+
     func testRequestExpiredHormoneNotification_requestsWithExpectedParameters() {
         let center = MockNotificationCenter()
         let settings = createSettings(on: true, minutesBefore: 23)
@@ -230,6 +240,16 @@ class NotificationsTests: PDTestCase {
         let pill = createTestPill(isDue: true, notify: false)
         notifications.requestDuePillNotification(pill)
         PDAssertEmpty(factory.createDuePillNotificationCallArgs)
+    }
+
+    func testRequestDuePillNotification_whenNotifyIsFalse_stillCancelsExisting() {
+        let sdk = createSDK(totalExpired: 3)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let pill = createTestPill(isDue: true, notify: false)
+        notifications.requestDuePillNotification(pill)
+        PDAssertSingle(center.removeNotificationsCallArgs)
     }
 
     func testRequestDuePillNotification_whenPillIsDueAndNotified_requests() {
