@@ -47,9 +47,9 @@ struct SiteDetailView: View {
                 Picker(NSLocalizedString("Preset", comment: ""), selection: $name) {
                     ForEach(SiteStrings.all, id: \.self) { Text($0).tag($0) }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("siteNamePresetPicker")
             }
-            .accessibilityIdentifier("siteNameSection")
 
             Section(NSLocalizedString("Image:", comment: "")) {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -81,7 +81,6 @@ struct SiteDetailView: View {
                 }
                 .accessibilityIdentifier("siteImagePickerScroll")
             }
-            .accessibilityIdentifier("siteImageSection")
         }
         .navigationTitle(navTitle)
         .navigationBarTitleDisplayMode(.inline)

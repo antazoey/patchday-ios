@@ -43,9 +43,9 @@ struct PillDetailView: View {
                         Text($0).tag($0)
                     }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("pillNamePresetPicker")
             }
-            .accessibilityIdentifier("pillNameStack")
 
             Section(NSLocalizedString("Schedule", comment: "")) {
                 Picker(NSLocalizedString("Interval", comment: ""), selection: $interval) {
@@ -53,6 +53,7 @@ struct PillDetailView: View {
                         Text(PillStrings.Intervals.getStringFromInterval(option)).tag(option)
                     }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("pillScheduleButton")
 
                 if interval == .FirstXDays || interval == .LastXDays {
@@ -80,7 +81,6 @@ struct PillDetailView: View {
                     .accessibilityIdentifier("pillDaysTwoScheduleButton")
                 }
             }
-            .accessibilityIdentifier("pillScheduleStack")
 
             Section(NSLocalizedString("Times", comment: "")) {
                 Stepper(
@@ -102,7 +102,6 @@ struct PillDetailView: View {
                     .accessibilityIdentifier("pillTimePicker_\(index)")
                 }
             }
-            .accessibilityIdentifier("pillTimesStack")
 
             Section {
                 Toggle(NSLocalizedString("Notify when due", comment: ""), isOn: $notify)

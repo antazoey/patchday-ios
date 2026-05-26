@@ -35,6 +35,7 @@ struct SettingsView: View {
                 ) {
                     ForEach(SettingsOptions.deliveryMethods, id: \.self) { Text($0).tag($0) }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("deliveryMethodButton")
                 .onChange(of: deliveryMethod) { newValue in
                     let next = SettingsOptions.getDeliveryMethod(for: newValue)
@@ -49,6 +50,7 @@ struct SettingsView: View {
                 ) {
                     ForEach(SettingsOptions.expirationIntervals, id: \.self) { Text($0).tag($0) }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("expirationIntervalButton")
                 .onChange(of: expirationInterval) { newValue in
                     guard let settings = container.sdk?.settings else { return }
@@ -63,6 +65,7 @@ struct SettingsView: View {
                 ) {
                     ForEach(SettingsOptions.quantities, id: \.self) { Text($0).tag($0) }
                 }
+                .pickerStyle(.menu)
                 .accessibilityIdentifier("settingsQuantityButton")
                 .onChange(of: quantity) { newValue in
                     guard let asInt = Int(newValue) else { return }
@@ -75,7 +78,6 @@ struct SettingsView: View {
                     }
                 }
             }
-            .accessibilityIdentifier("settingsScheduleSection")
 
             Section(NSLocalizedString("Notifications", comment: "")) {
                 Toggle(
@@ -116,7 +118,6 @@ struct SettingsView: View {
                     }
                 }
             }
-            .accessibilityIdentifier("settingsNotificationsSection")
 
             Section {
                 Toggle(
@@ -216,4 +217,5 @@ struct SettingsView: View {
         container.refreshBadges()
         WidgetCenter.shared.reloadAllTimelines()
     }
+
 }

@@ -16,4 +16,32 @@ class SettingsUITests: PDUITest {
     func testTitle() throws {
         XCTAssert(app.navigationBars["Settings"].exists)
     }
+
+    func testSetQuantity_updatesPickerValue() throws {
+        app.buttons["settingsQuantityButton"].tap()
+        let four = app.buttons["4"]
+        XCTAssert(four.waitForExistence(timeout: 3))
+        four.tap()
+        XCTAssert(app.staticTexts["4"].waitForExistence(timeout: 2))
+    }
+
+
+    func testSetDeliveryMethod_updatesPickerValue() throws {
+        app.buttons["deliveryMethodButton"].tap()
+        let injections = app.buttons["Injections"]
+        XCTAssert(injections.waitForExistence(timeout: 3))
+        injections.tap()
+        // A destructive-change confirmation appears.
+        let continueBtn = app.alerts.buttons["Continue"]
+        if continueBtn.waitForExistence(timeout: 2) {
+            continueBtn.tap()
+        }
+        // The Hormones tab title now reflects the new delivery method.
+        tabs.buttons["Injections"].tap()
+        XCTAssert(app.staticTexts["Injections"].waitForExistence(timeout: 2))
+    }
+
+    func testNotificationsSlider_exists() throws {
+        XCTAssert(app.sliders["notificationsMinutesBeforeSlider"].waitForExistence(timeout: 2))
+    }
 }

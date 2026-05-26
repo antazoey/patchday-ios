@@ -64,7 +64,6 @@ struct HormoneDetailView: View {
                 LabeledContent(viewStrings?.expirationText ?? "", value: expirationText)
                     .accessibilityIdentifier("hormoneExpirationLabel")
             }
-            .accessibilityIdentifier("hormoneDateSection")
 
             Section(PDTitleStrings.SiteTitle) {
                 if state.isTypingNewSite {
@@ -88,6 +87,7 @@ struct HormoneDetailView: View {
                             Text(name).tag(name)
                         }
                     }
+                    .pickerStyle(.menu)
                     .onChange(of: state.selectedSiteName) { _ in state.isDirty = true }
                     .accessibilityIdentifier("hormoneSiteSelectorStack")
 
@@ -104,7 +104,6 @@ struct HormoneDetailView: View {
                 .disabled(state.isTypingNewSite)
                 .accessibilityIdentifier("autofillButton")
             }
-            .accessibilityIdentifier("hormoneSiteSection")
         }
         .navigationTitle(PDTitleStrings.EditHormoneTitle)
         .navigationBarTitleDisplayMode(.inline)
@@ -116,8 +115,8 @@ struct HormoneDetailView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(ActionStrings.Save) { save() }
-                    .disabled(!state.isDirty)
                     .accessibilityIdentifier("saveHormoneButton")
+                    .disabled(!state.isDirty)
             }
         }
         .alert(

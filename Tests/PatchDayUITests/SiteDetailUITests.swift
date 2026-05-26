@@ -27,4 +27,13 @@ class SiteDetailUITests: PDUITest {
     func testSaveButton_exists() throws {
         XCTAssert(app.buttons["siteSaveButton"].exists)
     }
+
+    func testSelectPreset_updatesName() throws {
+        app.buttons["siteNamePresetPicker"].tap()
+        let option = app.buttons["Right Glute"]
+        XCTAssert(option.waitForExistence(timeout: 3))
+        option.tap()
+        let nameField = app.textFields["siteNameTextField"]
+        XCTAssertEqual("Right Glute", nameField.value as? String)
+    }
 }
