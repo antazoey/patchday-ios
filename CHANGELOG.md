@@ -33,6 +33,7 @@ Fixed
 - Switching a pill's expiration interval from an X-Days option to Every Day / Every Other Day now clears the underlying X-Days values. Previously the old values lingered in storage and reappeared if you switched back.
 - Taking a pill from a notification action now updates the Pills tab badge immediately. Previously the badge stayed stale until the next time you opened the app.
 - Changing delivery method in Settings now also refreshes the displayed Expiration Interval picker (it could appear stale if the SDK chose a different default for the new method).
+- Notification authorization is now requested only when the system hasn't been asked yet, instead of on every app launch.
 - Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2

@@ -22,13 +22,20 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         self.root = root
         super.init()
         self.root.delegate = self
-        self.root.requestAuthorization(options: [.alert, .sound, .badge]) {
-            (_, error) in
-            if let e = error {
-                self.log.error(e)
+        self.root.setNotificationCategories(categories)
+        requestAuthorizationIfNotDetermined()
+    }
+
+    private func requestAuthorizationIfNotDetermined() {
+        root.getNotificationSettings { [weak self] settings in
+            guard let self = self else { return }
+            guard settings.authorizationStatus == .notDetermined else { return }
+            self.root.requestAuthorization(options: [.alert, .sound, .badge]) { (_, error) in
+                if let e = error {
+                    self.log.error(e)
+                }
             }
         }
-        self.root.setNotificationCategories(categories)
     }
 
     private var categories: Set<UNNotificationCategory> {
