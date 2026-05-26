@@ -5,6 +5,7 @@
 Changed (internal, no user-visible effect yet)
 
 - Core Data: added a new `patchData 2` model version with default values on every attribute, preparing for iCloud sync. Existing local data is unaffected — defaults apply only to newly inserted records. Managed object subclasses now self-assign a UUID id on insert as a safety net. The store-load path no longer crashes on transient failures; it logs the error and exposes it via `CoreDataStack.loadError` so future UI can surface it.
+- Core Data stack switched to `NSPersistentCloudKitContainer`. CloudKit sync is currently disabled by default (gated on an opt-in flag that ships in a later phase). The SQLite store is now in the App Group container; a one-shot migration moves any existing sandbox store on first launch.
 
 Changed
 

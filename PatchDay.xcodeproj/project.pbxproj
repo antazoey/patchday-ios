@@ -101,6 +101,7 @@
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */; };
 		9D6DB7D22405FED600C00711 /* PDUserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D12405FED600C00711 /* PDUserDefault.swift */; };
 		9D6DB7DB2405FEF200C00711 /* QuantityUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D72405FEF200C00711 /* QuantityUD.swift */; };
+		A1ICL00012CD0002000000B1 /* PDLocalSettingsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0002000000B2 /* PDLocalSettingsKey.swift */; };
 		9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */; };
 		9D6DB7DE2405FEF200C00711 /* ExpirationIntervalUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */; };
 		9D6DB7E02405FFD300C00711 /* SimpleSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */; };
@@ -557,6 +558,7 @@
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandling.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = Sources/PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7D72405FEF200C00711 /* QuantityUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantityUD.swift; path = Sources/PDKit/Settings/Choice/QuantityUD.swift; sourceTree = SOURCE_ROOT; };
+		A1ICL00012CD0002000000B2 /* PDLocalSettingsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDLocalSettingsKey.swift; sourceTree = "<group>"; };
 		9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryMethodUD.swift; path = Sources/PDKit/Settings/Choice/DeliveryMethodUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpirationIntervalUD.swift; path = Sources/PDKit/Settings/Choice/ExpirationIntervalUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSettings.swift; sourceTree = "<group>"; };
@@ -1304,6 +1306,7 @@
 				9D6DB7D12405FED600C00711 /* PDUserDefault.swift */,
 				9D7F1443240C4486001577A1 /* ChoiceSetting.swift */,
 				9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */,
+				A1ICL00012CD0002000000B2 /* PDLocalSettingsKey.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2283,7 +2286,7 @@
 								enabled = 1;
 							};
 							com.apple.iCloud = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -2638,6 +2641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1ICL00012CD0002000000B1 /* PDLocalSettingsKey.swift in Sources */,
 				9D6DB7DB2405FEF200C00711 /* QuantityUD.swift in Sources */,
 				9DDAB03723FAE61300E6EEF6 /* QuantityMutationAlertActionHandling.swift in Sources */,
 				9D6E9AD924562194003BBCC9 /* NotificationScheduling.swift in Sources */,
