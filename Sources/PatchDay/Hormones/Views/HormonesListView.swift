@@ -19,6 +19,10 @@ struct HormonesListView: View {
     @State private var tapTarget: TapTarget?
     @State private var showDisclaimer = false
 
+    // Observed so the disclaimer can fire automatically once the SetupSheet
+    // dismisses (and flips this flag), without depending on onAppear refiring.
+    @AppStorage("didShowICloudSetup") private var didShowICloudSetup: Bool = false
+
     private struct TapTarget: Identifiable {
         let id = UUID()
         let index: Index
@@ -97,9 +101,22 @@ struct HormonesListView: View {
         }
         .onAppear {
             container.refreshBadges()
-            if container.sdk?.settings.mentionedDisclaimer.value == false {
-                showDisclaimer = true
-            }
+            maybeShowDisclaimer()
+        }
+        .onChange(of: didShowICloudSetup) { _ in
+            // Fires when SetupSheet dismissal flips the flag, so we can
+            // surface the legal disclaimer now that the sheet is gone.
+            maybeShowDisclaimer()
+        }
+    }
+
+    private func maybeShowDisclaimer() {
+        // Defer the legal disclaimer until the first-launch SetupSheet
+        // (presented by RootView) has been dismissed — otherwise both
+        // presentations race and SwiftUI drops one.
+        guard didShowICloudSetup else { return }
+        if container.sdk?.settings.mentionedDisclaimer.value == false {
+            showDisclaimer = true
         }
     }
 
