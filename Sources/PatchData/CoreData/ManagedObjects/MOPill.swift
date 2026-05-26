@@ -26,4 +26,9 @@ public class MOPill: NSManagedObject {
     @NSManaged var time1: NSDate?
     @NSManaged var time2: NSDate?
     @NSManaged var timesTakenToday: Int16
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        if id == nil { id = UUID() }
+    }
 }

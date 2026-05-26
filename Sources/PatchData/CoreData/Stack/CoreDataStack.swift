@@ -53,11 +53,17 @@ class CoreDataStack: NSObject {
 
     // MARK: - Internal
 
+    /// Holds the most recent store-load error, if any. UI can surface this.
+    static private(set) var loadError: Error?
+
     static var persistentContainer: NSPersistentContainer = {
         container.loadPersistentStores(completionHandler: {
             (_, error) in
             if let error = error as NSError? {
-                fatalError()
+                CoreDataStack.loadError = error
+                log.error(
+                    "Core Data store failed to load: \(error.localizedDescription) — \(error.userInfo)"
+                )
             }
         })
         return container
