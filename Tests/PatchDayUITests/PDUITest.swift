@@ -22,8 +22,15 @@ class PDUITest: XCTestCase {
         app.launchArguments.append("--nuke-storage")
         app.launch()
 
-        // Dismiss the SwiftUI disclaimer alert that always appears on first launch
-        // after --nuke-storage. The interruption monitor handles cases where the
+        // --nuke-storage also clears didShowICloudSetup, so the first-launch
+        // SetupSheet appears before anything else. Skip it.
+        let skipSetup = app.buttons["setupSheetSkipButton"]
+        if skipSetup.waitForExistence(timeout: 5) {
+            skipSetup.tap()
+        }
+
+        // Dismiss the SwiftUI disclaimer alert that appears after the
+        // SetupSheet is gone. The interruption monitor handles cases where the
         // alert is presented after the app starts.
         addUIInterruptionMonitor(withDescription: "Disclaimer") { alert in
             let dismiss = alert.buttons["Dismiss"]

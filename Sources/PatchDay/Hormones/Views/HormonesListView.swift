@@ -53,9 +53,9 @@ struct HormonesListView: View {
                         HormoneRow(viewModel: vm)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("HormoneCell_\(index)")
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color(vm.backgroundColor))
-                    .accessibilityIdentifier("HormoneCell_\(index)")
                 }
             }
             .id(container.refreshTick) // force re-evaluation after mutations
