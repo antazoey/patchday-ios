@@ -2,61 +2,43 @@
 
 # 4.0.0 (Unreleased)
 
-Changed (internal, no user-visible effect yet)
-
-- Core Data: added a new `patchData 2` model version preparing for iCloud sync. Optional string attributes remain default-less (`nil` when unset), matching v1 semantics — Core Data + CloudKit only requires attributes be optional OR have a default, not both. Numeric / boolean scalars keep their defaults because Swift scalars can't be `nil`. Managed object subclasses now self-assign a UUID id on insert as a safety net. The store-load path no longer crashes on transient failures; it logs the error and exposes it via `CoreDataStack.loadError` so future UI can surface it.
-- Core Data store relocation hardened: the one-shot sandbox → App Group migration now (1) verifies the destination store reopens with the same record counts before declaring success, (2) leaves the sandbox file intact as a permanent fallback in case the App Group store ever becomes unreadable, and (3) falls back to loading the sandbox URL if the migration hasn't been confirmed — so a partially-failed migration doesn't make the user's data look gone.
-- Core Data stack switched to `NSPersistentCloudKitContainer`. CloudKit sync is currently disabled by default (gated on an opt-in flag that ships in a later phase). The SQLite store is now in the App Group container; a one-shot migration moves any existing sandbox store on first launch.
-- Settings layer can now route writes through `NSUbiquitousKeyValueStore` for cross-device sync. Disabled by default — only takes effect once the user opts in via the iCloud toggle (Phase 5). Eight settings sync; `MentionedDisclaimer` (per-device legal acknowledgement) and `SiteIndex` (per-device rotation cursor) intentionally stay local.
-- App now reacts to CloudKit / KVS remote changes by reloading the in-memory entity caches, re-sharing widget data, rescheduling notifications, and refreshing badges. Without this, sync would happen at the data layer but the UI would look stale until restart. The remote-change handler walks the persistent-history log and only reloads when it sees a transaction whose author isn't our local viewContext author — so CloudKit imports and writes from other processes trigger reloads but our own local saves don't (which previously clobbered transient state like a freshly inserted Pill's `isCreated = false`).
-- Added a `PrivacyInfo.xcprivacy` manifest in both the app and widget targets declaring data types, no tracking, and the UserDefaults API usage reason. Required by Apple for App Store submission.
-
 Added
 
-- Settings now has an **iCloud** section. Toggle "Sync with iCloud" to mirror your hormones, pills, sites, and most settings across the devices signed into your Apple ID. The toggle is disabled if you aren't signed in to iCloud or if your account is restricted. The change takes effect after a relaunch. Last-sync time and iCloud account status are shown in the same section.
-- One-time **Set up PatchDay** sheet that appears on the first launch after updating to 4.0 (including for existing 3.x users), offering iCloud sync + notifications. The sheet now also folds in the legal disclaimer text (previously a separate alert), so users see everything in one place and the standalone alert is retired. The sheet never reappears once skipped or completed.
+- **iCloud sync.** New iCloud section in Settings — toggle "Sync with iCloud" to mirror your hormones, pills, sites, and most settings across the devices signed into your Apple ID. Disabled by default; takes effect after a relaunch. The toggle is disabled if you aren't signed in to iCloud or your account is restricted, with a helper line explaining what to do. PatchDay never sees your data — sync goes through your private iCloud database.
+- First-launch **Set up PatchDay** sheet offering to enable iCloud sync and notifications. Appears once for both new installs and users upgrading from 3.x, then never reappears. The legal disclaimer text lives inside this sheet now (the standalone disclaimer alert is gone).
 
 Changed
 
-- Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens). Hormones rows now scale to ~24% of screen height (matching the pre-SwiftUI sizing) so a 2–3 patch schedule fills the screen instead of leaving large empty space.
-- Minimum iOS version is now 17.0 (was 15.4). iOS 17 is two-and-a-half years old at this point and required to use SwiftUI's modern `onChange` and a few other APIs we've taken on.
-- Badge updates now use `UNUserNotificationCenter.setBadgeCount` (iOS 17+) instead of the deprecated `UIApplication.applicationIconBadgeNumber`. Behavior is unchanged.
+- Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
+- Minimum iOS version is now 17.0 (was 15.4).
 - Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
 - Pill detail now supports the full set of options: name, notify, 1–4 times per day, expiration interval (Every Day / Every Other Day / First X Days / Last X Days / X Days On X Days Off), and the X-Days controls.
 - Site detail now includes the image picker scoped to the current delivery method.
-- Settings tab now uses native SwiftUI controls; switching delivery method or reducing quantity prompts a confirmation alert.
+- Reducing Quantity or switching Delivery Method in Settings now prompts a confirmation alert.
+- New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
 
 Fixed
 
-- Debug Nuke (`--nuke-storage`): now also clears the local iCloud setup flags, so the first-launch setup sheet (iCloud + notifications prompts) reappears on the next launch, and the App Group store-migration step re-runs cleanly.
-- First-launch SetupSheet no longer gets dismissed instantly when the Hormones tab also tries to surface the legal disclaimer alert. The disclaimer now waits until the SetupSheet has been completed or skipped.
-- Hormones list: rows once again use the alternating background color. The SwiftUI Button wrapper was swallowing the row-background modifier; it's now applied to the row itself.
-- Hormones list: brand-new (unscheduled) hormones now correctly show the placeholder patch instead of the generic "Custom Patch" image. The v2 Core Data model was defaulting every string attribute to `""`, which made `hasSite` lie because `siteNameBackUp != nil` returned true even when no site was set. The defaults are now removed; the `hasSite` path also now treats empty strings as no-backup as a belt-and-suspenders.
-- Hormone detail: the Site picker no longer renders as a blank field when a hormone has no real site assigned. The picker now falls back to the first available default site instead of trying to select "New Site" (which isn't one of the picker's options).
-- Settings: when iCloud is unavailable (signed out or restricted), the iCloud sync toggle now explains what to do ("Sign in to iCloud in the Settings app…") instead of just sitting disabled with no hint.
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
+- Changing Delivery Method in Settings also refreshes the displayed Expiration Interval picker.
 - Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
-- Resetting the site schedule no longer crashes when there are no extra sites to delete.
-- Error logs (two-argument `PDLog.error`) now include the original message instead of the literal string "message".
-- Deleting a site no longer risks removing unrelated sites that happen to have a nil id from the in-memory cache.
-- Taking a pill no longer increases `timesTakenToday` past `timesaday` when the pill has never been taken before (corrupt-state guard).
-- Reading a hormone's site name no longer clears its custom site image id.
-- `Date.daysSince` now counts calendar days correctly across daylight-saving transitions (was off-by-one twice a year).
-- `Pill.dueDateEnd` now uses the injected `NowProtocol` instead of a hard-coded `Date()`, making the LastXDays schedule deterministic in tests.
-- `Hormone.createExpirationDate(from:)` now honors the passed start date instead of silently using the hormone's own applied date.
 - Hormone / pill notification requests now cancel any existing notification first, even when the user has disabled notifications. Previously, turning off notify on a pill or globally left stale notifications in the queue.
-- `HormoneSchedule.all` sort closure no longer violates strict weak ordering (undefined behavior) when multiple hormones have the placeholder default date.
-- Reordering sites: the "next site" tracker is now compared against its pre-move position instead of its already-mutated post-move position, so the suggested-site arrow follows reorders correctly.
-- Removed a retain cycle between `Notifications` and its pill-action handler. The handler's `requestPillNotification` closure now captures `self` weakly.
-- `PDNotificationCenter.userNotificationCenter(_:didReceive:withCompletionHandler:)` now always invokes the completion handler (previously skipped for unknown action identifiers, which Apple's contract requires).
-- New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
-- Pill detail now warns about unsaved changes and lets you discard. Discarding a freshly-added pill (created when you tapped +) cleans it up instead of leaving an empty record in the schedule.
+- Taking a pill from a notification action now updates the Pills tab badge immediately.
+- Taking a pill no longer increases `timesTakenToday` past `timesaday` when the pill has never been taken before (corrupt-state guard).
+- Pill detail now warns about unsaved changes and lets you discard. Discarding a freshly-added pill cleans it up instead of leaving an empty record in the schedule.
 - Switching a pill's expiration interval from an X-Days option to Every Day / Every Other Day now clears the underlying X-Days values. Previously the old values lingered in storage and reappeared if you switched back.
-- Taking a pill from a notification action now updates the Pills tab badge immediately. Previously the badge stayed stale until the next time you opened the app.
-- Changing delivery method in Settings now also refreshes the displayed Expiration Interval picker (it could appear stale if the SDK chose a different default for the new method).
+- Resetting the site schedule no longer crashes when there are no extra sites to delete.
+- Deleting a site no longer risks removing unrelated sites that happen to have a nil id from the in-memory cache.
+- Reordering sites: the suggested-site arrow now follows the move correctly (previously compared against the post-move position).
+- Reading a hormone's site name no longer clears its custom site image id.
+- `Hormone.createExpirationDate(from:)` now honors the passed start date instead of silently using the hormone's own applied date.
+- `Date.daysSince` now counts calendar days correctly across daylight-saving transitions (was off-by-one twice a year).
+- Sort order of hormones with the placeholder default date is now stable (closure was violating strict weak ordering).
 - Notification authorization is now requested only when the system hasn't been asked yet, instead of on every app launch.
-- Returning to the app no longer rebuilds every list (which would reset scroll position and visual state). Only the tab-bar badges refresh.
-- Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
+- Returning to the app no longer rebuilds every list (resetting scroll position). Only the tab-bar badges refresh.
+- Fixed a memory leak: `Notifications` no longer retained its pill-action handler in a cycle.
+- Fixed a notification-system bug where unknown action identifiers would leave the completion handler uncalled (Apple's contract requires it).
+- Updated the in-app help link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
 
