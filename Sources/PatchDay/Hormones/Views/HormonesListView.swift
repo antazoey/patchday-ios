@@ -103,7 +103,7 @@ struct HormonesListView: View {
             container.refreshBadges()
             maybeShowDisclaimer()
         }
-        .onChange(of: didShowICloudSetup) { _ in
+        .onChange(of: didShowICloudSetup) {
             // Fires when SetupSheet dismissal flips the flag, so we can
             // surface the legal disclaimer now that the sheet is gone.
             maybeShowDisclaimer()

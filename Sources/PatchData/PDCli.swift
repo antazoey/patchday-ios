@@ -48,11 +48,17 @@ public class PDCli {
 
     // MARK: - Private
 
+    // Snapshot CommandLine.arguments once at launch. Swift is deprecating
+    // setter access to CommandLine.arguments, but PDCli needs to mutate
+    // its own copy to clear one-shot flags (nuke, wakeup test) after
+    // they've been consumed so they don't re-fire on re-entrant init.
+    private static var arguments: [String] = CommandLine.arguments
+
     private static func has(_ flag: String) -> Bool {
-        CommandLine.arguments.contains(flag)
+        arguments.contains(flag)
     }
 
     private static func remove(_ flag: String) {
-        CommandLine.arguments.removeAll(where: { $0 == flag })
+        arguments.removeAll(where: { $0 == flag })
     }
 }

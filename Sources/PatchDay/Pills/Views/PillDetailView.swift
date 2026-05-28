@@ -41,7 +41,7 @@ struct PillDetailView: View {
                 TextField(NSLocalizedString("Pill name", comment: ""), text: $name)
                     .autocapitalization(.words)
                     .accessibilityIdentifier("pillNameTextField")
-                    .onChange(of: name) { _ in if didPrime { isDirty = true } }
+                    .onChange(of: name) { if didPrime { isDirty = true } }
                 Picker(NSLocalizedString("Preset", comment: ""), selection: $name) {
                     ForEach(PillStrings.DefaultPills + PillStrings.ExtraPills, id: \.self) {
                         Text($0).tag($0)
@@ -59,7 +59,7 @@ struct PillDetailView: View {
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("pillScheduleButton")
-                .onChange(of: interval) { _ in if didPrime { isDirty = true } }
+                .onChange(of: interval) { if didPrime { isDirty = true } }
 
                 if interval == .FirstXDays || interval == .LastXDays {
                     Stepper(
@@ -111,7 +111,7 @@ struct PillDetailView: View {
             Section {
                 Toggle(NSLocalizedString("Notify when due", comment: ""), isOn: $notify)
                     .accessibilityIdentifier("pillNotifySwitch")
-                    .onChange(of: notify) { _ in if didPrime { isDirty = true } }
+                    .onChange(of: notify) { if didPrime { isDirty = true } }
             }
         }
         .navigationTitle(title)

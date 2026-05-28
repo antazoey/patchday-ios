@@ -94,7 +94,7 @@ struct RootView: View {
             }
             .tag(AppTab.settings)
         }
-        .onChange(of: scenePhase) { phase in
+        .onChange(of: scenePhase) { _, phase in
             if phase == .active {
                 // Only refresh badge counts here — calling triggerRefresh would
                 // bump refreshTick and rebuild every list, losing scroll and

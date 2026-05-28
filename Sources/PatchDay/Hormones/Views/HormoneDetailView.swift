@@ -88,7 +88,7 @@ struct HormoneDetailView: View {
                         }
                     }
                     .pickerStyle(.menu)
-                    .onChange(of: state.selectedSiteName) { _ in state.isDirty = true }
+                    .onChange(of: state.selectedSiteName) { state.isDirty = true }
                     .accessibilityIdentifier("hormoneSiteSelectorStack")
 
                     Button(ActionStrings._Type) {

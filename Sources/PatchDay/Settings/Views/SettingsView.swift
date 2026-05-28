@@ -43,7 +43,7 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("deliveryMethodButton")
-                .onChange(of: deliveryMethod) { newValue in
+                .onChange(of: deliveryMethod) { _, newValue in
                     let next = SettingsOptions.getDeliveryMethod(for: newValue)
                     let current = container.sdk?.settings.deliveryMethod.value
                     guard next != current else { return }
@@ -58,7 +58,7 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("expirationIntervalButton")
-                .onChange(of: expirationInterval) { newValue in
+                .onChange(of: expirationInterval) { _, newValue in
                     guard let settings = container.sdk?.settings else { return }
                     let current = SettingsOptions.getExpirationInterval(for: settings.expirationInterval)
                     guard newValue != current else { return }
@@ -73,7 +73,7 @@ struct SettingsView: View {
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("settingsQuantityButton")
-                .onChange(of: quantity) { newValue in
+                .onChange(of: quantity) { _, newValue in
                     guard let asInt = Int(newValue) else { return }
                     let current = container.sdk?.settings.quantity.rawValue ?? 0
                     guard asInt != current else { return }
@@ -91,7 +91,7 @@ struct SettingsView: View {
                     isOn: $notificationsEnabled
                 )
                     .accessibilityIdentifier("notificationsSwitch")
-                    .onChange(of: notificationsEnabled) { value in
+                    .onChange(of: notificationsEnabled) { _, value in
                         container.sdk?.settings.setNotifications(to: value)
                         if value {
                             container.notifications?.requestAllExpiredHormoneNotifications()
@@ -131,7 +131,7 @@ struct SettingsView: View {
                     isOn: $useStaticExpirationTime
                 )
                     .accessibilityIdentifier("useStaticExpirationTimeSwitch")
-                    .onChange(of: useStaticExpirationTime) { value in
+                    .onChange(of: useStaticExpirationTime) { _, value in
                         container.sdk?.settings.setUseStaticExpirationTime(to: value)
                     }
             } footer: {
@@ -151,7 +151,7 @@ struct SettingsView: View {
                         iCloudAccountStatus == .noAccount
                             || iCloudAccountStatus == .restricted
                     )
-                    .onChange(of: iCloudSyncEnabled) { value in
+                    .onChange(of: iCloudSyncEnabled) { _, value in
                         UserDefaults.standard.set(
                             value, forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
                         )
