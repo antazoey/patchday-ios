@@ -114,6 +114,29 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         return count
     }
 
+    /// Delete any empty hormones (no date AND no site) whose sorted
+    /// position is beyond `settings.quantity` — i.e. unreachable in the
+    /// UI. Used to clean up the residue from a CloudKit sync race where
+    /// a second device autoseeded defaults before iCloud could import
+    /// the user's existing records.
+    @discardableResult
+    public func trimPhantomEmpties() -> Int {
+        let quantity = settings.quantity.rawValue
+        let sortedHormones = all
+        let phantoms = sortedHormones.enumerated().compactMap { offset, hormone -> Hormonal? in
+            (offset >= quantity && hormone.isEmpty) ? hormone : nil
+        }
+        guard !phantoms.isEmpty else { return 0 }
+        for phantom in phantoms {
+            store.delete(phantom)
+            if let index = context.firstIndex(where: { $0.id == phantom.id }) {
+                context.remove(at: index)
+            }
+        }
+        store.pushLocalChangesToManagedContext(context, doSave: true)
+        return phantoms.count
+    }
+
     public func delete(after i: Index) {
         let start = i >= -1 ? i + 1 : 0
         guard count >= start else {

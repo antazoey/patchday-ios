@@ -63,6 +63,14 @@ struct DeveloperToolsView: View {
                     actionResultMessage = "Schedules reloaded. Switch tabs to see updated data."
                     loadState()
                 }
+                Button(NSLocalizedString("Trim phantom empty hormones", comment: "")) {
+                    let trimmed = container.sdk?.hormones.trimPhantomEmpties() ?? 0
+                    container.triggerRefresh()
+                    actionResultMessage = trimmed == 0
+                        ? "No phantoms to trim."
+                        : "Trimmed \(trimmed) empty hormone(s) beyond Quantity. Sync will propagate the deletes to other devices."
+                    loadState()
+                }
                 Toggle(NSLocalizedString("Wipe local store on next launch", comment: ""),
                        isOn: $wipeOnNextLaunch)
                     .onChange(of: wipeOnNextLaunch) { _, value in

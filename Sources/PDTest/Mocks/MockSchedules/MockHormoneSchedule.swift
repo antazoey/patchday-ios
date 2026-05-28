@@ -112,6 +112,13 @@ public class MockHormoneSchedule: HormoneScheduling {
         shareDataCallCount += 1
     }
 
+    public var trimPhantomEmptiesCallCount = 0
+    public var trimPhantomEmptiesReturnValue = 0
+    public func trimPhantomEmpties() -> Int {
+        trimPhantomEmptiesCallCount += 1
+        return trimPhantomEmptiesReturnValue
+    }
+
     public var sortCallCount = 0
     public func sort() {
         sortCallCount += 1
