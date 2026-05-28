@@ -29,7 +29,13 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.settings = settings
         self.context = store.getStoredHormones(settings)
         super.init()
-        resetIfEmpty()
+        // Skip default-seeding when iCloud sync is on — the store is empty
+        // right now only because CloudKit hasn't imported the user's
+        // existing records yet. Seeding would upload phantom defaults that
+        // sync back to every other device.
+        if !CoreDataStack.isCloudSyncEnabledAtLaunch {
+            resetIfEmpty()
+        }
         shareData()
     }
 

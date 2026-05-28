@@ -55,6 +55,14 @@ struct DeveloperToolsView: View {
                     actionResultMessage = "Save triggered. Watch Last event row."
                     loadState()
                 }
+                Button(NSLocalizedString("Reload schedules from store", comment: "")) {
+                    container.sdk?.hormones.reloadContext()
+                    container.sdk?.pills.reloadContext()
+                    container.sdk?.sites.reloadContext()
+                    container.triggerRefresh()
+                    actionResultMessage = "Schedules reloaded. Switch tabs to see updated data."
+                    loadState()
+                }
                 Toggle(NSLocalizedString("Wipe local store on next launch", comment: ""),
                        isOn: $wipeOnNextLaunch)
                     .onChange(of: wipeOnNextLaunch) { _, value in

@@ -53,7 +53,7 @@ public class CoreDataStack: NSObject {
     static private(set) var loadError: Error?
 
     /// Read once at launch. Toggling at runtime requires a relaunch.
-    private static let isCloudSyncEnabledAtLaunch: Bool =
+    public static let isCloudSyncEnabledAtLaunch: Bool =
         UserDefaults.standard.bool(forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue)
 
     // MARK: - Container
