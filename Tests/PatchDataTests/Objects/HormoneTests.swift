@@ -452,7 +452,10 @@ class HormoneTests: PDTestCase {
     func testCreateExpirationDate_returnsExpectedDate() {
         let now = MockNow()
         now.now = testDateThatIsNow
-        let testDate = Date()
+        // Use the same Date instance as the mock `now` — calling Date() here
+        // would pick up fresh sub-second-level drift, making `actual` and
+        // `expected` differ by one second across the equiv check.
+        let testDate = testDateThatIsNow
         let hormone = createEmptyHormone()
         let interval = ExpirationIntervalUD(.EveryTwoWeeks)
         hormone.date = testDateThatIsNow
