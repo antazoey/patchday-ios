@@ -60,7 +60,7 @@ struct SetupSheet: View {
                     }
                 } footer: {
                     Text(NSLocalizedString(
-                        "Your data stays in your iCloud account. PatchDay never sees it.",
+                        "Your data stays in your iCloud account. PatchDay never sees it. Enabling iCloud sync takes effect after the next app launch.",
                         comment: ""
                     ))
                 }

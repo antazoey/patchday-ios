@@ -152,6 +152,14 @@ struct SettingsView: View {
                             || iCloudAccountStatus == .restricted
                     )
                     .onChange(of: iCloudSyncEnabled) { _, value in
+                        // Skip the hydration write — prime() assigns this
+                        // state from UserDefaults on appear, which would
+                        // otherwise fire a spurious relaunch alert every
+                        // time the user navigates to Settings.
+                        let stored = UserDefaults.standard.bool(
+                            forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
+                        )
+                        guard value != stored else { return }
                         UserDefaults.standard.set(
                             value, forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
                         )
