@@ -11,6 +11,7 @@ import Foundation
 import SwiftUI
 import UIKit
 import CoreData
+import CloudKit
 import PDKit
 import PatchData
 import WidgetKit
@@ -113,15 +114,84 @@ final class AppContainer: ObservableObject {
         ) { notification in
             guard let event = notification.userInfo?[
                 NSPersistentCloudKitContainer.eventNotificationUserInfoKey
-            ] as? NSPersistentCloudKitContainer.Event,
-                event.endDate != nil,
-                event.succeeded
-            else { return }
+            ] as? NSPersistentCloudKitContainer.Event else { return }
+            // Always log the latest event for the debug UI, even if it
+            // hasn't ended yet — easier to see "import in progress."
+            let typeString: String
+            switch event.type {
+                case .setup: typeString = "setup"
+                case .import: typeString = "import"
+                case .export: typeString = "export"
+                @unknown default: typeString = "unknown"
+            }
+            let stateString: String
+            if event.endDate == nil {
+                stateString = "in progress"
+            } else if event.succeeded {
+                stateString = "succeeded"
+            } else {
+                stateString = "failed: \(event.error?.localizedDescription ?? "unknown")"
+            }
+            let description = "\(typeString) — \(stateString)"
             UserDefaults.standard.set(
-                event.endDate, forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+                description,
+                forKey: PDLocalSettingsKey.lastCloudKitEventDescription.rawValue
             )
+            // Bump the user-facing Last Synced only on successful completion.
+            if event.endDate != nil, event.succeeded {
+                UserDefaults.standard.set(
+                    event.endDate, forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+                )
+            }
         }
     }
+
+    // MARK: - Developer-only helpers (DEBUG builds)
+    #if DEBUG
+    /// Forces a save on the viewContext so CloudKit (if enabled) picks up
+    /// a transaction to export. Used by the developer tools to trigger a
+    /// visible sync without changing user-visible data.
+    func forceCoreDataSave() {
+        let context = CoreDataStack.context
+        // Touch a no-op change so save has something to export.
+        context.processPendingChanges()
+        try? context.save()
+    }
+
+    /// Best-effort delete of every record from the iCloud private database
+    /// for this container. Local store is unaffected; deleting records
+    /// from CloudKit will propagate down via the usual remote-change path.
+    func purgeICloudData(_ completion: ((Error?) -> Void)? = nil) {
+        let container = CKContainer(
+            identifier: CoreDataStack.cloudKitContainerIdentifier
+        )
+        container.privateCloudDatabase.fetchAllRecordZones { zones, error in
+            if let error = error {
+                DispatchQueue.main.async { completion?(error) }
+                return
+            }
+            guard let zones = zones, !zones.isEmpty else {
+                DispatchQueue.main.async { completion?(nil) }
+                return
+            }
+            let zoneIDs = zones.map { $0.zoneID }
+            let op = CKModifyRecordZonesOperation(
+                recordZonesToSave: nil,
+                recordZoneIDsToDelete: zoneIDs
+            )
+            op.modifyRecordZonesResultBlock = { result in
+                DispatchQueue.main.async {
+                    if case let .failure(error) = result {
+                        completion?(error)
+                    } else {
+                        completion?(nil)
+                    }
+                }
+            }
+            container.privateCloudDatabase.add(op)
+        }
+    }
+    #endif
 
     private func observeRemoteCoreDataChanges() {
         // .NSPersistentStoreRemoteChange fires for every save, including our

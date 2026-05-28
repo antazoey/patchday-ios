@@ -204,10 +204,19 @@ struct SettingsView: View {
                 Text(NSLocalizedString("iCloud", comment: ""))
             } footer: {
                 Text(NSLocalizedString(
-                    "When on, your hormones, pills, sites, and most settings sync across your devices using your iCloud account. PatchDay never sees your data.",
+                    "When on, your hormones, pills, sites, and most settings sync across your devices using your iCloud account. PatchDay never sees your data. Turning sync off stops this device from syncing but does not delete your iCloud records — to remove those, go to iOS Settings → [Your Name] → iCloud → Manage Storage → PatchDay.",
                     comment: "iCloud setting footer"
                 ))
             }
+
+            #if DEBUG
+            Section {
+                NavigationLink(NSLocalizedString("Developer tools", comment: "")) {
+                    DeveloperToolsView()
+                }
+                .accessibilityIdentifier("developerToolsLink")
+            }
+            #endif
         }
         .navigationTitle(PDTitleStrings.SettingsTitle)
         .navigationBarTitleDisplayMode(.inline)

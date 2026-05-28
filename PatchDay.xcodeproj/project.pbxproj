@@ -262,6 +262,7 @@
 		A1C085AF2FC4FA6200F2D82E /* PillDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085AA2FC4FA6200F2D82E /* PillDetailView.swift */; };
 		A1C085B02FC4FA6200F2D82E /* PillsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085AC2FC4FA6200F2D82E /* PillsListView.swift */; };
 		A1C085B32FC5EAC900F2D82E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085B12FC5EAC900F2D82E /* SettingsView.swift */; };
+		A1ICL00012CD0050000000A1 /* DeveloperToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0050000000A2 /* DeveloperToolsView.swift */; };
 		A1ICL00012CD0001000000A1 /* EntityInsertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0001000000A2 /* EntityInsertTests.swift */; };
 		A1ICL00012CD0002000000A1 /* StoreMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0002000000A2 /* StoreMigrationTests.swift */; };
 		A1ICL00012CD0010000000A1 /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0010000000A2 /* DateIntegrationTests.swift */; };
@@ -718,6 +719,7 @@
 		A1C085AB2FC4FA6200F2D82E /* PillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillRow.swift; sourceTree = "<group>"; };
 		A1C085AC2FC4FA6200F2D82E /* PillsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsListView.swift; sourceTree = "<group>"; };
 		A1C085B12FC5EAC900F2D82E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0050000000A2 /* DeveloperToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsView.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0001000000A2 /* EntityInsertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityInsertTests.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0002000000A2 /* StoreMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMigrationTests.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0010000000A2 /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
@@ -1943,6 +1945,7 @@
 			isa = PBXGroup;
 			children = (
 				A1C085B12FC5EAC900F2D82E /* SettingsView.swift */,
+				A1ICL00012CD0050000000A2 /* DeveloperToolsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2527,6 +2530,7 @@
 				9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */,
 				9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */,
 				A1C085B32FC5EAC900F2D82E /* SettingsView.swift in Sources */,
+				A1ICL00012CD0050000000A1 /* DeveloperToolsView.swift in Sources */,
 				9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */,
 				3397C3EB83CDE6EE91871810 /* PDIcons.swift in Sources */,
 				3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */,

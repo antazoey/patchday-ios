@@ -13,8 +13,8 @@ public class CoreDataStack: NSObject {
 
     private static var log = PDLog<CoreDataStack>()
 
-    static let persistentContainerKey = "patchData"
-    static let cloudKitContainerIdentifier = "iCloud.Yingthi.PatchDay"
+    public static let persistentContainerKey = "patchData"
+    public static let cloudKitContainerIdentifier = "iCloud.Yingthi.PatchDay"
 
     /// Tagged onto every viewContext write so the persistent-history
     /// machinery can distinguish our own local saves from CloudKit imports
@@ -59,6 +59,7 @@ public class CoreDataStack: NSObject {
     // MARK: - Container
 
     static var persistentContainer: NSPersistentCloudKitContainer = {
+        wipeLocalStoreIfRequested()
         migrateStoreToAppGroupIfNeeded()
         let container = NSPersistentCloudKitContainer(name: persistentContainerKey)
         let description = container.persistentStoreDescriptions.first!
@@ -144,7 +145,7 @@ public class CoreDataStack: NSObject {
         }
     }
 
-    static var context: NSManagedObjectContext {
+    public static var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
 
@@ -342,6 +343,33 @@ public class CoreDataStack: NSObject {
             counts[name] = (try? context.count(for: request)) ?? -1
         }
         return counts
+    }
+
+    /// Honors `wipeLocalStoreOnNextLaunch` (set by the debug "Wipe local
+    /// store to test re-sync" action). Deletes the SQLite file + WAL/SHM
+    /// sidecars BEFORE the persistent container is opened, so the
+    /// container loads empty and (if CloudKit is on) re-downloads
+    /// everything from the user's private database. Clears the flag.
+    static func wipeLocalStoreIfRequested() {
+        let defaults = UserDefaults.standard
+        guard defaults.bool(
+            forKey: PDLocalSettingsKey.wipeLocalStoreOnNextLaunch.rawValue
+        ) else { return }
+        defaults.set(false, forKey: PDLocalSettingsKey.wipeLocalStoreOnNextLaunch.rawValue)
+
+        let urls: [URL?] = [appGroupStoreURL(), sandboxStoreURL()]
+        let fm = FileManager.default
+        for url in urls.compactMap({ $0 }) {
+            for suffix in ["", "-wal", "-shm"] {
+                let path = url.path + suffix
+                if fm.fileExists(atPath: path) {
+                    try? fm.removeItem(atPath: path)
+                }
+            }
+        }
+        // Reset the history-tracking marker too — fresh store, fresh token.
+        defaults.removeObject(forKey: PDLocalSettingsKey.lastHistoryToken.rawValue)
+        log.info("Wiped local store on demand; CloudKit (if enabled) will repopulate.")
     }
 
     static func appGroupStoreURL() -> URL {
