@@ -23,29 +23,12 @@ class PDUITest: XCTestCase {
         app.launch()
 
         // --nuke-storage also clears didShowICloudSetup, so the first-launch
-        // SetupSheet appears before anything else. Skip it.
+        // SetupSheet appears before anything else. Skip it — that also marks
+        // the legal disclaimer as acknowledged for this user, so no separate
+        // alert dismiss is needed.
         let skipSetup = app.buttons["setupSheetSkipButton"]
         if skipSetup.waitForExistence(timeout: 5) {
             skipSetup.tap()
-        }
-
-        // Dismiss the SwiftUI disclaimer alert that appears after the
-        // SetupSheet is gone. The interruption monitor handles cases where the
-        // alert is presented after the app starts.
-        addUIInterruptionMonitor(withDescription: "Disclaimer") { alert in
-            let dismiss = alert.buttons["Dismiss"]
-            if dismiss.exists {
-                dismiss.tap()
-                return true
-            }
-            return false
-        }
-
-        // Tap the app to trigger the interruption monitor in case the alert is up.
-        app.activate()
-        let dismiss = app.alerts.buttons["Dismiss"]
-        if dismiss.waitForExistence(timeout: 3) {
-            dismiss.tap()
         }
 
         tabs = app.tabBars
