@@ -141,11 +141,18 @@ struct SettingsView: View {
                 )
                     .accessibilityIdentifier("dynamicExpirationTimeSwitch")
                     .onChange(of: useStaticExpirationTime) { _, value in
+                        // Skip the hydration write — prime() assigns this
+                        // state from the SDK on appear, which would
+                        // otherwise persist a no-op write every time the
+                        // user navigates to Settings.
+                        guard didPrime,
+                            value != container.sdk?.settings.useStaticExpirationTime.value
+                        else { return }
                         container.sdk?.settings.setUseStaticExpirationTime(to: value)
                     }
             } footer: {
                 Text(NSLocalizedString(
-                    "When on, suggested expiration times shift to the current time of day each time you apply a hormone. Off (default) keeps your original applied time, which is usually what you want.",
+                    "When on, suggested expiration times shift to the current time of day each time you apply a hormone. Off keeps your original applied time.",
                     comment: "Setting footer"
                 ))
             }

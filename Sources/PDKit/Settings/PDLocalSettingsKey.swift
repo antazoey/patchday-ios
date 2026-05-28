@@ -14,4 +14,5 @@ public enum PDLocalSettingsKey: String, CaseIterable {
     case lastICloudSyncDate
     case lastICloudSyncStatus
     case lastHistoryToken
+    case didSeed40Defaults
 }

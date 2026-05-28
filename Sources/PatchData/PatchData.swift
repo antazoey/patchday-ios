@@ -154,6 +154,7 @@ public class PatchData: NSObject, PatchDataSDK {
             pills.set(at: 0, with: attributes)
         }
         #endif
+        Self.seed40DefaultsIfNeeded(settings: settings)
         self.init(
             settings: settings,
             dataSharer: dataSharer,
@@ -163,6 +164,34 @@ public class PatchData: NSObject, PatchDataSDK {
             coreData: storeDataStackWrapper,
             hormoneDataSharer: hormoneDataSharer
         )
+    }
+
+    /// One-time migration that runs on the first launch after updating to 4.0.
+    ///
+    /// 4.0 changes the default for `useStaticExpirationTime` from `false`
+    /// (dynamic) to `true` (static). For users upgrading from 3.x who never
+    /// touched the toggle, we preserve their original 3.x behavior so their
+    /// schedule doesn't silently shift. For brand-new 4.0 installs, the new
+    /// default applies.
+    ///
+    /// `MentionedDisclaimer` is used as the upgrade discriminator — 3.x users
+    /// dismissed the disclaimer alert, setting it to `true`; brand-new
+    /// installs have it `false` (or never set).
+    private static func seed40DefaultsIfNeeded(settings: SettingsManaging) {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: PDLocalSettingsKey.didSeed40Defaults.rawValue) else {
+            return
+        }
+        defaults.set(true, forKey: PDLocalSettingsKey.didSeed40Defaults.rawValue)
+
+        // Only seed if the user hasn't explicitly set this setting.
+        let key = PDSetting.UseStaticExpirationTime.rawValue
+        if defaults.object(forKey: key) == nil {
+            let isUpgrader = settings.mentionedDisclaimer.value
+            // 3.x default (false / dynamic) for upgraders;
+            // 4.0 default (true / static) for fresh installs.
+            settings.setUseStaticExpirationTime(to: !isUpgrader)
+        }
     }
     // swiftlint:enable function_body_length
 
