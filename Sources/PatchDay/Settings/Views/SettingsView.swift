@@ -126,17 +126,26 @@ struct SettingsView: View {
             }
 
             Section {
+                // UI shows the inverse of the stored `useStaticExpirationTime`
+                // setting. Most people want static expiration times (so the
+                // suggested expiration matches the original application time);
+                // exposing the off-by-default opposite reads cleaner than
+                // "Use static expiration time" and keeps the storage key
+                // backwards-compatible.
                 Toggle(
-                    NSLocalizedString("Use static expiration time", comment: ""),
-                    isOn: $useStaticExpirationTime
+                    NSLocalizedString("Dynamic expiration time", comment: ""),
+                    isOn: Binding(
+                        get: { !useStaticExpirationTime },
+                        set: { useStaticExpirationTime = !$0 }
+                    )
                 )
-                    .accessibilityIdentifier("useStaticExpirationTimeSwitch")
+                    .accessibilityIdentifier("dynamicExpirationTimeSwitch")
                     .onChange(of: useStaticExpirationTime) { _, value in
                         container.sdk?.settings.setUseStaticExpirationTime(to: value)
                     }
             } footer: {
                 Text(NSLocalizedString(
-                    "When on, suggested expiration times always match the original application time.",
+                    "When on, suggested expiration times shift to the current time of day each time you apply a hormone. Off (default) keeps your original applied time, which is usually what you want.",
                     comment: "Setting footer"
                 ))
             }

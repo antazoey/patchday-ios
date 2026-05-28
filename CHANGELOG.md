@@ -16,6 +16,7 @@ Changed
 - Site detail now includes the image picker scoped to the current delivery method.
 - Reducing Quantity or switching Delivery Method in Settings now prompts a confirmation alert.
 - New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
+- The "Use static expiration time" setting is now exposed as "Dynamic expiration time" (the inverse) and defaults to off — i.e. static expiration times are now the default for new installs. Existing users keep whatever they had explicitly set; only the never-touched case changes.
 
 Fixed
 
