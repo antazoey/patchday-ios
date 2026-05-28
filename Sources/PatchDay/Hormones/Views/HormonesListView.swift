@@ -38,24 +38,31 @@ struct HormonesListView: View {
     }
 
     var body: some View {
-        List {
-            ForEach(0..<SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT, id: \.self) { index in
-                if index < quantity, let sdk = container.sdk {
-                    let vm = HormoneCellViewModel(cellIndex: index, sdk: sdk, isPad: container.isPad)
-                    Button {
-                        handleRowTap(at: index)
-                    } label: {
-                        HormoneRow(viewModel: vm)
+        // Match the pre-SwiftUI 3.x heuristic: each row is ~24% of the
+        // available screen height. With 2–3 patches (the common case) the
+        // list fills the screen instead of leaving a lot of empty space,
+        // and 4+ patches scroll with a peek of the next row visible.
+        GeometryReader { proxy in
+            let rowHeight = max(160, proxy.size.height * 0.24)
+            List {
+                ForEach(0..<SUPPORTED_HORMONE_UPPER_QUANTITY_LIMIT, id: \.self) { index in
+                    if index < quantity, let sdk = container.sdk {
+                        let vm = HormoneCellViewModel(cellIndex: index, sdk: sdk, isPad: container.isPad)
+                        Button {
+                            handleRowTap(at: index)
+                        } label: {
+                            HormoneRow(viewModel: vm, rowHeight: rowHeight)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("HormoneCell_\(index)")
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color(vm.backgroundColor))
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("HormoneCell_\(index)")
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color(vm.backgroundColor))
                 }
+                .id(container.refreshTick) // force re-evaluation after mutations
             }
-            .id(container.refreshTick) // force re-evaluation after mutations
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
         .accessibilityIdentifier("hormonesList")
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)

@@ -18,7 +18,7 @@ Added
 
 Changed
 
-- Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
+- Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens). Hormones rows now scale to ~24% of screen height (matching the pre-SwiftUI sizing) so a 2–3 patch schedule fills the screen instead of leaving large empty space.
 - Minimum iOS version is now 17.0 (was 15.4). iOS 17 is two-and-a-half years old at this point and required to use SwiftUI's modern `onChange` and a few other APIs we've taken on.
 - Badge updates now use `UNUserNotificationCenter.setBadgeCount` (iOS 17+) instead of the deprecated `UIApplication.applicationIconBadgeNumber`. Behavior is unchanged.
 - Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
