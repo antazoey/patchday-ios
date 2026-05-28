@@ -137,6 +137,19 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         return phantoms.count
     }
 
+    /// Delete the specific hormone at the given sorted index, regardless
+    /// of position. Used by the long-press-to-remove UX on the Hormones
+    /// list so users can drop a patch from the schedule by long-pressing
+    /// the one they want gone (instead of always losing the last slot).
+    public func delete(at index: Index) {
+        guard let hormone = self[index] else { return }
+        store.delete(hormone)
+        if let ctxIdx = context.firstIndex(where: { $0.id == hormone.id }) {
+            context.remove(at: ctxIdx)
+        }
+        store.pushLocalChangesToManagedContext(context, doSave: true)
+    }
+
     public func delete(after i: Index) {
         let start = i >= -1 ? i + 1 : 0
         guard count >= start else {

@@ -17,6 +17,8 @@ struct HormonesListView: View {
     @EnvironmentObject private var container: AppContainer
 
     @State private var tapTarget: TapTarget?
+    @State private var pendingAddIndex: Int?
+    @State private var pendingRemoveIndex: Int?
 
     private struct TapTarget: Identifiable {
         let id = UUID()
@@ -28,6 +30,17 @@ struct HormonesListView: View {
 
     private var quantity: Int {
         container.sdk?.settings.quantity.rawValue ?? 0
+    }
+
+    private var deliveryMethod: DeliveryMethod {
+        container.sdk?.settings.deliveryMethod.value ?? .Patches
+    }
+
+    /// Show ghost-add cells only when the user can usefully grow the
+    /// schedule — patches benefit (people often have 2 and 3 going at
+    /// once); injections and gel default to a single ongoing dose.
+    private var ghostCellsEnabled: Bool {
+        deliveryMethod == .Patches
     }
 
     private var title: String {
@@ -57,6 +70,18 @@ struct HormonesListView: View {
                         .accessibilityIdentifier("HormoneCell_\(index)")
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color(vm.backgroundColor))
+                        .onLongPressGesture {
+                            // Only allow removing when shrinking would
+                            // leave the user with at least one slot.
+                            if quantity > 1 { pendingRemoveIndex = index }
+                        }
+                    } else if ghostCellsEnabled, index >= quantity {
+                        GhostHormoneRow(rowHeight: rowHeight)
+                            .contentShape(Rectangle())
+                            .onTapGesture { pendingAddIndex = index }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .accessibilityIdentifier("GhostHormoneCell_\(index)")
                     }
                 }
                 .id(container.refreshTick) // force re-evaluation after mutations
@@ -91,8 +116,73 @@ struct HormonesListView: View {
             }
             Button(ActionStrings.Cancel, role: .cancel) {}
         }
+        .alert(
+            addPatchAlertTitle,
+            isPresented: addAlertBinding,
+            presenting: pendingAddIndex
+        ) { _ in
+            Button(NSLocalizedString("Add", comment: "Add hormone confirm")) {
+                applyAddPatch()
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
+        }
+        .alert(
+            NSLocalizedString("Remove this patch from your schedule?", comment: ""),
+            isPresented: removeAlertBinding,
+            presenting: pendingRemoveIndex
+        ) { _ in
+            Button(NSLocalizedString("Remove", comment: ""), role: .destructive) {
+                applyRemovePatch()
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
+        } message: { _ in
+            Text(NSLocalizedString(
+                "Long-pressing a patch removes that specific one and decreases your Quantity by 1.",
+                comment: ""
+            ))
+        }
         .onAppear {
             container.refreshBadges()
+        }
+    }
+
+    private var addPatchAlertTitle: String {
+        guard let index = pendingAddIndex else { return "" }
+        return String(
+            format: NSLocalizedString("Add a %d%@ patch?", comment: "e.g. Add a 3rd patch?"),
+            index + 1,
+            ordinalSuffix(for: index + 1)
+        )
+    }
+
+    private var addAlertBinding: Binding<Bool> {
+        Binding(get: { pendingAddIndex != nil }, set: { if !$0 { pendingAddIndex = nil } })
+    }
+
+    private var removeAlertBinding: Binding<Bool> {
+        Binding(get: { pendingRemoveIndex != nil }, set: { if !$0 { pendingRemoveIndex = nil } })
+    }
+
+    private func applyAddPatch() {
+        guard let index = pendingAddIndex else { return }
+        container.sdk?.settings.setQuantity(to: index + 1)
+        container.triggerRefresh()
+    }
+
+    private func applyRemovePatch() {
+        guard let index = pendingRemoveIndex else { return }
+        container.sdk?.settings.removeHormoneSlot(at: index)
+        container.triggerRefresh()
+    }
+
+    private func ordinalSuffix(for n: Int) -> String {
+        let mod100 = n % 100
+        if (11...13).contains(mod100) { return "th" }
+        switch n % 10 {
+            case 1: return "st"
+            case 2: return "nd"
+            case 3: return "rd"
+            default: return "th"
         }
     }
 

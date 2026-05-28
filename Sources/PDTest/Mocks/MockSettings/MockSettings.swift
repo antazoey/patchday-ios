@@ -30,6 +30,11 @@ public class MockSettings: SettingsManaging {
         setQuantityCallArgs.append(newQuantity)
     }
 
+    public var removeHormoneSlotCallArgs: [Index] = []
+    public func removeHormoneSlot(at index: Index) {
+        removeHormoneSlotCallArgs.append(index)
+    }
+
     public var setExpirationIntervalCallArgs: [String] = []
     public func setExpirationInterval(to newInterval: String) {
         setExpirationIntervalCallArgs.append(newInterval)

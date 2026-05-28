@@ -14,6 +14,9 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Set the number of hormones in the schedule.
     func setQuantity(to newQuantity: Int)
 
+    /// Remove a specific hormone slot and decrement quantity by one.
+    func removeHormoneSlot(at index: Index)
+
     /// Set the expiration interval for when hormones expire.
     func setExpirationInterval(to newInterval: String)
 

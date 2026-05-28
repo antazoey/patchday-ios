@@ -47,6 +47,11 @@ public class MockHormoneSchedule: HormoneScheduling {
         deleteCallArgs.append(i)
     }
 
+    public var deleteAtCallArgs: [Index] = []
+    public func delete(at index: Index) {
+        deleteAtCallArgs.append(index)
+    }
+
     public var deleteAllCallAcount = 0
     public func deleteAll() {
         deleteAllCallAcount += 1

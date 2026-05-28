@@ -58,6 +58,17 @@ public class Settings: SettingsManaging {
         writer.replaceQuantity(to: newQuantity)
     }
 
+    /// Remove a specific hormone slot (the one the user long-pressed) and
+    /// decrement the quantity setting by one. Unlike `setQuantity(to:)`,
+    /// which always drops the last slot, this removes the exact hormone
+    /// the user pointed at and shifts the rest up.
+    public func removeHormoneSlot(at index: Index) {
+        let oldQuantity = writer.quantity.rawValue
+        guard oldQuantity > 1 else { return }
+        hormones.delete(at: index)
+        writer.replaceQuantity(to: oldQuantity - 1)
+    }
+
     public func setExpirationInterval(to newInterval: String) {
         let interval = SettingsOptions.getExpirationInterval(for: newInterval)
         if interval == .EveryXDays {

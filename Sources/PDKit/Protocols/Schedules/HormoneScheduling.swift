@@ -40,6 +40,10 @@ public protocol HormoneScheduling: Schedule, Resetting {
     /// Delete a hormone from the schedule.
     func delete(after i: Index)
 
+    /// Delete the hormone at the given sorted index, regardless of
+    /// position.
+    func delete(at index: Index)
+
     /// Delete all the hormones in the schedule.
     func deleteAll()
 
