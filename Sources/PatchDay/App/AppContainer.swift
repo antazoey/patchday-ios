@@ -27,6 +27,7 @@ final class AppContainer: ObservableObject {
     private(set) var widget: PDWidgetProtocol?
     private var kvs: UbiquitousKeyValueStoring?
     private var remoteChangeObserver: NSObjectProtocol?
+    private var cloudKitEventObserver: NSObjectProtocol?
 
     /// Latest persistent-history token we've already consumed. Persisted
     /// across launches so we never re-process old transactions.
@@ -93,9 +94,34 @@ final class AppContainer: ObservableObject {
 
         observeRemoteCoreDataChanges()
         observeRemoteKVSChanges()
+        observeCloudKitEvents()
     }
 
     // MARK: - Remote CloudKit / KVS observation
+
+    /// Observes `NSPersistentCloudKitContainer.eventChangedNotification`,
+    /// which fires for setup / import / export operations. Used to bump the
+    /// "Last synced" timestamp in the Settings UI whenever any sync
+    /// operation completes successfully — including upload-only flows on a
+    /// single device, which `.NSPersistentStoreRemoteChange` doesn't
+    /// reliably surface.
+    private func observeCloudKitEvents() {
+        cloudKitEventObserver = NotificationCenter.default.addObserver(
+            forName: NSPersistentCloudKitContainer.eventChangedNotification,
+            object: nil,
+            queue: .main
+        ) { notification in
+            guard let event = notification.userInfo?[
+                NSPersistentCloudKitContainer.eventNotificationUserInfoKey
+            ] as? NSPersistentCloudKitContainer.Event,
+                event.endDate != nil,
+                event.succeeded
+            else { return }
+            UserDefaults.standard.set(
+                event.endDate, forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
+            )
+        }
+    }
 
     private func observeRemoteCoreDataChanges() {
         // .NSPersistentStoreRemoteChange fires for every save, including our
