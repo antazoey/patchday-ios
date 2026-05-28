@@ -14,7 +14,18 @@ import PDKit
 import PDTest
 
 class PillLastTakenListTests: PDTestCase {
-    private let testTimeOne = Time()
+
+    // Anchor to noon today so testTimeTwo (= +5 min) never crosses midnight.
+    // The roundtrip under test (format "HH:mm:ss" → parse → relocate to today)
+    // sorts by time-of-day, so a midnight-straddling pair would come back in
+    // the wrong order and break PDAssertEquiv against the originals.
+    private let testTimeOne: Time = {
+        var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        components.hour = 12
+        components.minute = 0
+        components.second = 0
+        return Calendar.current.date(from: components)!
+    }()
 
     private var testTimeTwo: Time {
         DateFactory.createDate(byAddingMinutes: 5, to: testTimeOne)!
