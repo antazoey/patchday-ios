@@ -28,6 +28,34 @@ final class AppContainer: ObservableObject {
     private var kvs: UbiquitousKeyValueStoring?
     private var remoteChangeObserver: NSObjectProtocol?
 
+    /// Latest persistent-history token we've already consumed. Persisted
+    /// across launches so we never re-process old transactions.
+    private var lastSeenHistoryToken: NSPersistentHistoryToken? {
+        get {
+            guard let data = UserDefaults.standard.data(
+                forKey: PDLocalSettingsKey.lastHistoryToken.rawValue
+            ) else { return nil }
+            return try? NSKeyedUnarchiver.unarchivedObject(
+                ofClass: NSPersistentHistoryToken.self, from: data
+            )
+        }
+        set {
+            guard let token = newValue else {
+                UserDefaults.standard.removeObject(
+                    forKey: PDLocalSettingsKey.lastHistoryToken.rawValue
+                )
+                return
+            }
+            if let data = try? NSKeyedArchiver.archivedData(
+                withRootObject: token, requiringSecureCoding: true
+            ) {
+                UserDefaults.standard.set(
+                    data, forKey: PDLocalSettingsKey.lastHistoryToken.rawValue
+                )
+            }
+        }
+    }
+
     // MARK: - SwiftUI navigation + UI state
 
     @Published var selectedTab: AppTab = .hormones
@@ -70,17 +98,20 @@ final class AppContainer: ObservableObject {
     // MARK: - Remote CloudKit / KVS observation
 
     private func observeRemoteCoreDataChanges() {
-        // .NSPersistentStoreRemoteChange fires for local saves too, not just
-        // CloudKit imports. If we react to every notification we trash the
-        // in-memory schedule context after every write — which breaks flows
-        // that mutate a freshly-returned object (e.g. PillSchedule.insertNew
-        // setting isCreated = false on the new Pill before navigation).
-        // Only subscribe when iCloud sync is on; the proper transaction-
-        // author filter is future work.
-        let syncEnabled = UserDefaults.standard.bool(
-            forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
-        )
-        guard syncEnabled else { return }
+        // .NSPersistentStoreRemoteChange fires for every save, including our
+        // own local writes. The handler walks persistent history starting
+        // from `lastSeenHistoryToken` and only reloads if it sees a
+        // transaction whose author isn't ours — CloudKit imports and writes
+        // from other processes (e.g. the widget) qualify; our viewContext
+        // writes don't.
+        //
+        // On first launch (or after Nuke clears the persisted token) seed
+        // the token to "now" so we don't treat bootstrap-era transactions
+        // (Core Data lightweight migration, default-data seeding) as
+        // remote-origin and trigger a spurious reload.
+        if lastSeenHistoryToken == nil {
+            lastSeenHistoryToken = CoreDataStack.currentHistoryToken()
+        }
         remoteChangeObserver = NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreRemoteChange,
             object: nil,
@@ -111,6 +142,12 @@ final class AppContainer: ObservableObject {
     }
 
     private func handleRemoteCoreDataChange() {
+        let (latest, sawRemote) = CoreDataStack.consumeRemoteHistory(
+            after: lastSeenHistoryToken
+        )
+        lastSeenHistoryToken = latest
+        guard sawRemote else { return }
+
         // Drop in-memory entity caches; the schedules will refetch.
         sdk?.hormones.reloadContext()
         sdk?.pills.reloadContext()

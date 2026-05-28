@@ -9,12 +9,18 @@ import Foundation
 import CoreData
 import PDKit
 
-class CoreDataStack: NSObject {
+public class CoreDataStack: NSObject {
 
     private static var log = PDLog<CoreDataStack>()
 
     static let persistentContainerKey = "patchData"
     static let cloudKitContainerIdentifier = "iCloud.Yingthi.PatchDay"
+
+    /// Tagged onto every viewContext write so the persistent-history
+    /// machinery can distinguish our own local saves from CloudKit imports
+    /// or other-process writes (e.g. the widget). Anything else is treated
+    /// as a remote-origin change and should trigger schedule reloads.
+    public static let localTransactionAuthor = "patchday-app"
 
     static let hormoneProps = ["date", "id", "siteNameBackUp", "xDays"]
     static let siteProps = ["order", "name", "imageIdentifier"]
@@ -86,8 +92,57 @@ class CoreDataStack: NSObject {
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.transactionAuthor = localTransactionAuthor
         return container
     }()
+
+    /// Fetch persistent-history transactions newer than `token` and report
+    /// whether any of them came from an author other than ourselves.
+    /// Returns the latest-seen token so the caller can persist it for the
+    /// next round, and a flag indicating "yes, a remote-origin change
+    /// happened — go reload schedules."
+    /// Returns the latest persistent-history token without inspecting any
+    /// transactions. Used to seed the AppContainer's stored token right
+    /// after bootstrap so we don't react to migration- or initial-default
+    /// writes (which may have no transaction author).
+    public static func currentHistoryToken() -> NSPersistentHistoryToken? {
+        let request = NSPersistentHistoryChangeRequest.fetchHistory(
+            after: nil as NSPersistentHistoryToken?
+        )
+        request.resultType = NSPersistentHistoryResultType.transactionsOnly
+        do {
+            let result = try context.execute(request) as? NSPersistentHistoryResult
+            let transactions = result?.result as? [NSPersistentHistoryTransaction]
+            return transactions?.last?.token
+        } catch {
+            log.error("Failed to fetch current history token", error)
+            return nil
+        }
+    }
+
+    public static func consumeRemoteHistory(
+        after token: NSPersistentHistoryToken?
+    ) -> (latest: NSPersistentHistoryToken?, sawRemoteChange: Bool) {
+        let request = NSPersistentHistoryChangeRequest.fetchHistory(after: token)
+        do {
+            let result = try context.execute(request) as? NSPersistentHistoryResult
+            guard let transactions = result?.result as? [NSPersistentHistoryTransaction] else {
+                return (token, false)
+            }
+            var sawRemote = false
+            var latest = token
+            for transaction in transactions {
+                latest = transaction.token
+                if transaction.author != localTransactionAuthor {
+                    sawRemote = true
+                }
+            }
+            return (latest, sawRemote)
+        } catch {
+            log.error("Failed to read persistent history", error)
+            return (token, false)
+        }
+    }
 
     static var context: NSManagedObjectContext {
         persistentContainer.viewContext
