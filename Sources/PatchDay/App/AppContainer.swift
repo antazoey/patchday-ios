@@ -70,6 +70,17 @@ final class AppContainer: ObservableObject {
     // MARK: - Remote CloudKit / KVS observation
 
     private func observeRemoteCoreDataChanges() {
+        // .NSPersistentStoreRemoteChange fires for local saves too, not just
+        // CloudKit imports. If we react to every notification we trash the
+        // in-memory schedule context after every write — which breaks flows
+        // that mutate a freshly-returned object (e.g. PillSchedule.insertNew
+        // setting isCreated = false on the new Pill before navigation).
+        // Only subscribe when iCloud sync is on; the proper transaction-
+        // author filter is future work.
+        let syncEnabled = UserDefaults.standard.bool(
+            forKey: PDLocalSettingsKey.iCloudSyncEnabled.rawValue
+        )
+        guard syncEnabled else { return }
         remoteChangeObserver = NotificationCenter.default.addObserver(
             forName: .NSPersistentStoreRemoteChange,
             object: nil,
