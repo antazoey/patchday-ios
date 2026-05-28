@@ -75,7 +75,11 @@ struct HormonesListView: View {
                             // leave the user with at least one slot.
                             if quantity > 1 { pendingRemoveIndex = index }
                         }
-                    } else if ghostCellsEnabled, index >= quantity {
+                    } else if ghostCellsEnabled, index == quantity {
+                        // Only render the ghost in the immediate next slot
+                        // (e.g. position 3 when quantity is 2). Tapping it
+                        // bumps quantity by one; the new ghost then shifts
+                        // down a row until quantity hits the upper limit.
                         GhostHormoneRow(rowHeight: rowHeight)
                             .contentShape(Rectangle())
                             .onTapGesture { pendingAddIndex = index }
