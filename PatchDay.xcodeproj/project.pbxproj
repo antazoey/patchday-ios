@@ -264,6 +264,8 @@
 		A1C085B32FC5EAC900F2D82E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085B12FC5EAC900F2D82E /* SettingsView.swift */; };
 		A1ICL00012CD0001000000A1 /* EntityInsertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0001000000A2 /* EntityInsertTests.swift */; };
 		A1ICL00012CD0002000000A1 /* StoreMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0002000000A2 /* StoreMigrationTests.swift */; };
+		A1ICL00012CD0010000000A1 /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0010000000A2 /* DateIntegrationTests.swift */; };
+		A1ICL00012CD0011000000A1 /* PillStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0011000000A2 /* PillStringsTests.swift */; };
 		A1ICL00012CD0002000000B1 /* PDLocalSettingsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0002000000B2 /* PDLocalSettingsKey.swift */; };
 		A1ICL00012CD0003000000C1 /* UbiquitousKeyValueStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */; };
 		A1ICL00012CD0003000000C3 /* PDUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */; };
@@ -718,6 +720,8 @@
 		A1C085B12FC5EAC900F2D82E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0001000000A2 /* EntityInsertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityInsertTests.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0002000000A2 /* StoreMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMigrationTests.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0010000000A2 /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0011000000A2 /* PillStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStringsTests.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0002000000B2 /* PDLocalSettingsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDLocalSettingsKey.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0003000000C2 /* UbiquitousKeyValueStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStoring.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0003000000C4 /* PDUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUbiquitousKVStore.swift; sourceTree = "<group>"; };
@@ -1036,6 +1040,7 @@
 				3397C1C5401F606963550A9A /* DateExtensionTests.swift */,
 				3397C53074C244CBAB4010FD /* DateFactoryTests.swift */,
 				3397CC73DBC50CB53940CA1B /* PDDateFormatterTests.swift */,
+				A1ICL00012CD0010000000A2 /* DateIntegrationTests.swift */,
 			);
 			path = Dates;
 			sourceTree = "<group>";
@@ -1976,12 +1981,29 @@
 				9D8F45E82496717900F2C39A /* Settings */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
+				A1ICL00012CD0012000000B0 /* Resources */,
 				3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */,
 				9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */,
 				9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */,
 			);
 			name = PDKitTests;
 			path = Tests/PDKitTests;
+			sourceTree = "<group>";
+		};
+		A1ICL00012CD0012000000B0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1ICL00012CD0013000000B0 /* Strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A1ICL00012CD0013000000B0 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				A1ICL00012CD0011000000A2 /* PillStringsTests.swift */,
+			);
+			path = Strings;
 			sourceTree = "<group>";
 		};
 		B468F49F20D9BDBA007FC689 /* Frameworks */ = {
@@ -2598,6 +2620,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1ICL00012CD0010000000A1 /* DateIntegrationTests.swift in Sources */,
+				A1ICL00012CD0011000000A1 /* PillStringsTests.swift in Sources */,
 				3397CDCED90F1674FD98CC06 /* DateExtensionTests.swift in Sources */,
 				3397C3B94D24638CA4091B71 /* DateFactoryTests.swift in Sources */,
 				9D42129B25D60E1A00087CDD /* PillExpirationIntervalXDaysTests.swift in Sources */,

@@ -246,15 +246,32 @@ class CoreDataStack: NSObject {
     /// look gone (the container would create a fresh empty store at the
     /// App Group path).
     static func resolvedStoreURL() -> URL {
-        let defaults = UserDefaults.standard
-        if defaults.bool(forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue) {
-            return appGroupStoreURL()
+        resolveStoreURL(
+            migrationDone: UserDefaults.standard.bool(
+                forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue
+            ),
+            sandbox: sandboxStoreURL(),
+            appGroup: appGroupStoreURL(),
+            sandboxExists: { FileManager.default.fileExists(atPath: $0) }
+        )
+    }
+
+    /// Pure overload — same logic as `resolvedStoreURL()` but with all
+    /// environmental inputs injected so it's testable without touching the
+    /// filesystem or UserDefaults.
+    static func resolveStoreURL(
+        migrationDone: Bool,
+        sandbox: URL?,
+        appGroup: URL,
+        sandboxExists: (String) -> Bool
+    ) -> URL {
+        if migrationDone {
+            return appGroup
         }
-        if let sandbox = sandboxStoreURL(),
-            FileManager.default.fileExists(atPath: sandbox.path) {
+        if let sandbox, sandboxExists(sandbox.path) {
             return sandbox
         }
-        return appGroupStoreURL()
+        return appGroup
     }
 
     private static func countEntities(

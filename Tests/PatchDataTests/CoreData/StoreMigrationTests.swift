@@ -32,28 +32,49 @@ class StoreMigrationTests: XCTestCase {
         defaults.removePersistentDomain(forName: suiteName)
     }
 
-    // MARK: - resolvedStoreURL behavior
+    // MARK: - resolveStoreURL (pure function)
 
-    func testResolvedStoreURL_whenMigrationDone_returnsAppGroupURL() {
-        UserDefaults.standard.set(
-            true, forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue
+    private let appGroup = URL(fileURLWithPath: "/tmp/appGroup/store.sqlite")
+    private let sandbox = URL(fileURLWithPath: "/tmp/sandbox/store.sqlite")
+
+    func testResolveStoreURL_whenMigrationDone_returnsAppGroupURL() {
+        let url = CoreDataStack.resolveStoreURL(
+            migrationDone: true,
+            sandbox: sandbox,
+            appGroup: appGroup,
+            sandboxExists: { _ in true }
         )
-        defer {
-            UserDefaults.standard.removeObject(
-                forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue
-            )
-        }
-        let url = CoreDataStack.resolvedStoreURL()
-        XCTAssertEqual(CoreDataStack.appGroupStoreURL().path, url.path)
+        XCTAssertEqual(appGroup, url)
     }
 
-    func testResolvedStoreURL_whenMigrationNotDone_andSandboxMissing_returnsAppGroupURL() {
-        UserDefaults.standard.removeObject(
-            forKey: PDLocalSettingsKey.didMigrateStoreToAppGroup.rawValue
+    func testResolveStoreURL_whenMigrationNotDone_andSandboxExists_returnsSandbox() {
+        let url = CoreDataStack.resolveStoreURL(
+            migrationDone: false,
+            sandbox: sandbox,
+            appGroup: appGroup,
+            sandboxExists: { _ in true }
         )
-        // Sandbox file doesn't exist in the test environment.
-        let url = CoreDataStack.resolvedStoreURL()
-        XCTAssertEqual(CoreDataStack.appGroupStoreURL().path, url.path)
+        XCTAssertEqual(sandbox, url)
+    }
+
+    func testResolveStoreURL_whenMigrationNotDone_andSandboxMissing_returnsAppGroupURL() {
+        let url = CoreDataStack.resolveStoreURL(
+            migrationDone: false,
+            sandbox: sandbox,
+            appGroup: appGroup,
+            sandboxExists: { _ in false }
+        )
+        XCTAssertEqual(appGroup, url)
+    }
+
+    func testResolveStoreURL_whenSandboxURLNil_returnsAppGroupURL() {
+        let url = CoreDataStack.resolveStoreURL(
+            migrationDone: false,
+            sandbox: nil,
+            appGroup: appGroup,
+            sandboxExists: { _ in true }
+        )
+        XCTAssertEqual(appGroup, url)
     }
 
     // MARK: - End-to-end migration (requires Core Data model in test bundle)
