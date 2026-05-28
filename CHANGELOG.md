@@ -20,6 +20,7 @@ Changed
 
 - Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
 - Minimum iOS version is now 17.0 (was 15.4). iOS 17 is two-and-a-half years old at this point and required to use SwiftUI's modern `onChange` and a few other APIs we've taken on.
+- Badge updates now use `UNUserNotificationCenter.setBadgeCount` (iOS 17+) instead of the deprecated `UIApplication.applicationIconBadgeNumber`. Behavior is unchanged.
 - Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
 - Pill detail now supports the full set of options: name, notify, 1–4 times per day, expiration interval (Every Day / Every Other Day / First X Days / Last X Days / X Days On X Days Off), and the X-Days controls.
 - Site detail now includes the image picker scoped to the current delivery method.
