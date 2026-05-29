@@ -166,30 +166,57 @@ public class PatchData: NSObject, PatchDataSDK {
             settings.setNotifications(to: true)
             settings.setUseStaticExpirationTime(to: true)
 
-            // Patch 1: applied 24 hours ago (mid-cycle, default interval
-            // is TwiceWeekly / 84h, so plenty of life left visually).
-            if let oneDayAgo = DateFactory.createDate(byAddingHours: -24, to: now) {
+            // Patch 1: applied 24 hours ago at Right Glute. Mid-cycle for
+            // the default TwiceWeekly interval; renders the site image.
+            if let oneDayAgo = DateFactory.createDate(byAddingHours: -24, to: now),
+                let rightGlute = sites.all.first(where: { $0.name == SiteStrings.RightGlute })
+                ?? sites[0] {
                 hormones.setDate(at: 0, with: oneDayAgo)
+                hormones.setSite(at: 0, with: rightGlute)
             }
-            // Patch 2: applied 72 hours ago (almost expired, shows the
-            // "overdue / soon" coloring on the row).
-            if let threeDaysAgo = DateFactory.createDate(byAddingHours: -72, to: now) {
+            // Patch 2: applied 72 hours ago at Left Glute. Near expiration
+            // (default interval is 84h) so the row reads as overdue-soon.
+            if let threeDaysAgo = DateFactory.createDate(byAddingHours: -72, to: now),
+                let leftGlute = sites.all.first(where: { $0.name == SiteStrings.LeftGlute })
+                ?? sites[1] {
                 hormones.setDate(at: 1, with: threeDaysAgo)
+                hormones.setSite(at: 1, with: leftGlute)
             }
 
-            // Pill: a once-daily that was taken this morning at 8 AM.
-            let demoPill = PillAttributes(
+            // Pill 0 (T-Blocker): overdue. lastTaken is 26 hours ago at
+            // 8 AM, current time is past 8 AM today → the Pills row
+            // flags it as due (red "Due:" text).
+            let overdueTBlocker = PillAttributes(
                 name: "T-Blocker",
                 expirationIntervalSetting: .EveryDay,
                 xDays: "",
                 times: "08:00:00",
                 notify: true,
-                lastTaken: DateFactory.createDate(daysFrom: 0, at: DateFactory.createDate(byAddingHours: -2, to: now)),
-                timesTakenToday: "08:01:00",
+                lastTaken: DateFactory.createDate(byAddingHours: -26, to: now),
+                timesTakenToday: "",
+                lastWakeUp: DateFactory.createDate(byAddingHours: -26, to: now),
+                isCreated: true
+            )
+            pills.set(at: 0, with: overdueTBlocker)
+
+            // Pill 1 (Progesterone): taken on time at 8 AM this morning so
+            // the screen shows the contrast — one due, one not.
+            let onTimeProg = PillAttributes(
+                name: "Progesterone",
+                expirationIntervalSetting: .EveryDay,
+                xDays: "",
+                times: "08:00:00",
+                notify: true,
+                lastTaken: DateFactory.createDate(byAddingHours: -2, to: now),
+                timesTakenToday: PDDateFormatter.formatInternalTime(
+                    DateFactory.createDate(byAddingHours: -2, to: now) ?? now
+                ),
                 lastWakeUp: now,
                 isCreated: true
             )
-            pills.set(at: 0, with: demoPill)
+            if pills.count > 1 {
+                pills.set(at: 1, with: onTimeProg)
+            }
         }
         #endif
         Self.seed40DefaultsIfNeeded(settings: settings)
