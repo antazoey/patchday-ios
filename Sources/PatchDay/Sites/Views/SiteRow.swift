@@ -38,5 +38,9 @@ struct SiteRow: View {
             }
         }
         .padding(.vertical, 4)
+        // Spacers don't get hit-tested, so without an explicit shape the
+        // parent Button only registered taps over the order/name text and
+        // the optional Next badge — the empty middle did nothing.
+        .contentShape(Rectangle())
     }
 }
