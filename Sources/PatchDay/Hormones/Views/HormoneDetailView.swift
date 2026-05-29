@@ -265,37 +265,49 @@ struct HormoneDetailView: View {
     }
 
     private func autofill() {
-        guard let sdk = container.sdk else { return }
-        if let suggested = sdk.sites.suggested {
-            state.selectedSiteName = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
-        }
+        guard let nextName = nextSiteInRotation else { return }
+        state.selectedSiteName = nextName
         state.selectedDate = Date()
         state.isDirty = true
     }
 
-    /// Set the site (only) to the next suggested. Used by the "Auto"
-    /// option in the site-action dialog. The date is left alone — for
-    /// the full "site + date" action use the bottom-of-section Change
-    /// button (autofill).
+    /// Set the site (only) to the next in rotation after the currently
+    /// selected one. Used by the arrow option in the site-action dialog.
+    /// The date is left alone — for the full "site + date" action use
+    /// the bottom-of-section Change button (autofill).
     private func autoPickSiteOnly() {
-        guard let sdk = container.sdk else { return }
-        guard let suggested = sdk.sites.suggested else { return }
-        state.selectedSiteName = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
+        guard let nextName = nextSiteInRotation else { return }
+        state.selectedSiteName = nextName
+    }
+
+    /// The site that comes after `state.selectedSiteName` in the user's
+    /// sites list, wrapping at the end. Lets the arrow buttons rotate
+    /// through the schedule on each tap instead of stalling on the next
+    /// global suggestion.
+    private var nextSiteInRotation: String? {
+        guard let sdk = container.sdk else { return nil }
+        let allNames = sdk.sites.all.map { $0.name.isEmpty ? SiteStrings.NewSite : $0.name }
+        guard !allNames.isEmpty else { return nil }
+        if let currentIndex = allNames.firstIndex(of: state.selectedSiteName) {
+            return allNames[(currentIndex + 1) % allNames.count]
+        }
+        // Currently-selected name isn't in the list (e.g. a typed custom
+        // name not yet saved) — fall back to the global "suggested" cursor.
+        guard let suggested = sdk.sites.suggested else { return allNames.first }
+        return suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
     }
 
     private var autoSiteButtonText: String {
-        guard let sdk = container.sdk, let suggested = sdk.sites.suggested else {
+        guard let name = nextSiteInRotation else {
             return NSLocalizedString("Auto", comment: "Auto-pick site")
         }
-        let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
         return "→ \(name)"
     }
 
     private var changeButtonText: String {
-        guard let sdk = container.sdk, let suggested = sdk.sites.suggested else {
+        guard let name = nextSiteInRotation else {
             return NSLocalizedString("Change", comment: "Apply site + date together")
         }
-        let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
         return "→ \(name)"
     }
 
