@@ -282,16 +282,15 @@ struct HormoneDetailView: View {
             return NSLocalizedString("Auto", comment: "Auto-pick site")
         }
         let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
-        return "\(NSLocalizedString("Auto", comment: ""))  → \(name)"
+        return "→ \(name)"
     }
 
     private var changeButtonText: String {
-        let base = NSLocalizedString("Change", comment: "Apply site + date together")
         guard let sdk = container.sdk, let suggested = sdk.sites.suggested else {
-            return base
+            return NSLocalizedString("Change", comment: "Apply site + date together")
         }
         let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
-        return "\(base)  → \(name)"
+        return "→ \(name)"
     }
 
     private func save() {
