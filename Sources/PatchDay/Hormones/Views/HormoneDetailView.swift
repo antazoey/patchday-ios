@@ -280,14 +280,29 @@ struct HormoneDetailView: View {
         state.selectedSiteName = nextName
     }
 
-    /// The site that comes after `state.selectedSiteName` in the user's
-    /// sites list, wrapping at the end. Lets the arrow buttons rotate
-    /// through the schedule on each tap instead of stalling on the next
-    /// global suggestion.
+    /// What the arrow button will jump to next.
+    ///
+    /// On a fresh entry to this screen (no edits made yet) this matches
+    /// the global schedule cursor, so the value lines up with the
+    /// "Change → <site>" entry on the Hormones-list tap dialog.
+    ///
+    /// Once the user has changed the selection in any way — tapping the
+    /// arrow, picking via Select, or autofill — switch to rotating from
+    /// the current selection so subsequent taps walk through the site
+    /// list one at a time. Navigating away and back resets state, so the
+    /// "fresh" branch fires again.
     private var nextSiteInRotation: String? {
         guard let sdk = container.sdk else { return nil }
         let allNames = sdk.sites.all.map { $0.name.isEmpty ? SiteStrings.NewSite : $0.name }
         guard !allNames.isEmpty else { return nil }
+
+        if state.selectedSiteName == state.initialSiteName {
+            // Fresh open — match what the Hormones-list dialog shows.
+            if let suggested = sdk.sites.suggested {
+                return suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
+            }
+        }
+
         if let currentIndex = allNames.firstIndex(of: state.selectedSiteName) {
             return allNames[(currentIndex + 1) % allNames.count]
         }
