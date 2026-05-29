@@ -231,7 +231,7 @@ struct HormonesListView: View {
 
     private func changeButtonText(for target: TapTarget) -> String {
         if let suggested = target.suggestedSite, !suggested.isEmpty {
-            return "\(ActionStrings.Change) → \(suggested)"
+            return "→ \(suggested)"
         }
         return ActionStrings.Change
     }
