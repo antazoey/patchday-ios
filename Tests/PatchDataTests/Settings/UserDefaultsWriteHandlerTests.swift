@@ -153,6 +153,33 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
         )
     }
 
+    // MARK: - pushAllSyncedToKVS
+
+    func testPushAllSyncedToKVS_uploadsKeysThatAreMissingFromKVS() {
+        // Use Quantity (one of the whitelisted syncedKeys).
+        let kvs = MockUbiquitousKVStore()
+        mockUserDefaults.mockObjectMap[PDSetting.Quantity.rawValue] = 2
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        handler.pushAllSyncedToKVS()
+        XCTAssertNotNil(kvs.storage[PDSetting.Quantity.rawValue])
+    }
+
+    func testPushAllSyncedToKVS_doesNotOverwriteValuesAlreadyInKVS() {
+        // Regression: a second device joining the schedule was clobbering
+        // the established device's settings with its local defaults
+        // because pushAllSyncedToKVS unconditionally pushed every local
+        // value up. Now it skips keys that already have a KVS value.
+        let kvs = MockUbiquitousKVStore()
+        // iPhone has already populated KVS with Quantity = 2.
+        kvs.storage[PDSetting.Quantity.rawValue] = 2
+        // Mac launches with its local default Quantity = 3.
+        mockUserDefaults.mockObjectMap[PDSetting.Quantity.rawValue] = 3
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        handler.pushAllSyncedToKVS()
+        // KVS keeps the iPhone-established value.
+        XCTAssertEqual(2, kvs.storage[PDSetting.Quantity.rawValue] as? Int)
+    }
+
     // MARK: - Helpers
 
     private func createHandler() -> UserDefaultsWriteHandler {

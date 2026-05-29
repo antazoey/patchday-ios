@@ -83,12 +83,16 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
         return nil
     }
 
-    /// Push every locally-stored synced setting into iCloud KVS. Runs once
-    /// on the first iCloud-enabled launch so values that have been in
-    /// local UserDefaults since 3.x — and never re-written in 4.x —
-    /// actually end up in the cloud for other devices to pick up.
+    /// Push locally-stored synced settings into iCloud KVS — but only for
+    /// keys that aren't already in KVS, so a new device joining the
+    /// schedule doesn't clobber the established device's values with its
+    /// own defaults. Runs once on the first iCloud-enabled launch.
     public func pushAllSyncedToKVS() {
         for key in Self.syncedKeys {
+            // Skip if iCloud already has a value for this key — another
+            // device has been here first, and our local value is likely
+            // a freshly-applied default that would silently overwrite it.
+            if kvs.object(for: key) != nil { continue }
             if let value = base.object(for: key) {
                 kvs.set(value, for: key)
             }
