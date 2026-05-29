@@ -59,10 +59,8 @@ struct SetupSheet: View {
                             .foregroundColor(.secondary)
                     }
                 } footer: {
-                    Text(NSLocalizedString(
-                        "Your data stays in your iCloud account. PatchDay never sees it. Enabling iCloud sync takes effect after the next app launch.",
-                        comment: ""
-                    ))
+                    // swiftlint:disable:next line_length
+                    Text(NSLocalizedString("Your data stays in your iCloud account. PatchDay never sees it. Enabling iCloud sync takes effect after the next app launch.", comment: ""))
                 }
 
                 Section {
@@ -79,10 +77,8 @@ struct SetupSheet: View {
                 }
 
                 Section(NSLocalizedString("A note from PatchDay", comment: "")) {
-                    Text(NSLocalizedString(
-                        "Tap the Gear button on the Hormones tab to set your Delivery Method, Quantity, and Expiration Interval.\n\nUse this tool responsibly and follow your prescription instructions.",
-                        comment: "Setup sheet disclaimer body"
-                    ))
+                    // swiftlint:disable:next line_length
+                    Text(NSLocalizedString("Tap the Gear button on the Hormones tab to set your Delivery Method, Quantity, and Expiration Interval.\n\nUse this tool responsibly and follow your prescription instructions.", comment: "Setup sheet disclaimer body"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     Link(

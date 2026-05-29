@@ -151,10 +151,8 @@ struct SettingsView: View {
                         container.sdk?.settings.setUseStaticExpirationTime(to: value)
                     }
             } footer: {
-                Text(NSLocalizedString(
-                    "When on, suggested expiration times shift to the current time of day each time you apply a hormone. Off keeps your original applied time.",
-                    comment: "Setting footer"
-                ))
+                // swiftlint:disable:next line_length
+                Text(NSLocalizedString("When on, suggested expiration times shift to the current time of day each time you apply a hormone. Off keeps your original applied time.", comment: "Setting footer"))
             }
 
             Section {
@@ -203,10 +201,8 @@ struct SettingsView: View {
             } header: {
                 Text(NSLocalizedString("iCloud", comment: ""))
             } footer: {
-                Text(NSLocalizedString(
-                    "When on, your hormones, pills, sites, and most settings sync across your devices using your iCloud account. PatchDay never sees your data. Turning sync off stops this device from syncing but does not delete your iCloud records — to remove those, go to iOS Settings → [Your Name] → iCloud → Manage Storage → PatchDay.",
-                    comment: "iCloud setting footer"
-                ))
+                // swiftlint:disable:next line_length
+                Text(NSLocalizedString("When on, your hormones, pills, sites, and most settings sync across your devices using your iCloud account. PatchDay never sees your data. Turning sync off stops this device from syncing but does not delete your iCloud records — to remove those, go to iOS Settings → [Your Name] → iCloud → Manage Storage → PatchDay.", comment: "iCloud setting footer"))
             }
 
             #if DEBUG

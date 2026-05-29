@@ -85,7 +85,7 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
 
     // MARK: - iCloud sync (KVS) routing
 
-    func testReplace_whenSyncEnabledAndKeyWhitelisted_writesToKVS() {
+    func testReplace_whenSyncEnabledAndKeyAllowlisted_writesToKVS() {
         let kvs = MockUbiquitousKVStore()
         let handler = createHandler(kvs: kvs, syncEnabled: true)
         let storable = MockKeyStorable(testValue)
@@ -104,7 +104,7 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
         XCTAssertEqual(0, kvs.setCalls.count)
     }
 
-    func testReplace_whenKeyNotWhitelisted_doesNotWriteToKVS() {
+    func testReplace_whenKeyNotAllowlisted_doesNotWriteToKVS() {
         let kvs = MockUbiquitousKVStore()
         let handler = createHandler(kvs: kvs, syncEnabled: true)
         let storable = MockKeyStorable(testValue)
@@ -131,7 +131,7 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
         XCTAssertNil(actual)
     }
 
-    func testIngestKVSChanges_mirrorsWhitelistedValuesIntoBaseAndDataSharer() {
+    func testIngestKVSChanges_mirrorsAllowlistedValuesIntoBaseAndDataSharer() {
         let kvs = MockUbiquitousKVStore()
         kvs.storage[PDSetting.Quantity.rawValue] = 4
         let handler = createHandler(kvs: kvs, syncEnabled: true)
@@ -145,7 +145,7 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
         XCTAssertTrue(
             mockDataSharer.setCallArgs.contains(where: { $0.1 == PDSetting.Quantity.rawValue })
         )
-        // Non-whitelisted key was not mirrored.
+        // Non-allowlisted key was not mirrored.
         XCTAssertFalse(
             mockUserDefaults.setCallArgs.contains(
                 where: { $0.1 == PDSetting.MentionedDisclaimer.rawValue }
@@ -156,7 +156,7 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
     // MARK: - pushAllSyncedToKVS
 
     func testPushAllSyncedToKVS_uploadsKeysThatAreMissingFromKVS() {
-        // Use Quantity (one of the whitelisted syncedKeys).
+        // Use Quantity (one of the allowlisted syncedKeys).
         let kvs = MockUbiquitousKVStore()
         mockUserDefaults.mockObjectMap[PDSetting.Quantity.rawValue] = 2
         let handler = createHandler(kvs: kvs, syncEnabled: true)
