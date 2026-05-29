@@ -36,13 +36,12 @@ struct HormoneRow: View {
                             .padding(.top, 11)
                     }
                     Spacer()
-                    if let moon = viewModel.moonIcon {
-                        Image(uiImage: moon)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 28)
-                            .padding(.trailing, 16)
-                            .padding(.top, 11)
+                    if viewModel.moonIcon != nil {
+                        Image(systemName: "moon.fill")
+                            .font(.system(size: 22))
+                            .foregroundColor(.indigo)
+                            .padding(.trailing, 18)
+                            .padding(.top, 14)
                     }
                 }
                 Spacer()
