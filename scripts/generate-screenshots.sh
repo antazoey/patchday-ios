@@ -27,13 +27,39 @@ SCHEME="Tests"
 OUTPUT_DIR="screenshots"
 BUNDLES_DIR="$OUTPUT_DIR/.bundles"
 
-# Devices to capture. Add / remove as needed. App Store typically wants:
-#   - one 6.7"+ iPhone (iPhone 17 Pro Max)
-#   - one iPad Pro 12.9"+ (iPad Pro 13-inch (M4))
+# Devices to capture. Each one maps to an App Store Connect display-size
+# slot. Devices whose simulators aren't installed (or can't run iOS 17+)
+# will be skipped gracefully — the script logs a warning and moves on.
+#
+# App Store Connect display-size slots (Apr 2026):
+#   iPhone 6.9"     iPhone 17 Pro Max          ✓ in this list
+#   iPhone 6.5"     iPhone 11 Pro Max          ✓ in this list (may need to download sim runtime)
+#   iPhone 6.3"     iPhone 16 Pro              ✓ in this list
+#   iPhone 6.1"     iPhone 17                  ✓ in this list
+#   iPhone 5.5"     iPhone 8 Plus              ⚠️  no iOS 17+ sim; use auto-resize or skip
+#   iPhone 4.7"     iPhone SE (3rd gen)        ✓ in this list
+#   iPhone 4"       iPhone SE (1st gen)        ⚠️  no iOS 17+ sim — skip
+#   iPhone 3.5"     iPhone 4S                  ⚠️  no iOS 17+ sim — skip
+#   iPad 13"        iPad Pro 13-inch (M4)      ✓ in this list
+#   iPad 12.9"      iPad Pro (12.9-inch)       ✓ in this list (may need older Xcode runtime)
+#   iPad 11"        iPad Air 11-inch (M3)      ✓ in this list
+#   iPad 10.5"      iPad Pro (10.5-inch)       ⚠️  legacy sim — install via Xcode if needed
+#   iPad 9.7"       iPad (6th gen)             ⚠️  legacy sim — install via Xcode if needed
+#
+# For the slots marked ⚠️: App Store Connect lets you take a screenshot
+# from the next-largest iPhone or iPad and upload it for the smaller
+# slot. Apple auto-handles fit; you can also crop / letterbox in an
+# image editor. Most apps now just upload 6.9" + 6.5" + (optional 5.5")
+# and 13" + 11" and let Apple auto-derive the rest.
 DEVICES=(
     "iPhone 17 Pro Max"
+    "iPhone 16 Pro"
     "iPhone 17"
+    "iPhone 11 Pro Max"
+    "iPhone SE (3rd generation)"
     "iPad Pro 13-inch (M4)"
+    "iPad Air 11-inch (M3)"
+    "iPad Pro (12.9-inch) (6th generation)"
 )
 
 APPEARANCES=(light dark)
