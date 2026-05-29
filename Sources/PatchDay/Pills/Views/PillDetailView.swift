@@ -119,8 +119,14 @@ struct PillDetailView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button(ActionStrings.Back) { handleBack() }
-                    .accessibilityIdentifier("pillBackButton")
+                Button {
+                    handleBack()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                        .fontWeight(.semibold)
+                }
+                .accessibilityIdentifier("pillBackButton")
+                .accessibilityLabel(NSLocalizedString("Back", comment: ""))
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(ActionStrings.Save) { save() }
