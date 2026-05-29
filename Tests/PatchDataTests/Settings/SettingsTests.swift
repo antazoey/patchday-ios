@@ -135,6 +135,23 @@ class SettingsTests: PDTestCase {
         XCTAssertEqual(0, mockHormones.saveAllCallCount)
     }
 
+    func testRemoveHormoneSlot_deletesTheHormoneAtIndex_andDecrementsQuantity() {
+        let settings = createSettings()
+        mockSettingsWriter.quantity = QuantityUD(3)
+        settings.removeHormoneSlot(at: 1)
+        XCTAssertEqual([1], mockHormones.deleteAtCallArgs)
+        XCTAssertEqual([2], mockSettingsWriter.replaceQuantityCallArgs)
+    }
+
+    func testRemoveHormoneSlot_whenQuantityIsOne_doesNothing() {
+        // Prevents shrinking the schedule below a single slot.
+        let settings = createSettings()
+        mockSettingsWriter.quantity = QuantityUD(1)
+        settings.removeHormoneSlot(at: 0)
+        PDAssertEmpty(mockHormones.deleteAtCallArgs)
+        PDAssertEmpty(mockSettingsWriter.replaceQuantityCallArgs)
+    }
+
     func testSetExpirationInterval_setsIntervalUsingExpectedValue() {
         let settings = createSettings()
 

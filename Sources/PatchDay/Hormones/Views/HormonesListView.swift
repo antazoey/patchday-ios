@@ -25,7 +25,10 @@ struct HormonesListView: View {
         let index: Index
         let currentSite: SiteName
         let suggestedSite: SiteName?
-        let change: () -> Void
+        /// `nil` when the hormone is empty / has no real applied state to
+        /// "change from". The dialog hides the Change button in that case
+        /// and only offers Edit + Remove + Cancel.
+        let change: (() -> Void)?
     }
 
     private var quantity: Int {
@@ -118,12 +121,25 @@ struct HormonesListView: View {
             titleVisibility: .visible,
             presenting: tapTarget
         ) { target in
-            Button(changeButtonText(for: target)) {
-                target.change()
-                container.triggerRefresh()
+            if let change = target.change {
+                Button(changeButtonText(for: target)) {
+                    change()
+                    container.triggerRefresh()
+                }
             }
             Button(ActionStrings.Edit) {
                 container.goToHormoneDetail(target.index)
+            }
+            // Cross-platform path for removing a patch — long-press +
+            // contextMenu is unreliable on iPad / Mac Catalyst, so the
+            // Remove option lives here too. Only offered when the user
+            // would still have at least one slot afterward.
+            if quantity > 1 {
+                Button(NSLocalizedString("Remove patch", comment: ""), role: .destructive) {
+                    let index = target.index
+                    tapTarget = nil
+                    pendingRemoveIndex = index
+                }
             }
             Button(ActionStrings.Cancel, role: .cancel) {}
         }
@@ -220,9 +236,16 @@ struct HormonesListView: View {
             container.goToHormoneDetail(index)
             return
         }
-        // Empty hormone: skip the confirmation dialog, go straight to detail.
+        // Empty hormone: show the dialog with Edit + Remove + Cancel (no
+        // Change, since there's nothing applied yet) so iPad / Mac users
+        // can still reach Remove without long-press.
         guard hormone.hasSite || !hormone.date.isDefault() else {
-            container.goToHormoneDetail(index)
+            tapTarget = TapTarget(
+                index: index,
+                currentSite: SiteStrings.NewSite,
+                suggestedSite: nil,
+                change: nil
+            )
             return
         }
         let nextSite = sdk.sites.suggested

@@ -267,6 +267,25 @@ class HormoneScheduleTests: PDTestCase {
         XCTAssertEqual(2, hormones.count)
     }
 
+    func testDeleteAtIndex_removesTheHormoneAtThatIndex() {
+        // Covers the long-press / Remove-patch UX: removing a specific
+        // slot (not "everything after"), regardless of position.
+        let mockHormones = MockHormone.createList(count: 3)
+        let middleId = UUID()
+        mockHormones[1].id = middleId
+        setUpHormones(mockHormones)
+        hormones.delete(at: 1)
+        XCTAssertEqual(2, hormones.count)
+        XCTAssertNil(hormones.all.first(where: { $0.id == middleId }))
+    }
+
+    func testDeleteAtIndex_whenIndexOutOfBounds_doesNothing() {
+        let mockHormones = MockHormone.createList(count: 2)
+        setUpHormones(mockHormones)
+        hormones.delete(at: 5)
+        XCTAssertEqual(2, hormones.count)
+    }
+
     func testSaveAll_whenCountIsZero_doesNotCallSave() {
         mockStore.newObjectFactory = nil
         setUpHormones()
