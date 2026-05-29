@@ -31,8 +31,17 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - Capture flow
 
     func testCaptureMainTabs() {
-        // Hormones tab (default on launch).
-        XCTAssert(app.staticTexts["Patches"].waitForExistence(timeout: 5))
+        // Hormones tab (default on launch). On iPad the title might be in
+        // a sidebar instead of a top nav bar, so fall through to a more
+        // generic "the patch cell is visible" check if the title isn't
+        // findable as static text.
+        let patchesTitle = app.staticTexts["Patches"]
+        let firstCell = app.buttons["HormoneCell_0"]
+        let ready = patchesTitle.waitForExistence(timeout: 5) || firstCell.waitForExistence(timeout: 5)
+        if !ready {
+            print("DEBUG_HORMONES_NOT_READY:\n\(app.debugDescription.prefix(4000))")
+        }
+        XCTAssert(ready)
         attachScreenshot(named: "01-Hormones")
 
         // Pills tab.
@@ -54,11 +63,10 @@ final class ScreenshotTests: XCTestCase {
     }
 
     func testCaptureHormoneDetail() {
-        XCTAssert(app.staticTexts["Patches"].waitForExistence(timeout: 5))
-        // Tap the second patch (the older one, near-expired) to surface
-        // the action dialog AND get into the detail screen.
+        // Don't gate on the "Patches" title — on iPad split-view the title
+        // can be in a sidebar. Wait directly for the cell we plan to tap.
         let cell = app.buttons["HormoneCell_1"]
-        XCTAssert(cell.waitForExistence(timeout: 3))
+        XCTAssert(cell.waitForExistence(timeout: 8))
         cell.tap()
 
         // Confirmation dialog appears with Change / Edit / Remove / Cancel.
