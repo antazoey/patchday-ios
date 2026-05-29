@@ -224,6 +224,16 @@ final class AppContainer: ObservableObject {
         guard isSyncEnabled else { return }
         let store = PDUbiquitousKVStore()
         self.kvs = store
+
+        // One-time seed: push every locally-stored synced setting into KVS
+        // so values that have lived in UserDefaults since 3.x (and were
+        // never re-written in 4.x) end up in the cloud for other devices.
+        let didSeedKey = PDLocalSettingsKey.didSeedKVSFromLocal.rawValue
+        if !UserDefaults.standard.bool(forKey: didSeedKey) {
+            sdk?.settings.uploadSyncedSettings()
+            UserDefaults.standard.set(true, forKey: didSeedKey)
+        }
+
         store.startObserving { [weak self] changedKeys in
             // Mirror the synced KVS values into local UserDefaults so the
             // next setting read picks them up. Without this, KVS would

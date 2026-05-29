@@ -107,6 +107,10 @@ public class Settings: SettingsManaging {
         writer.ingestKVSChanges(changedKeys)
     }
 
+    public func uploadSyncedSettings() {
+        writer.pushAllSyncedToKVS()
+    }
+
     public func reset(defaultSiteCount: Int) {
         writer.reset(defaultSiteCount: defaultSiteCount)
     }

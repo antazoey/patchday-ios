@@ -127,6 +127,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         handler.ingestKVSChanges(changedKeys)
     }
 
+    public func pushAllSyncedToKVS() {
+        handler.pushAllSyncedToKVS()
+    }
+
     @discardableResult
     public func replaceSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()

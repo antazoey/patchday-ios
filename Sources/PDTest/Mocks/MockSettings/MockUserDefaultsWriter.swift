@@ -103,4 +103,9 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     public func ingestKVSChanges(_ changedKeys: [String]) {
         ingestKVSChangesCallArgs.append(changedKeys)
     }
+
+    public var pushAllSyncedToKVSCallCount = 0
+    public func pushAllSyncedToKVS() {
+        pushAllSyncedToKVSCallCount += 1
+    }
 }

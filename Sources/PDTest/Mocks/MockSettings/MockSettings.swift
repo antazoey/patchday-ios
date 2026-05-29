@@ -40,6 +40,11 @@ public class MockSettings: SettingsManaging {
         ingestSyncedSettingsCallArgs.append(changedKeys)
     }
 
+    public var uploadSyncedSettingsCallCount = 0
+    public func uploadSyncedSettings() {
+        uploadSyncedSettingsCallCount += 1
+    }
+
     public var setExpirationIntervalCallArgs: [String] = []
     public func setExpirationInterval(to newInterval: String) {
         setExpirationIntervalCallArgs.append(newInterval)

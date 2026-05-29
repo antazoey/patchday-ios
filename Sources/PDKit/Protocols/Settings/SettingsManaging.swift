@@ -21,6 +21,11 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// next setting read sees the synced value.
     func ingestSyncedSettings(_ changedKeys: [String])
 
+    /// Push every currently-stored synced setting up to iCloud KVS so
+    /// other devices receive it. Used as a one-time bootstrap on the
+    /// first launch with iCloud sync enabled.
+    func uploadSyncedSettings()
+
     /// Set the expiration interval for when hormones expire.
     func setExpirationInterval(to newInterval: String)
 
