@@ -166,21 +166,19 @@ public class PatchData: NSObject, PatchDataSDK {
             settings.setNotifications(to: true)
             settings.setUseStaticExpirationTime(to: true)
 
-            // Patch 1: applied 24 hours ago at Right Glute. Mid-cycle for
-            // the default TwiceWeekly interval; renders the site image.
-            if let oneDayAgo = DateFactory.createDate(byAddingHours: -24, to: now),
-                let rightGlute = sites.all.first(where: { $0.name == SiteStrings.RightGlute })
-                ?? sites[0] {
-                hormones.setDate(at: 0, with: oneDayAgo)
-                hormones.setSite(at: 0, with: rightGlute)
+            // Patch 1: applied 96 hours ago — past the default 84-hour
+            // TwiceWeekly interval, so it shows as expired (red text)
+            // with a real Right Glute image rendered.
+            let allSites = sites.all
+            if allSites.count >= 1, let fourDaysAgo = DateFactory.createDate(byAddingHours: -96, to: now) {
+                hormones.setSite(at: 0, with: allSites[0])
+                hormones.setDate(at: 0, with: fourDaysAgo)
             }
-            // Patch 2: applied 72 hours ago at Left Glute. Near expiration
-            // (default interval is 84h) so the row reads as overdue-soon.
-            if let threeDaysAgo = DateFactory.createDate(byAddingHours: -72, to: now),
-                let leftGlute = sites.all.first(where: { $0.name == SiteStrings.LeftGlute })
-                ?? sites[1] {
-                hormones.setDate(at: 1, with: threeDaysAgo)
-                hormones.setSite(at: 1, with: leftGlute)
+            // Patch 2: applied 24 hours ago at the second site (Left Glute
+            // by default). Plenty of cycle left so it reads as "in use."
+            if allSites.count >= 2, let oneDayAgo = DateFactory.createDate(byAddingHours: -24, to: now) {
+                hormones.setSite(at: 1, with: allSites[1])
+                hormones.setDate(at: 1, with: oneDayAgo)
             }
 
             // Pill 0 (T-Blocker): overdue. lastTaken is 26 hours ago at
