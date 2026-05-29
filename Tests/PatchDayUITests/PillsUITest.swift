@@ -24,7 +24,7 @@ class PillsUITests: PDUITest {
     }
 
     func testInsertNewPill_navigatesToDetail() throws {
-        app.buttons["pillsAddButton"].tap()
+        app.cells["GhostPillCell"].tap()
         XCTAssert(app.staticTexts["New Pill"].waitForExistence(timeout: 3))
     }
 }

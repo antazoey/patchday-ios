@@ -38,6 +38,13 @@ struct SitesListView: View {
             .onMove(perform: moveSites)
             .onDelete(perform: deleteSites)
             .id(container.refreshTick)
+
+            if editMode == .inactive {
+                GhostSiteRow(nextOrderNumber: sites.count + 1)
+                    .contentShape(Rectangle())
+                    .onTapGesture { addNew() }
+                    .accessibilityIdentifier("GhostSiteCell")
+            }
         }
         .listStyle(.plain)
         .accessibilityIdentifier("sitesList")
@@ -56,12 +63,6 @@ struct SitesListView: View {
                     Button(ActionStrings.Reset) { resetSites() }
                         .accessibilityIdentifier("resetSitesButton")
                 }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: addNew) {
-                    Image(systemName: "plus")
-                }
-                .accessibilityIdentifier("insertNewSiteButton")
             }
         }
     }

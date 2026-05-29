@@ -10,8 +10,8 @@ class SiteDetailUITests: PDUITest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         tabs.buttons["Sites"].tap()
-        XCTAssert(app.buttons["insertNewSiteButton"].waitForExistence(timeout: 3))
-        app.buttons["insertNewSiteButton"].tap()
+        XCTAssert(app.cells["GhostSiteCell"].waitForExistence(timeout: 3))
+        app.cells["GhostSiteCell"].tap()
         XCTAssert(app.staticTexts["Image:"].waitForExistence(timeout: 3))
     }
 

@@ -14,6 +14,15 @@ struct PillsListView: View {
     @EnvironmentObject private var container: AppContainer
 
     @State private var pillsEnabled: Bool = true
+    @State private var tapTarget: PillTapTarget?
+    @State private var pendingRemoveIndex: Int?
+
+    private struct PillTapTarget: Identifiable {
+        let id = UUID()
+        let index: Index
+        let name: String
+        let isDone: Bool
+    }
 
     private var pills: [Swallowable] {
         guard pillsEnabled, let pills = container.sdk?.pills else { return [] }
@@ -25,14 +34,18 @@ struct PillsListView: View {
             if pillsEnabled {
                 ForEach(Array(pills.enumerated()), id: \.element.id) { index, pill in
                     Button {
-                        container.goToPillDetail(index)
+                        tapTarget = PillTapTarget(
+                            index: index,
+                            name: pill.name,
+                            isDone: pill.isDone
+                        )
                     } label: {
-                        PillRow(pill: pill, onTake: { take(at: index) })
+                        PillRow(pill: pill)
                     }
                     .buttonStyle(.plain)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            deletePill(at: index)
+                            pendingRemoveIndex = index
                         } label: {
                             Label(ActionStrings.Delete, systemImage: "trash")
                         }
@@ -41,6 +54,11 @@ struct PillsListView: View {
                     .accessibilityIdentifier("PillCell_\(index)")
                 }
                 .id(container.refreshTick)
+
+                GhostPillRow()
+                    .contentShape(Rectangle())
+                    .onTapGesture { addNew() }
+                    .accessibilityIdentifier("GhostPillCell")
             } else {
                 Section {
                     Text(NSLocalizedString("Pills are disabled.", comment: "Empty pills state"))
@@ -63,18 +81,55 @@ struct PillsListView: View {
                     }
                     .accessibilityIdentifier("enablePillsSwitch")
             }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: addNew) {
-                    Image(systemName: "plus")
+        }
+        .confirmationDialog(
+            tapTarget?.name ?? "",
+            isPresented: tapDialogBinding,
+            titleVisibility: .visible,
+            presenting: tapTarget
+        ) { target in
+            if !target.isDone {
+                Button(ActionStrings.Take) {
+                    take(at: target.index)
                 }
-                .disabled(!pillsEnabled)
-                .accessibilityIdentifier("pillsAddButton")
             }
+            Button(ActionStrings.Edit) {
+                container.goToPillDetail(target.index)
+            }
+            Button(NSLocalizedString("Remove pill", comment: ""), role: .destructive) {
+                let index = target.index
+                tapTarget = nil
+                pendingRemoveIndex = index
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
+        }
+        .alert(
+            NSLocalizedString("Remove this pill from your schedule?", comment: ""),
+            isPresented: removeAlertBinding,
+            presenting: pendingRemoveIndex
+        ) { _ in
+            Button(NSLocalizedString("Remove", comment: ""), role: .destructive) {
+                applyRemovePill()
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
         }
         .onAppear {
             pillsEnabled = container.sdk?.settings.pillsEnabled.rawValue ?? true
             container.refreshBadges()
         }
+    }
+
+    private var tapDialogBinding: Binding<Bool> {
+        Binding(get: { tapTarget != nil }, set: { if !$0 { tapTarget = nil } })
+    }
+
+    private var removeAlertBinding: Binding<Bool> {
+        Binding(get: { pendingRemoveIndex != nil }, set: { if !$0 { pendingRemoveIndex = nil } })
+    }
+
+    private func applyRemovePill() {
+        guard let index = pendingRemoveIndex else { return }
+        deletePill(at: index)
     }
 
     private func take(at index: Index) {

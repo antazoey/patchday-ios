@@ -119,7 +119,7 @@ struct HormoneDetailView: View {
 
             if !state.isTypingNewSite {
                 Section {
-                    Button(NSLocalizedString("Change", comment: "Apply site + date together")) {
+                    Button(changeButtonText) {
                         autofill()
                     }
                     .accessibilityIdentifier("hormoneChangeButton")
@@ -283,6 +283,15 @@ struct HormoneDetailView: View {
         }
         let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
         return "\(NSLocalizedString("Auto", comment: ""))  → \(name)"
+    }
+
+    private var changeButtonText: String {
+        let base = NSLocalizedString("Change", comment: "Apply site + date together")
+        guard let sdk = container.sdk, let suggested = sdk.sites.suggested else {
+            return base
+        }
+        let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
+        return "\(base)  → \(name)"
     }
 
     private func save() {

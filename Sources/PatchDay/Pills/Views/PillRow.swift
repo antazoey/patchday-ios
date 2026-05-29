@@ -11,7 +11,6 @@ import PDKit
 struct PillRow: View {
 
     let pill: Swallowable
-    let onTake: () -> Void
 
     private var cellViewModel: PillCellViewModel {
         PillCellViewModel(pill: pill)
@@ -33,16 +32,6 @@ struct PillRow: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            Button(action: onTake) {
-                Text(ActionStrings.Take)
-                    .fontWeight(.semibold)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.accentColor.opacity(0.15)))
-            }
-            .buttonStyle(.plain)
-            .disabled(pill.isDone)
-            .accessibilityIdentifier("pillTakeButton")
         }
         .padding(.vertical, 6)
         // Match the pre-SwiftUI PillCell.RowHeight (170pt) so a 1–2 pill
