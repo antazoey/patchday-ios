@@ -103,6 +103,10 @@ public class Settings: SettingsManaging {
         writer.replaceUseStaticExpirationTime(to: newValue)
     }
 
+    public func ingestSyncedSettings(_ changedKeys: [String]) {
+        writer.ingestKVSChanges(changedKeys)
+    }
+
     public func reset(defaultSiteCount: Int) {
         writer.reset(defaultSiteCount: defaultSiteCount)
     }

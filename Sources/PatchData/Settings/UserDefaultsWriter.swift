@@ -123,6 +123,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         handler.replace(useStaticExpirationTime, to: newValue)
     }
 
+    public func ingestKVSChanges(_ changedKeys: [String]) {
+        handler.ingestKVSChanges(changedKeys)
+    }
+
     @discardableResult
     public func replaceSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()

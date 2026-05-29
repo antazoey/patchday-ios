@@ -224,9 +224,14 @@ final class AppContainer: ObservableObject {
         guard isSyncEnabled else { return }
         let store = PDUbiquitousKVStore()
         self.kvs = store
-        store.startObserving { [weak self] _ in
-            // KVS changes affect settings only; the schedules don't need a
-            // hard reload, but we do want widgets / notifications to refresh.
+        store.startObserving { [weak self] changedKeys in
+            // Mirror the synced KVS values into local UserDefaults so the
+            // next setting read picks them up. Without this, KVS would
+            // hold the latest cross-device value but local Settings would
+            // keep returning the device's stale default.
+            self?.sdk?.settings.ingestSyncedSettings(changedKeys)
+            // Then refresh derived UI / notifications / widgets.
+            self?.triggerRefresh()
             self?.refreshBadges()
             self?.notifications?.cancelAllExpiredHormoneNotifications()
             self?.notifications?.requestAllExpiredHormoneNotifications()

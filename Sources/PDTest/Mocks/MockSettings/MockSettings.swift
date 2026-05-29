@@ -35,6 +35,11 @@ public class MockSettings: SettingsManaging {
         removeHormoneSlotCallArgs.append(index)
     }
 
+    public var ingestSyncedSettingsCallArgs: [[String]] = []
+    public func ingestSyncedSettings(_ changedKeys: [String]) {
+        ingestSyncedSettingsCallArgs.append(changedKeys)
+    }
+
     public var setExpirationIntervalCallArgs: [String] = []
     public func setExpirationInterval(to newInterval: String) {
         setExpirationIntervalCallArgs.append(newInterval)

@@ -17,6 +17,10 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Remove a specific hormone slot and decrement quantity by one.
     func removeHormoneSlot(at index: Index)
 
+    /// Mirror remote (iCloud KVS) changes into local UserDefaults so the
+    /// next setting read sees the synced value.
+    func ingestSyncedSettings(_ changedKeys: [String])
+
     /// Set the expiration interval for when hormones expire.
     func setExpirationInterval(to newInterval: String)
 
