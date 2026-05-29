@@ -108,6 +108,33 @@ class SettingsTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testSetQuantity_whenIncreasing_savesAllSoNewSlotsSync() {
+        // Regression: fillIn inserts MOHormones into the context but doesn't
+        // save by itself. Without an explicit save here, the empty slots
+        // never make it to CloudKit, so a second iCloud device sees the
+        // updated Quantity but no new hormones to render.
+        let settings = createSettings()
+        mockSettingsWriter.quantity = QuantityUD(2)
+        settings.setQuantity(to: 4)
+        XCTAssertEqual(1, mockHormones.saveAllCallCount)
+    }
+
+    func testSetQuantity_whenDecreasing_doesNotCallSaveAll() {
+        // delete(after:) handles its own persistence; setQuantity shouldn't
+        // double-save and shouldn't fire saveAll on the shrink path.
+        let settings = createSettings()
+        mockSettingsWriter.quantity = QuantityUD(4)
+        settings.setQuantity(to: 2)
+        XCTAssertEqual(0, mockHormones.saveAllCallCount)
+    }
+
+    func testSetQuantity_whenSameValue_doesNotCallSaveAll() {
+        let settings = createSettings()
+        mockSettingsWriter.quantity = QuantityUD(3)
+        settings.setQuantity(to: 3)
+        XCTAssertEqual(0, mockHormones.saveAllCallCount)
+    }
+
     func testSetExpirationInterval_setsIntervalUsingExpectedValue() {
         let settings = createSettings()
 

@@ -146,11 +146,6 @@ struct HormonesListView: View {
                 applyRemovePatch()
             }
             Button(ActionStrings.Cancel, role: .cancel) {}
-        } message: { _ in
-            Text(NSLocalizedString(
-                "Long-pressing a patch removes that specific one and decreases your Quantity by 1.",
-                comment: ""
-            ))
         }
         .onAppear {
             container.refreshBadges()
