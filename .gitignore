@@ -16,3 +16,4 @@ result.xml
 *.idea
 *.swo
 screenshots/
+exports/

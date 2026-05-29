@@ -125,37 +125,74 @@ for device in "${DEVICES[@]}"; do
         out_dir="$OUTPUT_DIR/$device_slug/$appearance"
         mkdir -p "$out_dir"
 
-        # Each XCTAttachment is stored inside the bundle's Attachments
-        # directory. Names are hashes; the attachment metadata sits in
-        # ActionsInvocationRecord but is awkward to walk with shell tools.
-        # Easier: pull the metadata via xcresulttool, map filename → name.
-        xcrun xcresulttool get --legacy --path "$bundle" --format json 2>/dev/null \
-            | python3 -c "
-import sys, json, shutil, pathlib
-data = json.load(sys.stdin)
-out = pathlib.Path('$out_dir')
-bundle = pathlib.Path('$bundle')
+        # Extract every XCTAttachment from the bundle's Data directory.
+        # In Xcode 16+, the legacy JSON no longer surfaces attachment
+        # metadata; the modern `test-results activities` does, with a
+        # `payloadId` that maps to `Data/data.<payloadId>`.
+        python3 - <<EOF_PYTHON
+import json, subprocess, shutil, re, pathlib
 
-# Walk the test summary structure looking for attachment payloads.
-def walk(node):
-    if isinstance(node, dict):
-        if node.get('_type', {}).get('_name') == 'ActionTestAttachment':
-            name = node.get('name', {}).get('_value', 'unnamed')
-            ref = node.get('payloadRef', {}).get('id', {}).get('_value')
-            if ref:
-                src = bundle / 'Data' / ref
-                if src.exists():
-                    safe = name.replace('/', '-')
-                    shutil.copy(src, out / (safe + '.png'))
-        for v in node.values():
-            walk(v)
-    elif isinstance(node, list):
-        for v in node:
-            walk(v)
+bundle = pathlib.Path("$bundle")
+out_dir = pathlib.Path("$out_dir")
 
-walk(data)
-print(f'  ↳ extracted to {out}')
-"
+tests_proc = subprocess.run(
+    ["xcrun", "xcresulttool", "get", "test-results", "tests",
+     "--path", str(bundle), "--format", "json"],
+    capture_output=True, text=True
+)
+if tests_proc.returncode != 0:
+    print(f"  ⚠️  no tests JSON")
+else:
+    try:
+        tests_data = json.loads(tests_proc.stdout)
+    except json.JSONDecodeError:
+        tests_data = {}
+    test_ids = []
+    def collect(node):
+        if isinstance(node, dict):
+            if node.get("nodeType") == "Test Case":
+                ident = node.get("nodeIdentifier", "")
+                if "ScreenshotTests" in ident:
+                    test_ids.append(ident)
+            for v in node.values():
+                collect(v)
+        elif isinstance(node, list):
+            for v in node:
+                collect(v)
+    collect(tests_data)
+
+    extracted = 0
+    for test_id in test_ids:
+        act = subprocess.run(
+            ["xcrun", "xcresulttool", "get", "test-results", "activities",
+             "--path", str(bundle), "--test-id", test_id],
+            capture_output=True, text=True
+        )
+        try:
+            act_data = json.loads(act.stdout)
+        except json.JSONDecodeError:
+            continue
+        def walk(node):
+            global extracted
+            if isinstance(node, dict):
+                for att in node.get("attachments", []):
+                    name = att.get("name", "unnamed.png")
+                    cleaned = re.sub(r"_\d+_[0-9A-F-]+\.png$", ".png", name)
+                    payload = att.get("payloadId")
+                    if payload:
+                        src = bundle / "Data" / f"data.{payload}"
+                        if src.exists():
+                            shutil.copy(src, out_dir / cleaned)
+                            extracted += 1
+                for v in node.values():
+                    if isinstance(v, (dict, list)):
+                        walk(v)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+        walk(act_data)
+    print(f"  ↳ {extracted} screenshots → {out_dir}")
+EOF_PYTHON
     done
 done
 
