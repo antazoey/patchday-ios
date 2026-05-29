@@ -1,6 +1,0 @@
-Writing result bundle at path:
-	/Users/antazoey/XcodeProjects/patchday-ios/screenshots/.bundles/iphone-17-pro-max-light.xcresult
-
-warning: 'PDKitTests' is missing a dependency on 'PatchData' because dependency scan of Swift module 'PDKitTests' discovered a dependency on 'PatchData'
-warning: 'PDKitTests' is missing a dependency on 'PatchData' because dependency scan of Swift module 'PDKitTests' discovered a dependency on 'PatchData'
-** BUILD INTERRUPTED **
