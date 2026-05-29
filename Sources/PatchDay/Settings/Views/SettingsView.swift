@@ -196,7 +196,7 @@ struct SettingsView: View {
                     HStack {
                         Text(NSLocalizedString("Last synced", comment: ""))
                         Spacer()
-                        Text(date, style: .relative)
+                        Text(date.formatted(date: .abbreviated, time: .shortened))
                             .foregroundColor(.secondary)
                     }
                 }
