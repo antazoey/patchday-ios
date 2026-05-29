@@ -31,35 +31,35 @@ final class ScreenshotTests: XCTestCase {
     // MARK: - Capture flow
 
     func testCaptureMainTabs() {
-        // Hormones tab (default on launch). On iPad the title might be in
-        // a sidebar instead of a top nav bar, so fall through to a more
-        // generic "the patch cell is visible" check if the title isn't
-        // findable as static text.
-        let patchesTitle = app.staticTexts["Patches"]
-        let firstCell = app.buttons["HormoneCell_0"]
-        let ready = patchesTitle.waitForExistence(timeout: 5) || firstCell.waitForExistence(timeout: 5)
-        if !ready {
-            print("DEBUG_HORMONES_NOT_READY:\n\(app.debugDescription.prefix(4000))")
-        }
-        XCTAssert(ready)
+        // Hormones tab is default. Don't gate on a specific title since
+        // iPad layouts vary — wait for the first patch cell instead.
+        XCTAssert(app.buttons["HormoneCell_0"].waitForExistence(timeout: 8))
         attachScreenshot(named: "01-Hormones")
 
-        // Pills tab.
-        app.tabBars.buttons["Pills"].tap()
-        XCTAssert(app.staticTexts["Pills"].waitForExistence(timeout: 3))
+        tapTab("Pills")
+        XCTAssert(app.buttons["PillCell_0"].waitForExistence(timeout: 5))
         attachScreenshot(named: "02-Pills")
 
-        // Sites tab.
-        app.tabBars.buttons["Sites"].tap()
-        XCTAssert(app.staticTexts["Sites"].waitForExistence(timeout: 3))
+        tapTab("Sites")
+        XCTAssert(app.buttons["SiteCell_0"].waitForExistence(timeout: 5))
         attachScreenshot(named: "03-Sites")
 
-        // Settings tab → scroll to top of the Settings form (the iCloud
-        // section sits below the schedule controls; a single screenshot
-        // captures the top half of Settings).
-        app.tabBars.buttons["Settings"].tap()
-        XCTAssert(app.staticTexts["Settings"].waitForExistence(timeout: 3))
+        tapTab("Settings")
+        XCTAssert(app.buttons["deliveryMethodButton"].waitForExistence(timeout: 5))
         attachScreenshot(named: "04-Settings")
+    }
+
+    /// iPhone surfaces tab buttons under `app.tabBars`. iPad's floating
+    /// tab bar exposes each entry as both an outer button + an inner cell,
+    /// so a plain match throws "multiple matching elements." Use the
+    /// first match in either spot.
+    private func tapTab(_ label: String) {
+        let inTabBar = app.tabBars.buttons[label].firstMatch
+        if inTabBar.waitForExistence(timeout: 1) {
+            inTabBar.tap()
+            return
+        }
+        app.buttons.matching(identifier: label).firstMatch.tap()
     }
 
     func testCaptureHormoneDetail() {
