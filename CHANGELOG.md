@@ -16,7 +16,7 @@ Changed
 - Site detail now includes the image picker scoped to the current delivery method.
 - Reducing Quantity or switching Delivery Method in Settings now prompts a confirmation alert.
 - New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
-- Hormones tab (Patches only) now shows faded "add a patch" ghost cells beyond your current Quantity. Tap a ghost to add that patch slot to your schedule, long-press an existing patch to remove that specific one. Settings → Quantity still works as before.
+- Hormones tab (Patches only) now shows a faded "add a patch" ghost cell immediately after your last patch when there's room to grow. Tap the ghost to add that slot to your schedule. To remove a specific patch, long-press it and pick "Remove patch" — both actions confirm before doing anything. Settings → Quantity still works as before.
 - The "Use static expiration time" setting is now exposed as "Dynamic expiration time" (the inverse). New installs default to off (static expiration); existing users keep their 3.x behavior — a one-time migration on first launch of 4.0 records the old default so the flip never silently changes anyone's schedule.
 
 Fixed

@@ -54,6 +54,11 @@ public class Settings: SettingsManaging {
             hormones.delete(after: newQuantity - 1)
         } else if newQuantity > oldQuantity {
             hormones.fillIn(to: newQuantity)
+            // Persist the new empty slots so they sync to other iCloud
+            // devices. Without this, fillIn inserts MOHormones into the
+            // context but no save fires, so the cloud (and any other
+            // device) sees the quantity change but never the new slots.
+            hormones.saveAll()
         }
         writer.replaceQuantity(to: newQuantity)
     }
