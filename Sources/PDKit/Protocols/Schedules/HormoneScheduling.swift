@@ -40,6 +40,10 @@ public protocol HormoneScheduling: Schedule, Resetting {
     /// Delete a hormone from the schedule.
     func delete(after i: Index)
 
+    /// Delete the hormone at the given sorted index, regardless of
+    /// position.
+    func delete(at index: Index)
+
     /// Delete all the hormones in the schedule.
     func deleteAll()
 
@@ -78,4 +82,9 @@ public protocol HormoneScheduling: Schedule, Resetting {
 
     /// Share hormone data with other applications that have permission, such as PatchDayToday.
     func shareData()
+
+    /// Delete empty hormones (no date AND no site) whose sorted position
+    /// is beyond `settings.quantity`. Returns the number trimmed.
+    @discardableResult
+    func trimPhantomEmpties() -> Int
 }

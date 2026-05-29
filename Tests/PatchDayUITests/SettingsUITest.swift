@@ -25,7 +25,6 @@ class SettingsUITests: PDUITest {
         XCTAssert(app.staticTexts["4"].waitForExistence(timeout: 2))
     }
 
-
     func testSetDeliveryMethod_updatesPickerValue() throws {
         app.buttons["deliveryMethodButton"].tap()
         let injections = app.buttons["Injections"]

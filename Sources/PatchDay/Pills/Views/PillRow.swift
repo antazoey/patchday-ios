@@ -45,5 +45,8 @@ struct PillRow: View {
             .accessibilityIdentifier("pillTakeButton")
         }
         .padding(.vertical, 6)
+        // Match the pre-SwiftUI PillCell.RowHeight (170pt) so a 1–2 pill
+        // schedule doesn't collapse to a tiny strip at the top of the list.
+        .frame(minHeight: 170)
     }
 }

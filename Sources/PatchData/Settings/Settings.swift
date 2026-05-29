@@ -54,8 +54,24 @@ public class Settings: SettingsManaging {
             hormones.delete(after: newQuantity - 1)
         } else if newQuantity > oldQuantity {
             hormones.fillIn(to: newQuantity)
+            // Persist the new empty slots so they sync to other iCloud
+            // devices. Without this, fillIn inserts MOHormones into the
+            // context but no save fires, so the cloud (and any other
+            // device) sees the quantity change but never the new slots.
+            hormones.saveAll()
         }
         writer.replaceQuantity(to: newQuantity)
+    }
+
+    /// Remove a specific hormone slot (the one the user long-pressed) and
+    /// decrement the quantity setting by one. Unlike `setQuantity(to:)`,
+    /// which always drops the last slot, this removes the exact hormone
+    /// the user pointed at and shifts the rest up.
+    public func removeHormoneSlot(at index: Index) {
+        let oldQuantity = writer.quantity.rawValue
+        guard oldQuantity > 1 else { return }
+        hormones.delete(at: index)
+        writer.replaceQuantity(to: oldQuantity - 1)
     }
 
     public func setExpirationInterval(to newInterval: String) {
@@ -90,6 +106,14 @@ public class Settings: SettingsManaging {
 
     public func setUseStaticExpirationTime(to newValue: Bool) {
         writer.replaceUseStaticExpirationTime(to: newValue)
+    }
+
+    public func ingestSyncedSettings(_ changedKeys: [String]) {
+        writer.ingestKVSChanges(changedKeys)
+    }
+
+    public func uploadSyncedSettings() {
+        writer.pushAllSyncedToKVS()
     }
 
     public func reset(defaultSiteCount: Int) {

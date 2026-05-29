@@ -33,7 +33,7 @@ struct SiteRow: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
-                    .background(Capsule().fill(Color.accentColor))
+                    .background(Capsule().fill(Color(PDColors[.NewItem])))
                     .accessibilityIdentifier("nextSiteBadge")
             }
         }

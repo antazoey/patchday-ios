@@ -73,6 +73,16 @@ class HormoneTests: PDTestCase {
         XCTAssertEqual(hormone.siteName, hormone.siteImageId)
     }
 
+    func testGetSiteName_doesNotClearSiteImageId() {
+        // Reading should be a pure observation. Previously the getter cleared
+        // the image id whenever the persisted siteName was a real value.
+        let hormone = createEmptyHormone()
+        hormone.siteName = "Set Site"
+        hormone.siteImageId = "Custom Image"
+        _ = hormone.siteName
+        XCTAssertEqual("Custom Image", hormone.siteImageId)
+    }
+
     func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {
         let backup = "Site Name Backup"
         let data = HormoneStruct(testId, nil, nil, nil, nil, backup, nil)
@@ -442,7 +452,10 @@ class HormoneTests: PDTestCase {
     func testCreateExpirationDate_returnsExpectedDate() {
         let now = MockNow()
         now.now = testDateThatIsNow
-        let testDate = Date()
+        // Use the same Date instance as the mock `now` — calling Date() here
+        // would pick up fresh sub-second-level drift, making `actual` and
+        // `expected` differ by one second across the equiv check.
+        let testDate = testDateThatIsNow
         let hormone = createEmptyHormone()
         let interval = ExpirationIntervalUD(.EveryTwoWeeks)
         hormone.date = testDateThatIsNow
@@ -455,5 +468,22 @@ class HormoneTests: PDTestCase {
         }
         let expected = TestDateFactory.createTestDate(hoursFrom: hours, now: now)
         PDAssertEquiv(expected, actual)
+    }
+
+    func testCreateExpirationDate_usesStartDateArgumentNotHormoneDate() {
+        // Regression: the function ignored its argument and used self.date.
+        let hormone = createEmptyHormone()
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
+        hormone.date = TestDateFactory.createTestDate(daysFrom: -30)
+
+        let startDate = TestDateFactory.createTestDate(hour: 12)
+        guard let actual = hormone.createExpirationDate(from: startDate) else {
+            XCTFail("Was unable to create actual date")
+            return
+        }
+        let expected = DateFactory.createExpirationDate(
+            expirationInterval: hormone.expirationInterval, to: startDate
+        )
+        PDAssertEquiv(expected!, actual)
     }
 }

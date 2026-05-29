@@ -5,11 +5,18 @@
 //  Created by Juliya Smith on 11/9/19.
 
 import UIKit
+import UserNotifications
 import PDKit
 
 public class PDBadge: PDBadgeReflective {
 
     private let sdk: PatchDataSDK?
+
+    // PDBadge is the only place in the app that writes the icon badge, so we
+    // cache the last-set value here. iOS 17 removed
+    // `UIApplication.applicationIconBadgeNumber`; its replacement
+    // (`UNUserNotificationCenter.setBadgeCount`) provides no getter.
+    private static var lastSetValue: Int = 0
 
     public init(sdk: PatchDataSDK?) {
         self.sdk = sdk
@@ -17,27 +24,24 @@ public class PDBadge: PDBadgeReflective {
 
     public func reflect() {
         let newValue = sdk?.totalAlerts ?? 0
-        DispatchQueue.main.async {
-            UIApplication.shared.applicationIconBadgeNumber = newValue
-        }
+        setBadge(to: newValue)
         PDLog<PDBadge>().info("Badge number set to \(newValue)")
     }
 
     public func clear() {
-        DispatchQueue.main.async {
-            UIApplication.shared.applicationIconBadgeNumber = 0
-        }
+        setBadge(to: 0)
     }
 
     public var value: Int {
-        var badgeNumber = 0
-        if Thread.isMainThread {
-            badgeNumber = UIApplication.shared.applicationIconBadgeNumber
-        } else {
-            DispatchQueue.main.sync {
-                badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        PDBadge.lastSetValue
+    }
+
+    private func setBadge(to newValue: Int) {
+        PDBadge.lastSetValue = newValue
+        UNUserNotificationCenter.current().setBadgeCount(newValue) { error in
+            if let error = error {
+                PDLog<PDBadge>().error("Failed to set badge count", error)
             }
         }
-        return badgeNumber
     }
 }

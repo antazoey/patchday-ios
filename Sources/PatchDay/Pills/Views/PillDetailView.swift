@@ -22,6 +22,9 @@ struct PillDetailView: View {
     @State private var daysOne: Int = DefaultPillAttributes.XDAYS_INT
     @State private var daysTwo: Int = DefaultPillAttributes.XDAYS_INT
     @State private var didPrime = false
+    @State private var isDirty = false
+    @State private var showUnsavedAlert = false
+    @State private var startedAsNewPill = false
 
     private var pill: Swallowable? {
         container.sdk?.pills[pillIndex]
@@ -38,6 +41,7 @@ struct PillDetailView: View {
                 TextField(NSLocalizedString("Pill name", comment: ""), text: $name)
                     .autocapitalization(.words)
                     .accessibilityIdentifier("pillNameTextField")
+                    .onChange(of: name) { if didPrime { isDirty = true } }
                 Picker(NSLocalizedString("Preset", comment: ""), selection: $name) {
                     ForEach(PillStrings.DefaultPills + PillStrings.ExtraPills, id: \.self) {
                         Text($0).tag($0)
@@ -55,6 +59,7 @@ struct PillDetailView: View {
                 }
                 .pickerStyle(.menu)
                 .accessibilityIdentifier("pillScheduleButton")
+                .onChange(of: interval) { if didPrime { isDirty = true } }
 
                 if interval == .FirstXDays || interval == .LastXDays {
                     Stepper(
@@ -106,15 +111,33 @@ struct PillDetailView: View {
             Section {
                 Toggle(NSLocalizedString("Notify when due", comment: ""), isOn: $notify)
                     .accessibilityIdentifier("pillNotifySwitch")
+                    .onChange(of: notify) { if didPrime { isDirty = true } }
             }
         }
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(ActionStrings.Back) { handleBack() }
+                    .accessibilityIdentifier("pillBackButton")
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(ActionStrings.Save) { save() }
                     .accessibilityIdentifier("pillSaveButton")
             }
+        }
+        .confirmationDialog(
+            NSLocalizedString("Unsaved changes", comment: "Alert title"),
+            isPresented: $showUnsavedAlert,
+            titleVisibility: .visible
+        ) {
+            Button(ActionStrings.Save) { save() }
+            Button(
+                NSLocalizedString("Discard", comment: "Discard unsaved changes"),
+                role: .destructive
+            ) { discardAndPop() }
+            Button(ActionStrings.Cancel, role: .cancel) {}
         }
         .onAppear(perform: prime)
     }
@@ -149,14 +172,37 @@ struct PillDetailView: View {
 
     private func prime() {
         guard !didPrime, let pill = pill else { return }
-        didPrime = true
+        startedAsNewPill = pill.isNew
         name = pill.name
         notify = pill.notify
         interval = pill.expirationIntervalSetting
         daysOne = pill.expirationInterval.daysOne ?? DefaultPillAttributes.XDAYS_INT
         daysTwo = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.XDAYS_INT
         let parsed = pill.times
-        times = parsed.isEmpty ? [Date()] : parsed
+        if !parsed.isEmpty {
+            times = parsed
+        } else {
+            times = DateFactory.createTimesFromCommaSeparatedString(
+                DefaultPillAttributes.TIME, now: nil
+            )
+        }
+        didPrime = true
+    }
+
+    private func handleBack() {
+        if isDirty || startedAsNewPill {
+            showUnsavedAlert = true
+        } else {
+            container.popPills()
+        }
+    }
+
+    private func discardAndPop() {
+        if startedAsNewPill {
+            container.sdk?.pills.delete(at: pillIndex)
+            container.triggerRefresh()
+        }
+        container.popPills()
     }
 
     private func save() {

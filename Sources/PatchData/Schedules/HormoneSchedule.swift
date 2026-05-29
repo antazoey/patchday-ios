@@ -29,14 +29,30 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.settings = settings
         self.context = store.getStoredHormones(settings)
         super.init()
-        resetIfEmpty()
+        // Skip default-seeding when iCloud sync is on — the store is empty
+        // right now only because CloudKit hasn't imported the user's
+        // existing records yet. Seeding would upload phantom defaults that
+        // sync back to every other device.
+        if !CoreDataStack.isCloudSyncEnabledAtLaunch {
+            resetIfEmpty()
+        }
         shareData()
     }
 
     public var count: Int { all.count }
 
     public var all: [Hormonal] {
-        context.sort { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
+        // Real dates come first (oldest → newest); default (unset) dates sink
+        // to the end. Both-default elements compare equal, satisfying strict
+        // weak ordering required by `sort`.
+        context.sort { lhs, rhs in
+            let lhsIsDefault = lhs.date.isDefault()
+            let rhsIsDefault = rhs.date.isDefault()
+            if lhsIsDefault == rhsIsDefault {
+                return lhs.date < rhs.date
+            }
+            return !lhsIsDefault
+        }
         return context
     }
 
@@ -96,6 +112,42 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         completion?()
         saveAll()
         return count
+    }
+
+    /// Delete any empty hormones (no date AND no site) whose sorted
+    /// position is beyond `settings.quantity` — i.e. unreachable in the
+    /// UI. Used to clean up the residue from a CloudKit sync race where
+    /// a second device autoseeded defaults before iCloud could import
+    /// the user's existing records.
+    @discardableResult
+    public func trimPhantomEmpties() -> Int {
+        let quantity = settings.quantity.rawValue
+        let sortedHormones = all
+        let phantoms = sortedHormones.enumerated().compactMap { offset, hormone -> Hormonal? in
+            (offset >= quantity && hormone.isEmpty) ? hormone : nil
+        }
+        guard !phantoms.isEmpty else { return 0 }
+        for phantom in phantoms {
+            store.delete(phantom)
+            if let index = context.firstIndex(where: { $0.id == phantom.id }) {
+                context.remove(at: index)
+            }
+        }
+        store.pushLocalChangesToManagedContext(context, doSave: true)
+        return phantoms.count
+    }
+
+    /// Delete the specific hormone at the given sorted index, regardless
+    /// of position. Used by the long-press-to-remove UX on the Hormones
+    /// list so users can drop a patch from the schedule by long-pressing
+    /// the one they want gone (instead of always losing the last slot).
+    public func delete(at index: Index) {
+        guard let hormone = self[index] else { return }
+        store.delete(hormone)
+        if let ctxIdx = context.firstIndex(where: { $0.id == hormone.id }) {
+            context.remove(at: ctxIdx)
+        }
+        store.pushLocalChangesToManagedContext(context, doSave: true)
     }
 
     public func delete(after i: Index) {

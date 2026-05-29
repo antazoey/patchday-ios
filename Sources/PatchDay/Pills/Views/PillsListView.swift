@@ -58,7 +58,7 @@ struct PillsListView: View {
                 Toggle(NSLocalizedString("Enable", comment: ""), isOn: $pillsEnabled)
                     .toggleStyle(.switch)
                     .labelsHidden()
-                    .onChange(of: pillsEnabled) { newValue in
+                    .onChange(of: pillsEnabled) { _, newValue in
                         togglePillsEnabled(newValue)
                     }
                     .accessibilityIdentifier("enablePillsSwitch")

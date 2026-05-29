@@ -654,8 +654,8 @@ public class PillTests: PDTestCase {
     func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsFirstOfLastTwentyDaysAtTimeOne() {
         let attributes = PillAttributes()
         attributes.expirationInterval.value = .LastXDays
-        attributes.expirationInterval.daysTwo = 20
-        attributes.timesTakenToday = ""
+        attributes.expirationInterval.daysOne = 20
+        attributes.timesTakenToday = "12:00:00" // 1 taken == timesaday → finished
         let now = MockNow()
         now.now = januaryThirtyFirst
         attributes.lastTaken = januaryThirtyFirst
@@ -1143,14 +1143,16 @@ public class PillTests: PDTestCase {
         XCTAssertEqual(1, pill.timesTakenToday)
     }
 
-    func testSwallow_whenLastTakenIsNil_stampsLastTaken() {
+    func testSwallow_whenLastTakenIsNilButTimesTakenTodayEqualsTimesaday_doesNotStampLastTaken() {
+        // Previously the swallow guard short-circuited when lastTaken was nil,
+        // allowing the count limit to be exceeded for never-taken pills.
         let attributes = PillAttributes()
         attributes.lastTaken = nil
         attributes.times = "12:00:00"
         attributes.timesTakenToday = "12:00:00"
         let pill = createPill(attributes)
         pill.swallow()
-        XCTAssert(Date().timeIntervalSince(pill.lastTaken!) < 0.1)
+        XCTAssertNil(pill.lastTaken)
     }
 
     func testSwallow_whenLastTakenNilAndXDaysOnXDaysOffUnpositioned_startsPositioning() {

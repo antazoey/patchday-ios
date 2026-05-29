@@ -206,6 +206,9 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     private func handleSiteCount() {
         guard resetWhenEmpty && count == 0 else { return }
+        // See HormoneSchedule: skip default-seeding when iCloud sync is on
+        // so we don't upload phantom defaults that race CloudKit imports.
+        guard !CoreDataStack.isCloudSyncEnabledAtLaunch else { return }
         log.info("No stored sites - resetting to default")
         reset()
         logSites()
@@ -252,7 +255,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             site.reset()
             store.delete(site)
         }
-        for _ in 0...deleteCount - 1 {
+        for _ in 0..<deleteCount {
             _ = context.popLast()
         }
         order()

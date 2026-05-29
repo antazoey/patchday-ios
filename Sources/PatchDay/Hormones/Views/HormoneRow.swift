@@ -3,9 +3,11 @@
 //  PatchDay
 //
 //  SwiftUI replacement for HormoneCell. Matches the original layered layout:
-//  the site image fills the row at 160pt tall (aspect-fit), the date sits at
-//  the bottom-center, the overnight moon sits top-right, and an overdue "!"
-//  badge floats in the top-left corner.
+//  the site image fills the row (aspect-fit), the date sits at the
+//  bottom-center, the overnight moon sits top-right, and an overdue "!"
+//  badge floats in the top-left corner. Row height is supplied by the
+//  parent list so the row can scale to ~24% of screen height like the
+//  pre-SwiftUI UIKit cell did.
 //
 
 import SwiftUI
@@ -14,8 +16,7 @@ import PDKit
 struct HormoneRow: View {
 
     let viewModel: HormoneCellViewModelProtocol
-
-    private let rowHeight: CGFloat = 160
+    let rowHeight: CGFloat
 
     var body: some View {
         ZStack {
@@ -35,13 +36,12 @@ struct HormoneRow: View {
                             .padding(.top, 11)
                     }
                     Spacer()
-                    if let moon = viewModel.moonIcon {
-                        Image(uiImage: moon)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 32, height: 28)
-                            .padding(.trailing, 16)
-                            .padding(.top, 11)
+                    if viewModel.moonIcon != nil {
+                        Image(systemName: "moon.fill")
+                            .font(.system(size: 22))
+                            .foregroundColor(.indigo)
+                            .padding(.trailing, 18)
+                            .padding(.top, 14)
                     }
                 }
                 Spacer()
@@ -59,8 +59,6 @@ struct HormoneRow: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: rowHeight)
-        .listRowInsets(EdgeInsets())
-        .listRowBackground(Color(viewModel.backgroundColor))
         .accessibilityIdentifier(viewModel.cellId)
     }
 

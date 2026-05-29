@@ -83,9 +83,93 @@ class UserDefaultsWriteHandlerTests: PDTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    // MARK: - iCloud sync (KVS) routing
+
+    func testReplace_whenSyncEnabledAndKeyWhitelisted_writesToKVS() {
+        let kvs = MockUbiquitousKVStore()
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        let storable = MockKeyStorable(testValue)
+        storable.setting = .DeliveryMethod
+        handler.replace(storable, to: "Patches")
+        XCTAssertEqual(1, kvs.setCalls.count)
+        XCTAssertEqual(PDSetting.DeliveryMethod.rawValue, kvs.setCalls.first?.key)
+    }
+
+    func testReplace_whenSyncDisabled_doesNotWriteToKVS() {
+        let kvs = MockUbiquitousKVStore()
+        let handler = createHandler(kvs: kvs, syncEnabled: false)
+        let storable = MockKeyStorable(testValue)
+        storable.setting = .DeliveryMethod
+        handler.replace(storable, to: "Patches")
+        XCTAssertEqual(0, kvs.setCalls.count)
+    }
+
+    func testReplace_whenKeyNotWhitelisted_doesNotWriteToKVS() {
+        let kvs = MockUbiquitousKVStore()
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        let storable = MockKeyStorable(testValue)
+        storable.setting = .MentionedDisclaimer
+        handler.replace(storable, to: "true")
+        XCTAssertEqual(0, kvs.setCalls.count)
+    }
+
+    func testLoad_whenSyncEnabledAndOnlyKVSHasValue_returnsKVSValue() {
+        // XDays isn't pre-populated by MockUserDefaults, so the load
+        // falls through to the KVS branch cleanly.
+        let kvs = MockUbiquitousKVStore()
+        kvs.storage[PDSetting.XDays.rawValue] = "5.0"
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        let actual: String? = handler.load(.XDays)
+        XCTAssertEqual("5.0", actual)
+    }
+
+    func testLoad_whenSyncDisabled_doesNotFallBackToKVS() {
+        let kvs = MockUbiquitousKVStore()
+        kvs.storage[PDSetting.XDays.rawValue] = "5.0"
+        let handler = createHandler(kvs: kvs, syncEnabled: false)
+        let actual: String? = handler.load(.XDays)
+        XCTAssertNil(actual)
+    }
+
+    func testIngestKVSChanges_mirrorsWhitelistedValuesIntoBaseAndDataSharer() {
+        let kvs = MockUbiquitousKVStore()
+        kvs.storage[PDSetting.Quantity.rawValue] = 4
+        let handler = createHandler(kvs: kvs, syncEnabled: true)
+        handler.ingestKVSChanges([
+            PDSetting.Quantity.rawValue,
+            PDSetting.MentionedDisclaimer.rawValue
+        ])
+        XCTAssertTrue(
+            mockUserDefaults.setCallArgs.contains(where: { $0.1 == PDSetting.Quantity.rawValue })
+        )
+        XCTAssertTrue(
+            mockDataSharer.setCallArgs.contains(where: { $0.1 == PDSetting.Quantity.rawValue })
+        )
+        // Non-whitelisted key was not mirrored.
+        XCTAssertFalse(
+            mockUserDefaults.setCallArgs.contains(
+                where: { $0.1 == PDSetting.MentionedDisclaimer.rawValue }
+            )
+        )
+    }
+
+    // MARK: - Helpers
+
     private func createHandler() -> UserDefaultsWriteHandler {
         UserDefaultsWriteHandler(
             baseDefaults: mockUserDefaults, dataSharer: mockDataSharer
+        )
+    }
+
+    private func createHandler(
+        kvs: UbiquitousKeyValueStoring,
+        syncEnabled: Bool
+    ) -> UserDefaultsWriteHandler {
+        UserDefaultsWriteHandler(
+            baseDefaults: mockUserDefaults,
+            dataSharer: mockDataSharer,
+            kvs: kvs,
+            isSyncEnabled: { syncEnabled }
         )
     }
 }

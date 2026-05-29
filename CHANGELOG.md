@@ -1,20 +1,46 @@
 # Changelog
 
-# Unreleased
+# 4.0.0 (2026-05-28)
+
+Added
+
+- **iCloud sync.** New iCloud section in Settings — toggle "Sync with iCloud" to mirror your hormones, pills, sites, and most settings across the devices signed into your Apple ID. Disabled by default; takes effect after a relaunch. The toggle is disabled if you aren't signed in to iCloud or your account is restricted, with a helper line explaining what to do. PatchDay never sees your data — sync goes through your private iCloud database.
+- First-launch **Set up PatchDay** sheet offering to enable iCloud sync and notifications. Appears once for both new installs and users upgrading from 3.x, then never reappears. The legal disclaimer text lives inside this sheet now (the standalone disclaimer alert is gone).
 
 Changed
 
 - Rewrote the app's UI in SwiftUI (Hormones, Pills, Sites, Settings screens).
-- Minimum iOS version is now 16.0 (was 15.4).
+- Minimum iOS version is now 17.0 (was 15.4).
 - Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
 - Pill detail now supports the full set of options: name, notify, 1–4 times per day, expiration interval (Every Day / Every Other Day / First X Days / Last X Days / X Days On X Days Off), and the X-Days controls.
 - Site detail now includes the image picker scoped to the current delivery method.
-- Settings tab now uses native SwiftUI controls; switching delivery method or reducing quantity prompts a confirmation alert.
+- Reducing Quantity or switching Delivery Method in Settings now prompts a confirmation alert.
+- New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
+- Hormones tab (Patches only) now shows a faded "add a patch" ghost cell immediately after your last patch when there's room to grow. Tap the ghost to add that slot to your schedule. To remove a specific patch, long-press it and pick "Remove patch" — both actions confirm before doing anything. Settings → Quantity still works as before.
+- The "Use static expiration time" setting is now exposed as "Dynamic expiration time" (the inverse). New installs default to off (static expiration); existing users keep their 3.x behavior — a one-time migration on first launch of 4.0 records the old default so the flip never silently changes anyone's schedule.
 
 Fixed
 
 - Settings: Expiration Interval picker now shows the current saved value instead of appearing blank.
-- Updated the disclaimer link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
+- Changing Delivery Method in Settings also refreshes the displayed Expiration Interval picker.
+- Hormone notifications: when quantity was set to 1, scheduling and canceling were silently skipped. Single-hormone schedules now receive notifications correctly.
+- Hormone / pill notification requests now cancel any existing notification first, even when the user has disabled notifications. Previously, turning off notify on a pill or globally left stale notifications in the queue.
+- Taking a pill from a notification action now updates the Pills tab badge immediately.
+- Taking a pill no longer increases `timesTakenToday` past `timesaday` when the pill has never been taken before (corrupt-state guard).
+- Pill detail now warns about unsaved changes and lets you discard. Discarding a freshly-added pill cleans it up instead of leaving an empty record in the schedule.
+- Switching a pill's expiration interval from an X-Days option to Every Day / Every Other Day now clears the underlying X-Days values. Previously the old values lingered in storage and reappeared if you switched back.
+- Resetting the site schedule no longer crashes when there are no extra sites to delete.
+- Deleting a site no longer risks removing unrelated sites that happen to have a nil id from the in-memory cache.
+- Reordering sites: the suggested-site arrow now follows the move correctly (previously compared against the post-move position).
+- Reading a hormone's site name no longer clears its custom site image id.
+- `Hormone.createExpirationDate(from:)` now honors the passed start date instead of silently using the hormone's own applied date.
+- `Date.daysSince` now counts calendar days correctly across daylight-saving transitions (was off-by-one twice a year).
+- Sort order of hormones with the placeholder default date is now stable (closure was violating strict weak ordering).
+- Notification authorization is now requested only when the system hasn't been asked yet, instead of on every app launch.
+- Returning to the app no longer rebuilds every list (resetting scroll position). Only the tab-bar badges refresh.
+- Fixed a memory leak: `Notifications` no longer retained its pill-action handler in a cycle.
+- Fixed a notification-system bug where unknown action identifiers would leave the completion handler uncalled (Apple's contract requires it).
+- Updated the in-app help link from `www.PatchDayHRT.com` to `https://www.antazoey.me/#patchday`.
 
 # 3.8.2
 

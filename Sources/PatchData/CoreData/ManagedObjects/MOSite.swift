@@ -28,4 +28,9 @@ public class MOSite: NSManagedObject {
 
     @objc(removeHormoneRelationship:)
     @NSManaged func removeFromHormoneRelationship(_ values: NSSet)
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        if id == nil { id = UUID() }
+    }
 }

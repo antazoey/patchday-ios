@@ -132,10 +132,11 @@ class MOSiteList: MOEntityList {
 
     private func deleteSite(_ siteData: SiteStruct) {
         guard var managedSite = getManagedSite(by: siteData.id) else { return }
+        let deletedId = managedSite.id
         pushBackupSiteNameToHormones(deletedSite: managedSite)
         resetSite(&managedSite)
         coreDataStack.tryDelete(managedSite)
-        MOEntities.siteMOs.removeAll(where: { $0.id == managedSite.id })
+        MOEntities.siteMOs.removeAll(where: { $0.id == deletedId })
     }
 
     private func resetSite(_ managedSite: inout MOSite) {

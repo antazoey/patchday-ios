@@ -98,4 +98,14 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     public func replaceUseStaticExpirationTime(to newValue: Bool) {
         replaceUseStaticExpirationTimeCallArgs.append(newValue)
     }
+
+    public var ingestKVSChangesCallArgs: [[String]] = []
+    public func ingestKVSChanges(_ changedKeys: [String]) {
+        ingestKVSChangesCallArgs.append(changedKeys)
+    }
+
+    public var pushAllSyncedToKVSCallCount = 0
+    public func pushAllSyncedToKVS() {
+        pushAllSyncedToKVSCallCount += 1
+    }
 }

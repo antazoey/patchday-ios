@@ -151,7 +151,7 @@ public class Pill: Swallowable {
     }
 
     public func swallow() {
-        guard timesTakenToday < timesaday || lastTaken == nil else { return }
+        guard timesTakenToday < timesaday else { return }
         if expirationInterval.usesXDays, let isOn = expirationInterval.xDaysIsOn, !isOn {
             return
         }
@@ -288,7 +288,7 @@ public class Pill: Swallowable {
         }
         let dayNumber = lastTaken.dayNumberInMonth()
         // Last "5" of 30 days = 26, 27, 28, 29, 30, len=5, 30-4=26.
-        if dayNumber == daysInMonth && isDone || dayNumber <= end || lastTaken < Date() {
+        if dayNumber == daysInMonth && isDone || dayNumber <= end || lastTaken < now {
             return endOfDueMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return nextDueTimeForEveryDaySchedule

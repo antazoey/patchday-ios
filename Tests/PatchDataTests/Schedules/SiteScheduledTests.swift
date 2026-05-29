@@ -414,6 +414,17 @@ class SiteScheduleTests: PDTestCase {
         XCTAssertEqual(4, sites.count)
     }
 
+    public func testReset_whenNoExtrasToDelete_doesNotCrash() {
+        // Regression: previously `deleteSites` ran `for _ in 0...(deleteCount - 1)`,
+        // which traps when deleteCount is 0 (every "extra" slot was already absent).
+        let mockSites = [MockSite(), MockSite(), MockSite(), MockSite()]
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites.reset()
+        XCTAssertEqual(4, sites.count)
+    }
+
     public func testDelete_decreasesCount() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings) // Starts with 4
         sites.delete(at: 1)

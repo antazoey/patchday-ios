@@ -46,4 +46,12 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
 
     /// Replace the value that indicates to use static expiration times instead of dynamic.
     func replaceUseStaticExpirationTime(to newValue: Bool)
+
+    /// Mirror values that just arrived in iCloud's key-value store into the
+    /// local UserDefaults so subsequent reads see the synced value.
+    func ingestKVSChanges(_ changedKeys: [String])
+
+    /// Push every locally-stored synced setting up to iCloud KVS so it
+    /// becomes available to other devices.
+    func pushAllSyncedToKVS()
 }

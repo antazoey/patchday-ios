@@ -402,6 +402,18 @@ class PillScheduleTests: PDTestCase {
         XCTAssertEqual(0, mockPills[1].swallowCallCount)
     }
 
+    public func testSwallow_whenCompletedAndLastTakenIsNil_doesNotSwallow() {
+        // Previously the guard short-circuited on `lastTaken == nil`, allowing
+        // a never-taken pill to be swallowed past its timesaday limit.
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = nil
+
+        pills.swallow(mockPills[1].id, onSuccess: nil)
+        XCTAssertEqual(0, mockPills[1].swallowCallCount)
+    }
+
     /// Integration test with Pill.
     public func testSwallow_worksAfterCallingAwaken() {
         let initialLastTaken = TestDateFactory.createTestDate(daysFrom: -1)
@@ -528,10 +540,9 @@ class PillScheduleTests: PDTestCase {
 
     public func testSwallow_swallowsPill() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
-
-        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesTakenToday = 0
         mockPills[1].timesaday = 10
-        mockPills[1].lastTaken = nil // Key to test
+        mockPills[1].lastTaken = nil
 
         pills.swallow(mockPills[1].id, onSuccess: nil)
         XCTAssertEqual(1, mockPills[1].swallowCallCount)
@@ -539,10 +550,9 @@ class PillScheduleTests: PDTestCase {
 
     public func testSwallow_callsOnSuccess() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
-
-        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesTakenToday = 0
         mockPills[1].timesaday = 10
-        mockPills[1].lastTaken = nil // Key to test
+        mockPills[1].lastTaken = nil
 
         var didCall = false
         let comp = { () in didCall = true }
@@ -552,10 +562,9 @@ class PillScheduleTests: PDTestCase {
 
     public func testSwallow_sharesData() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
-
-        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesTakenToday = 0
         mockPills[1].timesaday = 10
-        mockPills[1].lastTaken = nil // Key to test
+        mockPills[1].lastTaken = nil
 
         pills.swallow(mockPills[1].id, onSuccess: {})
         PDAssertSingle(mockDataSharer.shareCallArgs)

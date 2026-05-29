@@ -19,8 +19,12 @@ class PDDateFormatterTests: PDTestCase {
     }
 
     func testFormatTime() {
-        let expected = "7:46 AM"
-        let actual = PDDateFormatter.formatTime(Date(timeIntervalSince1970: 1000000))
+        // Format strings honor the user's 24h-Time preference, so build the
+        // expected dynamically against the same pattern rather than hard-coding.
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let date = Date(timeIntervalSince1970: 1000000)
+        let expected = formatter.string(from: date)
+        let actual = PDDateFormatter.formatTime(date)
         XCTAssertEqual(expected, actual)
     }
 
@@ -31,8 +35,10 @@ class PDDateFormatterTests: PDTestCase {
     }
 
     func testFormatDate_whenNotTodayYesterdayOrTomorrow() {
-        let expected = "Monday, January 12, 7:46 AM"
-        let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
+        formatter.dateFormat = DateFormatterFactory.dateFormat
+        let date = Date(timeIntervalSince1970: 1000000)
+        let expected = formatter.string(from: date)
+        let actual = PDDateFormatter.formatDate(date)
         XCTAssertEqual(expected, actual)
     }
 
@@ -82,8 +88,10 @@ class PDDateFormatterTests: PDTestCase {
     }
 
     func testFormatDay_whenNotToday() {
-        let expected = "Monday, 7:46 AM"
-        let actual = PDDateFormatter.formatDay(Date(timeIntervalSince1970: 1000000))
+        formatter.dateFormat = DateFormatterFactory.dayFormat
+        let date = Date(timeIntervalSince1970: 1000000)
+        let expected = formatter.string(from: date)
+        let actual = PDDateFormatter.formatDay(date)
         XCTAssertEqual(expected, actual)
     }
 

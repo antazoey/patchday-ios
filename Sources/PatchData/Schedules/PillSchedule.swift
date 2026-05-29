@@ -32,7 +32,9 @@ public class PillSchedule: NSObject, PillScheduling {
         self.context = store.getStoredPills()
         self._now = now ?? PDNow()
         super.init()
-        if shouldSetDefaultPills {
+        // See HormoneSchedule: skip default-seeding when iCloud sync is on
+        // so we don't race CloudKit's import and upload phantom defaults.
+        if shouldSetDefaultPills, !CoreDataStack.isCloudSyncEnabledAtLaunch {
             log.info("Pill state is initial - Setting up default Pills")
             self.reset()
         }
@@ -169,7 +171,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {
-        guard pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil else { return }
+        guard pill.timesTakenToday < pill.timesaday else { return }
         pill.swallow()
         store.pushLocalChangesToManagedContext([pill], doSave: true)
         onSuccess?()

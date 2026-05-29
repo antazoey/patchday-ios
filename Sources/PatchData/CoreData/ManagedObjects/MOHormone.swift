@@ -15,4 +15,9 @@ public class MOHormone: NSManagedObject {
     @NSManaged var date: NSDate?
     @NSManaged var siteNameBackUp: String?
     @NSManaged var xDays: String?
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        if id == nil { id = UUID() }
+    }
 }

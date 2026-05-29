@@ -14,7 +14,9 @@ class PDIcons {
     private static var pillIcon: UIIcon { UIIcon(named: "Pill Icon") ?? UIIcon() }
     static var siteIndexIcon: UIIcon { UIIcon(named: "Site Index Icon") ?? UIIcon() }
     static var settingsIcon: UIIcon { UIIcon(named: "Settings Icon") ?? UIIcon() }
-    static var moonIcon: UIIcon { UIIcon(named: "Moon") ?? UIImage() }
+    /// SF Symbol crescent moon for overnight-expiring hormones. Replaces an
+    /// older asset that read a bit too star-of-Bethlehem.
+    static var moonIcon: UIIcon { UIIcon(systemName: "moon.fill") ?? UIImage() }
 
     static subscript(method: DeliveryMethod) -> UIIcon {
         switch method {

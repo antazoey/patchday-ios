@@ -82,8 +82,12 @@ class EntityAdapter {
         if let expirationInterval = pillData.attributes.expirationInterval.value {
             pill.expirationInterval = expirationInterval.rawValue
         }
+        // Clear stale xDays whenever the interval doesn't use them so a
+        // previous First/Last/XOff schedule doesn't leak into Every-Day.
         if let days = pillData.attributes.expirationInterval.xDaysValue {
             pill.xDays = days
+        } else if pillData.attributes.expirationInterval.value != nil {
+            pill.xDays = nil
         }
         if let lastWakeUp = pillData.attributes.lastWakeUp as NSDate?, lastWakeUp != pill.lastWakeUp {
             pill.lastWakeUp = lastWakeUp

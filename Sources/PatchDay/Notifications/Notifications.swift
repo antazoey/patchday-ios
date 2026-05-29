@@ -39,7 +39,9 @@ class Notifications: NSObject, NotificationScheduling {
             center: center,
             factory: factory
         )
-        center.pillActionHandler.requestPillNotification = self.requestDuePillNotification
+        center.pillActionHandler.requestPillNotification = { [weak self] pill in
+            self?.requestDuePillNotification(pill)
+        }
     }
 
     // MARK: - Hormone
@@ -56,7 +58,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels all the hormone notifications in the given indices.
     func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
-        guard begin < end else { return }
+        guard begin <= end else { return }
         var ids: [String] = []
         for i in begin...end {
             if let hormone = sdk.hormones[i] {
@@ -70,8 +72,8 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        guard sdk.settings.notifications.value else { return }
         cancelExpiredHormoneNotification(for: hormone)
+        guard sdk.settings.notifications.value else { return }
         requestHormoneNotification(hormone)
     }
 
@@ -83,7 +85,7 @@ class Notifications: NSObject, NotificationScheduling {
     /// Requests all the hormone notifications between the given indices.
     func requestRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
         guard sdk.settings.notifications.value else { return }
-        guard begin < end else { return }
+        guard begin <= end else { return }
         cancelRangeOfExpiredHormoneNotifications(from: begin, to: end)
         for i in begin...end {
             guard let hormone = sdk.hormones[i] else { break }
@@ -95,9 +97,9 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
+        cancelDuePillNotification(pill)
         guard pillsEnabled else { return }
         guard pill.notify else { return }
-        cancelDuePillNotification(pill)
         requestPillNotification(pill)
     }
 

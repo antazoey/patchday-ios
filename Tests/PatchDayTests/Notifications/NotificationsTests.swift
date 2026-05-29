@@ -114,6 +114,16 @@ class NotificationsTests: PDTestCase {
         PDAssertEmpty(center.removeNotificationsCallArgs)
     }
 
+    func testCancelRangeOfExpiredHormoneNotifications_whenBeginEqualsEnd_cancelsThatIndex() {
+        let sdk = createSDK()
+        let center = MockNotificationCenter()
+        let factory = MockNotificationFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.cancelRangeOfExpiredHormoneNotifications(from: 0, to: 0)
+        let callArgs = center.removeNotificationsCallArgs[0]
+        XCTAssertEqual([mockHormones[0].id.uuidString], callArgs)
+    }
+
     func testCancelRangeOfExpiredHormoneNotifications_whenNoHormoneInRange_doesNotCallCancel() {
         let sdk = MockSDK()
         let center = MockNotificationCenter()
@@ -131,6 +141,16 @@ class NotificationsTests: PDTestCase {
         let mockHormone = createTestHormone()
         notifications.requestExpiredHormoneNotification(for: mockHormone)
         XCTAssertEqual(0, mockNotification.requestCallCount)
+    }
+
+    func testRequestExpiredHormoneNotification_whenTurnedOffInSettings_stillCancelsExisting() {
+        let center = MockNotificationCenter()
+        let sdk = createSDK(settings: createSettings(on: false))
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let mockHormone = createTestHormone()
+        notifications.requestExpiredHormoneNotification(for: mockHormone)
+        PDAssertSingle(center.removeNotificationsCallArgs)
     }
 
     func testRequestExpiredHormoneNotification_requestsWithExpectedParameters() {
@@ -153,6 +173,15 @@ class NotificationsTests: PDTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 18, to: 1)
         XCTAssertEqual(0, mockNotification.requestCallCount)
+    }
+
+    func testRequestRangeOfExpiredHormoneNotifications_whenBeginEqualsEnd_requestsThatIndex() {
+        let sdk = createSDK(settings: createSettings(quantity: 1))
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.requestRangeOfExpiredHormoneNotifications(from: 0, to: 0)
+        XCTAssertEqual(1, mockNotification.requestCallCount)
     }
 
     func testRequestRangeOfExpiredHormoneNotifications_cancelsBeforeRequesting() {
@@ -211,6 +240,16 @@ class NotificationsTests: PDTestCase {
         let pill = createTestPill(isDue: true, notify: false)
         notifications.requestDuePillNotification(pill)
         PDAssertEmpty(factory.createDuePillNotificationCallArgs)
+    }
+
+    func testRequestDuePillNotification_whenNotifyIsFalse_stillCancelsExisting() {
+        let sdk = createSDK(totalExpired: 3)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let pill = createTestPill(isDue: true, notify: false)
+        notifications.requestDuePillNotification(pill)
+        PDAssertSingle(center.removeNotificationsCallArgs)
     }
 
     func testRequestDuePillNotification_whenPillIsDueAndNotified_requests() {

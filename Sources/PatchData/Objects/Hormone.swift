@@ -57,10 +57,12 @@ public class Hormone: Hormonal {
             guard let name = hormoneData.siteName, !name.isEmpty, name != SiteStrings.NewSite else {
                 return backupSiteName
             }
-            hormoneData.siteImageId = nil
             return name
         }
-        set { hormoneData.siteName = newValue }
+        set {
+            hormoneData.siteName = newValue
+            hormoneData.siteImageId = nil
+        }
     }
 
     public var siteImageId: SiteName {
@@ -104,7 +106,13 @@ public class Hormone: Hormonal {
 
     public var siteNameBackUp: String? {
         // Ignore backup name if there _is_ a site relationship.
-        get { siteId == nil ? hormoneData.siteNameBackUp : nil }
+        // Treat empty string as no-backup so v2-model default ("") doesn't
+        // make every fresh hormone look like it has a site.
+        get {
+            guard siteId == nil else { return nil }
+            let raw = hormoneData.siteNameBackUp
+            return raw?.isEmpty == false ? raw : nil
+        }
         set { hormoneData.siteNameBackUp = newValue }
     }
 
@@ -131,7 +139,7 @@ public class Hormone: Hormonal {
     }
 
     public func createExpirationDate(from startDate: Date) -> Date? {
-        DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: date)
+        DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: startDate)
     }
 
     private var backupSiteName: String {
