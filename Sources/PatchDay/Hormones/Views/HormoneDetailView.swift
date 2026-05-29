@@ -35,6 +35,10 @@ struct HormoneDetailView: View {
         @Published var isTypingNewSite = false
         @Published var isDirty = false
         var didPrime = false
+        // Snapshot of what prime() assigned to selectedSiteName, so the
+        // site picker's onChange can tell hydration-fired writes apart
+        // from real user edits.
+        var initialSiteName: String = ""
     }
 
     private var viewStrings: HormoneViewStrings? {
@@ -88,7 +92,15 @@ struct HormoneDetailView: View {
                         }
                     }
                     .pickerStyle(.menu)
-                    .onChange(of: state.selectedSiteName) { state.isDirty = true }
+                    .onChange(of: state.selectedSiteName) { _, newValue in
+                        // Skip the hydration write — prime() assigns the
+                        // initial value, and SwiftUI's onChange fires
+                        // async so a `didPrime` guard wouldn't help.
+                        // Compare against the prime-time snapshot instead.
+                        if newValue != state.initialSiteName {
+                            state.isDirty = true
+                        }
+                    }
                     .accessibilityIdentifier("hormoneSiteSelectorStack")
 
                     Button(ActionStrings._Type) {
@@ -179,11 +191,14 @@ struct HormoneDetailView: View {
         // site assigned, but the Picker's options are the actual configured
         // sites — "New Site" isn't in that list, so the Picker would render
         // empty. Fall back to the first available site name in that case.
+        let initial: String
         if resolved.isEmpty || resolved == SiteStrings.NewSite || !siteNames.contains(resolved) {
-            state.selectedSiteName = siteNames.first ?? SiteStrings.NewSite
+            initial = siteNames.first ?? SiteStrings.NewSite
         } else {
-            state.selectedSiteName = resolved
+            initial = resolved
         }
+        state.initialSiteName = initial
+        state.selectedSiteName = initial
     }
 
     private func commitTypedSite() {
