@@ -67,7 +67,14 @@ struct HormonesListView: View {
                         Button {
                             handleRowTap(at: index)
                         } label: {
-                            HormoneRow(viewModel: vm, rowHeight: rowHeight)
+                            // Re-evaluate the row body every minute so the
+                            // expiration state (date color, overdue badge,
+                            // moon icon) flips automatically when a patch
+                            // crosses its expiration without the user
+                            // having to back out and re-enter the tab.
+                            TimelineView(.periodic(from: .now, by: 60)) { _ in
+                                HormoneRow(viewModel: vm, rowHeight: rowHeight)
+                            }
                         }
                         .buttonStyle(.plain)
                         .accessibilityIdentifier("HormoneCell_\(index)")
