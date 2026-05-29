@@ -243,15 +243,21 @@ struct HormonesListView: View {
             container.goToHormoneDetail(index)
             return
         }
-        // Empty hormone: show the dialog with Edit + Remove + Cancel (no
-        // Change, since there's nothing applied yet) so iPad / Mac users
-        // can still reach Remove without long-press.
+        // Empty hormone: still offer the arrow Change action so a single
+        // tap can apply the first (or next-in-rotation) site + now date.
         guard hormone.hasSite || !hormone.date.isDefault() else {
+            let nextSite = sdk.sites.suggested
+            let change: () -> Void = {
+                let command = sdk.commandFactory.createChangeHormoneCommand(hormone, now: PDNow())
+                command.execute()
+                container.notifications?.requestExpiredHormoneNotification(for: hormone)
+                container.widget?.set()
+            }
             tapTarget = TapTarget(
                 index: index,
                 currentSite: SiteStrings.NewSite,
-                suggestedSite: nil,
-                change: nil
+                suggestedSite: nextSite?.name,
+                change: change
             )
             return
         }
