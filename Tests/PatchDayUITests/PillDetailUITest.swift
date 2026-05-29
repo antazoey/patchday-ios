@@ -12,8 +12,8 @@ class PillDetailUITests: PDUITest {
         // Use the Add button — tapping a pill row could land on the inner Take
         // button. Add reliably navigates to the detail screen.
         tabs.buttons["Pills"].tap()
-        XCTAssert(app.cells["GhostPillCell"].waitForExistence(timeout: 3))
-        app.cells["GhostPillCell"].tap()
+        XCTAssert(app.buttons["GhostPillCell"].waitForExistence(timeout: 3))
+        app.buttons["GhostPillCell"].tap()
         XCTAssert(app.staticTexts["Schedule"].waitForExistence(timeout: 3))
     }
 

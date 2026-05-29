@@ -18,8 +18,14 @@ class HormonesUITests: PDUITest {
         XCTAssert(app.buttons["HormoneCell_2"].exists)
     }
 
-    func testTappingEmptyHormone_goesToDetail() throws {
+    func testTappingEmptyHormone_showsActionDialog() throws {
+        // Empty hormones now open an action sheet (Change / Edit / Remove)
+        // instead of jumping straight to detail. Tapping Edit in that
+        // dialog still gets you to the detail screen.
         app.buttons["HormoneCell_0"].tap()
+        let edit = app.buttons["Edit"]
+        XCTAssert(edit.waitForExistence(timeout: 3))
+        edit.tap()
         XCTAssert(app.staticTexts["Edit Hormone"].waitForExistence(timeout: 3))
     }
 }

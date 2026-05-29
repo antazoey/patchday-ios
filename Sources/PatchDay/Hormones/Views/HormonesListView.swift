@@ -97,12 +97,16 @@ struct HormonesListView: View {
                         // (e.g. position 3 when quantity is 2). Tapping it
                         // bumps quantity by one; the new ghost then shifts
                         // down a row until quantity hits the upper limit.
-                        GhostHormoneRow(rowHeight: rowHeight)
-                            .contentShape(Rectangle())
-                            .onTapGesture { pendingAddIndex = index }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .accessibilityIdentifier("GhostHormoneCell_\(index)")
+                        Button {
+                            pendingAddIndex = index
+                        } label: {
+                            GhostHormoneRow(rowHeight: rowHeight)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .accessibilityIdentifier("GhostHormoneCell_\(index)")
                     }
                 }
                 .id(container.refreshTick) // force re-evaluation after mutations

@@ -55,10 +55,12 @@ struct PillsListView: View {
                 }
                 .id(container.refreshTick)
 
-                GhostPillRow()
-                    .contentShape(Rectangle())
-                    .onTapGesture { addNew() }
-                    .accessibilityIdentifier("GhostPillCell")
+                Button { addNew() } label: {
+                    GhostPillRow()
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("GhostPillCell")
             } else {
                 Section {
                     Text(NSLocalizedString("Pills are disabled.", comment: "Empty pills state"))

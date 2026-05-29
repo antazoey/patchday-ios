@@ -40,10 +40,17 @@ struct SitesListView: View {
             .id(container.refreshTick)
 
             if editMode == .inactive {
-                GhostSiteRow(nextOrderNumber: sites.count + 1)
-                    .contentShape(Rectangle())
-                    .onTapGesture { addNew() }
-                    .accessibilityIdentifier("GhostSiteCell")
+                // Wrap the ghost row in a Button so XCUI sees it as a
+                // button element with our identifier — attaching the
+                // identifier directly to a row inside a List puts it on
+                // a descendant of the Cell, which app.cells[…] can't
+                // find by identifier.
+                Button { addNew() } label: {
+                    GhostSiteRow(nextOrderNumber: sites.count + 1)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("GhostSiteCell")
             }
         }
         .listStyle(.plain)

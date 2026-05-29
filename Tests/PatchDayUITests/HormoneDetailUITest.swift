@@ -9,8 +9,12 @@ class HormoneDetailUITests: PDUITest {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        // Default hormone 0 is empty — tapping goes straight to detail.
+        // Tapping an empty hormone now opens an action dialog with
+        // Change / Edit / Remove. Tap Edit to reach the detail screen.
         app.buttons["HormoneCell_0"].tap()
+        let edit = app.buttons["Edit"]
+        XCTAssert(edit.waitForExistence(timeout: 3))
+        edit.tap()
         XCTAssert(app.staticTexts["Edit Hormone"].waitForExistence(timeout: 3))
     }
 

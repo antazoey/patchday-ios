@@ -42,7 +42,7 @@ class SitesUITests: PDUITest {
 
     func testInsertNewSiteButton_navigatesToDetail() throws {
         let before = siteCellCount()
-        app.cells["GhostSiteCell"].tap()
+        app.buttons["GhostSiteCell"].tap()
         XCTAssert(app.staticTexts["Image:"].waitForExistence(timeout: 3))
         // Going back without saving should leave the count unchanged on the legacy
         // SwiftUI navigation back gesture; instead we expect the new placeholder
