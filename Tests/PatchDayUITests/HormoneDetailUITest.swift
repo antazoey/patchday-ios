@@ -18,16 +18,22 @@ class HormoneDetailUITests: PDUITest {
         XCTAssert(app.staticTexts["Edit Hormone"].exists)
     }
 
-    func testSelectSite_viaPicker_updatesSelection() throws {
+    func testSelectSite_viaDialog_updatesSelection() throws {
         app.buttons["hormoneSiteSelectorStack"].tap()
+        let select = app.buttons["Select"]
+        XCTAssert(select.waitForExistence(timeout: 3))
+        select.tap()
         let option = app.buttons["Left Glute"]
         XCTAssert(option.waitForExistence(timeout: 3))
         option.tap()
         XCTAssert(app.staticTexts["Left Glute"].waitForExistence(timeout: 2))
     }
 
-    func testTypeSiteButton_revealsTypedSiteTextField() throws {
-        app.buttons["typeSiteButton"].tap()
+    func testTypeSiteOption_revealsTypedSiteTextField() throws {
+        app.buttons["hormoneSiteSelectorStack"].tap()
+        let type = app.buttons["Type"]
+        XCTAssert(type.waitForExistence(timeout: 3))
+        type.tap()
         XCTAssert(app.textFields["selectHormoneSiteTextField"].waitForExistence(timeout: 2))
     }
 }

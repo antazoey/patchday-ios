@@ -14,6 +14,7 @@ Changed
 - Hormones tab title and icon now reflect the configured delivery method (Patches / Injections / Gel).
 - Pill detail now supports the full set of options: name, notify, 1–4 times per day, expiration interval (Every Day / Every Other Day / First X Days / Last X Days / X Days On X Days Off), and the X-Days controls.
 - Site detail now includes the image picker scoped to the current delivery method.
+- Edit Hormone screen: tap the Site row for a single action sheet with Type / Select / Auto. "Auto" sets the site only; the separate **Change** button at the bottom of the section now applies site + date in one step (previously called Autofill).
 - Reducing Quantity or switching Delivery Method in Settings now prompts a confirmation alert.
 - New pills now default to 8 AM as the first time-of-day instead of the wall-clock moment the detail screen was opened.
 - Hormones tab (Patches only) now shows a faded "add a patch" ghost cell immediately after your last patch when there's room to grow. Tap the ghost to add that slot to your schedule. To remove a specific patch, long-press it and pick "Remove patch" — both actions confirm before doing anything. Settings → Quantity still works as before.

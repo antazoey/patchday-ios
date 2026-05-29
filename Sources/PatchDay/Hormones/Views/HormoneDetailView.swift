@@ -23,6 +23,8 @@ struct HormoneDetailView: View {
     @State private var showUnsavedAlert = false
     @State private var showNewSiteAlert = false
     @State private var pendingNewSiteName = ""
+    @State private var showSiteOptions = false
+    @State private var showSiteList = false
 
     /// We mirror the existing HormoneSelectionState into @State because SwiftUI
     /// needs Published-style changes to drive re-render. The underlying VM
@@ -86,35 +88,42 @@ struct HormoneDetailView: View {
                         .accessibilityIdentifier("hormoneSiteTypeCancelButton")
                     }
                 } else {
-                    Picker(PDTitleStrings.SiteTitle, selection: $state.selectedSiteName) {
-                        ForEach(siteNames, id: \.self) { name in
-                            Text(name).tag(name)
+                    // Tap-to-act site row. Replaces the previous picker +
+                    // separate Type button with one entry point that
+                    // opens a Type / Select / Auto choice.
+                    Button {
+                        showSiteOptions = true
+                    } label: {
+                        HStack {
+                            Text(PDTitleStrings.SiteTitle)
+                                .foregroundColor(.primary)
+                            Spacer()
+                            Text(state.selectedSiteName)
+                                .foregroundColor(.secondary)
+                            Image(systemName: "chevron.up.chevron.down")
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
                         }
                     }
-                    .pickerStyle(.menu)
+                    .accessibilityIdentifier("hormoneSiteSelectorStack")
                     .onChange(of: state.selectedSiteName) { _, newValue in
-                        // Skip the hydration write — prime() assigns the
-                        // initial value, and SwiftUI's onChange fires
-                        // async so a `didPrime` guard wouldn't help.
-                        // Compare against the prime-time snapshot instead.
+                        // Track real user edits (made via the Select / Auto
+                        // dialogs or autofill) but skip prime()'s hydration
+                        // by comparing against the initial snapshot.
                         if newValue != state.initialSiteName {
                             state.isDirty = true
                         }
                     }
-                    .accessibilityIdentifier("hormoneSiteSelectorStack")
+                }
+            }
 
-                    Button(ActionStrings._Type) {
-                        state.isTypingNewSite = true
-                        state.typedSiteName = ""
+            if !state.isTypingNewSite {
+                Section {
+                    Button(NSLocalizedString("Change", comment: "Apply site + date together")) {
+                        autofill()
                     }
-                    .accessibilityIdentifier("typeSiteButton")
+                    .accessibilityIdentifier("hormoneChangeButton")
                 }
-
-                Button(ActionStrings.Autofill) {
-                    autofill()
-                }
-                .disabled(state.isTypingNewSite)
-                .accessibilityIdentifier("autofillButton")
             }
         }
         .navigationTitle(PDTitleStrings.EditHormoneTitle)
@@ -139,6 +148,35 @@ struct HormoneDetailView: View {
                 addNewSite(pendingNewSiteName)
             }
             Button(AlertStrings.newSiteAlertStrings.negativeActionTitle, role: .cancel) {}
+        }
+        .confirmationDialog(
+            PDTitleStrings.SiteTitle,
+            isPresented: $showSiteOptions,
+            titleVisibility: .visible
+        ) {
+            Button(NSLocalizedString("Type", comment: "Type new site action")) {
+                state.isTypingNewSite = true
+                state.typedSiteName = ""
+            }
+            Button(NSLocalizedString("Select", comment: "Pick site from list")) {
+                showSiteList = true
+            }
+            Button(autoSiteButtonText) {
+                autoPickSiteOnly()
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
+        }
+        .confirmationDialog(
+            NSLocalizedString("Choose a site", comment: ""),
+            isPresented: $showSiteList,
+            titleVisibility: .visible
+        ) {
+            ForEach(siteNames, id: \.self) { name in
+                Button(name) {
+                    state.selectedSiteName = name
+                }
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
         }
         .confirmationDialog(
             NSLocalizedString("Unsaved changes", comment: "Alert title"),
@@ -227,6 +265,24 @@ struct HormoneDetailView: View {
         }
         state.selectedDate = Date()
         state.isDirty = true
+    }
+
+    /// Set the site (only) to the next suggested. Used by the "Auto"
+    /// option in the site-action dialog. The date is left alone — for
+    /// the full "site + date" action use the bottom-of-section Change
+    /// button (autofill).
+    private func autoPickSiteOnly() {
+        guard let sdk = container.sdk else { return }
+        guard let suggested = sdk.sites.suggested else { return }
+        state.selectedSiteName = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
+    }
+
+    private var autoSiteButtonText: String {
+        guard let sdk = container.sdk, let suggested = sdk.sites.suggested else {
+            return NSLocalizedString("Auto", comment: "Auto-pick site")
+        }
+        let name = suggested.name.isEmpty ? SiteStrings.NewSite : suggested.name
+        return "\(NSLocalizedString("Auto", comment: ""))  → \(name)"
     }
 
     private func save() {
