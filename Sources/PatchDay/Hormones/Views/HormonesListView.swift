@@ -70,10 +70,17 @@ struct HormonesListView: View {
                         .accessibilityIdentifier("HormoneCell_\(index)")
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color(vm.backgroundColor))
-                        .onLongPressGesture {
-                            // Only allow removing when shrinking would
-                            // leave the user with at least one slot.
-                            if quantity > 1 { pendingRemoveIndex = index }
+                        .contextMenu {
+                            if quantity > 1 {
+                                Button(role: .destructive) {
+                                    pendingRemoveIndex = index
+                                } label: {
+                                    Label(
+                                        NSLocalizedString("Remove patch", comment: ""),
+                                        systemImage: "trash"
+                                    )
+                                }
+                            }
                         }
                     } else if ghostCellsEnabled, index == quantity {
                         // Only render the ghost in the immediate next slot
