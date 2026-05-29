@@ -153,6 +153,44 @@ public class PatchData: NSObject, PatchDataSDK {
             attributes.name = "Notification Test"
             pills.set(at: 0, with: attributes)
         }
+
+        // ******************************************************
+        // Demo state for App Store / TestFlight screenshots:
+        // a realistic 2-patch schedule + a couple of pills, with
+        // dates set so the screen looks "in use" but nothing is
+        // actively expiring during the capture.
+        // ******************************************************
+        if PDCli.isDemoState() {
+            let now = Date()
+            settings.setQuantity(to: 2)
+            settings.setNotifications(to: true)
+            settings.setUseStaticExpirationTime(to: true)
+
+            // Patch 1: applied 24 hours ago (mid-cycle, default interval
+            // is TwiceWeekly / 84h, so plenty of life left visually).
+            if let oneDayAgo = DateFactory.createDate(byAddingHours: -24, to: now) {
+                hormones.setDate(at: 0, with: oneDayAgo)
+            }
+            // Patch 2: applied 72 hours ago (almost expired, shows the
+            // "overdue / soon" coloring on the row).
+            if let threeDaysAgo = DateFactory.createDate(byAddingHours: -72, to: now) {
+                hormones.setDate(at: 1, with: threeDaysAgo)
+            }
+
+            // Pill: a once-daily that was taken this morning at 8 AM.
+            let demoPill = PillAttributes(
+                name: "T-Blocker",
+                expirationIntervalSetting: .EveryDay,
+                xDays: "",
+                times: "08:00:00",
+                notify: true,
+                lastTaken: DateFactory.createDate(daysFrom: 0, at: DateFactory.createDate(byAddingHours: -2, to: now)),
+                timesTakenToday: "08:01:00",
+                lastWakeUp: now,
+                isCreated: true
+            )
+            pills.set(at: 0, with: demoPill)
+        }
         #endif
         Self.seed40DefaultsIfNeeded(settings: settings)
         self.init(

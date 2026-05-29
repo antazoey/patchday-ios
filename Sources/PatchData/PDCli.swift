@@ -13,6 +13,7 @@ public class PDCli {
     private static let DebugFlagShort = "-d"
     private static let NotificationsTestFlag = "--notifications-test"
     private static let WakeUpTestFlag = "--wakeup-test"
+    private static let DemoStateFlag = "--demo-state"
 
     // MARK: - Arg Existence Checking
 
@@ -30,6 +31,10 @@ public class PDCli {
 
     public static func isWakeUpTest() -> Bool {
         has(WakeUpTestFlag)
+    }
+
+    public static func isDemoState() -> Bool {
+        has(DemoStateFlag)
     }
 
     // MARK: - Clearing Args
