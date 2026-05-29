@@ -1,0 +1,79 @@
+2026-05-28 21:01:49.929355-0500 PatchDayUITests-Runner[63601:5581426] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-05-28 21:01:53.079.
+Test Suite 'PatchDayUITests.xctest' started at 2026-05-28 21:01:53.079.
+Test Suite 'ScreenshotTests' started at 2026-05-28 21:01:53.079.
+Test Case '-[PatchDayUITests.ScreenshotTests testCaptureHormoneDetail]' started.
+    t =     0.00s Start Test at 2026-05-28 21:01:53.079
+    t =     0.11s Set Up
+    t =     0.11s     Open Yingthi.PatchDay
+    t =     0.11s         Launch Yingthi.PatchDay
+    t =     0.93s             Setting up automation session
+    t =     1.44s             Wait for Yingthi.PatchDay to idle
+    t =     2.98s     Waiting 5.0s for "setupSheetSkipButton" Button to exist
+    t =     4.01s         Checking `Expect predicate `existsNoRetry == 1` for object "setupSheetSkipButton" Button`
+    t =     4.01s             Checking existence of `"setupSheetSkipButton" Button`
+    t =     4.11s     Tap "setupSheetSkipButton" Button
+    t =     4.11s         Wait for Yingthi.PatchDay to idle
+    t =     4.11s         Find the "setupSheetSkipButton" Button
+    t =     4.15s         Check for interrupting elements affecting "setupSheetSkipButton" Button
+    t =     4.15s             Wait for com.apple.springboard to idle
+    t =     4.22s         Found 1 interrupting element:
+    t =     4.22s             Find the "“PatchDay” Would Like to Send You Notifications" Alert
+    t =     4.24s     "“PatchDay” Would Like to Send You Notifications" Alert from Application 'com.apple.springboard'
+    t =     4.24s         Invoking UI interruption monitors for "“PatchDay” Would Like to Send You Notifications" Alert from Application 'com.apple.springboard'
+    t =     4.24s             Find the "“PatchDay” Would Like to Send You Notifications" Alert
+    t =     4.26s             Checking existence of `Button (Elements matching predicate 'userTestingAttributes CONTAINS "cancel-button"')`
+    t =     4.28s             Get all elements bound by accessibility element for: Elements matching predicate 'userTestingAttributes CONTAINS "default-button"'
+    t =     4.30s             Checking existence of `"Allow" Button`
+    t =     4.32s     Default interruption handler attempting to dismiss alert by tapping "Allow" Button.
+    t =     4.32s             Tap "Allow" Button
+    t =     4.32s                 Wait for com.apple.springboard to idle
+    t =     4.32s                 Find the "Allow" Button
+    t =     4.35s                 Check for interrupting elements affecting "Allow" Button
+    t =     4.37s                 Synthesize event
+    t =     4.76s                 Wait for com.apple.springboard to idle
+    t =     4.98s             Waiting 1.0s for Alert to not exist
+    t =     5.98s                 Checking `Expect predicate `existsNoRetry == 0` for object Alert`
+    t =     5.98s                     Checking existence of `Alert`
+    t =     6.00s                 Checking existence of `Alert`
+    t =     6.01s             Verifying handling...
+    t =     6.05s     Confirmed successful handling of interrupting element
+    t =     6.05s         Synthesize event
+    t =     6.34s         Wait for Yingthi.PatchDay to idle
+    t =     7.13s Waiting 5.0s for "Patches" StaticText to exist
+    t =     8.17s     Checking `Expect predicate `existsNoRetry == 1` for object "Patches" StaticText`
+    t =     8.17s         Checking existence of `"Patches" StaticText`
+    t =     8.19s Waiting 3.0s for "HormoneCell_1" Button to exist
+    t =     9.22s     Checking `Expect predicate `existsNoRetry == 1` for object "HormoneCell_1" Button`
+    t =     9.22s         Checking existence of `"HormoneCell_1" Button`
+    t =     9.24s Tap "HormoneCell_1" Button
+    t =     9.24s     Wait for Yingthi.PatchDay to idle
+    t =     9.24s     Find the "HormoneCell_1" Button
+    t =     9.26s     Check for interrupting elements affecting "HormoneCell_1" Button
+    t =     9.29s     Synthesize event
+    t =     9.58s     Wait for Yingthi.PatchDay to idle
+    t =     9.76s Waiting 2.0s for "Edit" Button to exist
+    t =    10.80s     Checking `Expect predicate `existsNoRetry == 1` for object "Edit" Button`
+    t =    10.80s         Checking existence of `"Edit" Button`
+    t =    10.91s Added attachment named '05-HormoneActions'
+    t =    10.91s Tap "Edit" Button
+    t =    10.91s     Wait for Yingthi.PatchDay to idle
+    t =    10.92s     Find the "Edit" Button
+    t =    10.94s     Check for interrupting elements affecting "Edit" Button
+    t =    10.97s     Synthesize event
+    t =    11.26s     Wait for Yingthi.PatchDay to idle
+    t =    11.60s Waiting 3.0s for "Edit Hormone" StaticText to exist
+    t =    12.62s     Checking `Expect predicate `existsNoRetry == 1` for object "Edit Hormone" StaticText`
+    t =    12.62s         Checking existence of `"Edit Hormone" StaticText`
+    t =    12.74s Added attachment named '06-HormoneDetail'
+    t =    12.74s Tear Down
+Test Case '-[PatchDayUITests.ScreenshotTests testCaptureHormoneDetail]' passed (12.982 seconds).
+Test Case '-[PatchDayUITests.ScreenshotTests testCaptureMainTabs]' started.
+    t =     0.00s Start Test at 2026-05-28 21:02:06.062
+    t =     0.02s Set Up
+    t =     0.02s     Open Yingthi.PatchDay
+    t =     0.02s         Launch Yingthi.PatchDay
+    t =     0.02s             Terminate Yingthi.PatchDay:63637
+    t =     1.27s             Setting up automation session
+    t =     1.82s             Wait for Yingthi.PatchDay to idle

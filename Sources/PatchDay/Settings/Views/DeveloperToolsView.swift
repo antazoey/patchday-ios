@@ -94,15 +94,15 @@ struct DeveloperToolsView: View {
                 .font(.footnote)
                 .foregroundColor(.secondary)
                 Button(NSLocalizedString("Schedule --nuke-storage for next launch", comment: "")) {
-                    CommandLine.arguments.append("--nuke-storage")
+                    PDCli.scheduleForNextLaunch("--nuke-storage")
                     actionResultMessage = "Nuke scheduled. Force-quit + relaunch."
                 }
                 Button(NSLocalizedString("Schedule --notifications-test for next launch", comment: "")) {
-                    CommandLine.arguments.append("--notifications-test")
+                    PDCli.scheduleForNextLaunch("--notifications-test")
                     actionResultMessage = "Notifications test scheduled. Force-quit + relaunch."
                 }
                 Button(NSLocalizedString("Schedule --wakeup-test for next launch", comment: "")) {
-                    CommandLine.arguments.append("--wakeup-test")
+                    PDCli.scheduleForNextLaunch("--wakeup-test")
                     actionResultMessage = "Wake-up test scheduled. Force-quit + relaunch."
                 }
             }

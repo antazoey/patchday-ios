@@ -1,0 +1,24 @@
+21:01:46.991 xcodebuild[63301:5578490] Sim iPhone 17 Pro Max: Unregistering for sim device notification with token 3
+21:01:46.991 xcodebuild[63301:5578490] Calling -[SimDevice getenv:error:] for TESTMANAGERD_SIM_SOCK
+21:01:46.992 xcodebuild[63301:5578490] Sim iPhone 17 Pro Max has testmanagerd socket at /private/tmp/com.apple.launchd.epYCaoWU9B/com.apple.testmanagerd.unix-domain.socket
+21:01:46.992 xcodebuild[63301:5578490] Validating test connection socket path (/private/tmp/com.apple.launchd.epYCaoWU9B/com.apple.testmanagerd.unix-domain.socket)
+21:01:46.992 xcodebuild[63301:5578490] Constructing transport for test connection socket
+21:01:46.992 xcodebuild[63301:5578490] Connected socket 35 to testmanagerd for Sim iPhone 17 Pro Max
+21:01:46.992 xcodebuild[63301:5578490] Initiating control session with IDE capabilities: <XCTCapabilities: 0xb57692ce0>: {
+}
+21:01:47.199 xcodebuild[63301:5578048] Got reply to control session initiation request (result:error): <XCTCapabilities: 0xb5850e160>: {
+    "authorize test session capability" = 1;
+    "automation mode" = 1;
+    "daemon container sandbox extension" = 1;
+    "initiate daemon control session capability" = 4;
+    "initiate test runner session capability" = 2;
+    "record UI interaction capability" = 2;
+    "recording events as source code" = 1;
+    "report crashes capability" = 1;
+    "request log archive capability" = 1;
+    "supports delayed attachment transfers" = 1;
+}: (null)
+21:01:47.200 xcodebuild[63301:5578002] Requesting crash report collection for process names: testmanagerd, backboardd, PatchDayUITests, runningboardd, PatchDayUITests-Runner, FrontBoard, DTServiceHub, SpringBoard, PatchDay, assertiond, xctest, debugserver
+21:01:47.201 xcodebuild[63301:5578048] Got reply to crash report collection request (error: (null))
+21:01:50.111 xcodebuild[63301:5580893] Requesting authorization for pid 63601
+21:01:50.111 xcodebuild[63301:5580893] Got reply to authorization request for pid 63601 (result:error): 1: (null)
