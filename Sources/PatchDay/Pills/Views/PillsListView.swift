@@ -73,13 +73,15 @@ struct PillsListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Toggle(NSLocalizedString("Enable", comment: ""), isOn: $pillsEnabled)
-                    .toggleStyle(.switch)
-                    .labelsHidden()
-                    .onChange(of: pillsEnabled) { _, newValue in
-                        togglePillsEnabled(newValue)
-                    }
-                    .accessibilityIdentifier("enablePillsSwitch")
+                Button {
+                    pillsEnabled.toggle()
+                    togglePillsEnabled(pillsEnabled)
+                } label: {
+                    Text(pillsEnabled
+                         ? NSLocalizedString("Disable", comment: "Turn pills schedule off")
+                         : NSLocalizedString("Enable", comment: "Turn pills schedule on"))
+                }
+                .accessibilityIdentifier("enablePillsSwitch")
             }
         }
         .confirmationDialog(
