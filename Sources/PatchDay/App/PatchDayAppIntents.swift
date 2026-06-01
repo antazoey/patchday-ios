@@ -60,6 +60,30 @@ enum SiriResponder {
             pill.name, when
         )
     }
+
+    @MainActor
+    static func currentPatchesSentence() -> String {
+        let all = AppContainer.shared.sdk?.hormones.all ?? []
+        let placed = all.filter { $0.hasSite || !$0.date.isDefault() }
+        guard !placed.isEmpty else {
+            return NSLocalizedString("You don't have any patches applied right now.", comment: "Siri")
+        }
+        let parts = placed.map { hormone -> String in
+            let site = hormone.siteName.isEmpty ? SiteStrings.NewSite : hormone.siteName
+            return hormone.isExpired
+                ? String(format: NSLocalizedString("%@ (due now)", comment: "Siri"), site)
+                : site
+        }
+        if placed.count == 1 {
+            return String(
+                format: NSLocalizedString("You have one patch, on %@.", comment: "Siri"), parts[0]
+            )
+        }
+        return String(
+            format: NSLocalizedString("You have %d patches: %@.", comment: "Siri"),
+            placed.count, parts.joined(separator: ", ")
+        )
+    }
 }
 
 // MARK: - Site entity (lets Siri resolve "my left abdomen patch")
@@ -102,6 +126,16 @@ struct NextPillIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
         .result(dialog: IntentDialog(stringLiteral: SiriResponder.nextPillSentence()))
+    }
+}
+
+struct CurrentPatchesIntent: AppIntent {
+    static var title: LocalizedStringResource = "Current Patches"
+    static var description = IntentDescription("Lists the patches you currently have applied.")
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        .result(dialog: IntentDialog(stringLiteral: SiriResponder.currentPatchesSentence()))
     }
 }
 
@@ -150,6 +184,17 @@ struct PatchDayShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Next Patch",
             systemImageName: "cross.case"
+        )
+        AppShortcut(
+            intent: CurrentPatchesIntent(),
+            phrases: [
+                "What are my current patches in \(.applicationName)",
+                "What are my patches in \(.applicationName)",
+                "What patches do I have in \(.applicationName)",
+                "List my patches in \(.applicationName)"
+            ],
+            shortTitle: "Current Patches",
+            systemImageName: "list.bullet"
         )
         AppShortcut(
             intent: NextPillIntent(),
