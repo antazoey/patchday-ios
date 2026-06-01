@@ -32,6 +32,7 @@ struct SettingsView: View {
     @State private var iCloudAccountStatus: CloudKitAccountStatusChecker.Status = .unknown
     @State private var lastSyncDate: Date?
     @State private var showRelaunchAlert: Bool = false
+    @State private var showRedownloadConfirm: Bool = false
     @State private var showTutorial: Bool = false
 
     /// The device's current OS appearance, shown next to the "OS" theme option.
@@ -238,6 +239,14 @@ struct SettingsView: View {
                             .foregroundColor(.secondary)
                     }
                 }
+                if iCloudSyncEnabled {
+                    Button(role: .destructive) {
+                        showRedownloadConfirm = true
+                    } label: {
+                        Text(NSLocalizedString("Re-download from iCloud", comment: ""))
+                    }
+                    .accessibilityIdentifier("redownloadFromICloudButton")
+                }
             } header: {
                 Text(NSLocalizedString("iCloud", comment: ""))
             } footer: {
@@ -302,6 +311,24 @@ struct SettingsView: View {
             Text(NSLocalizedString(
                 "Quit and reopen PatchDay to apply the iCloud sync change.",
                 comment: ""
+            ))
+        }
+        .alert(
+            NSLocalizedString("Re-download from iCloud?", comment: ""),
+            isPresented: $showRedownloadConfirm
+        ) {
+            Button(NSLocalizedString("Re-download", comment: ""), role: .destructive) {
+                UserDefaults.standard.set(
+                    true, forKey: PDLocalSettingsKey.wipeLocalStoreOnNextLaunch.rawValue
+                )
+                showRelaunchAlert = true
+            }
+            Button(ActionStrings.Cancel, role: .cancel) {}
+        } message: {
+            Text(NSLocalizedString(
+                // swiftlint:disable:next line_length
+                "Use this if this device is showing old or out-of-sync data. It replaces this device's hormones, pills, and sites with what's in your iCloud account on the next launch. Anything on this device that never synced to iCloud is removed.",
+                comment: "Re-download confirmation"
             ))
         }
         .onAppear(perform: prime)
