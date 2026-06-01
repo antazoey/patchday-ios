@@ -91,6 +91,44 @@ class ChangeHormoneCommandTests: PDTestCase {
         PDAssertEquiv(expected, actual)
     }
 
+    // MARK: - changeAllHormones (backend "Change all")
+
+    func testChangeAllHormones_whenOnlyDue_changesOnlyExpiredHormones() {
+        sites.suggested = MockSite()
+        let due1 = MockHormone(); due1.isExpired = true
+        let notDue = MockHormone(); notDue.isExpired = false
+        let due2 = MockHormone(); due2.isExpired = true
+        hormones.all = [due1, notDue, due2]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+
+        let changed = factory.changeAllHormones(onlyDue: true)
+
+        XCTAssertEqual([due1.id, due2.id], changed.map { $0.id })
+        XCTAssertEqual([due1.id, due2.id], hormones.setSiteByIdCallArgs.map { $0.0 })
+        XCTAssertEqual([due1.id, due2.id], hormones.setDateByIdCallArgs.map { $0.0 })
+    }
+
+    func testChangeAllHormones_whenNotOnlyDue_changesEveryHormone() {
+        sites.suggested = MockSite()
+        let h0 = MockHormone() // neither expired
+        let h1 = MockHormone()
+        hormones.all = [h0, h1]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+
+        let changed = factory.changeAllHormones(onlyDue: false)
+
+        XCTAssertEqual([h0.id, h1.id], changed.map { $0.id })
+        XCTAssertEqual([h0.id, h1.id], hormones.setDateByIdCallArgs.map { $0.0 })
+    }
+
+    func testChangeAllHormones_reloadsSiteContextBeforeChanging() {
+        let due = MockHormone(); due.isExpired = true
+        hormones.all = [due]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+        _ = factory.changeAllHormones(onlyDue: true)
+        XCTAssertEqual(1, sites.reloadContextCallCount)
+    }
+
     private func createCommand() -> ChangeHormoneCommand {
         ChangeHormoneCommand(hormones: hormones, sites: sites, hormoneId: testId)
     }

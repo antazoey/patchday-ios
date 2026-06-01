@@ -18,6 +18,12 @@ class HormonesUITests: PDUITest {
         XCTAssert(app.buttons["HormoneCell_2"].exists)
     }
 
+    func testChangeAllButton_hiddenWhenNotMultipleDue() throws {
+        // A fresh schedule has no expired patches, so "Change all" must not show.
+        XCTAssert(app.buttons["HormoneCell_0"].waitForExistence(timeout: 3))
+        XCTAssertFalse(app.buttons["changeAllButton"].exists)
+    }
+
     func testTappingEmptyHormone_showsActionDialog() throws {
         // Empty hormones now open an action sheet (Change / Edit / Remove)
         // instead of jumping straight to detail. Tapping Edit in that

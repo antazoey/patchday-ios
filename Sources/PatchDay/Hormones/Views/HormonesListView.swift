@@ -117,6 +117,14 @@ struct HormonesListView: View {
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            if dueCount > 1 {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(NSLocalizedString("Change all", comment: "Change all due patches")) {
+                        changeAll()
+                    }
+                    .accessibilityIdentifier("changeAllButton")
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     container.goToSettings()
@@ -136,6 +144,11 @@ struct HormonesListView: View {
                 Button(changeButtonText(for: target)) {
                     change()
                     container.triggerRefresh()
+                }
+            }
+            if dueCount > 1 {
+                Button(NSLocalizedString("Change all", comment: "Change all due patches")) {
+                    changeAll()
                 }
             }
             Button(ActionStrings.Edit) {
@@ -217,6 +230,28 @@ struct HormonesListView: View {
             case 3: return "rd"
             default: return "th"
         }
+    }
+
+    // MARK: - Change all
+
+    /// Number of patches that are currently due (expired). "Change all" is only
+    /// offered when more than one is due.
+    private var dueCount: Int {
+        container.sdk?.hormones.totalExpired ?? 0
+    }
+
+    /// Apply a fresh change to every due patch at once. The selection + change
+    /// logic lives in the SDK (`changeAllHormones`); the view just fires the
+    /// app-level side effects for each changed patch.
+    private func changeAll() {
+        guard let sdk = container.sdk else { return }
+        let changed = sdk.commandFactory.changeAllHormones(onlyDue: true)
+        for hormone in changed {
+            container.notifications?.requestExpiredHormoneNotification(for: hormone)
+        }
+        container.widget?.set()
+        container.refreshBadges()
+        container.triggerRefresh()
     }
 
     // MARK: - Tap handling
