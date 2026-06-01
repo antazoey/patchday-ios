@@ -129,6 +129,28 @@ class ChangeHormoneCommandTests: PDTestCase {
         XCTAssertEqual(1, sites.reloadContextCallCount)
     }
 
+    func testChangeHormoneOnSiteNamed_changesTheMatchingPatch_caseInsensitively() {
+        sites.suggested = MockSite()
+        let onAbdomen = MockHormone(); onAbdomen.siteName = "Left Abdomen"
+        let onGlute = MockHormone(); onGlute.siteName = "Right Glute"
+        hormones.all = [onGlute, onAbdomen]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+
+        let changed = factory.changeHormone(onSiteNamed: "  left abdomen ")
+
+        XCTAssertEqual(onAbdomen.id, changed?.id)
+        XCTAssertEqual([onAbdomen.id], hormones.setSiteByIdCallArgs.map { $0.0 })
+    }
+
+    func testChangeHormoneOnSiteNamed_whenNoPatchOnThatSite_returnsNilAndChangesNothing() {
+        let onAbdomen = MockHormone(); onAbdomen.siteName = "Left Abdomen"
+        hormones.all = [onAbdomen]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+
+        XCTAssertNil(factory.changeHormone(onSiteNamed: "Right Quad"))
+        PDAssertEmpty(hormones.setSiteByIdCallArgs)
+    }
+
     private func createCommand() -> ChangeHormoneCommand {
         ChangeHormoneCommand(hormones: hormones, sites: sites, hormoneId: testId)
     }

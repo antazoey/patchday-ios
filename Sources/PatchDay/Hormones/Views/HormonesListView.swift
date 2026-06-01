@@ -240,18 +240,10 @@ struct HormonesListView: View {
         container.sdk?.hormones.totalExpired ?? 0
     }
 
-    /// Apply a fresh change to every due patch at once. The selection + change
-    /// logic lives in the SDK (`changeAllHormones`); the view just fires the
-    /// app-level side effects for each changed patch.
+    /// Change every due patch at once. All logic — SDK change + side effects —
+    /// lives in AppContainer so the UI and Siri share one implementation.
     private func changeAll() {
-        guard let sdk = container.sdk else { return }
-        let changed = sdk.commandFactory.changeAllHormones(onlyDue: true)
-        for hormone in changed {
-            container.notifications?.requestExpiredHormoneNotification(for: hormone)
-        }
-        container.widget?.set()
-        container.refreshBadges()
-        container.triggerRefresh()
+        container.changeAllDuePatches()
     }
 
     // MARK: - Tap handling

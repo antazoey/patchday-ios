@@ -24,6 +24,7 @@ Added
 - Settings → Appearance → Theme: choose Light, Dark, or OS (which shows the current system setting and follows it).
 - Settings → iCloud → "Re-download from iCloud": recover a device stuck showing old or out-of-sync data by replacing its data with your iCloud copy on next launch.
 - Hormones tab: when more than one patch is due, a "Change all" action (top-left button and in a patch's menu) changes them all to their next sites at once.
+- Siri support: ask "what's my next patch?" / "what's my next pill due?", or say "I'm changing my left abdomen patch now" / "I'm changing all my patches now".
 
 # 4.0.0 (2026-05-28)
 

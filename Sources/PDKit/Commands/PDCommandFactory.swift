@@ -42,4 +42,23 @@ public class PDCommandFactory {
         }
         return targets
     }
+
+    /// Change the patch currently on the site whose name matches `name`
+    /// (case-insensitive, whitespace-trimmed) to its next suggested site with
+    /// the current time. Returns the changed hormone, or nil if no patch is on
+    /// that site. Used by the Siri "change my <site> patch" intent.
+    @discardableResult
+    public func changeHormone(onSiteNamed name: SiteName, now: NowProtocol?=nil) -> Hormonal? {
+        sites.reloadContext()
+        let target = normalized(name)
+        guard let hormone = hormones.all.first(where: { normalized($0.siteName) == target }) else {
+            return nil
+        }
+        createChangeHormoneCommand(hormone, now: now).execute()
+        return hormone
+    }
+
+    private func normalized(_ name: SiteName) -> String {
+        name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    }
 }

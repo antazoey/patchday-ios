@@ -279,6 +279,7 @@
 		A1ICL00012CD0005000000D1 /* CloudKitAccountStatusChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */; };
 		A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000E2 /* SetupSheet.swift */; };
 		A1ICL00012CD0006000000F1 /* TutorialSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000F2 /* TutorialSheet.swift */; };
+		A1ICL00012CD0006000000G1 /* PatchDayAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000G2 /* PatchDayAppIntents.swift */; };
 		A1ICL00012CD0007000000F1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */; };
 		A1ICL00012CD0007000000F3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */; };
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
@@ -742,6 +743,7 @@
 		A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAccountStatusChecker.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0006000000E2 /* SetupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupSheet.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0006000000F2 /* TutorialSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSheet.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0006000000G2 /* PatchDayAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayAppIntents.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1921,6 +1923,7 @@
 				A1C085952FC4F25500F2D82E /* RootView.swift */,
 				A1ICL00012CD0006000000E2 /* SetupSheet.swift */,
 				A1ICL00012CD0006000000F2 /* TutorialSheet.swift */,
+				A1ICL00012CD0006000000G2 /* PatchDayAppIntents.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -2519,6 +2522,7 @@
 				A1C085972FC4F25500F2D82E /* RootView.swift in Sources */,
 				A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */,
 				A1ICL00012CD0006000000F1 /* TutorialSheet.swift in Sources */,
+				A1ICL00012CD0006000000G1 /* PatchDayAppIntents.swift in Sources */,
 				A1C085982FC4F25500F2D82E /* AppContainer.swift in Sources */,
 				A1C085992FC4F25500F2D82E /* AppTab.swift in Sources */,
 				A1C0859A2FC4F25500F2D82E /* PatchDayApp.swift in Sources */,

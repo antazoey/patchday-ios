@@ -334,6 +334,44 @@ final class AppContainer: ObservableObject {
         refreshBadges()
     }
 
+    // MARK: - Patch changes (shared by the Hormones UI and Siri)
+
+    /// Change every currently-due patch to its next site. Returns the changed
+    /// hormones.
+    @discardableResult
+    func changeAllDuePatches() -> [Hormonal] {
+        applyPatchChanges { $0.changeAllHormones(onlyDue: true) }
+    }
+
+    /// Change every patch (due or not) to its next site. Used by Siri's
+    /// "changing all my patches now".
+    @discardableResult
+    func changeAllPatches() -> [Hormonal] {
+        applyPatchChanges { $0.changeAllHormones(onlyDue: false) }
+    }
+
+    /// Change the patch on the named site. Returns it, or nil if none matched.
+    @discardableResult
+    func changePatch(onSiteNamed name: String) -> Hormonal? {
+        applyPatchChanges { factory in
+            factory.changeHormone(onSiteNamed: name).map { [$0] } ?? []
+        }.first
+    }
+
+    /// Runs an SDK patch-change closure, then fires the app-level side effects
+    /// (notifications, widget, badge, UI refresh) for the changed patches.
+    @discardableResult
+    private func applyPatchChanges(_ change: (PDCommandFactory) -> [Hormonal]) -> [Hormonal] {
+        guard let sdk = sdk else { return [] }
+        let changed = change(sdk.commandFactory)
+        for hormone in changed {
+            notifications?.requestExpiredHormoneNotification(for: hormone)
+        }
+        widget?.set()
+        triggerRefresh()
+        return changed
+    }
+
     // MARK: - Navigation helpers
 
     func goToHormoneDetail(_ index: Index) {
