@@ -12,6 +12,7 @@ import PDKit
 struct SiteDetailView: View {
 
     @EnvironmentObject private var container: AppContainer
+    @Environment(\.colorScheme) private var colorScheme
     let siteIndex: Index
 
     @State private var name: String = ""
@@ -29,6 +30,15 @@ struct SiteDetailView: View {
 
     private var imageChoices: [UIImage] {
         SiteImages.All[deliveryMethod]
+    }
+
+    /// Site images ship with light + dark variants, but `UIImage(named:)`
+    /// resolves to a single appearance when SiteImages builds them — which left
+    /// the picker showing light-mode artwork in Dark Mode. Re-resolve each image
+    /// for the current color scheme so the picker matches the rest of the UI.
+    private func adaptiveImage(_ image: UIImage) -> UIImage {
+        let style: UIUserInterfaceStyle = colorScheme == .dark ? .dark : .light
+        return image.imageAsset?.image(with: UITraitCollection(userInterfaceStyle: style)) ?? image
     }
 
     private var navTitle: String {
@@ -58,7 +68,7 @@ struct SiteDetailView: View {
                                     selectedImageIndex = index
                                     imageManuallyChosen = true
                                 } label: {
-                                    Image(uiImage: imageChoices[index])
+                                    Image(uiImage: adaptiveImage(imageChoices[index]))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 80, height: 80)

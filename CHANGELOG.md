@@ -16,6 +16,7 @@ Changed
 Fixed
 
 - Pills disabled on one device no longer keep sending notifications on your other devices.
+- Site image picker now shows Dark Mode artwork in Dark Mode (was always showing the light versions).
 
 # 4.0.0 (2026-05-28)
 
