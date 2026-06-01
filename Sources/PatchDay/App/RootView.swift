@@ -96,6 +96,7 @@ struct RootView: View {
             }
             .tag(AppTab.settings)
         }
+        .preferredColorScheme(container.preferredColorScheme)
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
                 // Only refresh badge counts here — calling triggerRefresh would

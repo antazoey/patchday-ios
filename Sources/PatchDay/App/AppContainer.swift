@@ -16,6 +16,21 @@ import PDKit
 import PatchData
 import WidgetKit
 
+/// User's app-appearance choice. `system` follows the OS setting.
+enum ThemePreference: String, CaseIterable {
+    case system
+    case light
+    case dark
+
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+}
+
 final class AppContainer: ObservableObject {
 
     static let shared = AppContainer()
@@ -71,6 +86,21 @@ final class AppContainer: ObservableObject {
 
     /// Bumped after any mutation that should re-render Hormones / Pills lists.
     @Published var refreshTick = UUID()
+
+    /// App appearance override. Device-local (not iCloud-synced) and applied at
+    /// the root via `.preferredColorScheme`.
+    @Published var themePreference: ThemePreference = {
+        let raw = UserDefaults.standard.string(forKey: PDLocalSettingsKey.theme.rawValue)
+        return ThemePreference(rawValue: raw ?? "") ?? .system
+    }() {
+        didSet {
+            UserDefaults.standard.set(
+                themePreference.rawValue, forKey: PDLocalSettingsKey.theme.rawValue
+            )
+        }
+    }
+
+    var preferredColorScheme: ColorScheme? { themePreference.colorScheme }
 
     private var isBootstrapped = false
 

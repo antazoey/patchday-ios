@@ -44,6 +44,20 @@ class SettingsUITests: PDUITest {
         XCTAssert(app.sliders["notificationsMinutesBeforeSlider"].waitForExistence(timeout: 2))
     }
 
+    func testThemePicker_selectDark_updatesSelection() throws {
+        let picker = app.buttons["themePicker"]
+        XCTAssert(picker.waitForExistence(timeout: 3))
+        picker.tap()
+        let dark = app.buttons["Dark"]
+        XCTAssert(dark.waitForExistence(timeout: 3))
+        dark.tap()
+        // Reopen the menu and confirm Dark is now the selected option.
+        app.buttons["themePicker"].tap()
+        let darkAgain = app.buttons["Dark"]
+        XCTAssert(darkAgain.waitForExistence(timeout: 3))
+        XCTAssertTrue(darkAgain.isSelected)
+    }
+
     func testTutorial_opensAndPagesToDone() throws {
         app.buttons["tutorialButton"].tap()
         XCTAssert(app.navigationBars["Tutorial"].waitForExistence(timeout: 3))

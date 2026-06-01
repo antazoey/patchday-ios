@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import UIKit
 import PDKit
 import PatchData
 import WidgetKit
@@ -33,6 +34,18 @@ struct SettingsView: View {
     @State private var showRelaunchAlert: Bool = false
     @State private var showTutorial: Bool = false
 
+    /// The device's current OS appearance, shown next to the "OS" theme option.
+    /// Read from the screen so it reflects the system setting even when the app
+    /// is overriding the appearance.
+    private var systemAppearanceName: String {
+        switch UIScreen.main.traitCollection.userInterfaceStyle {
+        case .dark:
+            return NSLocalizedString("Dark", comment: "Current OS appearance")
+        default:
+            return NSLocalizedString("Light", comment: "Current OS appearance")
+        }
+    }
+
     var body: some View {
         Form {
             Section {
@@ -45,6 +58,20 @@ struct SettingsView: View {
                     )
                 }
                 .accessibilityIdentifier("tutorialButton")
+            }
+
+            Section(NSLocalizedString("Appearance", comment: "")) {
+                Picker(
+                    NSLocalizedString("Theme", comment: ""),
+                    selection: $container.themePreference
+                ) {
+                    Text(NSLocalizedString("Light", comment: "")).tag(ThemePreference.light)
+                    Text(NSLocalizedString("Dark", comment: "")).tag(ThemePreference.dark)
+                    Text("\(NSLocalizedString("OS", comment: "")) (\(systemAppearanceName))")
+                        .tag(ThemePreference.system)
+                }
+                .pickerStyle(.menu)
+                .accessibilityIdentifier("themePicker")
             }
 
             Section(NSLocalizedString("Schedule", comment: "")) {
