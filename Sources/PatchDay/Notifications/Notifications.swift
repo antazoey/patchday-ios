@@ -47,8 +47,10 @@ class Notifications: NSObject, NotificationScheduling {
     // MARK: - Hormone
 
     func cancelExpiredHormoneNotification(for hormone: Hormonal) {
-        let id = hormone.id.uuidString
-        cancelHormoneNotifications([id])
+        // Clear the on-time alert AND its follow-up reminders (#79).
+        cancelHormoneNotifications(
+            ExpiredHormoneNotification.notificationIds(for: hormone.id.uuidString)
+        )
     }
 
     func cancelAllExpiredHormoneNotifications() {
@@ -62,7 +64,7 @@ class Notifications: NSObject, NotificationScheduling {
         var ids: [String] = []
         for i in begin...end {
             if let hormone = sdk.hormones[i] {
-                ids.append(hormone.id.uuidString)
+                ids += ExpiredHormoneNotification.notificationIds(for: hormone.id.uuidString)
             }
         }
         if ids.count > 0 {

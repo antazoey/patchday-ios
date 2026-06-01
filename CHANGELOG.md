@@ -18,6 +18,10 @@ Fixed
 - Pills disabled on one device no longer keep sending notifications on your other devices.
 - Site image picker now shows Dark Mode artwork in Dark Mode (was always showing the light versions).
 
+Added
+
+- Follow-up reminders: if you miss the expiration notification, PatchDay nudges you again a couple of times while the dose is overdue.
+
 # 4.0.0 (2026-05-28)
 
 Added

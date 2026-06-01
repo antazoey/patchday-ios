@@ -77,12 +77,9 @@ class NotificationsTests: PDTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelAllExpiredHormoneNotifications()
 
-        XCTAssertEqual([
-            mockHormones[0].id.uuidString,
-            mockHormones[1].id.uuidString,
-            mockHormones[2].id.uuidString,
-            mockHormones[3].id.uuidString
-        ], center.removeNotificationsCallArgs[0]
+        XCTAssertEqual(
+            mockHormones.flatMap { ExpiredHormoneNotification.notificationIds(for: $0.id.uuidString) },
+            center.removeNotificationsCallArgs[0]
         )
     }
 
@@ -92,7 +89,10 @@ class NotificationsTests: PDTestCase {
         let factory = MockNotificationFactory()
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelExpiredHormoneNotification(for: mockHormones[1])
-        XCTAssertEqual([mockHormones[1].id.uuidString], center.removeNotificationsCallArgs[0])
+        XCTAssertEqual(
+            ExpiredHormoneNotification.notificationIds(for: mockHormones[1].id.uuidString),
+            center.removeNotificationsCallArgs[0]
+        )
     }
 
     func testCancelRangeOfExpiredHormoneNotifications_cancelsExpectedRange() {
@@ -102,7 +102,11 @@ class NotificationsTests: PDTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 2, to: 6)
         let callArgs = center.removeNotificationsCallArgs[0]
-        XCTAssertEqual([mockHormones[2].id.uuidString, mockHormones[3].id.uuidString], callArgs)
+        XCTAssertEqual(
+            [mockHormones[2], mockHormones[3]]
+                .flatMap { ExpiredHormoneNotification.notificationIds(for: $0.id.uuidString) },
+            callArgs
+        )
     }
 
     func testCancelRangeOfExpiredHormoneNotifications_whenEndGreaterThanBegin_doesNotCallCancel() {
@@ -121,7 +125,10 @@ class NotificationsTests: PDTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 0, to: 0)
         let callArgs = center.removeNotificationsCallArgs[0]
-        XCTAssertEqual([mockHormones[0].id.uuidString], callArgs)
+        XCTAssertEqual(
+            ExpiredHormoneNotification.notificationIds(for: mockHormones[0].id.uuidString),
+            callArgs
+        )
     }
 
     func testCancelRangeOfExpiredHormoneNotifications_whenNoHormoneInRange_doesNotCallCancel() {
@@ -209,7 +216,8 @@ class NotificationsTests: PDTestCase {
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 2, to: 3)
         XCTAssertEqual(
-            [mockHormones[2].id.uuidString, mockHormones[3].id.uuidString],
+            [mockHormones[2], mockHormones[3]]
+                .flatMap { ExpiredHormoneNotification.notificationIds(for: $0.id.uuidString) },
             center.removeNotificationsCallArgs[0]
         )
     }

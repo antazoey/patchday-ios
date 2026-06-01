@@ -95,6 +95,28 @@ class ExpiredHormoneNotificationTests: PDTestCase {
         )
     }
 
+    func testRequest_schedulesOnTimeAlertPlusFollowUpReminders() {
+        let hormone = MockHormone()
+        hormone.date = Date()
+        hormone.expirationInterval = ExpirationIntervalUD()
+        let notification = ExpiredHormoneNotification(
+            hormone: hormone,
+            notifyMinutes: 0,
+            currentBadgeValue: 0,
+            requestHandler: _testHandler
+        )
+        ExpiredHormoneNotificationTests.testHandlerCallArgs = []
+        notification.request()
+        let calls = ExpiredHormoneNotificationTests.testHandlerCallArgs
+        // On-time alert + one request per follow-up offset.
+        XCTAssertEqual(1 + ExpiredHormoneNotification.followUpOffsetsHours.count, calls.count)
+        // First is the on-time alert under the plain hormone id.
+        XCTAssertEqual(hormone.id.uuidString, calls[0].1)
+        // Follow-ups use suffixed ids and fire later than the on-time alert.
+        XCTAssertEqual("\(hormone.id.uuidString)#1", calls[1].1)
+        XCTAssertTrue(calls[1].0 > calls[0].0)
+    }
+
     func testRequest_whenHormoneHasNoDate_doesNotRequest() {
         let hormone = MockHormone()
         hormone.expirationInterval = ExpirationIntervalUD()
