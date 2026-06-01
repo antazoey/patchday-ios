@@ -20,7 +20,7 @@ struct GhostSiteRow: View {
                 .font(.body.monospacedDigit())
                 .foregroundColor(.secondary)
                 .frame(width: 32, alignment: .leading)
-            Text(NSLocalizedString("Add site", comment: "Ghost add-site row"))
+            Text(NSLocalizedString("New site location", comment: "Ghost add-site row"))
                 .font(.body)
                 .foregroundColor(.secondary)
             Spacer()

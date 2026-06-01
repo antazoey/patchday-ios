@@ -28,15 +28,15 @@ public class PillStrings {
         }
 
         public static var FirstXDays: String {
-            NSLocalizedString("First X Days of Month", comment: comment)
+            NSLocalizedString("First Days of the Month", comment: comment)
         }
 
         public static var LastXDays: String {
-            NSLocalizedString("Last X Days of Month", comment: comment)
+            NSLocalizedString("Last Days of the Month", comment: comment)
         }
 
         public static var XDaysOnXDaysOff: String {
-            NSLocalizedString("X Days On, X Days Off", comment: comment)
+            NSLocalizedString("Days On, Days Off", comment: comment)
         }
 
         public static var all: [String] {

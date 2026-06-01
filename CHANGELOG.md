@@ -1,5 +1,22 @@
 # Changelog
 
+# 4.1.0 (Unreleased)
+
+Changed
+
+- Picking a site name now auto-selects its image and scrolls it into view, so you don't have to hunt the image picker.
+- Sites that share a name are handled smartly: the picker lists each name once, and choosing it uses the next free slot of that name instead of always the same one.
+- Sites tab: tap a site to Edit or Duplicate it; the add row offers Add Existing (reuse a location) or New Location.
+- Creating a site now means typing a name (no preset list) — reuse a location via Add Existing instead.
+- Sites → Edit → Presets applies a ready-made scheme (the default, or rotations like Abdomen L×3 → R×3); replaces the old Reset.
+- Settings: a Tutorial button walks you through sites, hormones, and pills with screenshots.
+- Clearer pill schedule names: "First/Last Days of the Month" and "Days On, Days Off" (dropped the literal "X").
+- Sites list: consecutive same-named sites collapse to one "Name ×N" row; tap to expand the individual slots. Edit mode still lists them separately for reordering.
+
+Fixed
+
+- Pills disabled on one device no longer keep sending notifications on your other devices.
+
 # 4.0.0 (2026-05-28)
 
 Added

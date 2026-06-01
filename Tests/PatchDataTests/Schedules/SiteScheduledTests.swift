@@ -640,4 +640,95 @@ class SiteScheduleTests: PDTestCase {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertNil(sites.indexOf(MockSite()))
     }
+
+    // MARK: - uniqueNames
+
+    public func testUniqueNames_collapsesDuplicateNamesPreservingOrder() {
+        setUpNamedSites([("Abdomen", 0), ("Abdomen", 0), ("Glute", 0), ("Abdomen", 0)])
+        XCTAssertEqual(["Abdomen", "Glute"], sites.uniqueNames)
+    }
+
+    // MARK: - site(forName:preferring:)
+
+    public func testSiteForName_whenNameNotPresent_returnsNil() {
+        setUpNamedSites([("Abdomen", 0), ("Glute", 0)])
+        XCTAssertNil(sites.site(forName: "Thigh", preferring: nil))
+    }
+
+    public func testSiteForName_returnsFirstUnusedSlotOfThatName_ignoringNonMatchingPreference() {
+        // Two "Abdomen" slots: first occupied, second free. Even when preferring
+        // a slot of a different name, resolution must land on the free Abdomen.
+        let mockSites = setUpNamedSites([("Glute", 0), ("Abdomen", 1), ("Abdomen", 0)])
+        let result = sites.site(forName: "Abdomen", preferring: mockSites[0].id)
+        XCTAssertEqual(mockSites[2].id, result?.id)
+    }
+
+    public func testSiteForName_prefersCurrentSlotWhenItAlreadyCarriesTheName() {
+        // Both "Abdomen" slots are free; first-unused would pick index 0, but the
+        // hormone already sits on index 1 — re-saving must keep it there.
+        let mockSites = setUpNamedSites([("Abdomen", 0), ("Abdomen", 0)])
+        let result = sites.site(forName: "Abdomen", preferring: mockSites[1].id)
+        XCTAssertEqual(mockSites[1].id, result?.id)
+    }
+
+    // MARK: - setSites(to:)
+
+    public func testSetSites_replacesScheduleWithGivenNamesIncludingDuplicates() {
+        setUpNamedSites([("Right Glute", 0), ("Left Glute", 0)])
+        sites.setSites(to: ["Left Abdomen", "Left Abdomen", "Right Abdomen"])
+        XCTAssertEqual(["Left Abdomen", "Left Abdomen", "Right Abdomen"], sites.names)
+        XCTAssertEqual(3, sites.count)
+    }
+
+    public func testSetSites_deletesExtraSlotsWhenSchemeIsSmaller() {
+        setUpNamedSites([("A", 0), ("B", 0), ("C", 0), ("D", 0)])
+        sites.setSites(to: ["Left Abdomen", "Right Abdomen"])
+        XCTAssertEqual(2, sites.count)
+        XCTAssertEqual(["Left Abdomen", "Right Abdomen"], sites.names)
+    }
+
+    public func testSetSites_resetsSiteIndexToZero() {
+        setUpNamedSites([("A", 0), ("B", 0)])
+        sites.setSites(to: ["Left Abdomen", "Right Abdomen", "Left Glute"])
+        XCTAssertTrue(mockSettings.replaceSiteIndexCallArgs.contains(0))
+    }
+
+    public func testSetSites_whenNamesEmpty_doesNothing() {
+        setUpNamedSites([("A", 0), ("B", 0)])
+        sites.setSites(to: [])
+        XCTAssertEqual(2, sites.count)
+    }
+
+    // MARK: - clone(at:)
+
+    public func testClone_appendsNewSlotWithSameNameAndImage() {
+        let mockSites = setUpNamedSites([("Abdomen", 0)])
+        mockSites[0].imageId = "Abdomen"
+        mockStore.newObjectFactory = { MockSite() }
+        let countBefore = sites.count
+        let clone = sites.clone(at: 0)
+        XCTAssertEqual("Abdomen", clone?.name)
+        XCTAssertEqual("Abdomen", clone?.imageId)
+        XCTAssertEqual(countBefore + 1, sites.count)
+        XCTAssertEqual(["Abdomen"], sites.uniqueNames)
+    }
+
+    public func testClone_whenIndexDoesNotExist_returnsNil() {
+        setUpNamedSites([("Abdomen", 0)])
+        mockStore.newObjectFactory = { MockSite() }
+        XCTAssertNil(sites.clone(at: 9))
+    }
+
+    @discardableResult
+    private func setUpNamedSites(_ specs: [(name: String, hormoneCount: Int)]) -> [MockSite] {
+        var mockSites: [MockSite] = []
+        for spec in specs {
+            let site = createMockOccupiedSite(hormoneCount: spec.hormoneCount)
+            site.name = spec.name
+            mockSites.append(site)
+        }
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+        return mockSites
+    }
 }

@@ -20,6 +20,8 @@ public class MockSiteSchedule: SiteScheduling {
 
     public var names: [SiteName] = []
 
+    public var uniqueNames: [SiteName] = []
+
     public var isDefault: Bool = false
 
     public init() { }
@@ -39,6 +41,25 @@ public class MockSiteSchedule: SiteScheduling {
         }
 
         return insertNewReturnValue
+    }
+
+    public var setSitesCallArgs: [[SiteName]] = []
+    public func setSites(to names: [SiteName]) {
+        setSitesCallArgs.append(names)
+    }
+
+    public var cloneCallArgs: [Index] = []
+    public var cloneReturnValue: Bodily?
+    public func clone(at index: Index) -> Bodily? {
+        cloneCallArgs.append(index)
+        return cloneReturnValue
+    }
+
+    public var siteForNameCallArgs: [(SiteName, UUID?)] = []
+    public var siteForNameReturnValue: Bodily?
+    public func site(forName name: SiteName, preferring currentSiteId: UUID?) -> Bodily? {
+        siteForNameCallArgs.append((name, currentSiteId))
+        return siteForNameReturnValue
     }
 
     public var subscriptIdCallArgs: [UUID] = []

@@ -40,7 +40,7 @@ class PillDetailUITests: PDUITest {
 
     func testSelectSchedule_whenFirstXDays_showsDaysOneStepper() throws {
         app.buttons["pillScheduleButton"].tap()
-        let option = app.buttons["First X Days of Month"]
+        let option = app.buttons["First Days of the Month"]
         XCTAssert(option.waitForExistence(timeout: 3))
         option.tap()
         XCTAssert(app.steppers["pillDaysOneScheduleButton"].waitForExistence(timeout: 2))
@@ -48,7 +48,7 @@ class PillDetailUITests: PDUITest {
 
     func testSelectSchedule_whenXDaysOnXDaysOff_showsBothSteppers() throws {
         app.buttons["pillScheduleButton"].tap()
-        let option = app.buttons["X Days On, X Days Off"]
+        let option = app.buttons["Days On, Days Off"]
         XCTAssert(option.waitForExistence(timeout: 3))
         option.tap()
         XCTAssert(app.steppers["pillDaysOneScheduleButton"].waitForExistence(timeout: 2))

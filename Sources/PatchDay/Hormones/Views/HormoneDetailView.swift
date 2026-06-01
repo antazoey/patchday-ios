@@ -207,7 +207,10 @@ struct HormoneDetailView: View {
 
     private var siteNames: [String] {
         guard let sdk = container.sdk else { return [] }
-        return sdk.sites.names.map { $0.isEmpty ? SiteStrings.NewSite : $0 }
+        // Deduplicate by name: several physical slots can share a name, but the
+        // picker should offer each name once. Resolution to a concrete slot
+        // happens at save time via sdk.sites.site(forName:preferring:).
+        return sdk.sites.uniqueNames.map { $0.isEmpty ? SiteStrings.NewSite : $0 }
     }
 
     private var hormone: Hormonal? {
@@ -293,7 +296,9 @@ struct HormoneDetailView: View {
     /// "fresh" branch fires again.
     private var nextSiteInRotation: String? {
         guard let sdk = container.sdk else { return nil }
-        let allNames = sdk.sites.all.map { $0.name.isEmpty ? SiteStrings.NewSite : $0.name }
+        // Walk distinct names so the arrow doesn't offer the same name twice
+        // when slots share it.
+        let allNames = sdk.sites.uniqueNames.map { $0.isEmpty ? SiteStrings.NewSite : $0 }
         guard !allNames.isEmpty else { return nil }
 
         if state.selectedSiteName == state.initialSiteName {
@@ -332,7 +337,11 @@ struct HormoneDetailView: View {
             return
         }
         sdk.hormones.setDate(by: hormone.id, with: state.selectedDate)
-        if let site = sdk.sites.all.first(where: { $0.name == state.selectedSiteName }) {
+        // Resolve the chosen name to a concrete slot: keep the hormone on its
+        // current slot if it already matches the name, else take the next
+        // unused same-named slot. This stops several hormones from all pinning
+        // to the same site ID when sites share a name.
+        if let site = sdk.sites.site(forName: state.selectedSiteName, preferring: hormone.siteId) {
             sdk.hormones.setSite(by: hormone.id, with: site)
         } else if !state.selectedSiteName.isEmpty {
             sdk.hormones.setSiteName(by: hormone.id, with: state.selectedSiteName)

@@ -153,9 +153,9 @@ struct PillDetailView: View {
     private var daysOneLabel: String {
         switch interval {
         case .FirstXDays:
-            return NSLocalizedString("First X days", comment: "")
+            return NSLocalizedString("First days", comment: "")
         case .LastXDays:
-            return NSLocalizedString("Last X days", comment: "")
+            return NSLocalizedString("Last days", comment: "")
         default:
             return NSLocalizedString("Days", comment: "")
         }

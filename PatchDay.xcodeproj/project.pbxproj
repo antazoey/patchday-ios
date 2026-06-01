@@ -257,6 +257,7 @@
 		A1ICL00012CD0060000000A1 /* GhostHormoneRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0060000000A2 /* GhostHormoneRow.swift */; };
 		A1ICL00012CD0070000000A1 /* GhostPillRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0070000000A2 /* GhostPillRow.swift */; };
 		A1ICL00012CD0080000000A1 /* GhostSiteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0080000000A2 /* GhostSiteRow.swift */; };
+		A1ICL00012CD0080000000B1 /* SiteSchemePresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0080000000B2 /* SiteSchemePresetsView.swift */; };
 		A1C085A12FC4F26E00F2D82E /* HormonesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0859E2FC4F26E00F2D82E /* HormonesListView.swift */; };
 		A1C085A22FC4F26E00F2D82E /* HormoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0859C2FC4F26E00F2D82E /* HormoneDetailView.swift */; };
 		A1C085A72FC4FA4A00F2D82E /* SiteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C085A32FC4FA4A00F2D82E /* SiteDetailView.swift */; };
@@ -277,6 +278,7 @@
 		A1ICL00012CD0003000000C5 /* MockUbiquitousKVStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */; };
 		A1ICL00012CD0005000000D1 /* CloudKitAccountStatusChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */; };
 		A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000E2 /* SetupSheet.swift */; };
+		A1ICL00012CD0006000000F1 /* TutorialSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0006000000F2 /* TutorialSheet.swift */; };
 		A1ICL00012CD0007000000F1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */; };
 		A1ICL00012CD0007000000F3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */; };
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
@@ -719,6 +721,7 @@
 		A1ICL00012CD0060000000A2 /* GhostHormoneRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostHormoneRow.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0070000000A2 /* GhostPillRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostPillRow.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0080000000A2 /* GhostSiteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostSiteRow.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0080000000B2 /* SiteSchemePresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSchemePresetsView.swift; sourceTree = "<group>"; };
 		A1C0859E2FC4F26E00F2D82E /* HormonesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesListView.swift; sourceTree = "<group>"; };
 		A1C085A32FC4FA4A00F2D82E /* SiteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailView.swift; sourceTree = "<group>"; };
 		A1C085A42FC4FA4A00F2D82E /* SiteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteRow.swift; sourceTree = "<group>"; };
@@ -738,6 +741,7 @@
 		A1ICL00012CD0003000000C6 /* MockUbiquitousKVStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUbiquitousKVStore.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0005000000D2 /* CloudKitAccountStatusChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAccountStatusChecker.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0006000000E2 /* SetupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupSheet.swift; sourceTree = "<group>"; };
+		A1ICL00012CD0006000000F2 /* TutorialSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSheet.swift; sourceTree = "<group>"; };
 		A1ICL00012CD0007000000F2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A1ICL00012CD0007000000F4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1916,6 +1920,7 @@
 				A1C085942FC4F25500F2D82E /* PatchDayApp.swift */,
 				A1C085952FC4F25500F2D82E /* RootView.swift */,
 				A1ICL00012CD0006000000E2 /* SetupSheet.swift */,
+				A1ICL00012CD0006000000F2 /* TutorialSheet.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1937,6 +1942,7 @@
 				A1C085A32FC4FA4A00F2D82E /* SiteDetailView.swift */,
 				A1C085A42FC4FA4A00F2D82E /* SiteRow.swift */,
 				A1ICL00012CD0080000000A2 /* GhostSiteRow.swift */,
+				A1ICL00012CD0080000000B2 /* SiteSchemePresetsView.swift */,
 				A1C085A52FC4FA4A00F2D82E /* SitesListView.swift */,
 			);
 			path = Views;
@@ -2512,6 +2518,7 @@
 				9D3E4C7E22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift in Sources */,
 				A1C085972FC4F25500F2D82E /* RootView.swift in Sources */,
 				A1ICL00012CD0006000000E1 /* SetupSheet.swift in Sources */,
+				A1ICL00012CD0006000000F1 /* TutorialSheet.swift in Sources */,
 				A1C085982FC4F25500F2D82E /* AppContainer.swift in Sources */,
 				A1C085992FC4F25500F2D82E /* AppTab.swift in Sources */,
 				A1C0859A2FC4F25500F2D82E /* PatchDayApp.swift in Sources */,
@@ -2539,6 +2546,7 @@
 				A1C085A82FC4FA4A00F2D82E /* SitesListView.swift in Sources */,
 				A1C085A92FC4FA4A00F2D82E /* SiteRow.swift in Sources */,
 				A1ICL00012CD0080000000A1 /* GhostSiteRow.swift in Sources */,
+				A1ICL00012CD0080000000B1 /* SiteSchemePresetsView.swift in Sources */,
 				9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */,
 				9DE7483B2539072500282144 /* HormoneCellViewModel.swift in Sources */,
 				3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */,
@@ -3063,7 +3071,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3086,7 +3094,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3163,7 +3171,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
@@ -3195,7 +3203,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3420,7 +3428,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -3459,7 +3467,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -3551,7 +3559,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3589,7 +3597,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

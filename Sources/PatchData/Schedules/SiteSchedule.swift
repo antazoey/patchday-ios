@@ -67,6 +67,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
         all.map({ (site: Bodily) -> SiteName in site.name })
     }
 
+    public var uniqueNames: [SiteName] {
+        var seen = Set<SiteName>()
+        return names.filter { seen.insert($0).inserted }
+    }
+
     public var isDefault: Bool {
         guard count > 0 else { return false }
         let method = settings.deliveryMethod.value
@@ -91,6 +96,48 @@ public class SiteSchedule: NSObject, SiteScheduling {
             return site
         }
         return nil
+    }
+
+    @discardableResult
+    public func clone(at index: Index) -> Bodily? {
+        guard let source = self[index], var newSite = store.createNewSite(doSave: false) else {
+            return nil
+        }
+        newSite.name = source.name
+        newSite.imageId = source.imageId
+        newSite.order = count
+        context.append(newSite)
+        save()
+        return newSite
+    }
+
+    public func site(forName name: SiteName, preferring currentSiteId: UUID?) -> Bodily? {
+        let matches = all.filter { $0.name == name }
+        guard !matches.isEmpty else { return nil }
+        // Re-saving onto the same-named slot the hormone already occupies is a
+        // no-op move; keep it rather than shoving the hormone to a sibling slot.
+        if let currentSiteId = currentSiteId,
+            let current = matches.first(where: { $0.id == currentSiteId }) {
+            return current
+        }
+        // The whole point of the same-name group: hand out the next free slot.
+        if let firstEmpty = matches.first(where: { $0.hormoneCount == 0 }) {
+            return firstEmpty
+        }
+        // Every slot of this name is occupied — give back the one whose hormone
+        // is oldest so rotation keeps advancing predictably.
+        return matches.min(by: { oldestHormoneDate(on: $0) < oldestHormoneDate(on: $1) })
+            ?? matches.first
+    }
+
+    public func setSites(to names: [SiteName]) {
+        guard !names.isEmpty else { return }
+        let previousCount = count
+        assignDefaultProperties(options: names)
+        deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: names.count)
+        // Start rotation over: the slots just changed underneath any old cursor.
+        settings.replaceSiteIndex(to: 0)
+        store.pushLocalChangesToManagedContext(context, doSave: true)
     }
 
     @discardableResult
@@ -191,6 +238,10 @@ public class SiteSchedule: NSObject, SiteScheduling {
             }
             return (b.oldestDate, b.oldest, b.iterator + 1)
         }).oldest
+    }
+
+    private func oldestHormoneDate(on site: Bodily) -> Date {
+        getOldestHormoneDate(from: site.id) ?? Date.distantFuture
     }
 
     private func getOldestHormoneDate(from siteId: UUID) -> Date? {

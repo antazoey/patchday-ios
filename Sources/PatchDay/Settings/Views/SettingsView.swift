@@ -31,9 +31,22 @@ struct SettingsView: View {
     @State private var iCloudAccountStatus: CloudKitAccountStatusChecker.Status = .unknown
     @State private var lastSyncDate: Date?
     @State private var showRelaunchAlert: Bool = false
+    @State private var showTutorial: Bool = false
 
     var body: some View {
         Form {
+            Section {
+                Button {
+                    showTutorial = true
+                } label: {
+                    Label(
+                        NSLocalizedString("Tutorial", comment: "Open the walkthrough"),
+                        systemImage: "graduationcap"
+                    )
+                }
+                .accessibilityIdentifier("tutorialButton")
+            }
+
             Section(NSLocalizedString("Schedule", comment: "")) {
                 Picker(
                     NSLocalizedString("Delivery method", comment: ""),
@@ -216,6 +229,7 @@ struct SettingsView: View {
         }
         .navigationTitle(PDTitleStrings.SettingsTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showTutorial) { TutorialSheet() }
         .alert(
             NSLocalizedString("Change delivery method?", comment: ""),
             isPresented: deliveryAlertBinding,

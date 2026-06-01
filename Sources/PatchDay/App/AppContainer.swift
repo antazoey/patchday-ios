@@ -243,8 +243,11 @@ final class AppContainer: ObservableObject {
             // Then refresh derived UI / notifications / widgets.
             self?.triggerRefresh()
             self?.refreshBadges()
-            self?.notifications?.cancelAllExpiredHormoneNotifications()
-            self?.notifications?.requestAllExpiredHormoneNotifications()
+            // A synced setting change can flip pillsEnabled / notifications, so
+            // refresh BOTH categories here. Previously only hormones were
+            // refreshed, so disabling pills on another device left this device
+            // still firing pill notifications.
+            self?.refreshAllNotifications()
             WidgetCenter.shared.reloadAllTimelines()
             UserDefaults.standard.set(
                 Date(), forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
@@ -267,16 +270,25 @@ final class AppContainer: ObservableObject {
         // Re-share derived widget values + reschedule notifications.
         sdk?.hormones.shareData()
         sdk?.pills.shareData()
-        notifications?.cancelAllExpiredHormoneNotifications()
-        notifications?.requestAllExpiredHormoneNotifications()
-        notifications?.cancelAllDuePillNotifications()
-        notifications?.requestAllDuePillNotifications()
+        refreshAllNotifications()
 
         triggerRefresh()
         WidgetCenter.shared.reloadAllTimelines()
         UserDefaults.standard.set(
             Date(), forKey: PDLocalSettingsKey.lastICloudSyncDate.rawValue
         )
+    }
+
+    /// Cancel + reschedule every notification category (hormones AND pills).
+    /// Each request path self-guards on its enabled / notify flags, so a
+    /// disabled category is simply cancelled and not re-requested. Both remote
+    /// sync handlers (KVS settings + CoreData data) call this so they can't
+    /// drift out of sync the way they did when only hormones were refreshed.
+    private func refreshAllNotifications() {
+        notifications?.cancelAllExpiredHormoneNotifications()
+        notifications?.requestAllExpiredHormoneNotifications()
+        notifications?.cancelAllDuePillNotifications()
+        notifications?.requestAllDuePillNotifications()
     }
 
     // MARK: - Badge counts (drive the SwiftUI tab bar)
@@ -318,6 +330,10 @@ final class AppContainer: ObservableObject {
 
     func goToSiteDetail(_ index: Index) {
         sitesPath.append(SitesRoute.detail(index: index))
+    }
+
+    func goToSitePresets() {
+        sitesPath.append(SitesRoute.presets)
     }
 
     func popSites() {

@@ -43,4 +43,15 @@ class SettingsUITests: PDUITest {
     func testNotificationsSlider_exists() throws {
         XCTAssert(app.sliders["notificationsMinutesBeforeSlider"].waitForExistence(timeout: 2))
     }
+
+    func testTutorial_opensAndPagesToDone() throws {
+        app.buttons["tutorialButton"].tap()
+        XCTAssert(app.navigationBars["Tutorial"].waitForExistence(timeout: 3))
+        let next = app.buttons["tutorialNextButton"]
+        XCTAssert(next.waitForExistence(timeout: 3))
+        // Page through all steps; on the last page the button dismisses.
+        for _ in 0..<5 { next.tap() }
+        next.tap()
+        XCTAssertFalse(app.navigationBars["Tutorial"].waitForExistence(timeout: 2))
+    }
 }

@@ -28,4 +28,5 @@ enum PillsRoute: Hashable {
 
 enum SitesRoute: Hashable {
     case detail(index: Index)
+    case presets
 }

@@ -17,6 +17,7 @@ struct SiteDetailView: View {
     @State private var name: String = ""
     @State private var selectedImageIndex: Int = 0
     @State private var didPrime = false
+    @State private var imageManuallyChosen = false
 
     private var site: Bodily? {
         container.sdk?.sites[siteIndex]
@@ -41,45 +42,56 @@ struct SiteDetailView: View {
     var body: some View {
         Form {
             Section(NSLocalizedString("Name", comment: "")) {
+                // No preset picker by design — creating a site means typing a new
+                // name. To reuse an existing location, use Sites → Add Existing.
                 TextField(NSLocalizedString("Site name", comment: ""), text: $name)
                     .autocapitalization(.words)
                     .accessibilityIdentifier("siteNameTextField")
-                Picker(NSLocalizedString("Preset", comment: ""), selection: $name) {
-                    ForEach(SiteStrings.all, id: \.self) { Text($0).tag($0) }
-                }
-                .pickerStyle(.menu)
-                .accessibilityIdentifier("siteNamePresetPicker")
             }
 
             Section(NSLocalizedString("Image:", comment: "")) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(imageChoices.indices, id: \.self) { index in
-                            Button {
-                                selectedImageIndex = index
-                            } label: {
-                                Image(uiImage: imageChoices[index])
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .padding(4)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(
-                                                index == selectedImageIndex
-                                                    ? Color.accentColor
-                                                    : Color.clear,
-                                                lineWidth: 3
-                                            )
-                                    )
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            ForEach(imageChoices.indices, id: \.self) { index in
+                                Button {
+                                    selectedImageIndex = index
+                                    imageManuallyChosen = true
+                                } label: {
+                                    Image(uiImage: imageChoices[index])
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .padding(4)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(
+                                                    index == selectedImageIndex
+                                                        ? Color.accentColor
+                                                        : Color.clear,
+                                                    lineWidth: 3
+                                                )
+                                        )
+                                }
+                                .buttonStyle(.plain)
+                                .id(index)
+                                .accessibilityIdentifier("siteImageButton_\(index)")
+                                .accessibilityAddTraits(
+                                    index == selectedImageIndex ? [.isSelected] : []
+                                )
                             }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("siteImageButton_\(index)")
                         }
+                        .padding(.vertical, 4)
                     }
-                    .padding(.vertical, 4)
+                    .accessibilityIdentifier("siteImagePickerScroll")
+                    // Keep the selected image in view: when the name auto-picks
+                    // an image (or it's primed from an existing site), the
+                    // choice can be off-screen and invisible otherwise.
+                    .onChange(of: selectedImageIndex) { _, index in
+                        withAnimation { proxy.scrollTo(index, anchor: .center) }
+                    }
+                    .onAppear { proxy.scrollTo(selectedImageIndex, anchor: .center) }
                 }
-                .accessibilityIdentifier("siteImagePickerScroll")
             }
         }
         .navigationTitle(navTitle)
@@ -90,18 +102,40 @@ struct SiteDetailView: View {
                     .accessibilityIdentifier("siteSaveButton")
             }
         }
+        .onChange(of: name) { _, newName in
+            syncImageToName(newName)
+        }
         .onAppear(perform: prime)
     }
 
     private func prime() {
         guard !didPrime, let site = site else { return }
         didPrime = true
-        name = site.name
+        // A brand-new site starts with the "New Site" placeholder name; show an
+        // empty field so it prompts the user to type a name rather than pre-filling.
+        name = site.name == SiteStrings.NewSite ? "" : site.name
         let params = SiteImageDeterminationParameters(
             imageId: site.imageId, deliveryMethod: deliveryMethod
         )
         let currentImage = SiteImages[params]
         selectedImageIndex = imageChoices.firstIndex(of: currentImage) ?? 0
+        // Preserve a deliberately-chosen image (custom, or one that doesn't match
+        // the site name) so a later rename doesn't clobber it. A brand-new site
+        // or one whose image already matches its name stays auto-syncing.
+        if site.imageId != site.name {
+            imageManuallyChosen = true
+        }
+    }
+
+    /// Auto-select the image matching the chosen site name so the user doesn't
+    /// have to scroll the image picker for a standard site. Skipped once the user
+    /// has hand-picked an image, and a no-match name (custom) leaves it untouched.
+    private func syncImageToName(_ siteName: String) {
+        guard !imageManuallyChosen else { return }
+        let trimmed = siteName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let match = imageChoices.firstIndex(where: { SiteImages.getName(from: $0) == trimmed }) {
+            selectedImageIndex = match
+        }
     }
 
     private func save() {

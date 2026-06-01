@@ -69,6 +69,8 @@ struct RootView: View {
                         switch route {
                         case .detail(let index):
                             SiteDetailView(siteIndex: index)
+                        case .presets:
+                            SiteSchemePresetsView()
                         }
                     }
             }
