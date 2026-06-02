@@ -17,6 +17,7 @@ Fixed
 
 - Pills disabled on one device no longer keep sending notifications on your other devices.
 - Site image picker now shows Dark Mode artwork in Dark Mode (was always showing the light versions).
+- Notification badge no longer reads one too high (e.g. "2" for a single due patch). It now uses the live alert count instead of a stale cached value baked in when the patch was changed.
 
 Added
 

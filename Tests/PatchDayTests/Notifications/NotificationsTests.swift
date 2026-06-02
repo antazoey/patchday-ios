@@ -395,4 +395,28 @@ class NotificationsTests: PDTestCase {
         XCTAssertEqual(eightYesterday, factory.createOvernightExpiredHormoneNotificationCallArgs[0])
         XCTAssertEqual(1, mockNotification.requestCallCount)
     }
+
+    // MARK: - Notification badge (uses live alert count, not the stale cache)
+
+    func testCreateExpiredHormoneNotification_badgeIgnoresStaleCachedBadge() {
+        // Live alerts = 0; the cached icon-badge value is a stale 5 and must be
+        // ignored. Badge should be 0 + 1 = 1, not 5 + 1.
+        let sdk = createSDK(totalExpired: 0)
+        let staleBadge = MockBadge()
+        staleBadge.value = 5
+        let factory = NotificationFactory(sdk: sdk, badge: staleBadge)
+        let notification = factory.createExpiredHormoneNotification(
+            hormone: createTestHormone()
+        ) as? ExpiredHormoneNotification
+        XCTAssertEqual(1, notification?.content.badge?.intValue)
+    }
+
+    func testCreateExpiredHormoneNotification_badgeIsLiveAlertsPlusOne() {
+        let sdk = createSDK(totalExpired: 1)
+        let factory = NotificationFactory(sdk: sdk, badge: MockBadge())
+        let notification = factory.createExpiredHormoneNotification(
+            hormone: createTestHormone()
+        ) as? ExpiredHormoneNotification
+        XCTAssertEqual(2, notification?.content.badge?.intValue)
+    }
 }
