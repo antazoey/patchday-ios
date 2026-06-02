@@ -31,4 +31,9 @@ public protocol PatchDataSDK {
 
     /// Reset each schedule and the settings back to defaults.
     func resetAll()
+
+    /// Write the next suggested site into shared storage so the widget can show
+    /// where the next patch should go. (Hormones/sites don't know about each
+    /// other, so the SDK — which has both — shares it.)
+    func shareSuggestedSite()
 }

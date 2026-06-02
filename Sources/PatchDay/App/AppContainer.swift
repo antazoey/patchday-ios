@@ -327,6 +327,9 @@ final class AppContainer: ObservableObject {
         hormonesBadge = sdk?.hormones.totalExpired ?? 0
         pillsBadge = sdk?.pills.totalDue ?? 0
         badge?.reflect()
+        // Cheap; keeps the widget's "next suggested site" fresh on launch,
+        // foreground, and after every mutation (triggerRefresh calls this).
+        sdk?.shareSuggestedSite()
     }
 
     func triggerRefresh() {

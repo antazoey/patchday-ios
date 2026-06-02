@@ -10,7 +10,7 @@ import PDKit
 
 struct NextHormone {
     let hormoneExpirationDate: Date?
-    let hormoneSite: String?
+    let suggestedSite: String?
     let pillsEnabled: Bool
     let pill: String?
     let pillDue: Date?
@@ -28,7 +28,7 @@ struct NextHormoneLoader {
     static func fetch(completion: @escaping (NextHormone) -> Void) {
         let next = NextHormone(
             hormoneExpirationDate: nextHormoneExpirationDate,
-            hormoneSite: nextHormoneSite,
+            suggestedSite: nextSuggestedSite,
             pillsEnabled: pillsEnabled,
             pill: nextPillName,
             pillDue: nextPillDate,
@@ -37,8 +37,9 @@ struct NextHormoneLoader {
         completion(next)
     }
 
-    private static var nextHormoneSite: String? {
-        let site = defaults?.string(forKey: SharedDataKey.NextHormoneSite.rawValue)
+    /// Where the next patch should go (the rotation's suggested site).
+    private static var nextSuggestedSite: String? {
+        let site = defaults?.string(forKey: SharedDataKey.NextSuggestedSite.rawValue)
         guard let site = site, !site.isEmpty, site != SiteStrings.NewSite else { return nil }
         return site
     }
@@ -74,7 +75,7 @@ struct NextHormoneTimeline: TimelineProvider {
     func placeholder(in context: Context) -> NextHormoneEntry {
         let fakeHormone = NextHormone(
             hormoneExpirationDate: Date(),
-            hormoneSite: SiteStrings.RightAbdomen,
+            suggestedSite: SiteStrings.RightAbdomen,
             pillsEnabled: true,
             pill: PillStrings.DefaultPills[0],
             pillDue: Date(),
@@ -169,10 +170,17 @@ struct NextHormoneWidgetView: View {
         return StringTextWidgetView(text: text)
     }
 
-    /// The site the next patch is on, e.g. "Right Abdomen".
+    /// Where the next patch should go, e.g. "→ Right Abdomen".
     var siteView: Text? {
-        guard let site = entry.hormone.hormoneSite else { return nil }
-        return Text(site).font(.system(.subheadline)).bold().foregroundColor(.black)
+        guard let site = entry.hormone.suggestedSite else { return nil }
+        return Text("→ \(site)").font(.system(.subheadline)).bold().foregroundColor(.black)
+    }
+
+    /// A red "Past due!" label, reused for an overdue patch or pill.
+    var pastDueLabel: some View {
+        Text(NSLocalizedString("Past due!", comment: "Widget view"))
+            .font(.system(.caption)).bold()
+            .foregroundColor(.red)
     }
 
     /// Whether the next patch is already due (expired) as of this entry.
@@ -181,16 +189,14 @@ struct NextHormoneWidgetView: View {
         return date <= entry.date
     }
 
-    /// "Due now" when overdue, otherwise the expiration date.
+    /// "Past due!" when overdue, otherwise the expiration date.
     @ViewBuilder
     var hormoneDueView: some View {
-        if entry.hormone.hormoneExpirationDate != nil {
+        if let date = entry.hormone.hormoneExpirationDate {
             if isDue {
-                Text(NSLocalizedString("Due now", comment: "Widget view"))
-                    .font(.system(.caption)).bold()
-                    .foregroundColor(Color(PDColors[.NewItem]))
+                pastDueLabel
             } else {
-                DateTextWidgetView(date: entry.hormone.hormoneExpirationDate)
+                DateTextWidgetView(date: date)
             }
         }
     }
@@ -203,10 +209,21 @@ struct NextHormoneWidgetView: View {
         return StringTextWidgetView(text: text)
     }
 
-    var nextPillDueView: DateTextWidgetView? {
-        guard entry.hormone.pillsEnabled else { return nil }
-        guard let date = entry.hormone.pillDue else { return nil }
-        return DateTextWidgetView(date: date)
+    var isPillDue: Bool {
+        guard let date = entry.hormone.pillDue else { return false }
+        return date <= entry.date
+    }
+
+    /// "Past due!" when the pill is overdue, otherwise its due date.
+    @ViewBuilder
+    var pillDueView: some View {
+        if let date = entry.hormone.pillDue {
+            if isPillDue {
+                pastDueLabel
+            } else {
+                DateTextWidgetView(date: date)
+            }
+        }
     }
 
     /// Only show the hormone section when there's a next patch with a real
@@ -230,7 +247,7 @@ struct NextHormoneWidgetView: View {
             }
             if hasNextPill {
                 nextPillView
-                nextPillDueView
+                pillDueView
             }
             if !hasNextHormone && !hasNextPill {
                 Text(NSLocalizedString("Nothing due", comment: "Widget empty state"))

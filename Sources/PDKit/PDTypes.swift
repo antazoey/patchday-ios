@@ -98,6 +98,7 @@ public enum SiteImageReflectionError: Error {
 public enum SharedDataKey: String {
     case NextHormoneDate = "nextEstroDate"
     case NextHormoneSite = "nextHormoneSite"
+    case NextSuggestedSite = "nextSuggestedSite"
     case NextPillToTake = "nextPillToTake"
     case NextPillTakeTime = "nextPillTakeTime"
 }

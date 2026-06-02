@@ -29,4 +29,9 @@ public class MockSDK: PatchDataSDK {
     public func resetAll() {
         resetAllCallCount += 1
     }
+
+    public var shareSuggestedSiteCallCount = 0
+    public func shareSuggestedSite() {
+        shareSuggestedSiteCallCount += 1
+    }
 }

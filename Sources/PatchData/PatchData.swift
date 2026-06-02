@@ -266,6 +266,12 @@ public class PatchData: NSObject, PatchDataSDK {
         hormones.totalExpired + pills.totalDue
     }
 
+    public func shareSuggestedSite() {
+        let name = sites.suggested?.name
+        let value = (name?.isEmpty == false && name != SiteStrings.NewSite) ? name : nil
+        dataSharer.set(value, for: SharedDataKey.NextSuggestedSite.rawValue)
+    }
+
     public func resetAll() {
         hormones.reset()
         pills.reset()

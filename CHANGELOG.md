@@ -21,7 +21,7 @@ Fixed
 
 Added
 
-- Home Screen widget now shows your next patch's site and a "Due now" indicator, and renders correctly on iOS 17 (it had gone blank). Add it from the Home Screen widget gallery → PatchDay.
+- Home Screen widget now shows where to apply your next patch (the suggested site) and flags overdue patches and pills with "Past due!", and renders correctly on iOS 17 (it had gone blank). Add it from the Home Screen widget gallery → PatchDay.
 - Follow-up reminders: if you miss the expiration notification, PatchDay nudges you again a couple of times while the dose is overdue.
 - Settings → Appearance → Theme: choose Light, Dark, or OS (which shows the current system setting and follows it).
 - Settings → iCloud → "Re-download from iCloud": recover a device stuck showing old or out-of-sync data by replacing its data with your iCloud copy on next launch.
