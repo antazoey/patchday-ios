@@ -350,6 +350,14 @@ final class AppContainer: ObservableObject {
         applyPatchChanges { $0.changeAllHormones(onlyDue: false) }
     }
 
+    /// Change the next patch due. Returns it, or nil if there are no patches.
+    @discardableResult
+    func changeNextPatch() -> Hormonal? {
+        applyPatchChanges { factory in
+            factory.changeNextHormone().map { [$0] } ?? []
+        }.first
+    }
+
     /// Change the patch on the named site. Returns it, or nil if none matched.
     @discardableResult
     func changePatch(onSiteNamed name: String) -> Hormonal? {

@@ -43,6 +43,17 @@ public class PDCommandFactory {
         return targets
     }
 
+    /// Change the next patch due (the soonest-expiring) to its next suggested
+    /// site with the current time. Returns the changed hormone, or nil if there
+    /// are no patches. Used by the Siri "change my next patch" intent.
+    @discardableResult
+    public func changeNextHormone(now: NowProtocol?=nil) -> Hormonal? {
+        sites.reloadContext()
+        guard let next = hormones.next else { return nil }
+        createChangeHormoneCommand(next, now: now).execute()
+        return next
+    }
+
     /// Change the patch currently on the site whose name matches `name`
     /// (case-insensitive, whitespace-trimmed) to its next suggested site with
     /// the current time. Returns the changed hormone, or nil if no patch is on

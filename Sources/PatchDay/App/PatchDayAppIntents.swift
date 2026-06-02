@@ -150,10 +150,34 @@ struct ChangePatchIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
+        // Changing a patch overwrites its applied date + site, so confirm first.
+        try await requestConfirmation(
+            result: .result(dialog: "Change your \(site.id) patch now?")
+        )
         if AppContainer.shared.changePatch(onSiteNamed: site.id) != nil {
             return .result(dialog: "Changed your \(site.id) patch.")
         }
         return .result(dialog: "You don't have a patch on \(site.id).")
+    }
+}
+
+struct ChangeNextPatchIntent: AppIntent {
+    static var title: LocalizedStringResource = "Change Next Patch"
+    static var description = IntentDescription("Changes the next patch due to its next site.")
+
+    @MainActor
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        guard let next = AppContainer.shared.sdk?.hormones.next else {
+            return .result(dialog: "You have no patches to change.")
+        }
+        let site = next.siteName.isEmpty ? SiteStrings.NewSite : next.siteName
+        try await requestConfirmation(
+            result: .result(dialog: "Change your \(site) patch now?")
+        )
+        if AppContainer.shared.changeNextPatch() != nil {
+            return .result(dialog: "Changed your \(site) patch.")
+        }
+        return .result(dialog: "You have no patches to change.")
     }
 }
 
@@ -163,6 +187,9 @@ struct ChangeAllPatchesIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
+        try await requestConfirmation(
+            result: .result(dialog: "Change all your patches now?")
+        )
         let changed = AppContainer.shared.changeAllPatches()
         if changed.isEmpty {
             return .result(dialog: "You have no patches to change.")
@@ -204,6 +231,15 @@ struct PatchDayShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Next Pill",
             systemImageName: "pills"
+        )
+        AppShortcut(
+            intent: ChangeNextPatchIntent(),
+            phrases: [
+                "I am changing my next patch now in \(.applicationName)",
+                "Change my next patch in \(.applicationName)"
+            ],
+            shortTitle: "Change Next Patch",
+            systemImageName: "arrow.right.circle"
         )
         AppShortcut(
             intent: ChangeAllPatchesIntent(),

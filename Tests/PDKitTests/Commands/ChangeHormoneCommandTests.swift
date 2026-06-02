@@ -142,6 +142,26 @@ class ChangeHormoneCommandTests: PDTestCase {
         XCTAssertEqual([onAbdomen.id], hormones.setSiteByIdCallArgs.map { $0.0 })
     }
 
+    func testChangeNextHormone_changesTheNextDuePatch() {
+        sites.suggested = MockSite()
+        let next = MockHormone()
+        hormones.next = next
+        hormones.all = [MockHormone(), next]
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+
+        let changed = factory.changeNextHormone()
+
+        XCTAssertEqual(next.id, changed?.id)
+        XCTAssertEqual([next.id], hormones.setSiteByIdCallArgs.map { $0.0 })
+    }
+
+    func testChangeNextHormone_whenNoHormones_returnsNil() {
+        hormones.next = nil
+        let factory = PDCommandFactory(hormones: hormones, sites: sites)
+        XCTAssertNil(factory.changeNextHormone())
+        PDAssertEmpty(hormones.setSiteByIdCallArgs)
+    }
+
     func testChangeHormoneOnSiteNamed_whenNoPatchOnThatSite_returnsNilAndChangesNothing() {
         let onAbdomen = MockHormone(); onAbdomen.siteName = "Left Abdomen"
         hormones.all = [onAbdomen]
