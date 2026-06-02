@@ -17,5 +17,6 @@ public class HormoneDataSharer: HormoneDataSharing {
 
     public func share(nextHormone: Hormonal) {
         base.set(nextHormone.expiration, for: SharedDataKey.NextHormoneDate.rawValue)
+        base.set(nextHormone.siteName, for: SharedDataKey.NextHormoneSite.rawValue)
     }
 }

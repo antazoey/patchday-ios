@@ -10,6 +10,7 @@ import PDKit
 
 struct NextHormone {
     let hormoneExpirationDate: Date?
+    let hormoneSite: String?
     let pillsEnabled: Bool
     let pill: String?
     let pillDue: Date?
@@ -27,12 +28,19 @@ struct NextHormoneLoader {
     static func fetch(completion: @escaping (NextHormone) -> Void) {
         let next = NextHormone(
             hormoneExpirationDate: nextHormoneExpirationDate,
+            hormoneSite: nextHormoneSite,
             pillsEnabled: pillsEnabled,
             pill: nextPillName,
             pillDue: nextPillDate,
             deliveryMethod: deliveryMethod
         )
         completion(next)
+    }
+
+    private static var nextHormoneSite: String? {
+        let site = defaults?.string(forKey: SharedDataKey.NextHormoneSite.rawValue)
+        guard let site = site, !site.isEmpty, site != SiteStrings.NewSite else { return nil }
+        return site
     }
 
     private static var deliveryMethod: DeliveryMethod {
@@ -66,6 +74,7 @@ struct NextHormoneTimeline: TimelineProvider {
     func placeholder(in context: Context) -> NextHormoneEntry {
         let fakeHormone = NextHormone(
             hormoneExpirationDate: Date(),
+            hormoneSite: SiteStrings.RightAbdomen,
             pillsEnabled: true,
             pill: PillStrings.DefaultPills[0],
             pillDue: Date(),
@@ -160,9 +169,30 @@ struct NextHormoneWidgetView: View {
         return StringTextWidgetView(text: text)
     }
 
-    var hormoneExpirationTextView: DateTextWidgetView? {
-        guard let date = entry.hormone.hormoneExpirationDate else { return nil }
-        return DateTextWidgetView(date: date)
+    /// The site the next patch is on, e.g. "Right Abdomen".
+    var siteView: Text? {
+        guard let site = entry.hormone.hormoneSite else { return nil }
+        return Text(site).font(.system(.subheadline)).bold().foregroundColor(.black)
+    }
+
+    /// Whether the next patch is already due (expired) as of this entry.
+    var isDue: Bool {
+        guard let date = entry.hormone.hormoneExpirationDate else { return false }
+        return date <= entry.date
+    }
+
+    /// "Due now" when overdue, otherwise the expiration date.
+    @ViewBuilder
+    var hormoneDueView: some View {
+        if entry.hormone.hormoneExpirationDate != nil {
+            if isDue {
+                Text(NSLocalizedString("Due now", comment: "Widget view"))
+                    .font(.system(.caption)).bold()
+                    .foregroundColor(Color(PDColors[.NewItem]))
+            } else {
+                DateTextWidgetView(date: entry.hormone.hormoneExpirationDate)
+            }
+        }
     }
 
     var nextPillView: StringTextWidgetView? {
@@ -182,12 +212,17 @@ struct NextHormoneWidgetView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             headerView
-            hormoneExpirationTextView
+            siteView
+            hormoneDueView
             nextPillView
             nextPillDueView
         }
         .frame(minWidth: 0, maxWidth: max, minHeight: 0, maxHeight: max, alignment: .leading)
-        .padding()
-        .background(LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom))
+        // iOS 17 requires widgets to declare their background via
+        // containerBackground (a plain .background renders blank on the Home
+        // Screen and in StandBy).
+        .containerBackground(for: .widget) {
+            LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom)
+        }
     }
 }

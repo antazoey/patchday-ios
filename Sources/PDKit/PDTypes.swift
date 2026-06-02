@@ -97,6 +97,7 @@ public enum SiteImageReflectionError: Error {
 /// Keys for accessing shared data properties from User Defaults.
 public enum SharedDataKey: String {
     case NextHormoneDate = "nextEstroDate"
+    case NextHormoneSite = "nextHormoneSite"
     case NextPillToTake = "nextPillToTake"
     case NextPillTakeTime = "nextPillTakeTime"
 }
