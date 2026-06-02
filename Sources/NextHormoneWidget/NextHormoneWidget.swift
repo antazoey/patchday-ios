@@ -209,13 +209,33 @@ struct NextHormoneWidgetView: View {
         return DateTextWidgetView(date: date)
     }
 
+    /// Only show the hormone section when there's a next patch with a real
+    /// applied date — an empty/dateless schedule has no "next hormone".
+    var hasNextHormone: Bool {
+        entry.hormone.hormoneExpirationDate != nil
+    }
+
+    var hasNextPill: Bool {
+        entry.hormone.pillsEnabled
+            && entry.hormone.pill != nil
+            && entry.hormone.pillDue != nil
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            headerView
-            siteView
-            hormoneDueView
-            nextPillView
-            nextPillDueView
+            if hasNextHormone {
+                headerView
+                siteView
+                hormoneDueView
+            }
+            if hasNextPill {
+                nextPillView
+                nextPillDueView
+            }
+            if !hasNextHormone && !hasNextPill {
+                Text(NSLocalizedString("Nothing due", comment: "Widget empty state"))
+                    .font(.system(.caption)).foregroundColor(.black)
+            }
         }
         .frame(minWidth: 0, maxWidth: max, minHeight: 0, maxHeight: max, alignment: .leading)
         // iOS 17 requires widgets to declare their background via
