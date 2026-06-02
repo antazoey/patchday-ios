@@ -336,4 +336,63 @@ class HormoneCellViewModelTests: PDTestCase {
         let actual = viewModel.dateLabelColor
         XCTAssertEqual(expected, actual)
     }
+
+    // MARK: - Empty / mid-sync rendering states
+    //
+    // `MockHormoneSchedule.all` stands in for whatever the local store holds
+    // after a CloudKit import (or before one arrives). These verify the cell
+    // never lands in a blank/broken state across the weird sync states.
+
+    private func sdkWith(
+        records: [Hormonal], quantity: Int, method: DeliveryMethod = .Patches
+    ) -> MockSDK {
+        let sdk = getMockSDK(records)
+        let settings = sdk.settings as! MockSettings
+        settings.quantity = QuantityUD(quantity)
+        settings.deliveryMethod = DeliveryMethodUD(method)
+        return sdk
+    }
+
+    func testDeliveryMethod_reflectsSettings_soPlaceholderMatches() {
+        for method in [DeliveryMethod.Patches, .Injections, .Gel] {
+            let viewModel = HormoneCellViewModel(
+                cellIndex: 0, sdk: sdkWith(records: [], quantity: 2, method: method), isPad: false
+            )
+            XCTAssertEqual(method, viewModel.deliveryMethod)
+        }
+    }
+
+    func testQuantitySetButNoRecords_everySlotMissing_soRowDrawsPlaceholderNotBlank() {
+        // The wiped / mid-iCloud-import state: quantity says 2, store is empty.
+        let sdk = sdkWith(records: [], quantity: 2)
+        for index in 0..<2 {
+            let viewModel = HormoneCellViewModel(cellIndex: index, sdk: sdk, isPad: false)
+            XCTAssertNil(viewModel.hormone)
+            // false -> HormoneRow falls back to the delivery-method placeholder.
+            XCTAssertFalse(viewModel.shouldShowHormone)
+        }
+    }
+
+    func testFewerRecordsThanQuantity_showsImportedThenEmptySlots() {
+        // iCloud has only delivered 1 of the 3 expected patches so far.
+        let applied = MockHormone()
+        let sdk = sdkWith(records: [applied], quantity: 3)
+        XCTAssertEqual(
+            applied.id, HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false).hormone?.id
+        )
+        XCTAssertNil(HormoneCellViewModel(cellIndex: 1, sdk: sdk, isPad: false).hormone)
+        XCTAssertNil(HormoneCellViewModel(cellIndex: 2, sdk: sdk, isPad: false).hormone)
+    }
+
+    func testRecordsMatchingQuantity_allSlotsShow() {
+        let sdk = sdkWith(records: [MockHormone(), MockHormone()], quantity: 2)
+        XCTAssertTrue(HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false).shouldShowHormone)
+        XCTAssertTrue(HormoneCellViewModel(cellIndex: 1, sdk: sdk, isPad: false).shouldShowHormone)
+    }
+
+    func testMoreRecordsThanQuantity_slotsBeyondQuantityHidden() {
+        // Quantity synced lower than the number of lingering records.
+        let sdk = sdkWith(records: [MockHormone(), MockHormone(), MockHormone()], quantity: 2)
+        XCTAssertNil(HormoneCellViewModel(cellIndex: 2, sdk: sdk, isPad: false).hormone)
+    }
 }

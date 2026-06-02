@@ -64,15 +64,16 @@ struct HormoneRow: View {
 
     @ViewBuilder
     private var siteImage: some View {
-        if let hormone = viewModel.hormone {
-            let params = SiteImageDeterminationParameters(hormone: hormone)
-            Image(uiImage: SiteImages[params])
-                .resizable()
-                .scaledToFit()
-                .transition(.opacity)
-                .id(params.imageId)
-        } else {
-            Color.clear
-        }
+        // A slot within Quantity whose hormone record isn't present yet (e.g.
+        // mid-iCloud-import, or before anything's applied) falls back to the
+        // empty-patch placeholder for the delivery method — never a blank cell.
+        // Dateless/empty hormones already resolve to that same placeholder.
+        let params = viewModel.hormone.map { SiteImageDeterminationParameters(hormone: $0) }
+            ?? SiteImageDeterminationParameters(deliveryMethod: viewModel.deliveryMethod)
+        Image(uiImage: SiteImages[params])
+            .resizable()
+            .scaledToFit()
+            .transition(.opacity)
+            .id(params.imageId)
     }
 }

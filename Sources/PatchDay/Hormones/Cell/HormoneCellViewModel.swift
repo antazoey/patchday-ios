@@ -35,6 +35,10 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
         hormone != nil
     }
 
+    var deliveryMethod: DeliveryMethod {
+        sdk.settings.deliveryMethod.value
+    }
+
     var moonIcon: UIIcon? {
         guard let hormone = hormone else { return nil }
         if hormone.expiresOvernight && !hormone.isExpired {
