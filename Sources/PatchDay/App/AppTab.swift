@@ -10,11 +10,16 @@
 import Foundation
 import PDKit
 
-enum AppTab: Hashable {
+enum AppTab: Hashable, CaseIterable {
     case hormones
     case pills
     case sites
     case settings
+
+    /// Order the sections appear in, used by both the iPhone tab bar and the
+    /// macOS sidebar. Mirrors `allCases` declaration order so the two shells
+    /// can never drift apart.
+    static var sidebarOrder: [AppTab] { allCases }
 }
 
 enum HormonesRoute: Hashable {

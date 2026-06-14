@@ -162,6 +162,11 @@ public class PillSchedule: NSObject, PillScheduling {
         store.pushLocalChangesToManagedContext(all, doSave: true)
     }
 
+    public func saveAll() {
+        guard count > 0 else { return }
+        store.pushLocalChangesToManagedContext(context, doSave: true)
+    }
+
     // MARK: - Private
 
     private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {

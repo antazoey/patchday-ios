@@ -59,6 +59,23 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         root.removePendingNotificationRequests(withIdentifiers: ids)
     }
 
+    /// How a notification is shown when it fires while the app is in the
+    /// foreground. Without presenting here, the system silently drops
+    /// foreground notifications — which on a Mac (where the app window is
+    /// usually open/foreground) means notifications never appear at all.
+    static let foregroundPresentationOptions: UNNotificationPresentationOptions =
+        [.banner, .list, .sound, .badge]
+
+    /// Present notifications even when the app is in the foreground.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+            @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler(Self.foregroundPresentationOptions)
+    }
+
     /// Handles responses received from interacting with notifications.
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,

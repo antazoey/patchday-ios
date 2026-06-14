@@ -1,5 +1,17 @@
 # Changelog
 
+# 4.1.1 (2026-06-14)
+
+Fixed
+
+- iCloud sync now uploads data that existed before sync was turned on. Previously, patches/pills/sites created in an older version stayed on the original device and never appeared on your other devices unless you re-edited each one by hand; the app now re-syncs them automatically, once, on the next launch.
+- Notifications now appear while the app is open (in the foreground). Previously they were silently dropped, which especially affected the Mac app, whose window is usually open — so reminders and the badge never showed.
+- The Pills list again clearly shows how many of today's doses you've taken (e.g. "Taken today: 1 of 2"). After the SwiftUI rewrite this count was still there but unlabeled and easy to miss; it's now a labeled line with a checkmark once the day's doses are all taken.
+
+Added
+
+- PatchDay now runs as a Mac app (via Mac Catalyst). Instead of a tab bar, the Mac version uses a sidebar, so Hormones, Pills, and Sites — and Settings — are all reachable from the main window at once. The iPhone and iPad tab layout is unchanged.
+
 # 4.1.0 (2026-06-02)
 
 Changed
@@ -18,7 +30,7 @@ Fixed
 - Pills disabled on one device no longer keep sending notifications on your other devices.
 - Site image picker now shows Dark Mode artwork in Dark Mode (was always showing the light versions).
 - Notification badge no longer reads one too high (e.g. "2" for a single due patch). It now uses the live alert count instead of a stale cached value baked in when the patch was changed.
-- Patch slots that haven't loaded yet (e.g. during an iCloud import on a fresh/re-synced device) show the empty-patch placeholder instead of a blank cell, so the Hormones screen never looks broken mid-sync.
+- The Hormones screen now shows a spinner while iCloud is still importing on a fresh/re-synced device, instead of empty patch slots; once sync finishes your patches (or the empty-patch placeholders) appear.
 
 Added
 

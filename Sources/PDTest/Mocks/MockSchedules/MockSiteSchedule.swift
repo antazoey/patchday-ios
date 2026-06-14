@@ -114,4 +114,9 @@ public class MockSiteSchedule: SiteScheduling {
         resetCallCount += 1
         return resetReturnValue
     }
+
+    public var saveAllCallCount = 0
+    public func saveAll() {
+        saveAllCallCount += 1
+    }
 }

@@ -27,9 +27,13 @@ struct PillRow: View {
                 Text("Due: \(cellViewModel.dueDateText)")
                     .font(.subheadline)
                     .foregroundColor(pill.isDue ? .red : .secondary)
-                Text(cellViewModel.timesQuotientText)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                HStack(spacing: 5) {
+                    Image(systemName: pill.isDone ? "checkmark.circle.fill" : "circle.lefthalf.filled")
+                        .foregroundColor(pill.isDone ? .green : .accentColor)
+                    Text("\(NSLocalizedString("Taken today", comment: "Pill doses taken today")): \(cellViewModel.timesQuotientText)")
+                        .foregroundColor(.primary)
+                }
+                .font(.subheadline.weight(.medium))
             }
             Spacer(minLength: 0)
             // Fill the right-side whitespace with a pill glyph so the row

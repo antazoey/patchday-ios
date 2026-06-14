@@ -84,6 +84,12 @@ final class AppContainer: ObservableObject {
     @Published var hormonesBadge: Int = 0
     @Published var pillsBadge: Int = 0
 
+    /// True while a CloudKit `setup`/`import` operation is in flight. The
+    /// Hormones view shows a spinner instead of empty patch slots while this
+    /// is set, so a first launch on a fresh device shows "loading" rather
+    /// than a misleading blank schedule until iCloud data arrives.
+    @Published var isCloudSyncing: Bool = false
+
     /// Bumped after any mutation that should re-render Hormones / Pills lists.
     @Published var refreshTick = UUID()
 
@@ -141,7 +147,7 @@ final class AppContainer: ObservableObject {
             forName: NSPersistentCloudKitContainer.eventChangedNotification,
             object: nil,
             queue: .main
-        ) { notification in
+        ) { [weak self] notification in
             guard let event = notification.userInfo?[
                 NSPersistentCloudKitContainer.eventNotificationUserInfoKey
             ] as? NSPersistentCloudKitContainer.Event else { return }
@@ -167,6 +173,13 @@ final class AppContainer: ObservableObject {
                 description,
                 forKey: PDLocalSettingsKey.lastCloudKitEventDescription.rawValue
             )
+            // Drive the Hormones-view spinner: a setup/import with no end date
+            // is actively pulling data down; once it ends (success or failure)
+            // we have whatever we're going to get, so drop the spinner and let
+            // the real cells (or placeholders) show.
+            if event.type == .setup || event.type == .import {
+                self?.isCloudSyncing = (event.endDate == nil)
+            }
             // Bump the user-facing Last Synced only on successful completion.
             if event.endDate != nil, event.succeeded {
                 UserDefaults.standard.set(
@@ -420,7 +433,11 @@ final class AppContainer: ObservableObject {
         sitesPath.removeLast()
     }
 
+    /// True on iPad and on Mac (Catalyst). Drives the larger hormone-cell site
+    /// images — Mac windows have iPad-class room, so they use the iPad sizing
+    /// rather than the cramped iPhone size.
     var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
+        let idiom = UIDevice.current.userInterfaceIdiom
+        return idiom == .pad || idiom == .mac
     }
 }

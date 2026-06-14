@@ -8,26 +8,20 @@
 
 import XCTest
 
+@testable
+import PatchDay
+
 class PatchDayTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    /// The sidebar (macOS) and tab bar (iPhone) both render from this single
+    /// ordered list, so it must stay in the expected order and cover every
+    /// section — otherwise the two shells could silently drift apart.
+    func testSidebarOrder_matchesExpectedSectionsInOrder() {
+        XCTAssertEqual(AppTab.sidebarOrder, [.hormones, .pills, .sites, .settings])
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testSidebarOrder_coversEveryTab() {
+        XCTAssertEqual(Set(AppTab.sidebarOrder), Set(AppTab.allCases))
+        XCTAssertEqual(AppTab.sidebarOrder.count, AppTab.allCases.count)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

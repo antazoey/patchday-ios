@@ -11,6 +11,7 @@
 import XCTest
 import CoreData
 import PDKit
+import PDTest
 @testable import PatchData
 
 class StoreMigrationTests: XCTestCase {
@@ -112,6 +113,73 @@ class StoreMigrationTests: XCTestCase {
         XCTAssertTrue(
             FileManager.default.fileExists(atPath: sandboxURL.path),
             "Sandbox store must remain readable after migration"
+        )
+    }
+
+    // MARK: - forceInitialCloudExportIfNeeded
+
+    private func makeSchedules(empty: Bool)
+        -> (MockHormoneSchedule, MockPillSchedule, MockSiteSchedule) {
+        let hormones = MockHormoneSchedule()
+        hormones.isEmpty = empty
+        return (hormones, MockPillSchedule(), MockSiteSchedule())
+    }
+
+    func testForceInitialCloudExport_whenSyncOnAndHasData_resavesEverythingOnce() {
+        let (hormones, pills, sites) = makeSchedules(empty: false)
+        PatchData.forceInitialCloudExportIfNeeded(
+            hormones: hormones, pills: pills, sites: sites,
+            cloudSyncEnabled: true, defaults: defaults
+        )
+        XCTAssertEqual(1, hormones.saveAllCallCount)
+        XCTAssertEqual(1, pills.saveAllCallCount)
+        XCTAssertEqual(1, sites.saveAllCallCount)
+        XCTAssertTrue(
+            defaults.bool(forKey: PDLocalSettingsKey.didForceInitialCloudExport.rawValue)
+        )
+    }
+
+    func testForceInitialCloudExport_runsOnlyOnce() {
+        let (hormones, pills, sites) = makeSchedules(empty: false)
+        for _ in 0..<3 {
+            PatchData.forceInitialCloudExportIfNeeded(
+                hormones: hormones, pills: pills, sites: sites,
+                cloudSyncEnabled: true, defaults: defaults
+            )
+        }
+        XCTAssertEqual(1, hormones.saveAllCallCount)
+        XCTAssertEqual(1, pills.saveAllCallCount)
+        XCTAssertEqual(1, sites.saveAllCallCount)
+    }
+
+    func testForceInitialCloudExport_whenSyncOff_doesNothingAndDoesNotMarkDone() {
+        let (hormones, pills, sites) = makeSchedules(empty: false)
+        PatchData.forceInitialCloudExportIfNeeded(
+            hormones: hormones, pills: pills, sites: sites,
+            cloudSyncEnabled: false, defaults: defaults
+        )
+        XCTAssertEqual(0, hormones.saveAllCallCount)
+        XCTAssertEqual(0, pills.saveAllCallCount)
+        XCTAssertEqual(0, sites.saveAllCallCount)
+        // Must not consume the one-time flag — sync may be enabled later.
+        XCTAssertFalse(
+            defaults.bool(forKey: PDLocalSettingsKey.didForceInitialCloudExport.rawValue)
+        )
+    }
+
+    func testForceInitialCloudExport_whenStoreEmpty_marksDoneButDoesNotResave() {
+        let (hormones, pills, sites) = makeSchedules(empty: true)
+        PatchData.forceInitialCloudExportIfNeeded(
+            hormones: hormones, pills: pills, sites: sites,
+            cloudSyncEnabled: true, defaults: defaults
+        )
+        XCTAssertEqual(0, hormones.saveAllCallCount)
+        XCTAssertEqual(0, pills.saveAllCallCount)
+        XCTAssertEqual(0, sites.saveAllCallCount)
+        // Fresh install awaiting import: marked done so imported records
+        // are never re-exported back up.
+        XCTAssertTrue(
+            defaults.bool(forKey: PDLocalSettingsKey.didForceInitialCloudExport.rawValue)
         )
     }
 

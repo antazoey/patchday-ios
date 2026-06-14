@@ -56,4 +56,9 @@ public protocol PillScheduling: Schedule, Deleting {
 
     /// Awaken the properties that are relevant to the current date and time.
     func awaken()
+
+    /// Re-save every pill to storage, generating fresh persistent-history
+    /// transactions. Used by the one-time iCloud re-export migration so
+    /// pre-sync records get pushed to CloudKit.
+    func saveAll()
 }

@@ -72,4 +72,9 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
 
     /// Get the first first index of the given site.
     func indexOf(_ site: Bodily) -> Index?
+
+    /// Re-save every site to storage, generating fresh persistent-history
+    /// transactions. Used by the one-time iCloud re-export migration so
+    /// pre-sync records get pushed to CloudKit.
+    func saveAll()
 }

@@ -112,6 +112,11 @@ struct HormonesListView: View {
                 .id(container.refreshTick) // force re-evaluation after mutations
             }
             .listStyle(.plain)
+            .overlay {
+                if showSyncSpinner {
+                    syncSpinner
+                }
+            }
         }
         .accessibilityIdentifier("hormonesList")
         .navigationTitle(title)
@@ -190,6 +195,39 @@ struct HormonesListView: View {
         .onAppear {
             container.refreshBadges()
         }
+    }
+
+    // MARK: - iCloud sync spinner
+
+    /// True when there's nothing real to show yet — every slot is still an
+    /// empty placeholder (no applied date). We only cover the schedule with a
+    /// spinner in this state, never when actual patches are already visible.
+    private var scheduleLooksEmpty: Bool {
+        guard let hormones = container.sdk?.hormones.all, !hormones.isEmpty else {
+            return true
+        }
+        return hormones.allSatisfy { $0.date.isDefault() }
+    }
+
+    /// Show the spinner only while CloudKit is actively importing AND we have
+    /// no real data to display. Once the import ends, `isCloudSyncing` flips
+    /// false and the real cells (or the empty placeholders) take over.
+    private var showSyncSpinner: Bool {
+        container.isCloudSyncing && scheduleLooksEmpty
+    }
+
+    private var syncSpinner: some View {
+        ZStack {
+            Color(.systemBackground)
+            VStack(spacing: 16) {
+                ProgressView()
+                    .scaleEffect(1.4)
+                Text(NSLocalizedString("Syncing with iCloud…", comment: ""))
+                    .font(.body)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .accessibilityIdentifier("hormonesSyncSpinner")
     }
 
     private var addPatchAlertTitle: String {

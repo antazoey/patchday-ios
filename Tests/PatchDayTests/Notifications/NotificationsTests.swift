@@ -419,4 +419,15 @@ class NotificationsTests: PDTestCase {
         ) as? ExpiredHormoneNotification
         XCTAssertEqual(2, notification?.content.badge?.intValue)
     }
+
+    // Foreground notifications are dropped by the system unless we present
+    // them. This matters most on Mac, where the app window is usually
+    // foreground — without these options notifications never appear.
+    func testForegroundPresentationOptions_showBannerSoundAndBadge() {
+        let options = PDNotificationCenter.foregroundPresentationOptions
+        XCTAssertTrue(options.contains(.banner))
+        XCTAssertTrue(options.contains(.list))
+        XCTAssertTrue(options.contains(.sound))
+        XCTAssertTrue(options.contains(.badge))
+    }
 }

@@ -95,4 +95,9 @@ public class MockPillSchedule: PillScheduling {
     public func awaken() {
         awakenCallCount += 1
     }
+
+    public var saveAllCallCount = 0
+    public func saveAll() {
+        saveAllCallCount += 1
+    }
 }

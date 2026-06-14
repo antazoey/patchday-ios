@@ -218,6 +218,9 @@ public class PatchData: NSObject, PatchDataSDK {
         }
         #endif
         Self.seed40DefaultsIfNeeded(settings: settings)
+        Self.forceInitialCloudExportIfNeeded(
+            hormones: hormones, pills: pills, sites: sites
+        )
         self.init(
             settings: settings,
             dataSharer: dataSharer,
@@ -255,6 +258,44 @@ public class PatchData: NSObject, PatchDataSDK {
             // 4.0 default (true / static) for fresh installs.
             settings.setUseStaticExpirationTime(to: !isUpgrader)
         }
+    }
+
+    /// One-time migration that runs on the first launch after the update
+    /// that introduced reliable iCloud sync.
+    ///
+    /// Records created before iCloud sync existed (which added persistent-
+    /// history tracking + CloudKit) carry no history transaction, so
+    /// `NSPersistentCloudKitContainer` never exports them — the data sits on
+    /// the origin device while every other device stays empty. Re-saving each
+    /// record generates a fresh history transaction, which CloudKit then
+    /// exports. Without this, the only workaround is the user manually editing
+    /// every patch/pill/site by hand.
+    ///
+    /// Runs once (guarded by `didForceInitialCloudExport`), silently, and only
+    /// when iCloud sync is on and this device actually has local records to
+    /// upload. On a fresh install awaiting CloudKit import there's nothing to
+    /// push, so we just mark the migration done — that way we never re-export
+    /// records that arrived *from* iCloud.
+    static func forceInitialCloudExportIfNeeded(
+        hormones: HormoneScheduling,
+        pills: PillScheduling,
+        sites: SiteScheduling,
+        cloudSyncEnabled: Bool = CoreDataStack.isCloudSyncEnabledAtLaunch,
+        defaults: UserDefaults = .standard
+    ) {
+        guard cloudSyncEnabled else { return }
+        guard !defaults.bool(
+            forKey: PDLocalSettingsKey.didForceInitialCloudExport.rawValue
+        ) else { return }
+        defaults.set(true, forKey: PDLocalSettingsKey.didForceInitialCloudExport.rawValue)
+
+        // Fresh install awaiting import — nothing local to upload.
+        guard !hormones.isEmpty else { return }
+
+        PDLog<PatchData>().info("Forcing one-time iCloud re-export of pre-sync records")
+        hormones.saveAll()
+        pills.saveAll()
+        sites.saveAll()
     }
     // swiftlint:enable function_body_length
 

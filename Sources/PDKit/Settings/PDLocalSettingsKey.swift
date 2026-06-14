@@ -18,5 +18,6 @@ public enum PDLocalSettingsKey: String, CaseIterable {
     case wipeLocalStoreOnNextLaunch
     case lastCloudKitEventDescription
     case didSeedKVSFromLocal
+    case didForceInitialCloudExport
     case theme
 }

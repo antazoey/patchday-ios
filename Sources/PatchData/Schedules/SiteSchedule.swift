@@ -331,6 +331,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
         save()
     }
 
+    public func saveAll() {
+        guard count > 0 else { return }
+        save()
+    }
+
     private func save() {
         store.pushLocalChangesToManagedContext(context, doSave: true)
     }
